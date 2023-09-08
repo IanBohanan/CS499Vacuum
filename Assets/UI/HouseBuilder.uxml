@@ -1,0 +1,28 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/HouseBuilder.uss?fileID=7433441132597879392&amp;guid=b99cf66585f4984418f27bccecc23c43&amp;type=3#HouseBuilder" />
+    <ui:VisualElement name="MainContentContainer">
+        <ui:VisualElement name="HeaderContainer">
+            <ui:VisualElement name="TitleBar">
+                <ui:Label tabindex="-1" text="House Builder" display-tooltip-when-elided="true" style="-unity-text-align: middle-center; width: auto;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="CancelBar">
+                <ui:Button text="Cancel" display-tooltip-when-elided="true" name="CancelButton" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="BodyContainer" style="background-color: rgba(108, 108, 108, 0.41);">
+            <ui:VisualElement name="StatusPanel" style="-unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgba(108, 108, 108, 0.41); border-right-width: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); background-image: none;">
+                <ui:Label tabindex="-1" text="VALID" display-tooltip-when-elided="true" name="StatusText" />
+            </ui:VisualElement>
+            <ui:VisualElement name="SelectionPanel">
+                <ui:Button text="Room" display-tooltip-when-elided="true" name="RoomButton" class="SelectionButton" />
+                <ui:Button text="Door" display-tooltip-when-elided="true" name="DoorButton" class="SelectionButton" />
+                <ui:Button text="Furniture" display-tooltip-when-elided="true" name="FurnitureButton" class="SelectionButton" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="ImportExportContainer">
+        <ui:Button display-tooltip-when-elided="true" name="Import" class="ImportExportBtn" style="background-image: url(&apos;project://database/Assets/UI/clear_icon.png?fileID=-5949790818236727095&amp;guid=83d24dc14cb3bf84bb268c32174d887a&amp;type=3#clear_icon_1&apos;);" />
+        <ui:Button display-tooltip-when-elided="true" name="Export" class="ImportExportBtn" style="background-image: url(&apos;project://database/Assets/UI/export_icon.png?fileID=5937232031438256114&amp;guid=72ff555bd964dae4eb0518a41a2b21a7&amp;type=3#export_icon_3&apos;); -unity-background-scale-mode: scale-to-fit;" />
+        <ui:Label tabindex="-1" text="Export House" display-tooltip-when-elided="true" name="ImportExportLabel" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-right: 25px;" />
+    </ui:VisualElement>
+</ui:UXML>
