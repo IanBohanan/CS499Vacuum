@@ -48373,7 +48373,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
-<<<<<<< HEAD
 --- !u!1 &1609557622
 GameObject:
   m_ObjectHideFlags: 0
@@ -48620,8 +48619,6 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
-=======
->>>>>>> main
 --- !u!1 &2034213268
 GameObject:
   m_ObjectHideFlags: 0
@@ -48676,8 +48673,5 @@ SceneRoots:
   - {fileID: 751844853}
   - {fileID: 519420032}
   - {fileID: 2034213270}
-<<<<<<< HEAD
   - {fileID: 2064630989}
   - {fileID: 1609557624}
-=======
->>>>>>> main
