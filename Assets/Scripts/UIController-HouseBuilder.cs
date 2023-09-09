@@ -4,10 +4,18 @@ using UnityEngine.UIElements;
 public class UIController : MonoBehaviour
 {
 
-    Label status;
+    Label status; // "Invalid" or "Valid" shown in bottom left corner.
 
-    VisualElement cancelBar;
+    VisualElement cancelBar; 
     Button cancelBtn;
+
+    VisualElement exportPopup;
+    Button exportNoBtn;
+    Button exportYesBtn;
+
+    VisualElement clearPopup;
+    Button clearNoBtn;
+    Button clearYesBtn;
 
     #region OnEnable Class Setup
     private void OnEnable()
@@ -33,6 +41,16 @@ public class UIController : MonoBehaviour
         Button doorModeBtn = selectionPanel.Q<Button>("DoorButton");
         Button furnitureModeBtn = selectionPanel.Q<Button>("FurnitureButton");
 
+        // Get popup windows and buttons:
+        exportPopup = root.Q<VisualElement>("ExportPopupContainer");
+        VisualElement exportPopupButtonContainer = exportPopup.Q<VisualElement>("ExportButtonContainer");
+        exportYesBtn = exportPopupButtonContainer.Q<Button>("ExportYesButton");
+        exportNoBtn = exportPopupButtonContainer.Q<Button>("ExportNoButton");
+        clearPopup = root.Q<VisualElement>("ClearPopupContainer");
+        VisualElement clearPopupButtonContainer = clearPopup.Q<VisualElement>("ClearButtonContainer");
+        clearYesBtn = clearPopupButtonContainer.Q<Button>("ClearYesButton");
+        clearNoBtn = clearPopupButtonContainer.Q<Button>("ClearNoButton");
+
         // Assign button callback functions:
         importBtn.clicked += () => importPress();
         exportBtn.clicked += () => exportPress();
@@ -40,6 +58,10 @@ public class UIController : MonoBehaviour
         roomModeBtn.clicked += () => roomModeToggle();
         doorModeBtn.clicked += () => doorModeToggle();
         furnitureModeBtn.clicked += () => furnitureModeActivate();
+        exportYesBtn.clicked += () => exportYesPress();
+        exportNoBtn.clicked += () => exportNoPress();
+        clearYesBtn.clicked += () => clearYesPress();
+        clearNoBtn.clicked += () => clearNoPress();
     }
     #endregion
 
@@ -48,12 +70,38 @@ public class UIController : MonoBehaviour
     {
         Debug.Log("Importing House...");
         showCancelButton(true);
+        clearPopup.style.display = DisplayStyle.Flex;
     }
 
     public void exportPress()
     {
         Debug.Log("Exporting House...");
         showCancelButton(false);
+        exportPopup.style.display = DisplayStyle.Flex;
+    }
+
+    public void exportYesPress()
+    {
+        Debug.Log("Export confimed...");
+        exportPopup.style.display = DisplayStyle.None;
+    }
+
+    public void exportNoPress()
+    {
+        Debug.Log("Export cancelled...");
+        exportPopup.style.display = DisplayStyle.None;
+    }
+
+    public void clearYesPress()
+    {
+        Debug.Log("Clear confirmed...");
+        clearPopup.style.display = DisplayStyle.None;
+    }
+
+    public void clearNoPress()
+    {
+        Debug.Log("Clear cancelled...");
+        clearPopup.style.display = DisplayStyle.None;
     }
 
     public void cancelPress()
