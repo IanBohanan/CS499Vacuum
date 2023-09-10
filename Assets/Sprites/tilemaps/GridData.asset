@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b90daeaccaafc45817065597f3230c, type: 3}
   m_Name: GridData
   m_EditorClassIdentifier: 
-  tiles: []
-  cleanliness: 0
+  tiles:
+  - {fileID: 11400000, guid: 3e64108fd2ba0cd44b953a3b0cede6df, type: 2}
+  - {fileID: 11400000, guid: 4de51c17ad937c044a1ffff394022292, type: 2}
+  cleanliness: 50

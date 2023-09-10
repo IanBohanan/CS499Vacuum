@@ -1,3 +1,5 @@
+//This script is a unique object that can hold the information per-tile.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
