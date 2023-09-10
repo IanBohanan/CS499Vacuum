@@ -18,14 +18,12 @@ public class MapManager : MonoBehaviour
     //Automatically fills the datafromtiles dictionary with data for each tile 
     void Awake()
     {
-        print("I am awake!");
         dataFromTiles = new Dictionary<TileBase, TileData>();
 
         foreach(var tileData in tileDatas)
         {
             foreach(var tile in tileData.tiles)
             {
-                print("Added " + tile + ", " + tileData + " to dictionary");
                 dataFromTiles.Add(tile, tileData);
             }
         }
@@ -42,7 +40,22 @@ public class MapManager : MonoBehaviour
 
            float tileCleanliness = dataFromTiles[clickedTile].cleanliness;
 
-            print("At position " + gridPosition + " there is a " + clickedTile + " with " + tileCleanliness + "% cleanliness.");
+            
         }
+    }
+
+    public float GetTileCleanliness(Vector2 worldPosition)
+    {
+        Vector3Int gridPosition = map.WorldToCell(worldPosition);
+
+        TileBase tile = map.GetTile(gridPosition);
+
+        //Just in case error checking. If trying to get a nonexistent tile, return a wacky answer
+        if (tile == null)
+            return -100;
+
+        float tileCleanliness = dataFromTiles[tile].cleanliness;
+
+        return tileCleanliness;
     }
 }
