@@ -1,0 +1,63 @@
+#Container {
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    background-color: rgb(51, 51, 51);
+    align-self: auto;
+    -unity-text-align: middle-left;
+    flex-shrink: 0;
+    position: relative;
+    flex-direction: column;
+}
+
+#TitleLabel {
+    -unity-font-style: bold;
+    font-size: 100px;
+    -unity-text-align: middle-center;
+    flex-grow: 0;
+}
+
+#VersionLabel {
+    -unity-font-style: normal;
+    -unity-text-align: upper-center;
+    -unity-font-definition: url('project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&guid=8ee4a640bb61dfa49ad29f71662b1d85&type=3#NotInter-Regular');
+    font-size: 36px;
+}
+
+#ButtonContainer {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    align-items: stretch;
+    height: auto;
+    max-height: none;
+}
+
+Label {
+    color: rgb(255, 255, 255);
+}
+
+Button {
+    background-color: rgb(168, 168, 168);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    height: 75%;
+    -unity-font-style: bold;
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    margin-top: 50px;
+    margin-right: 50px;
+    margin-bottom: 50px;
+    margin-left: 50px;
+    color: rgb(51, 51, 51);
+    width: 20%;
+    font-size: 36px;
+}
+
+Button:hover {
+    background-color: rgb(255, 255, 255);
+}
