@@ -1,5 +1,6 @@
 //This script holds the data of each simulated tile (the ones that detect cleanliness.)
-
+//It should not modify the data, that is the job of cleanlinessManager. 
+//This script just gives out data and receives it.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ using UnityEngine.Tilemaps;
 
 public class MapManager : MonoBehaviour
 {
+    enum FloorType { HARD, LOOP, CUT, FREEZECUT };
+
     [SerializeField]
     private Tilemap map;
 

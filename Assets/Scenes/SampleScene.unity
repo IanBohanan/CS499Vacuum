@@ -375,7 +375,7 @@ MonoBehaviour:
   debugCleanAmount: 50
   floorTiles: {fileID: 1441069402}
   cleanColor: {r: 0.018967986, g: 1, b: 0, a: 0}
-  dirtyColor: {r: 0, g: 0.19116235, b: 1, a: 0}
+  dirtyColor: {r: 0.12457335, g: 1, b: 0, a: 0}
 --- !u!4 &707293430
 Transform:
   m_ObjectHideFlags: 0
