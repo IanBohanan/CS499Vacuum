@@ -8,4 +8,9 @@
             <ui:Button text="Create New" display-tooltip-when-elided="true" name="CreateNewButton" />
         </ui:VisualElement>
     </ui:VisualElement>
+    <ui:VisualElement name="ImportPopup" style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="Choose JSON file to import:" display-tooltip-when-elided="true" style="font-size: 50px;" />
+        <ui:TextField picking-mode="Ignore" label="JSON_Example_01" style="font-size: 25px;" />
+        <ui:Button text="Import" display-tooltip-when-elided="true" name="ImportJSONButton" />
+    </ui:VisualElement>
 </ui:UXML>
