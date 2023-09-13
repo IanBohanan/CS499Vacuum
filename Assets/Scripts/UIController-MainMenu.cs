@@ -43,6 +43,6 @@ public class MainMenuController : MonoBehaviour
 
     // Load in the house creation scene
     public void onCreateNewPress() {
-        SceneManager.LoadScene (sceneName:"SampleScene");
+        SceneManager.LoadScene (sceneName:"HouseBuilder");
     }
 }
