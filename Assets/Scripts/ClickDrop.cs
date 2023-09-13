@@ -29,13 +29,13 @@ public class ClickDrop : MonoBehaviour
             //If object is rotated 90 degrees, we must fix its placement by 3 grid points on both a
             if(isLongObject)
             {
-                mousePosition = new Vector3(mousePosition.x + 3, mousePosition.y+3, mousePosition.z);
+                mousePosition = new Vector3(mousePosition.x + 0, mousePosition.y+3, mousePosition.z);
             }
             transform.position = mousePosition;
         }
     }
 
-    private void OnMouseDown()
+    void OnMouseDown()
     {
         if (isDragging) {
             isDragging = false;

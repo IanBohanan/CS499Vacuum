@@ -14,7 +14,7 @@
                 <ui:Label tabindex="-1" text="VALID" display-tooltip-when-elided="true" name="StatusText" />
             </ui:VisualElement>
             <ui:VisualElement name="SelectionPanel">
-                <ui:Button text="Room" display-tooltip-when-elided="true" name="RoomButton" class="SelectionButton" />
+                <ui:Button text="Wall" display-tooltip-when-elided="true" name="WallButton" class="SelectionButton" />
                 <ui:Button text="Door" display-tooltip-when-elided="true" name="DoorButton" class="SelectionButton" />
                 <ui:Button text="Furniture" display-tooltip-when-elided="true" name="FurnitureButton" class="SelectionButton" />
             </ui:VisualElement>

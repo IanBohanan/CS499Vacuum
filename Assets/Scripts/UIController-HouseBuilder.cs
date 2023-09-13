@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 
 public class UIController : MonoBehaviour
 {
+    [SerializeField] GameObject GenericFurniture;
 
     Label status; // "Invalid" or "Valid" shown in bottom left corner.
 
@@ -16,6 +17,16 @@ public class UIController : MonoBehaviour
     VisualElement clearPopup;
     Button clearNoBtn;
     Button clearYesBtn;
+
+    enum CurrentState
+    {
+        Default,
+        WallPlacement,
+        DoorPlacement,
+        FurniturePlacement,
+    }
+
+    CurrentState state = CurrentState.Default;
 
     #region OnEnable Class Setup
     private void OnEnable()
@@ -37,7 +48,7 @@ public class UIController : MonoBehaviour
         VisualElement statusPanel = contentContainer.Q<VisualElement>("StatusPanel");
         status = statusPanel.Q<Label>("StatusText");
         VisualElement selectionPanel = contentContainer.Q<VisualElement>("SelectionPanel");
-        Button roomModeBtn = selectionPanel.Q<Button>("RoomButton");
+        Button wallModeBtn = selectionPanel.Q<Button>("WallButton");
         Button doorModeBtn = selectionPanel.Q<Button>("DoorButton");
         Button furnitureModeBtn = selectionPanel.Q<Button>("FurnitureButton");
 
@@ -55,9 +66,9 @@ public class UIController : MonoBehaviour
         importBtn.clicked += () => importPress();
         exportBtn.clicked += () => exportPress();
         cancelBtn.clicked += () => cancelPress();
-        roomModeBtn.clicked += () => roomModeToggle();
+        wallModeBtn.clicked += () => wallModeToggle();
         doorModeBtn.clicked += () => doorModeToggle();
-        furnitureModeBtn.clicked += () => furnitureModeActivate();
+        furnitureModeBtn.clicked += () => furnitureModeToggle();
         exportYesBtn.clicked += () => exportYesPress();
         exportNoBtn.clicked += () => exportNoPress();
         clearYesBtn.clicked += () => clearYesPress();
@@ -106,24 +117,42 @@ public class UIController : MonoBehaviour
 
     public void cancelPress()
     {
+
         Debug.Log("Cancelling action...");
     }
 
-    public void roomModeToggle()
+    public void wallModeToggle()
     {
-        Debug.Log("Room mode active");
+        state = CurrentState.WallPlacement;
+        Debug.Log("Wall mode active");
     }
 
     public void doorModeToggle()
     {
+        state = CurrentState.DoorPlacement;
         Debug.Log("Door mode active");
-        updateStatus(false);
     }
 
-    public void furnitureModeActivate()
+    public void furnitureModeToggle()
     {
-        Debug.Log("Furniture mode active");
-        updateStatus(true);
+        state = CurrentState.FurniturePlacement;
+        Instantiate(GenericFurniture, new Vector3(0, 0, 0), Quaternion.identity);
+    }
+
+    public void chairModeActivate()
+    {
+
+        Debug.Log("Chair Mode Activated");
+    }
+
+    public void chestModeActivate()
+    {
+        Debug.Log("Chest Mode Activated");
+    }
+
+    public void tableModeActivate()
+    {
+        Debug.Log("Table Mode Activated");
     }
     #endregion
 
