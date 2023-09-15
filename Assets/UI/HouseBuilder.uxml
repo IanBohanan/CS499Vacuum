@@ -6,7 +6,7 @@
                 <ui:Label tabindex="-1" text="House Builder" display-tooltip-when-elided="true" style="-unity-text-align: middle-center; width: auto;" />
             </ui:VisualElement>
             <ui:VisualElement name="CancelBar" style="display: none;">
-                <ui:Button text="Cancel" display-tooltip-when-elided="true" name="CancelButton" />
+                <ui:Button text="Back" display-tooltip-when-elided="true" name="CancelButton" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="BodyContainer" style="background-color: rgba(108, 108, 108, 0.41);">
