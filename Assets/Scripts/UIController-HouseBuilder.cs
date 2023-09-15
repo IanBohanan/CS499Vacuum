@@ -11,7 +11,9 @@ enum CurrentState
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] GameObject GenericFurniture;
+    [SerializeField] GameObject Chair;
+    [SerializeField] GameObject Table;
+    [SerializeField] GameObject Chest;
 
     Label status; // "Invalid" or "Valid" shown in bottom left corner.
 
@@ -95,6 +97,9 @@ public class UIController : MonoBehaviour
         exportNoBtn.clicked += () => exportNoPress();
         clearYesBtn.clicked += () => clearYesPress();
         clearNoBtn.clicked += () => clearNoPress();
+        chairBtn.clicked += () => chairModeActivate();
+        tableBtn.clicked += () => tableModeActivate();
+        chestBtn.clicked += () => chestModeActivate();
 
         UpdateState(CurrentState.Default);
     }
@@ -152,23 +157,22 @@ public class UIController : MonoBehaviour
     public void furnitureModeToggle()
     {
         UpdateState(CurrentState.FurniturePlacement);
-        //Instantiate(GenericFurniture, new Vector3(0, 0, 0), Quaternion.identity);
     }
 
     public void chairModeActivate()
     {
 
-        Debug.Log("Chair Mode Activated");
+        Instantiate(Chair, new Vector3(0, 0, 0), Quaternion.identity);
     }
 
     public void chestModeActivate()
     {
-        Debug.Log("Chest Mode Activated");
+        Instantiate(Chest, new Vector3(0, 0, 0), Quaternion.identity);
     }
 
     public void tableModeActivate()
     {
-        Debug.Log("Table Mode Activated");
+        Instantiate(Table, new Vector3(0, 0, 0), Quaternion.identity);
     }
     #endregion
 

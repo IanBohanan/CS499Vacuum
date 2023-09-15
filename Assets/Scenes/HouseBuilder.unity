@@ -48262,7 +48262,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8cfce51dc843f742a1e706bf2edf9b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GenericFurniture: {fileID: 81931128593908724, guid: a8eddd385ca0a73d7bba423a0b8bc07a, type: 3}
+  Chair: {fileID: 81931128593908724, guid: a8eddd385ca0a73d7bba423a0b8bc07a, type: 3}
+  Table: {fileID: 8838786134988813478, guid: 4b6c4f5a74272882e851cfd04a9e14c0, type: 3}
+  Chest: {fileID: 3183867465637573586, guid: 627ec789e08d538deb8a824dd862b9f8, type: 3}
 --- !u!1 &1968344087
 GameObject:
   m_ObjectHideFlags: 0
