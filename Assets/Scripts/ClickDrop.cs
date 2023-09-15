@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class ClickDrop : MonoBehaviour
@@ -25,13 +26,13 @@ public class ClickDrop : MonoBehaviour
                 }
             case "Table Variant(Clone)":
                 {
-                    offsetY = -3;
+                    offsetY = 3;
                     offsetX = 0;
                     break;
                 }
             case "Chest Variant(Clone)":
                 {
-                    offsetY = -3;
+                    offsetY = 3;
                     offsetX = 3;
                     break;
                 }
@@ -51,7 +52,9 @@ public class ClickDrop : MonoBehaviour
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = Camera.main.transform.position.z + Camera.main.nearClipPlane;
             //TODO: Set up a check later if the current grid is the Ui grid (where just round) or if the grid is the bigger black grid (divide by six THEN round)
-            mousePosition = new Vector3(6 * Mathf.Round(mousePosition.x / 6), 6 * Mathf.Round(mousePosition.y / 6), mousePosition.z);
+            mousePosition = new Vector3(6 * Mathf.Round(mousePosition.x / 6), 6 * Mathf.Floor(mousePosition.y / 6), mousePosition.z);
+
+            //mousePosition = new Vector3(6 * Mathf.Round(mousePosition.x / 6), 6 * Mathf.Round(mousePosition.y / 6), mousePosition.z);
 
             //If object is rotated 90 degrees, we must fix its placement by 3 grid points on both a
             if (isLongObject)
