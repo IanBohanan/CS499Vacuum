@@ -5,8 +5,8 @@
             <ui:VisualElement name="TitleBar">
                 <ui:Label tabindex="-1" text="House Builder" display-tooltip-when-elided="true" style="-unity-text-align: middle-center; width: auto;" />
             </ui:VisualElement>
-            <ui:VisualElement name="CancelBar">
-                <ui:Button text="Cancel" display-tooltip-when-elided="true" name="CancelButton" />
+            <ui:VisualElement name="CancelBar" style="display: none;">
+                <ui:Button text="Back" display-tooltip-when-elided="true" name="CancelButton" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="BodyContainer" style="background-color: rgba(108, 108, 108, 0.41);">
@@ -14,9 +14,19 @@
                 <ui:Label tabindex="-1" text="VALID" display-tooltip-when-elided="true" name="StatusText" />
             </ui:VisualElement>
             <ui:VisualElement name="SelectionPanel">
-                <ui:Button text="Room" display-tooltip-when-elided="true" name="RoomButton" class="SelectionButton" />
-                <ui:Button text="Door" display-tooltip-when-elided="true" name="DoorButton" class="SelectionButton" />
-                <ui:Button text="Furniture" display-tooltip-when-elided="true" name="FurnitureButton" class="SelectionButton" />
+                <ui:VisualElement name="ModeOptionsPanel" style="flex-grow: 1; flex-direction: row;">
+                    <ui:Button text="Wall" display-tooltip-when-elided="true" name="WallButton" class="SelectionButton" />
+                    <ui:Button text="Wall" display-tooltip-when-elided="true" name="DisabledWallButton" class="DisabledSelectionButton" />
+                    <ui:Button text="Door" display-tooltip-when-elided="true" name="DoorButton" class="SelectionButton" />
+                    <ui:Button text="Door" display-tooltip-when-elided="true" name="DisabledDoorButton" class="DisabledSelectionButton" />
+                    <ui:Button text="Furniture" display-tooltip-when-elided="true" name="FurnitureButton" class="SelectionButton" />
+                    <ui:Button text="Furniture" display-tooltip-when-elided="true" name="DisabledFurnitureButton" class="DisabledSelectionButton" />
+                </ui:VisualElement>
+                <ui:VisualElement name="FurnitureOptionsPanel" style="flex-grow: 1; flex-direction: row; display: none;">
+                    <ui:Button text="Chair" display-tooltip-when-elided="true" name="ChairButton" class="SelectionButton" />
+                    <ui:Button text="Table" display-tooltip-when-elided="true" name="TableButton" class="SelectionButton" />
+                    <ui:Button text="Chest" display-tooltip-when-elided="true" name="ChestButton" class="SelectionButton" />
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
