@@ -26,6 +26,7 @@ public class CleanlinessManager : MonoBehaviour
     public void makeClean(Vector2 worldPosition, float cleanAmount)
     {
         Vector3Int gridPosition = floorTiles.WorldToCell(worldPosition);
+        
         changeCleanliness(gridPosition, cleanAmount);
         VisualizeCleanliness();
     }
@@ -45,6 +46,8 @@ public class CleanlinessManager : MonoBehaviour
         //Set the tile to the new value. Note: Grid tiles cannot go above 100% clean. 
         //The Mathf "clamp" function will prevent tile from going over value of 100
         tileData[gridPosition] = Mathf.Clamp(newValue, 0f, 100f);
+
+        print("CleanlinessManager: Tile cleanliness: " + tileData[gridPosition]);
     }
 
     //Changes the color of each tile to represent how clean they are
@@ -52,7 +55,9 @@ public class CleanlinessManager : MonoBehaviour
     {
         foreach(var tile in tileData)
         {
-            Color newTileColor = cleanColor * (tile.Value);
+            //Change the color of the tile between white(ie. the base image) and pure green.
+            Color newTileColor = Color.Lerp(Color.white, Color.green, tile.Value/100);
+            
 
             //Okay Unity has some weird debug thing where it has a "lock color" flag for each tile.
             //Whenever setColor is called, ALL unlocked tiles get updated. So we have to unlock then lock each tile individually

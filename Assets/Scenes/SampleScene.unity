@@ -372,10 +372,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5473de951c0c9e84085b71e3ff7cbb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugCleanAmount: 50
+  debugCleanAmount: 5
   floorTiles: {fileID: 1441069402}
-  cleanColor: {r: 0.018967986, g: 1, b: 0, a: 0}
-  dirtyColor: {r: 0.12457335, g: 1, b: 0, a: 0}
+  cleanColor: {r: 0.17715669, g: 1, b: 0, a: 0}
+  dirtyColor: {r: 0.23824406, g: 1, b: 0, a: 0}
 --- !u!4 &707293430
 Transform:
   m_ObjectHideFlags: 0
