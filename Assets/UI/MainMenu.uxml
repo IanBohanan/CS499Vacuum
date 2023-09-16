@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/MainMenu.uss?fileID=7433441132597879392&amp;guid=df9d89ae7497515be98625d60ad8a852&amp;type=3#MainMenu" />
+    <ui:VisualElement name="Container" style="flex-grow: 1; justify-content: center;">
+        <ui:Label tabindex="-1" text="Vacuum Robot Simulator" display-tooltip-when-elided="true" name="TitleLabel" />
+        <ui:Label tabindex="-1" text="Version 0.0.1" display-tooltip-when-elided="true" name="VersionLabel" />
+        <ui:VisualElement name="ButtonContainer" style="flex-grow: 0;">
+            <ui:Button text="Import JSON" display-tooltip-when-elided="true" name="ImportButton" />
+            <ui:Button text="Create New" display-tooltip-when-elided="true" name="CreateNewButton" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="ImportPopup" style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="Choose JSON file to import:" display-tooltip-when-elided="true" style="font-size: 50px;" />
+        <ui:TextField picking-mode="Ignore" label="JSON_Example_01" style="font-size: 25px;" />
+        <ui:Button text="Import" display-tooltip-when-elided="true" name="ImportJSONButton" />
+    </ui:VisualElement>
+</ui:UXML>

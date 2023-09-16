@@ -5,8 +5,8 @@
             <ui:VisualElement name="TitleBar">
                 <ui:Label tabindex="-1" text="House Builder" display-tooltip-when-elided="true" style="-unity-text-align: middle-center; width: auto;" />
             </ui:VisualElement>
-            <ui:VisualElement name="CancelBar">
-                <ui:Button text="Cancel" display-tooltip-when-elided="true" name="CancelButton" />
+            <ui:VisualElement name="CancelBar" style="display: none;">
+                <ui:Button text="Back" display-tooltip-when-elided="true" name="CancelButton" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="BodyContainer" style="background-color: rgba(108, 108, 108, 0.41);">
@@ -14,9 +14,19 @@
                 <ui:Label tabindex="-1" text="VALID" display-tooltip-when-elided="true" name="StatusText" />
             </ui:VisualElement>
             <ui:VisualElement name="SelectionPanel">
-                <ui:Button text="Room" display-tooltip-when-elided="true" name="RoomButton" class="SelectionButton" />
-                <ui:Button text="Door" display-tooltip-when-elided="true" name="DoorButton" class="SelectionButton" />
-                <ui:Button text="Furniture" display-tooltip-when-elided="true" name="FurnitureButton" class="SelectionButton" />
+                <ui:VisualElement name="ModeOptionsPanel" style="flex-grow: 1; flex-direction: row;">
+                    <ui:Button text="Wall" display-tooltip-when-elided="true" name="WallButton" class="SelectionButton" />
+                    <ui:Button text="Wall" display-tooltip-when-elided="true" name="DisabledWallButton" class="DisabledSelectionButton" />
+                    <ui:Button text="Door" display-tooltip-when-elided="true" name="DoorButton" class="SelectionButton" />
+                    <ui:Button text="Door" display-tooltip-when-elided="true" name="DisabledDoorButton" class="DisabledSelectionButton" />
+                    <ui:Button text="Furniture" display-tooltip-when-elided="true" name="FurnitureButton" class="SelectionButton" />
+                    <ui:Button text="Furniture" display-tooltip-when-elided="true" name="DisabledFurnitureButton" class="DisabledSelectionButton" />
+                </ui:VisualElement>
+                <ui:VisualElement name="FurnitureOptionsPanel" style="flex-grow: 1; flex-direction: row; display: none;">
+                    <ui:Button text="Chair" display-tooltip-when-elided="true" name="ChairButton" class="SelectionButton" />
+                    <ui:Button text="Table" display-tooltip-when-elided="true" name="TableButton" class="SelectionButton" />
+                    <ui:Button text="Chest" display-tooltip-when-elided="true" name="ChestButton" class="SelectionButton" />
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
@@ -24,5 +34,19 @@
         <ui:Button display-tooltip-when-elided="true" name="Import" class="ImportExportBtn" style="background-image: url(&apos;project://database/Assets/UI/clear_icon.png?fileID=-5949790818236727095&amp;guid=83d24dc14cb3bf84bb268c32174d887a&amp;type=3#clear_icon_1&apos;);" />
         <ui:Button display-tooltip-when-elided="true" name="Export" class="ImportExportBtn" style="background-image: url(&apos;project://database/Assets/UI/export_icon.png?fileID=5937232031438256114&amp;guid=72ff555bd964dae4eb0518a41a2b21a7&amp;type=3#export_icon_3&apos;); -unity-background-scale-mode: scale-to-fit;" />
         <ui:Label tabindex="-1" text="Export House" display-tooltip-when-elided="true" name="ImportExportLabel" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-right: 25px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="ExportPopupContainer" class="PopupContainer" style="flex-grow: 1; border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; display: none;">
+        <ui:Label tabindex="-1" text="Are you sure you want to export this house?" display-tooltip-when-elided="true" style="flex-wrap: wrap; max-width: 90%; white-space: normal; flex-grow: 0; align-self: center; height: 40%;" />
+        <ui:VisualElement name="ExportButtonContainer" class="PopupSelectionContainer" style="flex-grow: 0; margin-top: 10px;">
+            <ui:Button text="No" display-tooltip-when-elided="true" name="ExportNoButton" />
+            <ui:Button text="Yes" display-tooltip-when-elided="true" name="ExportYesButton" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="ClearPopupContainer" class="PopupContainer" style="flex-grow: 1; border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; display: none;">
+        <ui:Label tabindex="-1" text="Are you sure you want to clear the house and revert to a blank canvas?" display-tooltip-when-elided="true" style="flex-wrap: wrap; max-width: 90%; white-space: normal; flex-grow: 0; align-self: center; height: 40%;" />
+        <ui:VisualElement name="ClearButtonContainer" class="PopupSelectionContainer" style="flex-grow: 0; margin-top: 10px;">
+            <ui:Button text="No" display-tooltip-when-elided="true" name="ClearNoButton" />
+            <ui:Button text="Yes" display-tooltip-when-elided="true" name="ClearYesButton" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
