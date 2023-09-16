@@ -20,7 +20,7 @@ public class CleanlinessManager : MonoBehaviour
 
 
     [SerializeField]
-    private Color cleanColor, dirtyColor;
+    private Color cleanColor;
 
     //The outside-facing API that takes in the game world position and changes how clean a tile is.
     public void makeClean(Vector2 worldPosition, float cleanAmount)
