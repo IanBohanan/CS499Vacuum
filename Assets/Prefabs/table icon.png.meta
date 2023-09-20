@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 068f8ef6044b01e499aa517c3d89a193
+guid: b9a592ddb69876e469a73c5ea39f1c61
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4437066150249868763
-    second: Product-Dresser-Princeton-Dresser-No-Background-1-W1600_0
+      213: -1974978422549887831
+    second: table icon_0
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -95,18 +95,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: Windows Store Apps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
     buildTarget: iPhone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -122,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Product-Dresser-Princeton-Dresser-No-Background-1-W1600_0
+      name: table icon_0
       rect:
         serializedVersion: 2
-        x: 194
-        y: 154
-        width: 1167
-        height: 846
+        x: 12
+        y: 19
+        width: 502
+        height: 308
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -136,8 +124,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bddad82b720a39d30800000000000000
-      internalID: 4437066150249868763
+      spriteID: 9a44adca6977794e0800000000000000
+      internalID: -1974978422549887831
       vertices: []
       indices: 
       edges: []
@@ -152,8 +140,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      Product-Dresser-Princeton-Dresser-No-Background-1-W1600_0: 4437066150249868763
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
