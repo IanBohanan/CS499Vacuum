@@ -140,7 +140,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Product-Dresser-Princeton-Dresser-No-Background-1-W1600_0: 4437066150249868763
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
