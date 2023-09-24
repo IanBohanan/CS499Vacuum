@@ -36,13 +36,13 @@ public class MapManager : MonoBehaviour
     {
         if(Input.GetMouseButton(0))
         {
+            Debug.Log(gameObject);
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int gridPosition = map.WorldToCell(mousePosition);
 
             TileBase clickedTile = map.GetTile(gridPosition);
 
-           float tileCleanliness = dataFromTiles[clickedTile].cleanliness;
-
+            float tileCleanliness = dataFromTiles[clickedTile].cleanliness;
             
         }
     }
