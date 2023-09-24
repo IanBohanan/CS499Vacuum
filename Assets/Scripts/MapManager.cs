@@ -61,12 +61,4 @@ public class MapManager : MonoBehaviour
 
         return tileCleanliness;
     }
-
-    public bool IsTileOccupied(Vector2 worldPosition)
-    {
-        Vector3Int gridPosition = map.WorldToCell(worldPosition);
-        TileBase tile = map.GetTile(gridPosition);
-        bool tileOccupied = dataFromTiles[tile].occupied;
-        return tileOccupied;
-    }
 }
