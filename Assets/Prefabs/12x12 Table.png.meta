@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 068f8ef6044b01e499aa517c3d89a193
+guid: e670f908073d3714c97613aea9f6a68f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4437066150249868763
-    second: Product-Dresser-Princeton-Dresser-No-Background-1-W1600_0
+      213: 4450521585044172646
+    second: 12x12 Table_0
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -95,7 +95,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: Windows Store Apps
+    buildTarget: iPhone
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -107,7 +107,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: iPhone
+    buildTarget: Windows Store Apps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -122,13 +122,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Product-Dresser-Princeton-Dresser-No-Background-1-W1600_0
+      name: 12x12 Table_0
       rect:
         serializedVersion: 2
-        x: 194
-        y: 154
-        width: 1167
-        height: 846
+        x: 0
+        y: 0
+        width: 1152
+        height: 576
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -136,8 +136,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bddad82b720a39d30800000000000000
-      internalID: 4437066150249868763
+      spriteID: 66f24cd3dcd63cd30800000000000000
+      internalID: 4450521585044172646
       vertices: []
       indices: 
       edges: []
@@ -153,7 +153,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Product-Dresser-Princeton-Dresser-No-Background-1-W1600_0: 4437066150249868763
+      12x12 Table_0: 4450521585044172646
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
