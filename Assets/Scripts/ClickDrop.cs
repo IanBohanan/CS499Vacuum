@@ -12,6 +12,8 @@ public class ClickDrop : MonoBehaviour
     private int offsetY;
     private int offsetX;
 
+    private Collider2D myCollider;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +44,7 @@ public class ClickDrop : MonoBehaviour
         isLongObject = (width >= height);
         // On spawn, user will be dragging item
         isDragging = true;
+        myCollider = GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
@@ -73,12 +76,38 @@ public class ClickDrop : MonoBehaviour
     {
         if (isDragging)
         {
-            isDragging = false;
+            if (!IsOverlapping())
+            {
+                isDragging = false;
+            } 
         }
         else
         {
-            isDragging = true;
+            if (!IsOverlapping())
+            {
+                isDragging = true;
+            }
         }
     }
 
+    bool IsOverlapping()
+    {
+        // Calculate the furniture's size and center based on the size of the object's Collider2D bounds
+        Vector2 objectHalfSize = myCollider.bounds.size * 0.5f;
+        Vector3 center = myCollider.bounds.center;
+
+        // Check for overlapping colliders within a smaller circle
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(center, objectHalfSize, 0f);
+
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider != myCollider)
+            {
+                // If overlapping objects are found, return true
+                return true;
+            }
+        }
+        // If no overlapping objects found, return false
+        return false;
+    }
 }
