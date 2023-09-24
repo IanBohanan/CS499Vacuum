@@ -36,13 +36,13 @@ public class MapManager : MonoBehaviour
     {
         if(Input.GetMouseButton(0))
         {
+            Debug.Log(gameObject);
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int gridPosition = map.WorldToCell(mousePosition);
 
             TileBase clickedTile = map.GetTile(gridPosition);
 
-           float tileCleanliness = dataFromTiles[clickedTile].cleanliness;
-
+            float tileCleanliness = dataFromTiles[clickedTile].cleanliness;
             
         }
     }
@@ -60,5 +60,13 @@ public class MapManager : MonoBehaviour
         float tileCleanliness = dataFromTiles[tile].cleanliness;
 
         return tileCleanliness;
+    }
+
+    public bool IsTileOccupied(Vector2 worldPosition)
+    {
+        Vector3Int gridPosition = map.WorldToCell(worldPosition);
+        TileBase tile = map.GetTile(gridPosition);
+        bool tileOccupied = dataFromTiles[tile].occupied;
+        return tileOccupied;
     }
 }

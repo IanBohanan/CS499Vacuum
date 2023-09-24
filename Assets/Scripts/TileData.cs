@@ -11,6 +11,7 @@ public class TileData : ScriptableObject
     public TileBase[] tiles;
 
     public float cleanliness;
+    public bool occupied;
 
     enum Type { HARD, LOOP, CUT, FREEZECUT };
 }
