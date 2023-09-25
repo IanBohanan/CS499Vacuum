@@ -11,9 +11,7 @@ enum CurrentState
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] GameObject Chair;
-    [SerializeField] GameObject Table;
-    [SerializeField] GameObject Chest;
+    LayoutManager layoutManager;
 
     Label status; // "Invalid" or "Valid" shown in bottom left corner.
 
@@ -47,6 +45,10 @@ public class UIController : MonoBehaviour
     #region OnEnable Class Setup
     private void OnEnable()
     {
+        // Get the LayoutManager component:
+        layoutManager = GetComponent<LayoutManager>();
+        layoutManager.addFurniture("chair");
+
         // Get UIDocument Root:
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
@@ -97,9 +99,9 @@ public class UIController : MonoBehaviour
         exportNoBtn.clicked += () => exportNoPress();
         clearYesBtn.clicked += () => clearYesPress();
         clearNoBtn.clicked += () => clearNoPress();
-        chairBtn.clicked += () => chairModeActivate();
-        tableBtn.clicked += () => tableModeActivate();
-        chestBtn.clicked += () => chestModeActivate();
+        chairBtn.clicked += () => layoutManager.addFurniture("chair");
+        tableBtn.clicked += () => layoutManager.addFurniture("table");
+        chestBtn.clicked += () => layoutManager.addFurniture("chest");
 
         UpdateState(CurrentState.Default);
     }
@@ -114,19 +116,21 @@ public class UIController : MonoBehaviour
 
     public void exportPress()
     {
-        Debug.Log("Exporting House...");
+        // Show Popup:
         exportPopup.style.display = DisplayStyle.Flex;
     }
 
     public void exportYesPress()
     {
-        Debug.Log("Export confimed...");
+        // Tell LayoutManager to save JSON:
+        layoutManager.saveToJSON();
+        // Hide Popup:
         exportPopup.style.display = DisplayStyle.None;
     }
 
     public void exportNoPress()
     {
-        Debug.Log("Export cancelled...");
+        // Hide Popup:
         exportPopup.style.display = DisplayStyle.None;
     }
 
@@ -157,22 +161,6 @@ public class UIController : MonoBehaviour
     public void furnitureModeToggle()
     {
         UpdateState(CurrentState.FurniturePlacement);
-    }
-
-    public void chairModeActivate()
-    {
-
-        Instantiate(Chair, new Vector3(0, 0, 0), Quaternion.identity);
-    }
-
-    public void chestModeActivate()
-    {
-        Instantiate(Chest, new Vector3(0, 0, 0), Quaternion.identity);
-    }
-
-    public void tableModeActivate()
-    {
-        Instantiate(Table, new Vector3(0, 0, 0), Quaternion.identity);
     }
     #endregion
 
