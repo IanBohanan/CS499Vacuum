@@ -1,0 +1,76 @@
+{
+    "Walls": [
+        {
+            "Orientation": "Horizontal",
+            "XPos": 0,
+            "YPos": -10
+        },
+        {
+            "Orientation": "Horizontal",
+            "XPos": 1,
+            "YPos": -10
+        },
+        {
+            "Orientation": "Horizontal",
+            "XPos": 2,
+            "YPos": -10
+        },
+        {
+            "Orientation": "Horizontal",
+            "XPos": 3,
+            "YPos": -10
+        },
+        {
+            "Orientation": "Vertical",
+            "XPos": 4,
+            "YPos": -10
+        },
+        {
+            "Orientation": "Vertical",
+            "XPos": 4,
+            "YPos": -9
+        },
+        {
+            "Orientation": "Vertical",
+            "XPos": 4,
+            "YPos": -8
+        },
+        {
+            "Orientation": "Vertical",
+            "XPos": 4,
+            "YPos": -7
+        }
+    ],
+    "RoomDoors": [
+        {
+            "Orientation": "Vertical",
+            "XPos": 4,
+            "YPos": -6
+        }
+
+    ],
+    "ExitDoors": [
+        {
+            "Orientation": "Horizontal",
+            "XPos": 3,
+            "YPos": -10
+        }
+    ],
+    "Furniture": [
+        {
+            "Type": "Chair",
+            "XPos": -10,
+            "YPos": 5
+        },
+        {
+            "Type": "Table",
+            "XPos": 0,
+            "YPos": 0
+        },
+        {
+            "Type": "Chest",
+            "XPos": 5,
+            "YPos": -4
+        }
+    ]
+}

@@ -83,3 +83,49 @@ Button:hover {
     height: 30%;
     width: 50%;
 }
+
+#LayoutButtonContainer {
+    width: 100%;
+    height: auto;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    align-self: center;
+}
+
+.FileSlotButton {
+    height: auto;
+    width: 30%;
+    background-color: rgba(0, 0, 0, 0.18);
+    color: rgb(255, 255, 255);
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.FileSlotButton:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(27, 27, 27);
+    border-left-color: rgb(27, 27, 27);
+    border-right-color: rgb(27, 27, 27);
+    border-top-color: rgb(27, 27, 27);
+    border-bottom-color: rgb(27, 27, 27);
+}

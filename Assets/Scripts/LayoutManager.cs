@@ -41,10 +41,10 @@ struct ExitDoor
 };
 struct Furniture
 {
-    string type;
+    GameObject type;
     int xPos;
     int yPos;
-    public Furniture(string type, int xPos, int yPos)
+    public Furniture(GameObject type, int xPos, int yPos)
     {
         this.type = type;
         this.xPos = xPos;
@@ -53,7 +53,7 @@ struct Furniture
 };
 #endregion
 
-public class LayoutManager
+public class LayoutManager : MonoBehaviour
 {
     List<Wall> walls = new List<Wall>();
     List<RoomDoor> roomDoors = new List<RoomDoor>();
@@ -73,8 +73,9 @@ public class LayoutManager
     {
         exitDoors.Add(new ExitDoor(orientation, xPos, yPos));
     }
-    public void addFurniture(string type, int xPos, int yPos)
+    public void addFurniture(GameObject type, int xPos, int yPos)
     {
+        Instantiate(type, new Vector3(xPos, yPos, 0), Quaternion.identity);
         furniture.Add(new Furniture(type, xPos, yPos));
     }
     #endregion

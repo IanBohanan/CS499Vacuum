@@ -10,7 +10,14 @@
     </ui:VisualElement>
     <ui:VisualElement name="ImportPopup" style="flex-grow: 1;">
         <ui:Label tabindex="-1" text="Choose JSON file to import:" display-tooltip-when-elided="true" style="font-size: 50px;" />
-        <ui:TextField picking-mode="Ignore" label="JSON_Example_01" style="font-size: 25px;" />
-        <ui:Button text="Import" display-tooltip-when-elided="true" name="ImportJSONButton" />
+        <ui:VisualElement name="LayoutButtonContainer" style="flex-grow: 1;">
+            <ui:Button text="Layout 1" display-tooltip-when-elided="true" name="Slot1" class="FileSlotButton" />
+            <ui:Button text="Layout 2" display-tooltip-when-elided="true" name="Slot2" class="FileSlotButton" />
+            <ui:Button text="Layout 3" display-tooltip-when-elided="true" name="Slot3" class="FileSlotButton" />
+            <ui:Button text="Layout 4" display-tooltip-when-elided="true" name="Slot4" class="FileSlotButton" />
+            <ui:Button text="Layout 5" display-tooltip-when-elided="true" name="Slot5" class="FileSlotButton" />
+            <ui:Button text="Layout 6" display-tooltip-when-elided="true" name="Slot6" class="FileSlotButton" />
+        </ui:VisualElement>
+        <ui:Button text="Import" display-tooltip-when-elided="true" name="ImportJSONButton" style="margin-top: 25px;" />
     </ui:VisualElement>
 </ui:UXML>

@@ -12,6 +12,8 @@ public class MainMenuController : MonoBehaviour
     VisualElement importPopup;
     Button importJSONButton;
 
+    List<Button> buttonList = new List<Button>();
+
     void OnEnable()
     {
         // Get UIDocument Root:
@@ -25,11 +27,26 @@ public class MainMenuController : MonoBehaviour
         // Get Import Popup Panel & Button:
         importPopup = root.Q<VisualElement>("ImportPopup");
         importJSONButton = importPopup.Q<Button>("ImportJSONButton");
+        VisualElement layoutButtons = importPopup.Q<VisualElement>("LayoutButtonContainer");
+        for (int i = 1; i <= 6; i++){
+            buttonList.Add(layoutButtons.Q<Button>("Slot" + i));
+        }
+        foreach (Button button in buttonList){
+            button.clicked += () => onLayoutPress(button);
+        }
 
         // Subscribe to button events:
         importBtn.clicked += () => onImportPress();
         createNewBtn.clicked += () => onCreateNewPress();
         importJSONButton.clicked += () => onImportPopupPress();
+    }
+
+    private void onLayoutPress(Button btn)
+    {
+        foreach (Button button in buttonList){
+            Debug.Log(button);
+        }
+        Debug.Log("this"+btn);
     }
 
     // Open the JSON import panel
