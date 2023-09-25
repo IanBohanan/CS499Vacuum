@@ -90,7 +90,7 @@ public class LayoutManager : MonoBehaviour
             this.posY = posY;
         }
     }
-    public void saveToJSON()
+    public void saveToJSON(string JSONFilePath)
     {
         SerializableList<Object> FullList = new SerializableList<Object>();
         foreach (GameObject f in Furniture) FullList.Furniture.Add(new Object(f.name, f.transform.position.x, f.transform.position.y));
@@ -100,7 +100,7 @@ public class LayoutManager : MonoBehaviour
         try
         {
             string FullJSON = JsonUtility.ToJson(FullList);
-            System.IO.File.WriteAllText(Application.dataPath + "/StreamingAssets/Layout1.json", FullJSON);
+            System.IO.File.WriteAllText(Application.dataPath + "/StreamingAssets/"+JSONFilePath+".json", FullJSON);
         }
         catch (Exception e)
         {

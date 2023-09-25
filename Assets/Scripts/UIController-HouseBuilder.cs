@@ -95,10 +95,10 @@ public class UIController : MonoBehaviour
         wallModeBtn.clicked += () => wallModeToggle();
         doorModeBtn.clicked += () => doorModeToggle();
         furnitureModeBtn.clicked += () => furnitureModeToggle();
-        exportYesBtn.clicked += () => exportYesPress();
-        exportNoBtn.clicked += () => exportNoPress();
-        clearYesBtn.clicked += () => clearYesPress();
-        clearNoBtn.clicked += () => clearNoPress();
+        exportYesBtn.clicked += () => exportConfirm(true);
+        exportNoBtn.clicked += () => exportConfirm(false);
+        clearYesBtn.clicked += () => clearConfirm(true);
+        clearNoBtn.clicked += () => clearConfirm(false);
         chairBtn.clicked += () => layoutManager.addFurniture("chair");
         tableBtn.clicked += () => layoutManager.addFurniture("table");
         chestBtn.clicked += () => layoutManager.addFurniture("chest");
@@ -110,7 +110,6 @@ public class UIController : MonoBehaviour
     #region Button Callbacks
     public void importPress()
     {
-        Debug.Log("Importing House...");
         clearPopup.style.display = DisplayStyle.Flex;
     }
 
@@ -120,29 +119,20 @@ public class UIController : MonoBehaviour
         exportPopup.style.display = DisplayStyle.Flex;
     }
 
-    public void exportYesPress()
+    private void exportConfirm(bool areYouSure)
     {
-        // Tell LayoutManager to save JSON:
-        layoutManager.saveToJSON();
+        if (areYouSure)
+        {
+            // Tell LayoutManager to save JSON:
+            layoutManager.saveToJSON("Layout2");
+        }
         // Hide Popup:
         exportPopup.style.display = DisplayStyle.None;
     }
 
-    public void exportNoPress()
+    public void clearConfirm(bool areYouSure)
     {
         // Hide Popup:
-        exportPopup.style.display = DisplayStyle.None;
-    }
-
-    public void clearYesPress()
-    {
-        Debug.Log("Clear confirmed...");
-        clearPopup.style.display = DisplayStyle.None;
-    }
-
-    public void clearNoPress()
-    {
-        Debug.Log("Clear cancelled...");
         clearPopup.style.display = DisplayStyle.None;
     }
 
