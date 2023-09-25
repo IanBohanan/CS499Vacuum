@@ -9,7 +9,7 @@ enum CurrentState
     FurniturePlacement,
 }
 
-public class UIController : MonoBehaviour
+public class HouseBuilderUI : MonoBehaviour
 {
     LayoutManager layoutManager;
 
@@ -47,7 +47,6 @@ public class UIController : MonoBehaviour
     {
         // Get the LayoutManager component:
         layoutManager = GetComponent<LayoutManager>();
-        layoutManager.addFurniture("chair");
 
         // Get UIDocument Root:
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
@@ -121,17 +120,16 @@ public class UIController : MonoBehaviour
 
     private void exportConfirm(bool areYouSure)
     {
-        if (areYouSure)
-        {
-            // Tell LayoutManager to save JSON:
-            layoutManager.saveToJSON("Layout2");
-        }
+        // Save to JSON if confirmed:
+        if (areYouSure) layoutManager.saveToJSON("Layout2");
         // Hide Popup:
         exportPopup.style.display = DisplayStyle.None;
     }
 
     public void clearConfirm(bool areYouSure)
     {
+        // Clear scene if confimed:
+        if (areYouSure) layoutManager.clearAll();
         // Hide Popup:
         clearPopup.style.display = DisplayStyle.None;
     }

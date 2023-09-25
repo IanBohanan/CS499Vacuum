@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 using System.Linq;
+using UnityEditor.SearchService;
 
 public class LayoutManager : MonoBehaviour
 {
@@ -34,17 +35,27 @@ public class LayoutManager : MonoBehaviour
     public void addFurniture(string type)
     {
         GameObject newFurniture;
-        if (type == "chair") newFurniture = Chair;
-        else if (type == "table") newFurniture = Table;
-        else if (type == "chest") newFurniture = Chest;
+        if (type == "chair") newFurniture = Instantiate(Chair, new Vector3(0, 0, 0), Quaternion.identity);
+        else if (type == "table") newFurniture = Instantiate(Table, new Vector3(0, 0, 0), Quaternion.identity);
+        else if (type == "chest") newFurniture = Instantiate(Chest, new Vector3(0, 0, 0), Quaternion.identity);
         else return; // Invalid input
-        Instantiate(newFurniture, new Vector3(0, 0, 0), Quaternion.identity);
+
         Furniture.Add(newFurniture);
     }
     #endregion
 
-    #region List Delete Functions
-
+    #region List Delete/Clear Functions
+        public void clearAll()
+    {
+        foreach(GameObject obj in Furniture) DestroyImmediate(obj, true);
+        foreach(GameObject obj in Walls) DestroyImmediate(obj, true);
+        foreach(GameObject obj in RoomDoors) DestroyImmediate(obj, true);
+        foreach(GameObject obj in ExitDoors) DestroyImmediate(obj, true);
+        Furniture.Clear();
+        Walls.Clear();
+        RoomDoors.Clear();
+        ExitDoors.Clear();
+    }
     #endregion
 
     #region List Return Functions
