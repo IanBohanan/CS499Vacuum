@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ClickDrop : MonoBehaviour
 {
-    private bool isDragging;
+    public bool isDragging;
     private bool isLongObject;
 
     // Offset values to be set for each furniture type. Allows correct grid snapping.

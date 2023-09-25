@@ -18,6 +18,11 @@ public class HouseBuilderUI : MonoBehaviour
     VisualElement cancelBar;
     Button cancelBtn;
 
+    VisualElement exportSelectionContainer;
+    string fileSelection = "";
+    DropdownField exportDropdown;
+    Button exportSelectionButton;
+
     VisualElement exportPopup;
     Button exportNoBtn;
     Button exportYesBtn;
@@ -78,6 +83,9 @@ public class HouseBuilderUI : MonoBehaviour
         chestBtn = furnitureOptionsPanel.Q<Button>("ChestButton");
 
         // Get popup windows and buttons:
+        exportSelectionContainer = root.Q<VisualElement>("ExportSelectionContainer");
+        exportDropdown = exportSelectionContainer.Q<DropdownField>("ExportDropdown");
+        exportSelectionButton = exportSelectionContainer.Q<Button>("ExportSelectionButton");
         exportPopup = root.Q<VisualElement>("ExportPopupContainer");
         VisualElement exportPopupButtonContainer = exportPopup.Q<VisualElement>("ExportButtonContainer");
         exportYesBtn = exportPopupButtonContainer.Q<Button>("ExportYesButton");
@@ -94,6 +102,8 @@ public class HouseBuilderUI : MonoBehaviour
         wallModeBtn.clicked += () => wallModeToggle();
         doorModeBtn.clicked += () => doorModeToggle();
         furnitureModeBtn.clicked += () => furnitureModeToggle();
+        //exportDropdown.onValueChanged += () => 
+        //exportSelectionButton.clicked += () confirmExportSelection();
         exportYesBtn.clicked += () => exportConfirm(true);
         exportNoBtn.clicked += () => exportConfirm(false);
         clearYesBtn.clicked += () => clearConfirm(true);

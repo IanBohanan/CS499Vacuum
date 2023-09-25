@@ -1,10 +1,6 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 using System.Collections.Generic;
-using System.IO;
 using System;
-using System.Linq;
-using UnityEditor.SearchService;
 
 public class LayoutManager : MonoBehaviour
 {
@@ -87,12 +83,11 @@ public class LayoutManager : MonoBehaviour
         public List<T> ExitDoors = new List<T>();
     }
 
-    [System.Serializable]
-    public class Object
+    [System.Serializable] public class Object
     {
-        public string type = "";
-        public float posX = 0;
-        public float posY = 0;
+        private string type = "";
+        private float posX = 0;
+        private float posY = 0;
 
         public Object(string type, float posX, float posY)
         {
