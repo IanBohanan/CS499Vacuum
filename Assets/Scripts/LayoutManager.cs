@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 
 public class LayoutManager : MonoBehaviour
 {
@@ -14,6 +16,15 @@ public class LayoutManager : MonoBehaviour
     List<GameObject> RoomDoors = new List<GameObject>();
     List<GameObject> ExitDoors = new List<GameObject>();
     List<GameObject> Furniture = new List<GameObject>();
+
+    Button deleteUIButton;
+
+    private void OnEnable()
+    {
+        // Get UIDocument Root:
+        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+        deleteUIButton = root.Q<Button>("DeleteObjectButton");
+    }
 
     #region List Add Functions
     public void addWall()
@@ -35,8 +46,16 @@ public class LayoutManager : MonoBehaviour
         else if (type == "table") newFurniture = Instantiate(Table, new Vector3(0, 0, 0), Quaternion.identity);
         else if (type == "chest") newFurniture = Instantiate(Chest, new Vector3(0, 0, 0), Quaternion.identity);
         else return; // Invalid input
-
+        newFurniture.GetComponent<ClickDrop>().onVariableChange += DragHandler;
         Furniture.Add(newFurniture);
+    }
+
+    private void DragHandler(bool dragging)
+    {
+        // Show or hide the UI delete button on drag start or drag end:
+        if (dragging == true) deleteUIButton.style.display = DisplayStyle.Flex;
+        else deleteUIButton.style.display = DisplayStyle.None;
+            
     }
     #endregion
 
