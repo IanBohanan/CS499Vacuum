@@ -15,11 +15,12 @@
             </ui:VisualElement>
             <ui:VisualElement name="SelectionPanel">
                 <ui:VisualElement name="ModeOptionsPanel" style="flex-grow: 1; flex-direction: row;">
-                    <ui:Button text="Wall" display-tooltip-when-elided="true" name="WallButton" class="SelectionButton" />
+                    <ui:Button text="Wall" display-tooltip-when-elided="true" name="WallButton" class="SelectionButton" style="width: 155px;" />
                     <ui:Button text="Wall" display-tooltip-when-elided="true" name="DisabledWallButton" class="DisabledSelectionButton" />
-                    <ui:Button text="Door" display-tooltip-when-elided="true" name="DoorButton" class="SelectionButton" />
+                    <ui:Button text="Door" display-tooltip-when-elided="true" name="DoorButton" class="SelectionButton" style="width: 158px;" />
                     <ui:Button text="Door" display-tooltip-when-elided="true" name="DisabledDoorButton" class="DisabledSelectionButton" />
                     <ui:Button text="Furniture" display-tooltip-when-elided="true" name="FurnitureButton" class="SelectionButton" />
+                    <ui:Button text="Remove Furniture" display-tooltip-when-elided="true" name="RemoveFunitureButton" class="SelectionButton unity-text-element" style="text-overflow: clip; font-size: 30px; width: 227px; -unity-font-style: bold; white-space: normal;" />
                     <ui:Button text="Furniture" display-tooltip-when-elided="true" name="DisabledFurnitureButton" class="DisabledSelectionButton" />
                 </ui:VisualElement>
                 <ui:VisualElement name="FurnitureOptionsPanel" style="flex-grow: 1; flex-direction: row; display: none;">
