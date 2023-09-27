@@ -142,6 +142,7 @@ public class UIController : MonoBehaviour
         clearPopup.style.display = DisplayStyle.None;
     }
 
+    //Connect me to wall placement: IAN
     public void wallModeToggle()
     {
         UpdateState(CurrentState.WallPlacement);

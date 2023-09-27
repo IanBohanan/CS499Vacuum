@@ -2015,7 +2015,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1441069400
 Transform:
   m_ObjectHideFlags: 0
@@ -48324,8 +48324,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Chair: {fileID: 81931128593908724, guid: a8eddd385ca0a73d7bba423a0b8bc07a, type: 3}
-  Table: {fileID: 8838786134988813478, guid: 4b6c4f5a74272882e851cfd04a9e14c0, type: 3}
-  Chest: {fileID: 3183867465637573586, guid: 627ec789e08d538deb8a824dd862b9f8, type: 3}
+  Table: {fileID: 8355322023197080307, guid: 4b6c4f5a74272882e851cfd04a9e14c0, type: 3}
+  Chest: {fileID: 8767307218612572923, guid: a7bebe800748a984ea72d51b59a36932, type: 3}
 --- !u!1 &1968344087
 GameObject:
   m_ObjectHideFlags: 0
