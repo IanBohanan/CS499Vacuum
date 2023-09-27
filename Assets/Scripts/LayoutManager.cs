@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using Unity.VisualScripting;
 
 public class LayoutManager : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class LayoutManager : MonoBehaviour
 
     private void OnEnable()
     {
+        // Import given file if there is one:
+        importJSON();
         // Get UIDocument Root:
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
         deleteUIButton = root.Q<Button>("DeleteObjectButton");
@@ -39,12 +42,12 @@ public class LayoutManager : MonoBehaviour
     {
         //ExitDoors.Add();
     }
-    public void addFurniture(string type)
+    public void addFurniture(string type, float xPos = 0, float yPos = 0)
     {
         GameObject newFurniture;
-        if (type == "chair") newFurniture = Instantiate(Chair, new Vector3(0, 0, 0), Quaternion.identity);
-        else if (type == "table") newFurniture = Instantiate(Table, new Vector3(0, 0, 0), Quaternion.identity);
-        else if (type == "chest") newFurniture = Instantiate(Chest, new Vector3(0, 0, 0), Quaternion.identity);
+        if (type == "chair") newFurniture = Instantiate(Chair, new Vector3(xPos, yPos, 0), Quaternion.identity);
+        else if (type == "table") newFurniture = Instantiate(Table, new Vector3(xPos, yPos, 0), Quaternion.identity);
+        else if (type == "chest") newFurniture = Instantiate(Chest, new Vector3(xPos, yPos, 0), Quaternion.identity);
         else return; // Invalid input
         newFurniture.GetComponent<ClickDrop>().onVariableChange += DragHandler;
         Furniture.Add(newFurniture);
@@ -94,6 +97,7 @@ public class LayoutManager : MonoBehaviour
 
     #region JSON Management
 
+    #region Serializable Classes
     [System.Serializable] public class SerializableList<T>
     {
         public List<T> Furniture = new List<T>();
@@ -104,15 +108,34 @@ public class LayoutManager : MonoBehaviour
 
     [System.Serializable] public class Object
     {
-        private string type = "";
-        private float posX = 0;
-        private float posY = 0;
+        public string type = "";
+        public float posX = 0;
+        public float posY = 0;
 
         public Object(string type, float posX, float posY)
         {
             this.type = type;
             this.posX = posX;
             this.posY = posY;
+        }
+    }
+    #endregion
+
+    private void importJSON()
+    {
+        SerializableList<Object> parsedJSON = new SerializableList<Object>();
+        try
+        {
+            string unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/" + InterSceneManager.fileSelection + ".json");
+            parsedJSON = JsonUtility.FromJson<SerializableList<Object>>(unparsedJSON);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("JSON Import Exception: " + e.Message);
+        }
+        for (int i = 0; i < parsedJSON.Furniture.Count; i++)
+        {
+            addFurniture("chair", parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY);
         }
     }
     public void saveToJSON(string JSONFilePath)
@@ -125,7 +148,7 @@ public class LayoutManager : MonoBehaviour
         try
         {
             string FullJSON = JsonUtility.ToJson(FullList);
-            System.IO.File.WriteAllText(Application.dataPath + "/StreamingAssets/"+JSONFilePath+".json", FullJSON);
+            System.IO.File.WriteAllText(Application.dataPath + "/StreamingAssets/" + JSONFilePath+".json", FullJSON);
         }
         catch (Exception e)
         {

@@ -44,7 +44,7 @@
     </ui:VisualElement>
     <ui:VisualElement name="ExportSelectionContainer" class="PopupContainer" style="flex-grow: 1; display: none;">
         <ui:Label tabindex="-1" text="Select a Save Slot:" display-tooltip-when-elided="true" style="font-size: 36px;" />
-        <ui:DropdownField index="-1" choices="Layout 1, Layout 2, Layout 3, Layout 4, Layout 5, Layout 6, Layout 7, Layout 8, Layout 9, Layout 10" name="ExportDropdown" />
+        <ui:DropdownField index="-1" choices="Layout1,Layout2,Layout3,Layout4,Layout5,Layout6,Layout7,Layout8,Layout9,Layout10" name="ExportDropdown" />
         <ui:Button text="Select Layout" display-tooltip-when-elided="true" name="ExportSelectionButton" />
     </ui:VisualElement>
     <ui:VisualElement name="ExportPopupContainer" class="PopupContainer" style="flex-grow: 1; border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; display: none;">
