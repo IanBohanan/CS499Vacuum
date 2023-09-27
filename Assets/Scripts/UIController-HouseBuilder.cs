@@ -14,36 +14,29 @@ public class HouseBuilderUI : MonoBehaviour
 {
     LayoutManager layoutManager;
 
-    Label status; // "Invalid" or "Valid" shown in bottom left corner.
+    string exportFileSelection = "";
 
+    Label status; // "Invalid" or "Valid" shown in bottom left corner.
     VisualElement cancelBar;
     Button cancelBtn;
-
     Button exportBtn;
     Button importBtn;
-
     VisualElement exportSelectionContainer;
-    string fileSelection = "";
     DropdownField exportDropdown;
     Button exportSelectionButton;
-
     VisualElement exportPopup;
     Button exportNoBtn;
     Button exportYesBtn;
-
     VisualElement clearPopup;
     Button clearNoBtn;
     Button clearYesBtn;
-
     VisualElement modeOptionsPanel;
     Button wallModeBtn;
     Button doorModeBtn;
     Button furnitureModeBtn;
-
     Button disabledWallModeBtn;
     Button disabledDoorModeBtn;
     Button disabledFurnitureModeBtn;
-
     VisualElement furnitureOptionsPanel; 
     Button chairBtn;
     Button tableBtn;
@@ -133,7 +126,7 @@ public class HouseBuilderUI : MonoBehaviour
     private void OnDropdownValueChanged(ChangeEvent<string> evt)
     {
         // Update the file selection variable
-        fileSelection = exportDropdown.value;
+        exportFileSelection = exportDropdown.value;
     }
     private void confirmExportSelection()
     {
@@ -154,7 +147,7 @@ public class HouseBuilderUI : MonoBehaviour
     private void exportConfirm(bool areYouSure)
     {
         // Save to JSON if confirmed:
-        if (areYouSure) layoutManager.saveToJSON(fileSelection);
+        if (areYouSure) layoutManager.saveToJSON(exportFileSelection);
         // Hide Popup:
         exportPopup.style.display = DisplayStyle.None;
     }

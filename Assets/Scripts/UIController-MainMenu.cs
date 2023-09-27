@@ -12,7 +12,6 @@ public class MainMenuController : MonoBehaviour
     VisualElement importPopup;
     Button importJSONButton;
 
-    string fileSelection;
     DropdownField selectionDropdown;
 
     void OnEnable()
@@ -37,10 +36,10 @@ public class MainMenuController : MonoBehaviour
         selectionDropdown.RegisterValueChangedCallback(onValueChanged);
     }
 
-    // Update selected import fule:
+    // Update selected import file:
     private void onValueChanged(ChangeEvent<string> evt)
     {
-        fileSelection = selectionDropdown.value;
+        InterSceneManager.fileSelection = selectionDropdown.value;
     }
 
     // Open the JSON import panel:
@@ -51,7 +50,7 @@ public class MainMenuController : MonoBehaviour
     // Load in the imported house creation scene:
     public void onImportPopupPress(){
         importPopup.style.display = DisplayStyle.None;
-        Debug.Log("Loading " + fileSelection);
+        Debug.Log("Loading " + InterSceneManager.fileSelection);
         SceneManager.LoadScene(sceneName: "HouseBuilder");
     }
 
