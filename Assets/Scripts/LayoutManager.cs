@@ -129,7 +129,7 @@ public class LayoutManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("Exception: " + e.Message);
+            Debug.Log("JSON Saving Exception: " + e.Message);
         }
     }
     #endregion

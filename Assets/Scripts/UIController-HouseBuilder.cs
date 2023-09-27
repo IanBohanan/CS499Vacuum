@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,6 +18,9 @@ public class HouseBuilderUI : MonoBehaviour
 
     VisualElement cancelBar;
     Button cancelBtn;
+
+    Button exportBtn;
+    Button importBtn;
 
     VisualElement exportSelectionContainer;
     string fileSelection = "";
@@ -52,14 +56,23 @@ public class HouseBuilderUI : MonoBehaviour
     {
         // Get the LayoutManager component:
         layoutManager = GetComponent<LayoutManager>();
+        // Do UI things:
+        exploreUI();
+        assignCallbacks();
+        UpdateState(CurrentState.Default);
+    }
+    #endregion
 
+    #region Explore UI and Assign Callbacks
+    private void exploreUI()
+    {
         // Get UIDocument Root:
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
         // Get Import/Export Components:
         VisualElement importExportPanel = root.Q<VisualElement>("ImportExportContainer");
-        Button importBtn = importExportPanel.Q<Button>("Import");
-        Button exportBtn = importExportPanel.Q<Button>("Export");
+        importBtn = importExportPanel.Q<Button>("Import");
+        exportBtn = importExportPanel.Q<Button>("Export");
 
         // Get Bottom Content Components:
         VisualElement contentContainer = root.Q<VisualElement>("MainContentContainer");
@@ -94,7 +107,9 @@ public class HouseBuilderUI : MonoBehaviour
         VisualElement clearPopupButtonContainer = clearPopup.Q<VisualElement>("ClearButtonContainer");
         clearYesBtn = clearPopupButtonContainer.Q<Button>("ClearYesButton");
         clearNoBtn = clearPopupButtonContainer.Q<Button>("ClearNoButton");
-
+    }
+    private void assignCallbacks()
+    {
         // Assign button callback functions:
         importBtn.clicked += () => importPress();
         exportBtn.clicked += () => exportPress();
@@ -102,8 +117,8 @@ public class HouseBuilderUI : MonoBehaviour
         wallModeBtn.clicked += () => wallModeToggle();
         doorModeBtn.clicked += () => doorModeToggle();
         furnitureModeBtn.clicked += () => furnitureModeToggle();
-        //exportDropdown.onValueChanged += () => 
-        //exportSelectionButton.clicked += () confirmExportSelection();
+        exportDropdown.RegisterValueChangedCallback(OnDropdownValueChanged);
+        exportSelectionButton.clicked += () => confirmExportSelection();
         exportYesBtn.clicked += () => exportConfirm(true);
         exportNoBtn.clicked += () => exportConfirm(false);
         clearYesBtn.clicked += () => clearConfirm(true);
@@ -111,12 +126,20 @@ public class HouseBuilderUI : MonoBehaviour
         chairBtn.clicked += () => layoutManager.addFurniture("chair");
         tableBtn.clicked += () => layoutManager.addFurniture("table");
         chestBtn.clicked += () => layoutManager.addFurniture("chest");
-
-        UpdateState(CurrentState.Default);
     }
     #endregion
 
     #region Button Callbacks
+    private void OnDropdownValueChanged(ChangeEvent<string> evt)
+    {
+        // Update the file selection variable
+        fileSelection = exportDropdown.value;
+    }
+    private void confirmExportSelection()
+    {
+        exportPopup.style.display = DisplayStyle.Flex;
+        exportSelectionContainer.style.display = DisplayStyle.None;
+    }
     public void importPress()
     {
         clearPopup.style.display = DisplayStyle.Flex;
@@ -125,13 +148,13 @@ public class HouseBuilderUI : MonoBehaviour
     public void exportPress()
     {
         // Show Popup:
-        exportPopup.style.display = DisplayStyle.Flex;
+        exportSelectionContainer.style.display = DisplayStyle.Flex;
     }
 
     private void exportConfirm(bool areYouSure)
     {
         // Save to JSON if confirmed:
-        if (areYouSure) layoutManager.saveToJSON("Layout2");
+        if (areYouSure) layoutManager.saveToJSON(fileSelection);
         // Hide Popup:
         exportPopup.style.display = DisplayStyle.None;
     }

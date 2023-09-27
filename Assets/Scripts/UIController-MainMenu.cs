@@ -12,7 +12,8 @@ public class MainMenuController : MonoBehaviour
     VisualElement importPopup;
     Button importJSONButton;
 
-    List<Button> buttonList = new List<Button>();
+    string fileSelection;
+    DropdownField selectionDropdown;
 
     void OnEnable()
     {
@@ -26,40 +27,36 @@ public class MainMenuController : MonoBehaviour
 
         // Get Import Popup Panel & Button:
         importPopup = root.Q<VisualElement>("ImportPopup");
+        selectionDropdown = importPopup.Q<DropdownField>("SelectionDropdown");
         importJSONButton = importPopup.Q<Button>("ImportJSONButton");
-        VisualElement layoutButtons = importPopup.Q<VisualElement>("LayoutButtonContainer");
-        for (int i = 1; i <= 6; i++){
-            buttonList.Add(layoutButtons.Q<Button>("Slot" + i));
-        }
-        foreach (Button button in buttonList){
-            button.clicked += () => onLayoutPress(button);
-        }
 
         // Subscribe to button events:
         importBtn.clicked += () => onImportPress();
         createNewBtn.clicked += () => onCreateNewPress();
         importJSONButton.clicked += () => onImportPopupPress();
+        selectionDropdown.RegisterValueChangedCallback(onValueChanged);
     }
 
-    private void onLayoutPress(Button btn)
+    // Update selected import fule:
+    private void onValueChanged(ChangeEvent<string> evt)
     {
-        foreach (Button button in buttonList){
-            Debug.Log(button);
-        }
-        Debug.Log("this"+btn);
+        fileSelection = selectionDropdown.value;
     }
 
-    // Open the JSON import panel
+    // Open the JSON import panel:
     public void onImportPress() {
         importPopup.style.display = DisplayStyle.Flex;
     }
 
+    // Load in the imported house creation scene:
     public void onImportPopupPress(){
         importPopup.style.display = DisplayStyle.None;
+        Debug.Log("Loading " + fileSelection);
+        SceneManager.LoadScene(sceneName: "HouseBuilder");
     }
 
-    // Load in the house creation scene
+    // Load in the blank house creation scene:
     public void onCreateNewPress() {
-        SceneManager.LoadScene (sceneName:"HouseBuilder");
+        SceneManager.LoadScene(sceneName:"HouseBuilder");
     }
 }
