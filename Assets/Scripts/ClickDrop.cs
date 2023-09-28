@@ -5,7 +5,18 @@ using UnityEngine;
 
 public class ClickDrop : MonoBehaviour
 {
-    private bool isDragging;
+    private bool dragging;
+    public bool isDragging {
+        get { return dragging; }
+        set {
+            if (dragging == value) return;
+            dragging = value;
+            if (onVariableChange != null) onVariableChange(dragging);
+        } 
+    }
+    public delegate void OnVariableChangeDelegate(bool dragging);
+    public event OnVariableChangeDelegate onVariableChange;
+
     private bool isLongObject;
 
     // Offset values to be set for each furniture type. Allows correct grid snapping.
@@ -56,9 +67,7 @@ public class ClickDrop : MonoBehaviour
             mousePosition.z = Camera.main.transform.position.z + Camera.main.nearClipPlane;
             //TODO: Set up a check later if the current grid is the Ui grid (where just round) or if the grid is the bigger black grid (divide by six THEN round)
             mousePosition = new Vector3(6 * Mathf.Round(mousePosition.x / 6), 6 * Mathf.Floor(mousePosition.y / 6), mousePosition.z);
-
-            //mousePosition = new Vector3(6 * Mathf.Round(mousePosition.x / 6), 6 * Mathf.Round(mousePosition.y / 6), mousePosition.z);
-
+            
             //If object is rotated 90 degrees, we must fix its placement by 3 grid points on both a
             if (isLongObject)
             {

@@ -48273,6 +48273,7 @@ GameObject:
   - component: {fileID: 1609557624}
   - component: {fileID: 1609557623}
   - component: {fileID: 1609557625}
+  - component: {fileID: 1609557626}
   m_Layer: 5
   m_Name: HouseBuilder_UI
   m_TagString: Untagged
@@ -48321,6 +48322,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8cfce51dc843f742a1e706bf2edf9b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1609557626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609557622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5581d3c1c05a2d1bf9e3aa4a7c5e6999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Chair: {fileID: 81931128593908724, guid: a8eddd385ca0a73d7bba423a0b8bc07a, type: 3}

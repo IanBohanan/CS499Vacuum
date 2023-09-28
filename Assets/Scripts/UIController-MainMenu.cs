@@ -12,6 +12,8 @@ public class MainMenuController : MonoBehaviour
     VisualElement importPopup;
     Button importJSONButton;
 
+    DropdownField selectionDropdown;
+
     void OnEnable()
     {
         // Get UIDocument Root:
@@ -24,25 +26,36 @@ public class MainMenuController : MonoBehaviour
 
         // Get Import Popup Panel & Button:
         importPopup = root.Q<VisualElement>("ImportPopup");
+        selectionDropdown = importPopup.Q<DropdownField>("SelectionDropdown");
         importJSONButton = importPopup.Q<Button>("ImportJSONButton");
 
         // Subscribe to button events:
         importBtn.clicked += () => onImportPress();
         createNewBtn.clicked += () => onCreateNewPress();
         importJSONButton.clicked += () => onImportPopupPress();
+        selectionDropdown.RegisterValueChangedCallback(onValueChanged);
     }
 
-    // Open the JSON import panel
+    // Update selected import file:
+    private void onValueChanged(ChangeEvent<string> evt)
+    {
+        InterSceneManager.fileSelection = selectionDropdown.value;
+    }
+
+    // Open the JSON import panel:
     public void onImportPress() {
         importPopup.style.display = DisplayStyle.Flex;
     }
 
+    // Load in the imported house creation scene:
     public void onImportPopupPress(){
         importPopup.style.display = DisplayStyle.None;
+        Debug.Log("Loading " + InterSceneManager.fileSelection);
+        SceneManager.LoadScene(sceneName: "HouseBuilder");
     }
 
-    // Load in the house creation scene
+    // Load in the blank house creation scene:
     public void onCreateNewPress() {
-        SceneManager.LoadScene (sceneName:"HouseBuilder");
+        SceneManager.LoadScene(sceneName:"HouseBuilder");
     }
 }

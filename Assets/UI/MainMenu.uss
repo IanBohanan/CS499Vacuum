@@ -83,3 +83,14 @@ Button:hover {
     height: 30%;
     width: 50%;
 }
+
+#SelectionDropdown {
+    width: 30%;
+    height: 15%;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    font-size: 25px;
+    -unity-text-align: middle-center;
+}
