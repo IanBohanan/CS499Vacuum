@@ -31,6 +31,7 @@ public class HouseBuilderUI : MonoBehaviour
     Button clearNoBtn;
     Button clearYesBtn;
     VisualElement modeOptionsPanel;
+    Button deleteButton;
     Button wallModeBtn;
     Button doorModeBtn;
     Button furnitureModeBtn;
@@ -77,6 +78,7 @@ public class HouseBuilderUI : MonoBehaviour
         status = statusPanel.Q<Label>("StatusText");
         VisualElement selectionPanel = contentContainer.Q<VisualElement>("SelectionPanel");
         modeOptionsPanel = selectionPanel.Q<VisualElement>("ModeOptionsPanel");
+        deleteButton = modeOptionsPanel.Q<Button>("RemoveFurniture");
         wallModeBtn = modeOptionsPanel.Q<Button>("WallButton");
         doorModeBtn = modeOptionsPanel.Q<Button>("DoorButton");
         furnitureModeBtn = modeOptionsPanel.Q<Button>("FurnitureButton");
@@ -107,6 +109,7 @@ public class HouseBuilderUI : MonoBehaviour
         importBtn.clicked += () => importPress();
         exportBtn.clicked += () => exportPress();
         cancelBtn.clicked += () => UpdateState(CurrentState.Default);
+        deleteButton.clicked += () => deleteModeToggle();
         wallModeBtn.clicked += () => wallModeToggle();
         doorModeBtn.clicked += () => doorModeToggle();
         furnitureModeBtn.clicked += () => furnitureModeToggle();
@@ -161,6 +164,30 @@ public class HouseBuilderUI : MonoBehaviour
     }
 
     //Connect me to wall placement: IAN
+
+    private void deleteModeToggle()
+    {
+        if (InterSceneManager.deleteMode == false)
+        {
+            InterSceneManager.deleteMode = true;
+            deleteButton.style.unityBackgroundImageTintColor = Color.red;
+            deleteButton.style.unityBackgroundImageTintColor = Color.red;
+            deleteButton.style.borderBottomColor = Color.red;
+            deleteButton.style.borderLeftColor = Color.red;
+            deleteButton.style.borderRightColor = Color.red;
+            deleteButton.style.borderTopColor = Color.red;
+        }
+        else
+        {
+            InterSceneManager.deleteMode = false;
+            deleteButton.style.unityBackgroundImageTintColor = new Color(255, 255, 255, 128);
+            deleteButton.style.borderBottomColor = new Color(255, 255, 255, 128);
+            deleteButton.style.borderLeftColor = new Color(255, 255, 255, 128);
+            deleteButton.style.borderRightColor = new Color(255, 255, 255, 128);
+            deleteButton.style.borderTopColor = new Color(255, 255, 255, 128);
+        }
+    }
+
     public void wallModeToggle()
     {
         UpdateState(CurrentState.WallPlacement);

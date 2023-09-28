@@ -49,13 +49,14 @@ public class LayoutManager : MonoBehaviour
         else if (type == "table") newFurniture = Instantiate(Table, new Vector3(xPos, yPos, 0), Quaternion.identity);
         else if (type == "chest") newFurniture = Instantiate(Chest, new Vector3(xPos, yPos, 0), Quaternion.identity);
         else return; // Invalid input
-        newFurniture.GetComponent<ClickDrop>().onVariableChange += DragHandler;
+        newFurniture.GetComponent<ClickDrop>().onDeleteClicked += DragHandler;
         Furniture.Add(newFurniture);
     }
 
-    private void DragHandler(bool dragging)
+    private void DragHandler(GameObject obj)
     {
-        // Do things here
+        Furniture.Remove(obj);
+        DestroyImmediate(obj);
     }
     #endregion
 
