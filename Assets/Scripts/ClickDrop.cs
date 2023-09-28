@@ -23,7 +23,7 @@ public class ClickDrop : MonoBehaviour
     private int offsetY;
     private int offsetX;
 
-    private Collider2D myCollider;
+    public Collider2D myCollider;
 
     // Start is called before the first frame update
     void Start()
