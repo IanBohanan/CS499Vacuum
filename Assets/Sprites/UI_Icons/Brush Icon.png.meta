@@ -140,7 +140,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Brush Icon_0: 92981570342396628
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

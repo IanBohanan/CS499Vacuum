@@ -55,10 +55,7 @@ public class LayoutManager : MonoBehaviour
 
     private void DragHandler(bool dragging)
     {
-        // Show or hide the UI delete button on drag start or drag end:
-        if (dragging == true) deleteUIButton.style.display = DisplayStyle.Flex;
-        else deleteUIButton.style.display = DisplayStyle.None;
-            
+        // Do things here
     }
     #endregion
 
