@@ -40,7 +40,7 @@ public class ClickDrop : MonoBehaviour
             case "Table Variant(Clone)":
                 {
                     offsetY = 3;
-                    offsetX = 0;
+                    offsetX = 3;
                     break;
                 }
             case "Chest Variant(Clone)":
