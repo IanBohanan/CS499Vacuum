@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,34 +10,33 @@ enum CurrentState
     FurniturePlacement,
 }
 
-public class UIController : MonoBehaviour
+public class HouseBuilderUI : MonoBehaviour
 {
-    [SerializeField] GameObject Chair;
-    [SerializeField] GameObject Table;
-    [SerializeField] GameObject Chest;
+    LayoutManager layoutManager;
+
+    string exportFileSelection = "";
 
     Label status; // "Invalid" or "Valid" shown in bottom left corner.
-
     VisualElement cancelBar;
     Button cancelBtn;
-
+    Button exportBtn;
+    Button importBtn;
+    VisualElement exportSelectionContainer;
+    DropdownField exportDropdown;
+    Button exportSelectionButton;
     VisualElement exportPopup;
     Button exportNoBtn;
     Button exportYesBtn;
-
     VisualElement clearPopup;
     Button clearNoBtn;
     Button clearYesBtn;
-
     VisualElement modeOptionsPanel;
     Button wallModeBtn;
     Button doorModeBtn;
     Button furnitureModeBtn;
-
     Button disabledWallModeBtn;
     Button disabledDoorModeBtn;
     Button disabledFurnitureModeBtn;
-
     VisualElement furnitureOptionsPanel; 
     Button chairBtn;
     Button tableBtn;
@@ -47,13 +47,25 @@ public class UIController : MonoBehaviour
     #region OnEnable Class Setup
     private void OnEnable()
     {
+        // Get the LayoutManager component:
+        layoutManager = GetComponent<LayoutManager>();
+        // Do UI things:
+        exploreUI();
+        assignCallbacks();
+        UpdateState(CurrentState.Default);
+    }
+    #endregion
+
+    #region Explore UI and Assign Callbacks
+    private void exploreUI()
+    {
         // Get UIDocument Root:
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
         // Get Import/Export Components:
         VisualElement importExportPanel = root.Q<VisualElement>("ImportExportContainer");
-        Button importBtn = importExportPanel.Q<Button>("Import");
-        Button exportBtn = importExportPanel.Q<Button>("Export");
+        importBtn = importExportPanel.Q<Button>("Import");
+        exportBtn = importExportPanel.Q<Button>("Export");
 
         // Get Bottom Content Components:
         VisualElement contentContainer = root.Q<VisualElement>("MainContentContainer");
@@ -77,6 +89,9 @@ public class UIController : MonoBehaviour
         chestBtn = furnitureOptionsPanel.Q<Button>("ChestButton");
 
         // Get popup windows and buttons:
+        exportSelectionContainer = root.Q<VisualElement>("ExportSelectionContainer");
+        exportDropdown = exportSelectionContainer.Q<DropdownField>("ExportDropdown");
+        exportSelectionButton = exportSelectionContainer.Q<Button>("ExportSelectionButton");
         exportPopup = root.Q<VisualElement>("ExportPopupContainer");
         VisualElement exportPopupButtonContainer = exportPopup.Q<VisualElement>("ExportButtonContainer");
         exportYesBtn = exportPopupButtonContainer.Q<Button>("ExportYesButton");
@@ -85,7 +100,9 @@ public class UIController : MonoBehaviour
         VisualElement clearPopupButtonContainer = clearPopup.Q<VisualElement>("ClearButtonContainer");
         clearYesBtn = clearPopupButtonContainer.Q<Button>("ClearYesButton");
         clearNoBtn = clearPopupButtonContainer.Q<Button>("ClearNoButton");
-
+    }
+    private void assignCallbacks()
+    {
         // Assign button callback functions:
         importBtn.clicked += () => importPress();
         exportBtn.clicked += () => exportPress();
@@ -93,55 +110,57 @@ public class UIController : MonoBehaviour
         wallModeBtn.clicked += () => wallModeToggle();
         doorModeBtn.clicked += () => doorModeToggle();
         furnitureModeBtn.clicked += () => furnitureModeToggle();
-        exportYesBtn.clicked += () => exportYesPress();
-        exportNoBtn.clicked += () => exportNoPress();
-        clearYesBtn.clicked += () => clearYesPress();
-        clearNoBtn.clicked += () => clearNoPress();
-        chairBtn.clicked += () => chairModeActivate();
-        tableBtn.clicked += () => tableModeActivate();
-        chestBtn.clicked += () => chestModeActivate();
-
-        UpdateState(CurrentState.Default);
+        exportDropdown.RegisterValueChangedCallback(OnDropdownValueChanged);
+        exportSelectionButton.clicked += () => confirmExportSelection();
+        exportYesBtn.clicked += () => exportConfirm(true);
+        exportNoBtn.clicked += () => exportConfirm(false);
+        clearYesBtn.clicked += () => clearConfirm(true);
+        clearNoBtn.clicked += () => clearConfirm(false);
+        chairBtn.clicked += () => layoutManager.addFurniture("chair");
+        tableBtn.clicked += () => layoutManager.addFurniture("table");
+        chestBtn.clicked += () => layoutManager.addFurniture("chest");
     }
     #endregion
 
     #region Button Callbacks
+    private void OnDropdownValueChanged(ChangeEvent<string> evt)
+    {
+        // Update the file selection variable
+        exportFileSelection = exportDropdown.value;
+    }
+    private void confirmExportSelection()
+    {
+        exportPopup.style.display = DisplayStyle.Flex;
+        exportSelectionContainer.style.display = DisplayStyle.None;
+    }
     public void importPress()
     {
-        Debug.Log("Importing House...");
         clearPopup.style.display = DisplayStyle.Flex;
     }
 
     public void exportPress()
     {
-        Debug.Log("Exporting House...");
-        exportPopup.style.display = DisplayStyle.Flex;
+        // Show Popup:
+        exportSelectionContainer.style.display = DisplayStyle.Flex;
     }
 
-    public void exportYesPress()
+    private void exportConfirm(bool areYouSure)
     {
-        Debug.Log("Export confimed...");
+        // Save to JSON if confirmed:
+        if (areYouSure) layoutManager.saveToJSON(exportFileSelection);
+        // Hide Popup:
         exportPopup.style.display = DisplayStyle.None;
     }
 
-    public void exportNoPress()
+    public void clearConfirm(bool areYouSure)
     {
-        Debug.Log("Export cancelled...");
-        exportPopup.style.display = DisplayStyle.None;
-    }
-
-    public void clearYesPress()
-    {
-        Debug.Log("Clear confirmed...");
+        // Clear scene if confimed:
+        if (areYouSure) layoutManager.clearAll();
+        // Hide Popup:
         clearPopup.style.display = DisplayStyle.None;
     }
 
-    public void clearNoPress()
-    {
-        Debug.Log("Clear cancelled...");
-        clearPopup.style.display = DisplayStyle.None;
-    }
-
+    //Connect me to wall placement: IAN
     public void wallModeToggle()
     {
         UpdateState(CurrentState.WallPlacement);
@@ -157,22 +176,6 @@ public class UIController : MonoBehaviour
     public void furnitureModeToggle()
     {
         UpdateState(CurrentState.FurniturePlacement);
-    }
-
-    public void chairModeActivate()
-    {
-
-        Instantiate(Chair, new Vector3(0, 0, 0), Quaternion.identity);
-    }
-
-    public void chestModeActivate()
-    {
-        Instantiate(Chest, new Vector3(0, 0, 0), Quaternion.identity);
-    }
-
-    public void tableModeActivate()
-    {
-        Instantiate(Table, new Vector3(0, 0, 0), Quaternion.identity);
     }
     #endregion
 
