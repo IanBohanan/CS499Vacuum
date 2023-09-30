@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 
 public class LayoutManager : MonoBehaviour
 {
+    #region Prefabs and Prefab Lists:
     // Get GameObject Prefabs:
     [SerializeField] GameObject Chair;
     [SerializeField] GameObject Table;
@@ -17,8 +18,7 @@ public class LayoutManager : MonoBehaviour
     List<GameObject> RoomDoors = new List<GameObject>();
     List<GameObject> ExitDoors = new List<GameObject>();
     List<GameObject> Furniture = new List<GameObject>();
-
-    Button deleteUIButton;
+    #endregion
 
     private void OnEnable()
     {
@@ -26,7 +26,6 @@ public class LayoutManager : MonoBehaviour
         importJSON();
         // Get UIDocument Root:
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
-        deleteUIButton = root.Q<Button>("DeleteObjectButton");
     }
 
     #region List Add Functions
@@ -49,18 +48,13 @@ public class LayoutManager : MonoBehaviour
         else if (type == "table") newFurniture = Instantiate(Table, new Vector3(xPos, yPos, 0), Quaternion.identity);
         else if (type == "chest") newFurniture = Instantiate(Chest, new Vector3(xPos, yPos, 0), Quaternion.identity);
         else return; // Invalid input
-        newFurniture.GetComponent<ClickDrop>().onVariableChange += DragHandler;
+        newFurniture.GetComponent<ClickDrop>().onDeleteClicked += deleteFurniture;
         Furniture.Add(newFurniture);
-    }
-
-    private void DragHandler(bool dragging)
-    {
-        // Do things here
     }
     #endregion
 
     #region List Delete/Clear Functions
-        public void clearAll()
+    public void clearAll()
     {
         foreach(GameObject obj in Furniture) DestroyImmediate(obj, true);
         foreach(GameObject obj in Walls) DestroyImmediate(obj, true);
@@ -70,6 +64,27 @@ public class LayoutManager : MonoBehaviour
         Walls.Clear();
         RoomDoors.Clear();
         ExitDoors.Clear();
+    }
+    // Subscribe these functions to the GameObjects delete event:
+    private void deleteFurniture(GameObject obj)
+    {
+        Furniture.Remove(obj);
+        DestroyImmediate(obj);
+    }
+    private void deleteWall(GameObject obj)
+    {
+        Walls.Remove(obj);
+        DestroyImmediate(obj);
+    }
+    private void deleteRoomDoor(GameObject obj)
+    {
+        RoomDoors.Remove(obj);
+        DestroyImmediate(obj);
+    }
+    private void deleteExitDoor(GameObject obj)
+    {
+        ExitDoors.Remove(obj);
+        DestroyImmediate(obj);
     }
     #endregion
 

@@ -16,7 +16,6 @@ public class VacuumMovement : MonoBehaviour
     void Update()
     {
         this.transform.position += new Vector3(speed, 0, 0);
-        float startpoint = -10.1f;
         if(this.transform.position.x >= 10)
         {
             //speed *= -1;

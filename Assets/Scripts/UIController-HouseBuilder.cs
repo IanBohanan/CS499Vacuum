@@ -8,6 +8,7 @@ enum CurrentState
     WallPlacement,
     DoorPlacement,
     FurniturePlacement,
+    DeleteObjects,
 }
 
 public class HouseBuilderUI : MonoBehaviour
@@ -16,6 +17,7 @@ public class HouseBuilderUI : MonoBehaviour
 
     string exportFileSelection = "";
 
+    #region UI Component References
     Label status; // "Invalid" or "Valid" shown in bottom left corner.
     VisualElement cancelBar;
     Button cancelBtn;
@@ -31,6 +33,7 @@ public class HouseBuilderUI : MonoBehaviour
     Button clearNoBtn;
     Button clearYesBtn;
     VisualElement modeOptionsPanel;
+    Button deleteButton;
     Button wallModeBtn;
     Button doorModeBtn;
     Button furnitureModeBtn;
@@ -41,6 +44,7 @@ public class HouseBuilderUI : MonoBehaviour
     Button chairBtn;
     Button tableBtn;
     Button chestBtn;
+    #endregion
 
     CurrentState state = CurrentState.Default;
 
@@ -77,6 +81,7 @@ public class HouseBuilderUI : MonoBehaviour
         status = statusPanel.Q<Label>("StatusText");
         VisualElement selectionPanel = contentContainer.Q<VisualElement>("SelectionPanel");
         modeOptionsPanel = selectionPanel.Q<VisualElement>("ModeOptionsPanel");
+        deleteButton = modeOptionsPanel.Q<Button>("RemoveFurniture");
         wallModeBtn = modeOptionsPanel.Q<Button>("WallButton");
         doorModeBtn = modeOptionsPanel.Q<Button>("DoorButton");
         furnitureModeBtn = modeOptionsPanel.Q<Button>("FurnitureButton");
@@ -107,6 +112,7 @@ public class HouseBuilderUI : MonoBehaviour
         importBtn.clicked += () => importPress();
         exportBtn.clicked += () => exportPress();
         cancelBtn.clicked += () => UpdateState(CurrentState.Default);
+        deleteButton.clicked += () => deleteModeToggle();
         wallModeBtn.clicked += () => wallModeToggle();
         doorModeBtn.clicked += () => doorModeToggle();
         furnitureModeBtn.clicked += () => furnitureModeToggle();
@@ -161,6 +167,32 @@ public class HouseBuilderUI : MonoBehaviour
     }
 
     //Connect me to wall placement: IAN
+
+    private void deleteModeToggle()
+    {
+        if (!InterSceneManager.deleteMode)
+        {
+            UpdateState(CurrentState.DeleteObjects);
+            InterSceneManager.deleteMode = true;
+            deleteButton.style.unityBackgroundImageTintColor = new Color(1,0,0,0.5f);
+            deleteButton.style.unityBackgroundImageTintColor = new Color(1, 0, 0, 0.5f);
+            deleteButton.style.borderBottomColor = new Color(1, 0, 0, 0.5f);
+            deleteButton.style.borderLeftColor = new Color(1, 0, 0, 0.5f);
+            deleteButton.style.borderRightColor = new Color(1, 0, 0, 0.5f);
+            deleteButton.style.borderTopColor = new Color(1, 0, 0, 0.5f);
+        }
+        else
+        {
+            UpdateState(CurrentState.Default);
+            InterSceneManager.deleteMode = false;
+            deleteButton.style.unityBackgroundImageTintColor = new Color(1, 1, 1, 0.5f);
+            deleteButton.style.borderBottomColor = new Color(1, 1, 1, 0.5f);
+            deleteButton.style.borderLeftColor = new Color(1, 1, 1, 0.5f);
+            deleteButton.style.borderRightColor = new Color(1, 1, 1, 0.5f);
+            deleteButton.style.borderTopColor = new Color(1, 1, 1, 0.5f);
+        }
+    }
+
     public void wallModeToggle()
     {
         UpdateState(CurrentState.WallPlacement);
@@ -260,20 +292,23 @@ public class HouseBuilderUI : MonoBehaviour
                 }
             case CurrentState.FurniturePlacement:
                 {
-                    // wallModeBtn.style.display = DisplayStyle.None;
-                    // doorModeBtn.style.display = DisplayStyle.None;
-                    // furnitureModeBtn.style.display = DisplayStyle.Flex;
-                    // Hide all disabled buttons:
-                    // disabledWallModeBtn.style.display = DisplayStyle.Flex;
-                    // disabledDoorModeBtn.style.display = DisplayStyle.Flex;
-                    // disabledFurnitureModeBtn.style.display = DisplayStyle.None;
-
                     // Hide mode options panel:
                     modeOptionsPanel.style.display = DisplayStyle.None;
                     // Show furniture options panel:
                     furnitureOptionsPanel.style.display = DisplayStyle.Flex;
                     // Show cancel bar:
                     showCancelButton(true);
+                    break;
+                }
+            case CurrentState.DeleteObjects:
+                {
+                    wallModeBtn.style.display = DisplayStyle.None;
+                    doorModeBtn.style.display = DisplayStyle.None;
+                    furnitureModeBtn.style.display = DisplayStyle.None;
+                    // Hide all disabled buttons:
+                    disabledWallModeBtn.style.display = DisplayStyle.Flex;
+                    disabledDoorModeBtn.style.display = DisplayStyle.Flex;
+                    disabledFurnitureModeBtn.style.display = DisplayStyle.Flex;
                     break;
                 }
         }

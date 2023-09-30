@@ -48275,7 +48275,7 @@ GameObject:
   - component: {fileID: 1609557625}
   - component: {fileID: 1609557626}
   m_Layer: 5
-  m_Name: HouseBuilder_UI
+  m_Name: HouseBuilder_Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -2,20 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using JetBrains.Annotations;
 
 public class ClickDrop : MonoBehaviour
 {
+    #region Delete Delegate and Event:
+    private bool deleteClicked;
+    public bool isDeleteClicked
+    {
+        get { return deleteClicked; }
+        set
+        {
+            if (deleteClicked == value) return;
+            deleteClicked = value;
+            if (onDeleteClicked != null) onDeleteClicked(gameObject);
+        }
+    }
+    public delegate void OnVariableChangeDelegate(GameObject gameObject);
+    public event OnVariableChangeDelegate onDeleteClicked;
+    #endregion
+
     private bool dragging;
-    public bool isDragging {
+    public bool isDragging
+    {
         get { return dragging; }
-        set {
+        set
+        {
             if (dragging == value) return;
             dragging = value;
-            if (onVariableChange != null) onVariableChange(dragging);
-        } 
+        }
     }
-    public delegate void OnVariableChangeDelegate(bool dragging);
-    public event OnVariableChangeDelegate onVariableChange;
 
     private bool isLongObject;
 
@@ -86,7 +102,12 @@ public class ClickDrop : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (isDragging)
+        if (InterSceneManager.deleteMode)
+        {
+            isDeleteClicked = true;
+        }
+        // If not deleting:
+        else if (isDragging)
         {
             if (!IsOverlapping())
             {
