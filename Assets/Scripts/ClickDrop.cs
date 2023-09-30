@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 
 public class ClickDrop : MonoBehaviour
 {
+    #region Delete Delegate and Event:
     private bool deleteClicked;
     public bool isDeleteClicked
     {
@@ -19,6 +20,7 @@ public class ClickDrop : MonoBehaviour
     }
     public delegate void OnVariableChangeDelegate(GameObject gameObject);
     public event OnVariableChangeDelegate onDeleteClicked;
+    #endregion
 
     private bool dragging;
     public bool isDragging

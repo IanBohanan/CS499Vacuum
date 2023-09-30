@@ -8,6 +8,7 @@ enum CurrentState
     WallPlacement,
     DoorPlacement,
     FurniturePlacement,
+    DeleteObjects,
 }
 
 public class HouseBuilderUI : MonoBehaviour
@@ -16,6 +17,7 @@ public class HouseBuilderUI : MonoBehaviour
 
     string exportFileSelection = "";
 
+    #region UI Component References
     Label status; // "Invalid" or "Valid" shown in bottom left corner.
     VisualElement cancelBar;
     Button cancelBtn;
@@ -42,6 +44,7 @@ public class HouseBuilderUI : MonoBehaviour
     Button chairBtn;
     Button tableBtn;
     Button chestBtn;
+    #endregion
 
     CurrentState state = CurrentState.Default;
 
@@ -167,24 +170,26 @@ public class HouseBuilderUI : MonoBehaviour
 
     private void deleteModeToggle()
     {
-        if (InterSceneManager.deleteMode == false)
+        if (!InterSceneManager.deleteMode)
         {
+            UpdateState(CurrentState.DeleteObjects);
             InterSceneManager.deleteMode = true;
-            deleteButton.style.unityBackgroundImageTintColor = Color.red;
-            deleteButton.style.unityBackgroundImageTintColor = Color.red;
-            deleteButton.style.borderBottomColor = Color.red;
-            deleteButton.style.borderLeftColor = Color.red;
-            deleteButton.style.borderRightColor = Color.red;
-            deleteButton.style.borderTopColor = Color.red;
+            deleteButton.style.unityBackgroundImageTintColor = new Color(1,0,0,0.5f);
+            deleteButton.style.unityBackgroundImageTintColor = new Color(1, 0, 0, 0.5f);
+            deleteButton.style.borderBottomColor = new Color(1, 0, 0, 0.5f);
+            deleteButton.style.borderLeftColor = new Color(1, 0, 0, 0.5f);
+            deleteButton.style.borderRightColor = new Color(1, 0, 0, 0.5f);
+            deleteButton.style.borderTopColor = new Color(1, 0, 0, 0.5f);
         }
         else
         {
+            UpdateState(CurrentState.Default);
             InterSceneManager.deleteMode = false;
-            deleteButton.style.unityBackgroundImageTintColor = new Color(255, 255, 255, 128);
-            deleteButton.style.borderBottomColor = new Color(255, 255, 255, 128);
-            deleteButton.style.borderLeftColor = new Color(255, 255, 255, 128);
-            deleteButton.style.borderRightColor = new Color(255, 255, 255, 128);
-            deleteButton.style.borderTopColor = new Color(255, 255, 255, 128);
+            deleteButton.style.unityBackgroundImageTintColor = new Color(1, 1, 1, 0.5f);
+            deleteButton.style.borderBottomColor = new Color(1, 1, 1, 0.5f);
+            deleteButton.style.borderLeftColor = new Color(1, 1, 1, 0.5f);
+            deleteButton.style.borderRightColor = new Color(1, 1, 1, 0.5f);
+            deleteButton.style.borderTopColor = new Color(1, 1, 1, 0.5f);
         }
     }
 
@@ -287,20 +292,23 @@ public class HouseBuilderUI : MonoBehaviour
                 }
             case CurrentState.FurniturePlacement:
                 {
-                    // wallModeBtn.style.display = DisplayStyle.None;
-                    // doorModeBtn.style.display = DisplayStyle.None;
-                    // furnitureModeBtn.style.display = DisplayStyle.Flex;
-                    // Hide all disabled buttons:
-                    // disabledWallModeBtn.style.display = DisplayStyle.Flex;
-                    // disabledDoorModeBtn.style.display = DisplayStyle.Flex;
-                    // disabledFurnitureModeBtn.style.display = DisplayStyle.None;
-
                     // Hide mode options panel:
                     modeOptionsPanel.style.display = DisplayStyle.None;
                     // Show furniture options panel:
                     furnitureOptionsPanel.style.display = DisplayStyle.Flex;
                     // Show cancel bar:
                     showCancelButton(true);
+                    break;
+                }
+            case CurrentState.DeleteObjects:
+                {
+                    wallModeBtn.style.display = DisplayStyle.None;
+                    doorModeBtn.style.display = DisplayStyle.None;
+                    furnitureModeBtn.style.display = DisplayStyle.None;
+                    // Hide all disabled buttons:
+                    disabledWallModeBtn.style.display = DisplayStyle.Flex;
+                    disabledDoorModeBtn.style.display = DisplayStyle.Flex;
+                    disabledFurnitureModeBtn.style.display = DisplayStyle.Flex;
                     break;
                 }
         }
