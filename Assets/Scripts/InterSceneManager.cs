@@ -5,4 +5,6 @@ using UnityEngine;
 public static class InterSceneManager
 {
     public static string fileSelection = "";
+
+    public static bool deleteMode = false;
 }
