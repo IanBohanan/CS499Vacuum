@@ -442,7 +442,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallPrefab: {fileID: 3405475371861840181}
   spawner: {fileID: 4438609589074602799}
+  pivot: {fileID: 4567527924140996579}
   UI: {fileID: 709450807654161547}
+  WallTransform: {fileID: 5322174859671512549}
 --- !u!1 &6307197305949490137
 GameObject:
   m_ObjectHideFlags: 0
