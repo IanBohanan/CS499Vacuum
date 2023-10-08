@@ -101,6 +101,7 @@ public class ClickDrop : MonoBehaviour
             {
                 mousePosition = new Vector3(mousePosition.x + offsetX, mousePosition.y + offsetY, mousePosition.z);
             }
+            Debug.Log(mousePosition);
             transform.position = mousePosition;
         }
     }
