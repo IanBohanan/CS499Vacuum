@@ -65,6 +65,12 @@ public class ClickDrop : MonoBehaviour
                     offsetX = 3;
                     break;
                 }
+            default:
+                {
+                    offsetY = 0;
+                    offsetX = 0;
+                    break;
+                }
         }
         float width = GetComponent<SpriteRenderer>().bounds.size.x;
         float height = GetComponent<SpriteRenderer>().bounds.size.y;
@@ -88,10 +94,9 @@ public class ClickDrop : MonoBehaviour
             }
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = Camera.main.transform.position.z + Camera.main.nearClipPlane;
-            //TODO: Set up a check later if the current grid is the Ui grid (where just round) or if the grid is the bigger black grid (divide by six THEN round)
             mousePosition = new Vector3(6 * Mathf.Round(mousePosition.x / 6), 6 * Mathf.Floor(mousePosition.y / 6), mousePosition.z);
 
-            //If object is rotated 90 degrees, we must fix its placement by 3 grid points on both a
+            //If object is rotated 90 degrees, we must fix its placement by 3 grid points on both axis
             if (isLongObject)
             {
                 mousePosition = new Vector3(mousePosition.x + offsetX, mousePosition.y + offsetY, mousePosition.z);
