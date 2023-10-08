@@ -21,9 +21,9 @@ public class WallPlacer : MonoBehaviour
     }
 
     //Extends the current wall by placing a wall object on the spawner.
-    public void extendWall()
+    public void extendWall(Vector3 spawnPoint, bool isLowerExtend)
     {
-        GameObject nextWall = Instantiate(wallPrefab, spawner.position, Quaternion.identity); //Create the new wall object
+        GameObject nextWall = Instantiate(wallPrefab, spawnPoint, Quaternion.identity); //Create the new wall object
         nextWall.transform.rotation = this.transform.rotation;
         disableWallUI();
         this.enabled = false;

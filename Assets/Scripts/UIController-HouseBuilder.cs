@@ -199,7 +199,7 @@ public class HouseBuilderUI : MonoBehaviour
     {
         UpdateState(CurrentState.WallPlacement);
 
-        Debug.Log("Wall mode active");
+        Debug.Log("UI: Wall mode active");
     }
 
     public void doorModeToggle()
