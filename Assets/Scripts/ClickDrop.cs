@@ -49,8 +49,8 @@ public class ClickDrop : MonoBehaviour
         {
             case "Chair(Clone)":
                 {
-                    offsetY = 3;
-                    offsetX = 0;
+                    offsetY = 0;
+                    offsetX = 3;
                     break;
                 }
             case "Table Variant(Clone)":
@@ -96,6 +96,7 @@ public class ClickDrop : MonoBehaviour
             {
                 mousePosition = new Vector3(mousePosition.x + offsetX, mousePosition.y + offsetY, mousePosition.z);
             }
+            Debug.Log(mousePosition);
             transform.position = mousePosition;
         }
     }
