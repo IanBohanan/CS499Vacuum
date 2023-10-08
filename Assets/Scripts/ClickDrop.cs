@@ -49,8 +49,8 @@ public class ClickDrop : MonoBehaviour
         {
             case "Chair(Clone)":
                 {
-                    offsetY = 0;
-                    offsetX = 3;
+                    offsetY = 3;
+                    offsetX = 0;
                     break;
                 }
             case "Table Variant(Clone)":
