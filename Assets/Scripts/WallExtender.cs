@@ -8,7 +8,6 @@ public class WallExtender : MonoBehaviour
 
     void OnMouseDown()
     {
-        print("WallExtender: clicked!");
         wall.extendWall();
     }
 }

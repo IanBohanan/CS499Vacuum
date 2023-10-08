@@ -65,6 +65,12 @@ public class ClickDrop : MonoBehaviour
                     offsetX = 3;
                     break;
                 }
+            default:
+                {
+                    offsetY = 0;
+                    offsetX = 0;
+                    break;
+                }
         }
         float width = GetComponent<SpriteRenderer>().bounds.size.x;
         float height = GetComponent<SpriteRenderer>().bounds.size.y;

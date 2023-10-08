@@ -32,7 +32,6 @@ public class WallPlacer : MonoBehaviour
     //Updates how the wall should be rotated (in 90 degree increments) based on the cursor's position relative to pivot point
     public void updateRotation()
     {
-
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         Vector2 distance = mousePosition - pivot.position;
