@@ -132,7 +132,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 8046872224700944876}
-  isLowerExtend: 0
 --- !u!58 &5038858779239987513
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -179,7 +178,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5322174859671512549}
   - component: {fileID: 8046872224700944876}
-  - component: {fileID: 1246761956304787512}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -221,19 +219,6 @@ MonoBehaviour:
   pivot: {fileID: 4567527924140996579}
   UI: {fileID: 709450807654161547}
   WallTransform: {fileID: 5322174859671512549}
---- !u!114 &1246761956304787512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3405475371861840181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37622b7b9ab909c45b21bb2073e653ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wallUI: {fileID: 709450807654161547}
 --- !u!1 &6307197305949490137
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,7 +318,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 8046872224700944876}
-  isLowerExtend: 0
 --- !u!58 &645807117269457513
 CircleCollider2D:
   m_ObjectHideFlags: 0
