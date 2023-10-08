@@ -16,9 +16,8 @@ public class Whiskers : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        updateSpinCount += 1;
-
         // Update rotation direction every once in a while
+        updateSpinCount += 1;
         if (updateSpinCount == 300)
         {
             updateSpinCount = 0;
