@@ -1885,6 +1885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.01
+  whiskers: {fileID: 0}
 --- !u!1 &1441069399
 GameObject:
   m_ObjectHideFlags: 0
@@ -48244,6 +48245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 30
+  updateSpinCount: 0
 --- !u!1 &1968344087
 GameObject:
   m_ObjectHideFlags: 0
@@ -48529,11 +48531,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6060282373444866836, guid: 8d5c2d7e40d3d7f459cfb92fc9074f9c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.4794
+      value: -15.2
       objectReference: {fileID: 0}
     - target: {fileID: 6060282373444866836, guid: 8d5c2d7e40d3d7f459cfb92fc9074f9c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 27.9
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 6060282373444866836, guid: 8d5c2d7e40d3d7f459cfb92fc9074f9c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -48611,6 +48613,3 @@ SceneRoots:
   - {fileID: 1609557624}
   - {fileID: 1968344089}
   - {fileID: 1025434260}
-  - {fileID: 1184584019}
-  - {fileID: 1116838631}
-  - {fileID: 1131331576}
