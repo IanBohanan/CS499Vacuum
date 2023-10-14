@@ -12,7 +12,6 @@ public class LayoutManager : MonoBehaviour
     [SerializeField] GameObject Chair;
     [SerializeField] GameObject Table;
     [SerializeField] GameObject Chest;
-    [SerializeField] GameObject Door;
 
     // GameObject List Categories:
     List<GameObject> Walls = new List<GameObject>();
@@ -48,7 +47,6 @@ public class LayoutManager : MonoBehaviour
         if (type == "chair") newFurniture = Instantiate(Chair, new Vector3(xPos, yPos, 0), Quaternion.identity);
         else if (type == "table") newFurniture = Instantiate(Table, new Vector3(xPos, yPos, 0), Quaternion.identity);
         else if (type == "chest") newFurniture = Instantiate(Chest, new Vector3(xPos, yPos, 0), Quaternion.identity);
-        else if (type == "door") newFurniture = Instantiate(Door, new Vector3(xPos, yPos, 0), Quaternion.identity);
         else return; // Invalid input
         newFurniture.GetComponent<ClickDrop>().onDeleteClicked += deleteFurniture;
         Furniture.Add(newFurniture);

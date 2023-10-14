@@ -33,7 +33,7 @@ public class ClickDrop : MonoBehaviour
         }
     }
 
-    public bool isLongObject;
+    private bool isLongObject;
 
     // Offset values to be set for each furniture type. Allows correct grid snapping.
     private int offsetY;
@@ -62,12 +62,6 @@ public class ClickDrop : MonoBehaviour
             case "Chest Variant(Clone)":
                 {
                     offsetY = 3;
-                    offsetX = 3;
-                    break;
-                }
-            case "Door(Clone)":
-                {
-                    offsetY = 0;
                     offsetX = 3;
                     break;
                 }
@@ -107,6 +101,7 @@ public class ClickDrop : MonoBehaviour
             {
                 mousePosition = new Vector3(mousePosition.x + offsetX, mousePosition.y + offsetY, mousePosition.z);
             }
+            Debug.Log(mousePosition);
             transform.position = mousePosition;
         }
     }

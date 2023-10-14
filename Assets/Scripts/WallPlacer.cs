@@ -8,18 +8,15 @@ public class WallPlacer : MonoBehaviour
     //When selecting the first wall to extend from, all the walls activate their points.
     //When the first point is selected, every other wall should disable their UI since the extension has been chosen.
     //This action is what tells all the other walls that the extension has been chosen.
-    public static event Action firstWallSelected;
+    public static event Action firstWallSelected; 
 
     public GameObject wallPrefab; //The wall prefab that will be spawned when this wall is extended.
 
-    public GameObject upperExtender; //The location of the new wall object when extended
+    public Transform spawner; //The location of the new wall object when extended
 
-    public GameObject lowerExtender; //The location of the wall's pivot point
+    public Transform pivot; //The location of the wall's pivot point
 
     public GameObject UI; //The UI of the wall object
-
-    public GameObject wallEndpoint1;
-    public GameObject wallEndpoint2;
 
     public Transform WallTransform; //The wall parent object at the top of the wall prefab hierarchy
 
@@ -57,23 +54,12 @@ public class WallPlacer : MonoBehaviour
     //Extends the current wall by placing a wall object on the spawner.
     public void extendWall(Vector3 spawnPoint)
     {
-        if (upperExtender.gameObject.GetComponent<WallExtender>().connectedToWall && lowerExtender.gameObject.GetComponent<WallExtender>().connectedToWall && isBeingPlaced)
-        {
-            print("WallPlacer: Room closed!");
-            isBeingPlaced = false;
-        }
-        else
-        {
-            //Check to see if this wall is the final one for the room
-            isBeingPlaced = false;
-            GameObject nextWall = Instantiate(wallPrefab, spawnPoint, Quaternion.identity); //Create the new wall object
-            nextWall.transform.rotation = this.transform.rotation;
-            nextWall.GetComponent<WallPlacer>().isBeingPlaced = true; //Enables the wallPlacer for the OBJECT because the unity action turns off the wallPlacer as a global script
-            firstWallSelected?.Invoke(); //Tell all the other walls that the main extension point has been selected
-        }
+        GameObject nextWall = Instantiate(wallPrefab, spawnPoint, Quaternion.identity); //Create the new wall object
+        nextWall.transform.rotation = this.transform.rotation;
+        nextWall.GetComponent<WallPlacer>().isBeingPlaced = true; //Enables the wallPlacer for the OBJECT because the unity action turns off the wallPlacer as a global script
         disableWallUI();
-        wallEndpoint1.SetActive(true);
-        wallEndpoint2.SetActive(true);
+        isBeingPlaced = false;
+        firstWallSelected?.Invoke(); //Tell all the other walls that the main extension point has been selected
     }
 
     //Updates how the wall should be rotated (in 90 degree increments) based on the cursor's position relative to pivot point
@@ -81,7 +67,7 @@ public class WallPlacer : MonoBehaviour
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        Vector2 distance = mousePosition - lowerExtender.transform.position;
+        Vector2 distance = mousePosition - pivot.position;
 
         Vector3 newRotation = this.transform.eulerAngles;
 
@@ -114,7 +100,7 @@ public class WallPlacer : MonoBehaviour
         {
             UI.SetActive(true);
         }
-        else //UI updated away from wall placement to somewhere else. Thus the user doesn't actually want this wall object placed!
+        else
         {
             disableWallUI();
             if (isBeingPlaced)
@@ -122,15 +108,7 @@ public class WallPlacer : MonoBehaviour
                 Destroy(transform.root.gameObject); //Delete the acrtual wall gameObject, not just this script
             }
         }
-    }
-
-    private void Start()
-    {
-        if(isBeingPlaced)
-        {
-            wallEndpoint1.SetActive(false);
-            wallEndpoint2.SetActive(false);
-        }
+        //print("WallReceiver: The UI's new state was set to " + newState);
     }
 
     // Update is called once per frame
