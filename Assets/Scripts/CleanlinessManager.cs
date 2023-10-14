@@ -14,9 +14,10 @@ public class CleanlinessManager : MonoBehaviour
 
     [SerializeField]
     private Tilemap floorTiles;
-    private Vacuum vacuum;
 
     private Dictionary<Vector3Int, float> tileData = new Dictionary<Vector3Int, float>(); //Dictionary that matches the positions with tile cleanliness.
+
+
 
     [SerializeField]
     private Color cleanColor;
@@ -25,7 +26,7 @@ public class CleanlinessManager : MonoBehaviour
     public void makeClean(Vector2 worldPosition, float cleanAmount)
     {
         Vector3Int gridPosition = floorTiles.WorldToCell(worldPosition);
-
+        
         changeCleanliness(gridPosition, cleanAmount);
         VisualizeCleanliness();
     }
@@ -52,18 +53,18 @@ public class CleanlinessManager : MonoBehaviour
     //Changes the color of each tile to represent how clean they are
     private void VisualizeCleanliness()
     {
-        foreach (var tile in tileData)
+        foreach(var tile in tileData)
         {
             //Change the color of the tile between white(ie. the base image) and pure green.
-            Color newTileColor = Color.Lerp(Color.white, Color.green, tile.Value / 100);
-
+            Color newTileColor = Color.Lerp(Color.white, Color.green, tile.Value/100);
+            
 
             //Okay Unity has some weird debug thing where it has a "lock color" flag for each tile.
             //Whenever setColor is called, ALL unlocked tiles get updated. So we have to unlock then lock each tile individually
             //Sooo just gonna have to unlock that flag for the tile, change the color, then lock the flag AGAIN.
             //Otherwise the entire tilemap gets updated and not just the one tile.
             floorTiles.SetTileFlags(tile.Key, TileFlags.None);
-            floorTiles.SetColor(tile.Key, newTileColor);
+            floorTiles.SetColor(tile.Key,newTileColor);
             floorTiles.SetTileFlags(tile.Key, TileFlags.LockColor);
         }
     }
@@ -71,7 +72,7 @@ public class CleanlinessManager : MonoBehaviour
     //Debug function that changes cleanliness of tile just by clicking on it
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0))
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
