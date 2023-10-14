@@ -391,6 +391,7 @@ GameObject:
   - component: {fileID: 497821580701953468}
   - component: {fileID: 8965691294730969451}
   - component: {fileID: 8777790645288690822}
+  - component: {fileID: 6015648830378157389}
   - component: {fileID: 8961130649566387312}
   m_Layer: 0
   m_Name: Vacuum-Robot
@@ -481,8 +482,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ef99303227bd44cbdeb842ef1191f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.01
-  whiskers: {fileID: 0}
 --- !u!50 &8777790645288690822
 Rigidbody2D:
   serializedVersion: 4
@@ -510,6 +509,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &6015648830378157389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6098897980556171453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28ef99303227bd44cbdeb842ef1191f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!61 &8961130649566387312
 BoxCollider2D:
   m_ObjectHideFlags: 0
