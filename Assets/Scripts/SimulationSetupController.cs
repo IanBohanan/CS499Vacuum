@@ -54,24 +54,19 @@ public class SimulationSetupController : MonoBehaviour
         randomBtn = randomContainer.Q<Button>("RandomCheckbox");
         spiralBtn = spiralContainer.Q<Button>("SpiralCheckbox");
         snakingBtn = snakingContainer.Q<Button>("SnakingCheckbox");
-        wallFollowBtn = wallFollowContainer.Q<Button>("WallFolowCheckbox");
+        wallFollowBtn = wallFollowContainer.Q<Button>("WallFollowCheckbox");
 
-        batteryLifeSlider = root.Q<Slider>("BatteryLifeSlider");
+        //batteryLifeSlider = root.Q<Slider>("BatteryLifeSlider");
         startSimulationBtn = root.Q<Button>("StartButton");
 
         // Subscribe to button callback functions:
-        //whiskersButton.clicked += () => { whiskersToggleFunction(); };
-        //floorCoveringDropdown.RegisterValueChangedCallback(floorCoveringUpdate);
+        whiskersButton.clicked += () => { whiskersToggleFunction(); };
+        floorCoveringDropdown.RegisterValueChangedCallback(floorCoveringUpdate);
 
-        Debug.Log("Right Column: " + rightcolumn);
-        Debug.Log("Algorithms: " + algorithms);
-        Debug.Log("AlgorithmsCheckboxes: " + algorithmsCheckboxes);
-        Debug.Log("RandomContainer: " + randomContainer);
-        Debug.Log("RandomButton: " + randomBtn);
-        //randomBtn.clicked += () => toggleAlg("random"); 
-        //spiralBtn.clicked += () => toggleAlg("spiral"); 
-        //snakingBtn.clicked += () => toggleAlg("snaking"); 
-        //wallFollowBtn.clicked += () => toggleAlg("wallFollow");
+        randomBtn.clicked += () => toggleAlg("random"); 
+        spiralBtn.clicked += () => toggleAlg("spiral"); 
+        snakingBtn.clicked += () => toggleAlg("snaking"); 
+        wallFollowBtn.clicked += () => toggleAlg("wallFollow");
     }
 
     private void whiskersToggleFunction() // Fixed function declaration
