@@ -4,26 +4,34 @@ using UnityEngine;
 
 public class VacuumMovement : MonoBehaviour
 {
-    float speed = 0.01f;
+    public float speed = 0.03f; // Adjust the speed in the Inspector.
 
-    // Start is called before the first frame update
+    private Transform robotTransform;
+    private Transform vacuumTransform;
+    private Transform whiskersTransform;
+
+    [SerializeField]
+    private GameObject whiskers;
+
     void Start()
     {
-        
+        // Find the child GameObjects by their names.
+        robotTransform = transform.Find("Robot");
+        vacuumTransform = transform.Find("Vacuum");
+        whiskersTransform = transform.Find("Whiskers");
+
+        // Instantiate with whiskers enabled/disabled based on button
     }
 
-    // Update is called once per frame
     void Update()
     {
-        this.transform.position += new Vector3(speed, 0, 0);
-        if(this.transform.position.x >= 10)
-        {
-            //speed *= -1;
-        }
-        if(this.transform.position.x <= -10)
-        {
-            //speed *= -1;
-        }
+        // Move the entire "Vacuum-Robot" prefab.
+        transform.position += new Vector3(speed, 0, 0);
+
+        // Move the child GameObjects along with the parent.
+        robotTransform.position = transform.position;
+        vacuumTransform.position = transform.position;
+        whiskersTransform.position = transform.position;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

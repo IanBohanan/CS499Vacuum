@@ -17,8 +17,6 @@ public class CleanlinessManager : MonoBehaviour
 
     private Dictionary<Vector3Int, float> tileData = new Dictionary<Vector3Int, float>(); //Dictionary that matches the positions with tile cleanliness.
 
-
-
     [SerializeField]
     private Color cleanColor;
 
