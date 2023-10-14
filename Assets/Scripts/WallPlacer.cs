@@ -57,7 +57,7 @@ public class WallPlacer : MonoBehaviour
     //Extends the current wall by placing a wall object on the spawner.
     public void extendWall(Vector3 spawnPoint)
     {
-        if (upperExtender.gameObject.GetComponent<WallExtender>().connectedToWall && isBeingPlaced)
+        if (upperExtender.gameObject.GetComponent<WallExtender>().connectedToWall && lowerExtender.gameObject.GetComponent<WallExtender>().connectedToWall && isBeingPlaced)
         {
             print("WallPlacer: Room closed!");
             isBeingPlaced = false;
@@ -69,12 +69,11 @@ public class WallPlacer : MonoBehaviour
             GameObject nextWall = Instantiate(wallPrefab, spawnPoint, Quaternion.identity); //Create the new wall object
             nextWall.transform.rotation = this.transform.rotation;
             nextWall.GetComponent<WallPlacer>().isBeingPlaced = true; //Enables the wallPlacer for the OBJECT because the unity action turns off the wallPlacer as a global script
-            disableWallUI();
-            wallEndpoint1.SetActive(true);
-            wallEndpoint2.SetActive(true);
             firstWallSelected?.Invoke(); //Tell all the other walls that the main extension point has been selected
         }
-
+        disableWallUI();
+        wallEndpoint1.SetActive(true);
+        wallEndpoint2.SetActive(true);
     }
 
     //Updates how the wall should be rotated (in 90 degree increments) based on the cursor's position relative to pivot point
@@ -127,7 +126,11 @@ public class WallPlacer : MonoBehaviour
 
     private void Start()
     {
-
+        if(isBeingPlaced)
+        {
+            wallEndpoint1.SetActive(false);
+            wallEndpoint2.SetActive(false);
+        }
     }
 
     // Update is called once per frame
