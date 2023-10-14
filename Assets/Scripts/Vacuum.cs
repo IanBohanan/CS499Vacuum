@@ -15,9 +15,13 @@ public class Vacuum : MonoBehaviour
         get { return efficiency; }
         set { efficiency = value; }
     }
-    private float batteryLife;        // In Seconds
     private float speed;              // Inches per Second
     private float speedMultiplier;    // Based on simulation speed
+
+    public float batteryLifeMinutes;  // In Minutes
+    private float currBatteryLife;    // In Seconds (for decrementing with timeDelta)
+    private bool isBatteryDead;
+
     public BasePathingAlg pathingAlg;
 
     // Start is called before the first frame update
@@ -35,61 +39,65 @@ public class Vacuum : MonoBehaviour
         whiskersTransform = transform.Find("Whiskers");
 
         //TODO: Get batteryLife value from UI
-        batteryLife = 150 * 60;
+        currBatteryLife = 150 * 60;
+        if (currBatteryLife > 0) { isBatteryDead = false; }
     }
 
     // Update is called once per frame
     void Update()
     {
         // Decrement the batteryLife of the vacuum
-        batteryLife -= Time.deltaTime * speedMultiplier;
+        currBatteryLife -= Time.deltaTime * speedMultiplier;
 
         // Check that the vacuum is not dead
-        if (batteryLife <= 0)
+        if (currBatteryLife <= 0)
         {
-            batteryLife = 0;
-            return;
+            currBatteryLife = 0;
+            isBatteryDead = true;
         }
 
-        // Check for 'F' keypress to change speed
-        if (Input.GetKeyDown("f"))
+        if (!isBatteryDead)
         {
-            // Increase the speed multiplier
-            if (speedMultiplier == 1)
+            // Check for 'F' keypress to change speed
+            if (Input.GetKeyDown("f"))
             {
-                speedMultiplier = 5f;
+                // Increase the speed multiplier
+                if (speedMultiplier == 1)
+                {
+                    speedMultiplier = 5f;
+                }
+                else if (speedMultiplier == 5)
+                {
+                    speedMultiplier = 50f;
+                }
+                else if (speedMultiplier == 50)
+                {
+                    speedMultiplier = 1f;
+                }
             }
-            else if (speedMultiplier == 5)
+
+            // #################################################
+            // # BASIC MOVEMENT TO BE REMOVED FOR PATHING ALGS #
+            // #################################################
+
+            // Move the entire "Vacuum-Robot" prefab.
+            transform.position += new Vector3(speed * speedMultiplier, 0, 0);
+
+            // Move the child GameObjects along with the parent.
+            robotTransform.position = transform.position;
+            vacuumTransform.position = transform.position;
+            whiskersTransform.position = transform.position;
+
+
+            // ##########################################
+            // # REPLACE BASIC MOVEMENT WITH CODE BELOW #
+            // ##########################################
+
+            // Move the Vacuum based on the selected pathing algorithm
+            if (pathingAlg != null)
             {
-                speedMultiplier = 50f;
+                pathingAlg.nextMove(speed * speedMultiplier, robotTransform, vacuumTransform, whiskersTransform);
             }
-            else if (speedMultiplier == 50)
-            {
-                speedMultiplier = 1f;
-            }
-        }
-
-        // #################################################
-        // # BASIC MOVEMENT TO BE REMOVED FOR PATHING ALGS #
-        // #################################################
-
-        // Move the entire "Vacuum-Robot" prefab.
-        transform.position += new Vector3(speed * speedMultiplier, 0, 0);
-
-        // Move the child GameObjects along with the parent.
-        robotTransform.position = transform.position;
-        vacuumTransform.position = transform.position;
-        whiskersTransform.position = transform.position;
-
-
-        // ##########################################
-        // # REPLACE BASIC MOVEMENT WITH CODE BELOW #
-        // ##########################################
-
-        // Move the Vacuum based on the selected pathing algorithm
-        if (pathingAlg != null)
-        {
-            pathingAlg.nextMove(speed * speedMultiplier, robotTransform, vacuumTransform, whiskersTransform);
         }
     }
 
