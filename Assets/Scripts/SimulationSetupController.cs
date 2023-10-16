@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -21,7 +23,7 @@ public class SimulationSetupController : MonoBehaviour
 
     // Settings Values:
     bool whiskersEnabled = false;
-    int batteryLife = 150;
+    float batteryLife = 150;
     string floorCovering = "Hardwood";
     bool randomAlg = false;
     bool spiralAlg = false;
@@ -50,34 +52,38 @@ public class SimulationSetupController : MonoBehaviour
         VisualElement randomContainer = algorithmsCheckboxes.Q<VisualElement>("Random");
         VisualElement spiralContainer = algorithmsCheckboxes.Q<VisualElement>("Spiral");
         VisualElement snakingContainer = algorithmsCheckboxes.Q<VisualElement>("Snaking");
-        VisualElement wallFollowContainer = algorithmsCheckboxes.Q<VisualElement>("WallFolow");
+        VisualElement wallFollowContainer = algorithmsCheckboxes.Q<VisualElement>("WallFollow");
         randomBtn = randomContainer.Q<Button>("RandomCheckbox");
         spiralBtn = spiralContainer.Q<Button>("SpiralCheckbox");
         snakingBtn = snakingContainer.Q<Button>("SnakingCheckbox");
         wallFollowBtn = wallFollowContainer.Q<Button>("WallFollowCheckbox");
 
-        //batteryLifeSlider = root.Q<Slider>("BatteryLifeSlider");
+        batteryLifeSlider = root.Q<Slider>("BatteryLifeSlider");
         startSimulationBtn = root.Q<Button>("StartButton");
 
-        // Subscribe to button callback functions:
+        // Subscribe to callback functions:
         whiskersButton.clicked += () => { whiskersToggleFunction(); };
         floorCoveringDropdown.RegisterValueChangedCallback(floorCoveringUpdate);
-
+        batteryLifeSlider.RegisterValueChangedCallback(batteryLifeUpdate);
         randomBtn.clicked += () => toggleAlg("random"); 
         spiralBtn.clicked += () => toggleAlg("spiral"); 
         snakingBtn.clicked += () => toggleAlg("snaking"); 
         wallFollowBtn.clicked += () => toggleAlg("wallFollow");
     }
 
-    private void whiskersToggleFunction() // Fixed function declaration
+    private void whiskersToggleFunction()
     {
-        Debug.Log("Whiskers button pressed");
+        whiskersEnabled = !whiskersEnabled;
     }
 
     private void floorCoveringUpdate(ChangeEvent<string> evt)
     {
         floorCovering = floorCoveringDropdown.value;
         Debug.Log(floorCovering);
+    }
+    private void batteryLifeUpdate(ChangeEvent<float> evt)
+    {
+        batteryLife = batteryLifeSlider.value;
     }
 
     private void toggleAlg(string algName)
