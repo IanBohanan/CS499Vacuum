@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -30,6 +31,8 @@ public class SimulationSetupController : MonoBehaviour
     bool spiralAlg = false;
     bool snakingAlg = false;
     bool wallFollowAlg = false;
+
+    private (bool, string, int, bool, bool, bool, bool) myData;
 
     void OnEnable()
     {
@@ -74,6 +77,7 @@ public class SimulationSetupController : MonoBehaviour
         spiralBtn.clicked += () => toggleAlg("spiral");
         snakingBtn.clicked += () => toggleAlg("snaking");
         wallFollowBtn.clicked += () => toggleAlg("wallFollow");
+        startSimulationBtn.clicked += () => onStartSimulationPress();
     }
 
     private void whiskersToggleFunction()
@@ -122,8 +126,9 @@ public class SimulationSetupController : MonoBehaviour
 
     public void onStartSimulationPress()
     {
-        // TODO: Use the extracted values to setup the simulation
-
+        InterSceneManager.setSimulationSettings(whiskersEnabled, floorCovering, (int)batteryLife, randomAlg, spiralAlg, snakingAlg, wallFollowAlg);
+        myData = InterSceneManager.getSimulationSettings();
+        Debug.Log(myData);
         // We want to load a new scene after setting up:
         //InterSceneManager.LoadScene(sceneName: "SimulationScene");
     }
