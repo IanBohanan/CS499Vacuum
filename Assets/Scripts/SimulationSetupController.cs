@@ -83,12 +83,18 @@ public class SimulationSetupController : MonoBehaviour
     private void whiskersToggleFunction()
     {
         whiskersEnabled = !whiskersEnabled;
+        if (whiskersEnabled) {
+            whiskersButton.style.color = Color.black;
+        }
+        else
+        {
+            whiskersButton.style.color = new Color(0.7372f, 0.7372f, 0.7372f, 1);
+        }
     }
 
     private void floorCoveringUpdate(ChangeEvent<string> evt)
     {
         floorCovering = floorCoveringDropdown.value;
-        Debug.Log(floorCovering);
     }
 
     private void batteryLifeUpdate(ChangeEvent<float> evt)
@@ -108,15 +114,47 @@ public class SimulationSetupController : MonoBehaviour
         {
             case ("random"):
                 randomAlg = !randomAlg;
+                if (randomAlg)
+                {
+                    randomBtn.style.color = Color.black;
+                }
+                else
+                {
+                    randomBtn.style.color = new Color(0.7372f, 0.7372f, 0.7372f, 1);
+                }
                 break;
             case ("spiral"):
                 spiralAlg = !spiralAlg;
+                if (spiralAlg)
+                {
+                    spiralBtn.style.color = Color.black;
+                }
+                else
+                {
+                    spiralBtn.style.color = new Color(0.7372f, 0.7372f, 0.7372f, 1);
+                }
                 break;
             case ("snaking"):
                 snakingAlg = !snakingAlg;
+                if (snakingAlg)
+                {
+                    snakingBtn.style.color = Color.black;
+                }
+                else
+                {
+                    snakingBtn.style.color = new Color(0.7372f, 0.7372f, 0.7372f, 1);
+                }
                 break;
             case ("wallFollow"):
                 wallFollowAlg = !wallFollowAlg;
+                if (wallFollowAlg)
+                {
+                    wallFollowBtn.style.color = Color.black;
+                }
+                else
+                {
+                    wallFollowBtn.style.color = new Color(0.7372f, 0.7372f, 0.7372f, 1);
+                }
                 break;
             default:
                 Debug.Log("Invalid algorithm name string given!");
