@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -11,6 +11,7 @@ public class SimulationSetupController : MonoBehaviour
     Button whiskersButton;
     Slider batteryLifeSlider;
     Button startSimulationBtn;
+    Label batteryLifeLabel; // New field for displaying battery life
 
     // Algorithm Buttons:
     Button randomBtn;
@@ -59,15 +60,19 @@ public class SimulationSetupController : MonoBehaviour
         wallFollowBtn = wallFollowContainer.Q<Button>("WallFollowCheckbox");
 
         batteryLifeSlider = root.Q<Slider>("BatteryLifeSlider");
+        batteryLifeLabel = root.Q<Label>("BatteryLifeLabel"); // Initializing the battery life label
+        batteryLifeSlider.value = batteryLife; // Setting the initial slider value
+        UpdateBatteryLifeLabel(); // Display initial battery life
+
         startSimulationBtn = root.Q<Button>("StartButton");
 
         // Subscribe to callback functions:
         whiskersButton.clicked += () => { whiskersToggleFunction(); };
         floorCoveringDropdown.RegisterValueChangedCallback(floorCoveringUpdate);
         batteryLifeSlider.RegisterValueChangedCallback(batteryLifeUpdate);
-        randomBtn.clicked += () => toggleAlg("random"); 
-        spiralBtn.clicked += () => toggleAlg("spiral"); 
-        snakingBtn.clicked += () => toggleAlg("snaking"); 
+        randomBtn.clicked += () => toggleAlg("random");
+        spiralBtn.clicked += () => toggleAlg("spiral");
+        snakingBtn.clicked += () => toggleAlg("snaking");
         wallFollowBtn.clicked += () => toggleAlg("wallFollow");
     }
 
@@ -81,9 +86,16 @@ public class SimulationSetupController : MonoBehaviour
         floorCovering = floorCoveringDropdown.value;
         Debug.Log(floorCovering);
     }
+
     private void batteryLifeUpdate(ChangeEvent<float> evt)
     {
         batteryLife = batteryLifeSlider.value;
+        UpdateBatteryLifeLabel(); // Update the label when the slider value changes
+    }
+
+    private void UpdateBatteryLifeLabel()
+    {
+        batteryLifeLabel.text = $"Battery Life: {batteryLife} mins"; // Display updated battery life
     }
 
     private void toggleAlg(string algName)
@@ -102,7 +114,7 @@ public class SimulationSetupController : MonoBehaviour
             case ("wallFollow"):
                 wallFollowAlg = !wallFollowAlg;
                 break;
-            default: 
+            default:
                 Debug.Log("Invalid algorithm name string given!");
                 break;
         }
@@ -113,7 +125,6 @@ public class SimulationSetupController : MonoBehaviour
         // Extract the selected values:
 
         // TODO: Use the extracted values to setup your simulation
-
 
         // Assuming you want to load a new scene after setting up:
         //SceneManager.LoadScene(sceneName: "SimulationScene");
