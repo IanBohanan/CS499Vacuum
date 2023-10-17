@@ -122,11 +122,9 @@ public class SimulationSetupController : MonoBehaviour
 
     public void onStartSimulationPress()
     {
-        // Extract the selected values:
+        // TODO: Use the extracted values to setup the simulation
 
-        // TODO: Use the extracted values to setup your simulation
-
-        // Assuming you want to load a new scene after setting up:
-        //SceneManager.LoadScene(sceneName: "SimulationScene");
+        // We want to load a new scene after setting up:
+        //InterSceneManager.LoadScene(sceneName: "SimulationScene");
     }
 }
