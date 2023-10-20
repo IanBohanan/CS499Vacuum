@@ -168,6 +168,6 @@ public class SimulationSetupController : MonoBehaviour
         myData = InterSceneManager.getSimulationSettings();
         Debug.Log(myData);
         // We want to load a new scene after setting up:
-        //InterSceneManager.LoadScene(sceneName: "SimulationScene");
+        SceneManager.LoadScene(sceneName: "Simulation");
     }
 }
