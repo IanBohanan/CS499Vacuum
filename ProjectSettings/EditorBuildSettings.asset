@@ -8,5 +8,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/HouseBuilder.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/SimulationSetup.unity
+    guid: e3547367df1b8b24f91c5c816fc497c3
+  - enabled: 1
+    path: Assets/Scenes/Simulation.unity
+    guid: d2f5dbdc0637ced4cae015b275f939ba
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 67678dd9f3ffac3bfa959e3584a8c421
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

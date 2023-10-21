@@ -4,42 +4,40 @@
         <ui:Label tabindex="-1" text="Simulation Setup" display-tooltip-when-elided="true" name="Header" style="margin-top: 5%;" />
         <ui:VisualElement name="SettingsContainer" style="width: auto; flex-direction: row; justify-content: space-between;">
             <ui:VisualElement name="LeftColumn" class="Column" style="flex-grow: 1;">
-                <ui:VisualElement name="VisualElement" style="flex-grow: 1;">
+                <ui:VisualElement name="Whiskers" style="flex-grow: 1;">
                     <ui:Label tabindex="-1" text="Whiskers Attachment" display-tooltip-when-elided="true" class="SettingsLabel" />
-                    <ui:VisualElement class="CheckboxContainer">
+                    <ui:VisualElement name="WhiskersCheckbox" class="CheckboxContainer">
                         <ui:Button text="X" display-tooltip-when-elided="true" name="WhiskerButton" class="CheckboxButton" />
                         <ui:Label tabindex="-1" text="Enabled" display-tooltip-when-elided="true" class="CheckboxLabel" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="FloorCoveringContainer" style="flex-grow: 1;">
+                <ui:VisualElement name="FloorCovering" style="flex-grow: 1;">
                     <ui:Label tabindex="-1" text="Floor Covering" display-tooltip-when-elided="true" class="SettingsLabel" />
-                    <ui:VisualElement style="flex-grow: 1;">
-                        <ui:DropdownField index="0" choices="Hardwood,Frieze Cut,Loop Cut,Cut Pile" name="FloorCovering" style="font-size: 35px; width: 50%;" />
-                    </ui:VisualElement>
+                    <ui:DropdownField index="0" choices="Hardwood,Frieze Cut,Loop Cut,Cut Pile" name="FloorCoveringDropdown" style="font-size: 35px; width: 50%;" />
                 </ui:VisualElement>
-                <ui:VisualElement style="flex-grow: 1;">
-                    <ui:Label tabindex="-1" text="Battery Life (Minutes)" display-tooltip-when-elided="true" class="SettingsLabel" />
-                    <ui:Slider value="150" high-value="200" low-value="90" show-input-field="true" direction="Horizontal" style="font-size: 16px; flex-wrap: wrap-reverse; flex-direction: row; justify-content: flex-start; align-items: auto; flex-grow: 0; flex-shrink: 0; overflow: visible;" />
+                <ui:VisualElement name="BatteryLife" style="flex-grow: 1;">
+                    <ui:Label tabindex="-1" text="Battery Life (Minutes)" display-tooltip-when-elided="true" name="BatteryLifeLabel" class="SettingsLabel" />
+                    <ui:Slider value="150" high-value="200" low-value="90" show-input-field="true" direction="Horizontal" name="BatteryLifeSlider" style="font-size: 16px; flex-wrap: wrap-reverse; flex-direction: row; justify-content: flex-start; align-items: auto; flex-grow: 0; flex-shrink: 0; overflow: visible;" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="RightColumn" class="Column" style="flex-grow: 1;">
-                <ui:VisualElement name="AlgorithmContainer" style="flex-grow: 1;">
+                <ui:VisualElement name="Algorithms" style="flex-grow: 1;">
                     <ui:Label tabindex="-1" text="Pathing Algorithms" display-tooltip-when-elided="true" class="SettingsLabel" />
-                    <ui:VisualElement class="IndentedSettings" style="flex-grow: 1;">
-                        <ui:VisualElement class="CheckboxContainer">
-                            <ui:Button text="X" display-tooltip-when-elided="true" class="CheckboxButton" />
+                    <ui:VisualElement name="AlgorithmsCheckboxes" class="IndentedSettings" style="flex-grow: 1;">
+                        <ui:VisualElement name="Random" class="CheckboxContainer">
+                            <ui:Button text="X" display-tooltip-when-elided="true" name="RandomCheckbox" class="CheckboxButton" />
                             <ui:Label tabindex="-1" text="Random" display-tooltip-when-elided="true" class="CheckboxLabel" />
                         </ui:VisualElement>
-                        <ui:VisualElement class="CheckboxContainer">
-                            <ui:Button text="X" display-tooltip-when-elided="true" class="CheckboxButton" />
+                        <ui:VisualElement name="Spiral" class="CheckboxContainer">
+                            <ui:Button text="X" display-tooltip-when-elided="true" name="SpiralCheckbox" class="CheckboxButton" />
                             <ui:Label tabindex="-1" text="Spiral" display-tooltip-when-elided="true" class="CheckboxLabel" />
                         </ui:VisualElement>
-                        <ui:VisualElement class="CheckboxContainer">
-                            <ui:Button text="X" display-tooltip-when-elided="true" class="CheckboxButton" />
+                        <ui:VisualElement name="Snaking" class="CheckboxContainer">
+                            <ui:Button text="X" display-tooltip-when-elided="true" name="SnakingCheckbox" class="CheckboxButton" />
                             <ui:Label tabindex="-1" text="Snaking" display-tooltip-when-elided="true" class="CheckboxLabel" />
                         </ui:VisualElement>
-                        <ui:VisualElement class="CheckboxContainer">
-                            <ui:Button text="X" display-tooltip-when-elided="true" class="CheckboxButton" />
+                        <ui:VisualElement name="WallFollow" class="CheckboxContainer">
+                            <ui:Button text="X" display-tooltip-when-elided="true" name="WallFollowCheckbox" class="CheckboxButton" />
                             <ui:Label tabindex="-1" text="Wall Follow" display-tooltip-when-elided="true" class="CheckboxLabel" />
                         </ui:VisualElement>
                     </ui:VisualElement>

@@ -59,7 +59,7 @@ Button {
 }
 
 #StatusText {
-    font-size: 45px;
+    font-size: 50px;
     color: rgb(0, 255, 41);
     -unity-font-style: bold;
     -unity-text-align: middle-center;
@@ -82,8 +82,8 @@ Button {
     margin-bottom: 0;
     margin-left: 0;
     top: -20px;
-    width: 75px;
-    height: 75px;
+    width: 100px;
+    height: 100px;
     right: -20px;
     background-color: rgba(185, 186, 190, 0.41);
     color: rgb(255, 255, 255);
@@ -108,8 +108,8 @@ Button {
     border-right-width: 3px;
     border-bottom-width: 3px;
     border-left-width: 3px;
-    width: 80px;
-    height: 80px;
+    width: 103px;
+    height: 103px;
 }
 
 #Export:hover {
@@ -202,7 +202,7 @@ Button {
 
 .SelectionButton {
     flex-grow: 1;
-    font-size: 30px;
+    font-size: 35px;
     margin-top: 10px;
     margin-right: 10px;
     margin-bottom: 10px;
@@ -244,7 +244,7 @@ Button {
     margin-bottom: 10px;
     margin-left: 10px;
     -unity-font-style: bold;
-    font-size: 30px;
+    font-size: 35px;
     color: rgb(135, 135, 135);
     background-color: rgba(96, 96, 96, 0.55);
     display: none;
@@ -298,5 +298,5 @@ Button {
 }
 
 #RemoveFurniture {
-    width: 18%;
+    width: 15%;
 }

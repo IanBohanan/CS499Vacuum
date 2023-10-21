@@ -9,10 +9,10 @@
 
 #Header {
     -unity-text-align: upper-center;
-    font-size: 70px;
+    font-size: 80px;
     color: rgb(255, 255, 255);
     -unity-font-style: bold;
-    margin-top: 5%;
+    margin-top: 10%;
     margin-right: 0;
     margin-bottom: 0;
     margin-left: 0;
@@ -39,12 +39,12 @@
 
 .CheckboxButton {
     font-size: 50px;
-    width: 50px;
-    height: 50px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px;
+    width: 75px;
+    height: 75px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
     -unity-font-style: bold;
     color: rgb(188, 188, 188);
 }
@@ -63,7 +63,7 @@
 
 .CheckboxLabel {
     color: rgb(255, 255, 255);
-    font-size: 35px;
+    font-size: 40px;
     -unity-font-style: bold;
     margin-left: 5%;
 }
@@ -81,12 +81,12 @@ Toggle {
 #FloorCovering {
     max-width: none;
     max-height: none;
-    height: 70px;
+    height: 75px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
-    font-size: 15px;
+    font-size: 25px;
     -unity-font-style: bold;
 }
 
@@ -124,8 +124,8 @@ Toggle {
 .SettingsLabel {
     color: rgb(255, 255, 255);
     -unity-font-style: bold;
-    font-size: 40px;
-    margin-top: 10px;
+    font-size: 50px;
+    margin-top: 15px;
     border-top-width: 1px;
     border-left-color: rgb(255, 255, 255);
     border-right-color: rgb(255, 255, 255);
@@ -134,7 +134,7 @@ Toggle {
     margin-right: 0;
     margin-bottom: 0;
     margin-left: 0;
-    padding-top: 15px;
+    padding-top: 25px;
 }
 
 .IndentedSettings {
@@ -150,4 +150,7 @@ Toggle {
     margin-right: 15px;
     margin-bottom: 10px;
     margin-left: 15px;
+}
+
+.unity-slider {
 }
