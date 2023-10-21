@@ -15,14 +15,21 @@ public class Vacuum : MonoBehaviour
         get { return efficiency; }
         set { efficiency = value; }
     }
-    private float speed;              // Inches per Second
+    public float speed;              // Inches per Second
     private float speedMultiplier;    // Based on simulation speed
 
     public float batteryLifeMinutes;  // In Minutes
     private float currBatteryLife;    // In Seconds (for decrementing with timeDelta)
     private bool isBatteryDead;
+    private bool canCollide = true;
 
     public BasePathingAlg pathingAlg;
+
+    private IEnumerator EnableCollisionHandlingAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        canCollide = true;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -46,18 +53,24 @@ public class Vacuum : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Decrement the batteryLife of the vacuum
-        currBatteryLife -= Time.deltaTime * speedMultiplier;
-
-        // Check that the vacuum is not dead
-        if (currBatteryLife <= 0)
-        {
-            currBatteryLife = 0;
-            isBatteryDead = true;
-        }
 
         if (!isBatteryDead)
         {
+            // Decrement the batteryLife of the vacuum
+            currBatteryLife -= Time.deltaTime * speedMultiplier;
+
+            // Check that the vacuum is not dead
+            if (currBatteryLife <= 0)
+            {
+                currBatteryLife = 0;
+                WhiskersRotation whiskersRotation = whiskersTransform.GetComponent<WhiskersRotation>();
+                if (whiskersRotation != null)
+                {
+                    whiskersRotation.StopRotation();
+                }
+                isBatteryDead = true;
+            }
+
             // Check for 'F' keypress to change speed
             if (Input.GetKeyDown("f"))
             {
@@ -103,8 +116,14 @@ public class Vacuum : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //TODO: Send collision signal to pathing alg (??)
-        print("Vacuum collided");
-        speed *= -1;
+        if (canCollide)
+        {
+            Debug.Log("Vacuum Collided...");
+            //TODO: Send collision signal to pathing alg (??)
+            speed *= -1;
+
+            canCollide = false;
+            StartCoroutine(EnableCollisionHandlingAfterDelay(0.0005f));
+        }
     }
 }
