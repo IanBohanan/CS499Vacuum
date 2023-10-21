@@ -1,5 +1,4 @@
 using Unity.VisualScripting;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
@@ -117,7 +116,7 @@ public class HouseBuilderUI : MonoBehaviour
         cancelBtn.clicked += () => UpdateState(CurrentState.Default);
         deleteButton.clicked += () => deleteModeToggle();
         wallModeBtn.clicked += () => wallModeToggle();
-        doorModeBtn.clicked += () => doorModeToggle();
+        doorModeBtn.clicked += () => layoutManager.addFurniture("door");//doorModeToggle();
         furnitureModeBtn.clicked += () => furnitureModeToggle();
         exportDropdown.RegisterValueChangedCallback(OnDropdownValueChanged);
         exportSelectionButton.clicked += () => confirmExportSelection();
@@ -206,6 +205,7 @@ public class HouseBuilderUI : MonoBehaviour
     public void doorModeToggle()
     {
         UpdateState(CurrentState.DoorPlacement);
+
         Debug.Log("Door mode active");
     }
 
