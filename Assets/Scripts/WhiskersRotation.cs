@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class WhiskersRotation : MonoBehaviour
 {
-    public bool isRotating;
-    public float rotationSpeed = 30f;
-    public int updateSpinCount = 0;
+    private bool isRotating;
+    private float rotationSpeed = 50f;
+    private float rotationMultiplier = 1f;
+    private int updateSpinCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -21,19 +22,18 @@ public class WhiskersRotation : MonoBehaviour
         // Update rotation direction every once in a while
         if (isRotating)
         {
-            updateSpinCount += 1;
-            if (updateSpinCount == 300)
-            {
-                updateSpinCount = 0;
-                rotationSpeed *= -1;
-            }
             // Rotate whiskers around their centerpoint
-            transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
+            transform.Rotate(Vector3.forward * rotationSpeed * rotationMultiplier * Time.deltaTime);
         }
     }
 
     public void StopRotation()
     {
         isRotating = false;
+    }
+
+    public void SetRotationMultiplier(float mult)
+    {
+        rotationMultiplier = mult;
     }
 }

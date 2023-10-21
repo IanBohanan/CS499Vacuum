@@ -15,7 +15,7 @@ public class Vacuum : MonoBehaviour
         get { return efficiency; }
         set { efficiency = value; }
     }
-    public float speed;              // Inches per Second
+    private float speed;              // Inches per Second
     private float speedMultiplier;    // Based on simulation speed
 
     public float batteryLifeMinutes;  // In Minutes
@@ -25,8 +25,10 @@ public class Vacuum : MonoBehaviour
 
     public BasePathingAlg pathingAlg;
 
-    private IEnumerator EnableCollisionHandlingAfterDelay(float delay)
+    // Coroutine to prevent Vacuum passing through walls
+    private IEnumerator DelayCollisionEnable(float delay)
     {
+        // Set a timer until we can collide again
         yield return new WaitForSeconds(delay);
         canCollide = true;
     }
@@ -59,11 +61,13 @@ public class Vacuum : MonoBehaviour
             // Decrement the batteryLife of the vacuum
             currBatteryLife -= Time.deltaTime * speedMultiplier;
 
+            // Get whiskers rotation script to call specific whiskers methods
+            WhiskersRotation whiskersRotation = whiskersTransform.GetComponent<WhiskersRotation>();
+
             // Check that the vacuum is not dead
             if (currBatteryLife <= 0)
             {
                 currBatteryLife = 0;
-                WhiskersRotation whiskersRotation = whiskersTransform.GetComponent<WhiskersRotation>();
                 if (whiskersRotation != null)
                 {
                     whiskersRotation.StopRotation();
@@ -78,14 +82,17 @@ public class Vacuum : MonoBehaviour
                 if (speedMultiplier == 1)
                 {
                     speedMultiplier = 5f;
+                    if (whiskersRotation != null) { whiskersRotation.SetRotationMultiplier(5f); }
                 }
                 else if (speedMultiplier == 5)
                 {
                     speedMultiplier = 50f;
+                    if (whiskersRotation != null) { whiskersRotation.SetRotationMultiplier(50f); }
                 }
                 else if (speedMultiplier == 50)
                 {
                     speedMultiplier = 1f;
+                    if (whiskersRotation != null) { whiskersRotation.SetRotationMultiplier(1f); }
                 }
             }
 
@@ -122,8 +129,10 @@ public class Vacuum : MonoBehaviour
             //TODO: Send collision signal to pathing alg (??)
             speed *= -1;
 
+            // Set timer until we can collide again to prevent vacuum passing through
+            // other objects at high-speeds
             canCollide = false;
-            StartCoroutine(EnableCollisionHandlingAfterDelay(0.0005f));
+            StartCoroutine(DelayCollisionEnable(0.0005f));
         }
     }
 }
