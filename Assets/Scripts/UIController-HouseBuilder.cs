@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
-using System;
+
 enum CurrentState
 {
     Default,
@@ -16,8 +16,6 @@ public class HouseBuilderUI : MonoBehaviour
     LayoutManager layoutManager;
 
     string exportFileSelection = "";
-
-    public static event Action<string> stateUpdate; //An action that broadcasts when the UI's state has changed. When invoked, sends a string that matches the name of the new state
 
     #region UI Component References
     Label status; // "Invalid" or "Valid" shown in bottom left corner.
@@ -116,7 +114,7 @@ public class HouseBuilderUI : MonoBehaviour
         cancelBtn.clicked += () => UpdateState(CurrentState.Default);
         deleteButton.clicked += () => deleteModeToggle();
         wallModeBtn.clicked += () => wallModeToggle();
-        doorModeBtn.clicked += () => layoutManager.addFurniture("door");//doorModeToggle();
+        doorModeBtn.clicked += () => doorModeToggle();
         furnitureModeBtn.clicked += () => furnitureModeToggle();
         exportDropdown.RegisterValueChangedCallback(OnDropdownValueChanged);
         exportSelectionButton.clicked += () => confirmExportSelection();
@@ -198,14 +196,12 @@ public class HouseBuilderUI : MonoBehaviour
     public void wallModeToggle()
     {
         UpdateState(CurrentState.WallPlacement);
-
-        Debug.Log("UI: Wall mode active");
+        Debug.Log("Wall mode active");
     }
 
     public void doorModeToggle()
     {
         UpdateState(CurrentState.DoorPlacement);
-
         Debug.Log("Door mode active");
     }
 
@@ -245,9 +241,6 @@ public class HouseBuilderUI : MonoBehaviour
 
     private void UpdateState(CurrentState newState)
     {
-
-        stateUpdate?.Invoke(newState.ToString()); //Let subscribers know the UI's state has updated, sending the current state as a String
-
         state = newState; // Update State
 
         // Update Button Availability:
