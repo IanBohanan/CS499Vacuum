@@ -67,6 +67,7 @@ public class Vacuum : MonoBehaviour
             // Check that the vacuum is not dead
             if (currBatteryLife <= 0)
             {
+                // If vacuum dead, stop whisker rotation and stop vacuum movement
                 currBatteryLife = 0;
                 if (whiskersRotation != null)
                 {

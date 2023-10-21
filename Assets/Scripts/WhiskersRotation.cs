@@ -7,7 +7,6 @@ public class WhiskersRotation : MonoBehaviour
     private bool isRotating;
     private float rotationSpeed = 50f;
     private float rotationMultiplier = 1f;
-    private int updateSpinCount = 0;
 
     // Start is called before the first frame update
     void Start()
