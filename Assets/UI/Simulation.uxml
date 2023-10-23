@@ -1,0 +1,22 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Simulation.uss?fileID=7433441132597879392&amp;guid=eee8da00dffcc99408b94c17dc3eee9c&amp;type=3#Simulation" />
+    <ui:VisualElement name="Body">
+        <ui:VisualElement name="BottomPanel">
+            <ui:VisualElement name="StatusContainer">
+                <ui:Label tabindex="-1" text="Elapsed Time: " display-tooltip-when-elided="true" name="ElapsedTimeLabel" />
+                <ui:Label tabindex="-1" text="Battery Life Remaining: " display-tooltip-when-elided="true" name="BatteryLifeLabel" />
+            </ui:VisualElement>
+            <ui:VisualElement name="SpeedAdjustmentContainer" >
+                <ui:VisualElement name="ButtonContainer">
+                    <ui:Button text="II" display-tooltip-when-elided="true" />
+                    <ui:Button text="&gt;" display-tooltip-when-elided="true" />
+                    <ui:Button text="&gt;&gt;" display-tooltip-when-elided="true" />
+                </ui:VisualElement>
+                <ui:Label tabindex="-1" text="Speed: 1x" display-tooltip-when-elided="true" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ExitButtonContainer">
+                <ui:Button text="Stop Simulation" display-tooltip-when-elided="true" name="ExitButton" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
