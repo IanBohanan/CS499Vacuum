@@ -61,7 +61,7 @@ public class ClickDrop : MonoBehaviour
                 }
             case "Chest Variant(Clone)":
                 {
-                    offsetY = 3;
+                    offsetY = 0;
                     offsetX = 3;
                     break;
                 }
