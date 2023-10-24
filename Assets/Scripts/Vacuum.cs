@@ -16,7 +16,6 @@ public class Vacuum : MonoBehaviour
         set { efficiency = value; }
     }
     private float speed;              // Inches per Second
-    private float speedMultiplier;    // Based on simulation speed
 
     public float batteryLifeMinutes;  // In Minutes
     private float currBatteryLife;    // In Seconds (for decrementing with timeDelta)
@@ -38,7 +37,6 @@ public class Vacuum : MonoBehaviour
     {
         // Set Speed
         speed = 0.005f;
-        speedMultiplier = 1f;
 
         // Find the child GameObjects by their names.
         robotTransform = transform.Find("Robot");
@@ -59,7 +57,7 @@ public class Vacuum : MonoBehaviour
         if (!isBatteryDead)
         {
             // Decrement the batteryLife of the vacuum
-            currBatteryLife -= Time.deltaTime * speedMultiplier;
+            currBatteryLife -= Time.deltaTime * (float)InterSceneManager.speedMultiplier;
 
             // Get whiskers rotation script to call specific whiskers methods
             WhiskersRotation whiskersRotation = whiskersTransform.GetComponent<WhiskersRotation>();
@@ -76,33 +74,12 @@ public class Vacuum : MonoBehaviour
                 isBatteryDead = true;
             }
 
-            // Check for 'F' keypress to change speed
-            if (Input.GetKeyDown("f"))
-            {
-                // Increase the speed multiplier
-                if (speedMultiplier == 1)
-                {
-                    speedMultiplier = 5f;
-                    if (whiskersRotation != null) { whiskersRotation.SetRotationMultiplier(5f); }
-                }
-                else if (speedMultiplier == 5)
-                {
-                    speedMultiplier = 50f;
-                    if (whiskersRotation != null) { whiskersRotation.SetRotationMultiplier(50f); }
-                }
-                else if (speedMultiplier == 50)
-                {
-                    speedMultiplier = 1f;
-                    if (whiskersRotation != null) { whiskersRotation.SetRotationMultiplier(1f); }
-                }
-            }
-
             // #################################################
             // # BASIC MOVEMENT TO BE REMOVED FOR PATHING ALGS #
             // #################################################
 
             // Move the entire "Vacuum-Robot" prefab.
-            transform.position += new Vector3(speed * speedMultiplier, 0, 0);
+            transform.position += new Vector3(speed * (float)InterSceneManager.speedMultiplier, 0, 0);
 
             // Move the child GameObjects along with the parent.
             robotTransform.position = transform.position;
@@ -117,7 +94,7 @@ public class Vacuum : MonoBehaviour
             // Move the Vacuum based on the selected pathing algorithm
             if (pathingAlg != null)
             {
-                pathingAlg.nextMove(speed * speedMultiplier, robotTransform, vacuumTransform, whiskersTransform);
+                pathingAlg.nextMove(speed * (float)InterSceneManager.speedMultiplier, robotTransform, vacuumTransform, whiskersTransform);
             }
         }
     }
