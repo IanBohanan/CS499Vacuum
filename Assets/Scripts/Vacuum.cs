@@ -10,10 +10,12 @@ public class Vacuum : MonoBehaviour
     private Transform whiskersTransform;
 
     // Vacuum Attributes
-    private int efficiency
+    private int _efficiency;  // Backing field
+
+    public int Efficiency
     {
-        get { return efficiency; }
-        set { efficiency = value; }
+        get { return _efficiency; }
+        set { _efficiency = value; }
     }
     private float speed;              // Inches per Second
     private float speedMultiplier;    // Based on simulation speed
@@ -52,95 +54,78 @@ public class Vacuum : MonoBehaviour
         if (currBatteryLife > 0) { isBatteryDead = false; }
         // Get batteryLife value from InterSceneManager
         batteryLifeMinutes = InterSceneManager.GetBatteryLifeMinutes();
-        currBatteryLife = batteryLifeMinutes * 60;  // As you mentioned, convert to seconds
-        if (currBatteryLife <= 0)
-        {
-            isBatteryDead = true;
-        }
-        else { isBatteryDead = false; }
+        currBatteryLife = batteryLifeMinutes * 60;  // Convert to seconds
+        isBatteryDead = currBatteryLife <= 0;
+    }
 
-        // Update is called once per frame
-        void Update()
+    // Update is called once per frame
+    void Update()
+    {
+        if (!isBatteryDead)
         {
+            // Decrement the batteryLife of the vacuum
+            currBatteryLife -= Time.deltaTime * speedMultiplier;
 
-            if (!isBatteryDead)
+            // Get whiskers rotation script to call specific whiskers methods
+            WhiskersRotation whiskersRotation = whiskersTransform.GetComponent<WhiskersRotation>();
+
+            // Check that the vacuum is not dead
+            if (currBatteryLife <= 0)
             {
-                // Decrement the batteryLife of the vacuum
-                currBatteryLife -= Time.deltaTime * speedMultiplier;
-
-                // Get whiskers rotation script to call specific whiskers methods
-                WhiskersRotation whiskersRotation = whiskersTransform.GetComponent<WhiskersRotation>();
-
-                // Check that the vacuum is not dead
-                if (currBatteryLife <= 0)
+                // If vacuum dead, stop whisker rotation and stop vacuum movement
+                currBatteryLife = 0;
+                if (whiskersRotation != null)
                 {
-                    // If vacuum dead, stop whisker rotation and stop vacuum movement
-                    currBatteryLife = 0;
-                    if (whiskersRotation != null)
-                    {
-                        whiskersRotation.StopRotation();
-                    }
-                    isBatteryDead = true;
+                    whiskersRotation.StopRotation();
                 }
+                isBatteryDead = true;
+            }
 
-                // Check for 'F' keypress to change speed
-                if (Input.GetKeyDown("f"))
+            // Check for 'F' keypress to change speed
+            if (Input.GetKeyDown("f"))
+            {
+                // Increase the speed multiplier
+                if (speedMultiplier == 1)
                 {
-                    // Increase the speed multiplier
-                    if (speedMultiplier == 1)
-                    {
-                        speedMultiplier = 5f;
-                        if (whiskersRotation != null) { whiskersRotation.SetRotationMultiplier(5f); }
-                    }
-                    else if (speedMultiplier == 5)
-                    {
-                        speedMultiplier = 50f;
-                        if (whiskersRotation != null) { whiskersRotation.SetRotationMultiplier(50f); }
-                    }
-                    else if (speedMultiplier == 50)
-                    {
-                        speedMultiplier = 1f;
-                        if (whiskersRotation != null) { whiskersRotation.SetRotationMultiplier(1f); }
-                    }
+                    speedMultiplier = 5f;
+                    if (whiskersRotation != null) { whiskersRotation.SetRotationMultiplier(5f); }
                 }
-
-                // #################################################
-                // # BASIC MOVEMENT TO BE REMOVED FOR PATHING ALGS #
-                // #################################################
-
-                // Move the entire "Vacuum-Robot" prefab.
-                transform.position += new Vector3(speed * speedMultiplier, 0, 0);
-
-                // Move the child GameObjects along with the parent.
-                robotTransform.position = transform.position;
-                vacuumTransform.position = transform.position;
-                whiskersTransform.position = transform.position;
-
-
-                // ##########################################
-                // # REPLACE BASIC MOVEMENT WITH CODE BELOW #
-                // ##########################################
-
-                // Move the Vacuum based on the selected pathing algorithm
-                if (pathingAlg != null)
+                else if (speedMultiplier == 5)
                 {
-                    pathingAlg.nextMove(speed * speedMultiplier, robotTransform, vacuumTransform, whiskersTransform);
+                    speedMultiplier = 50f;
+                    if (whiskersRotation != null) { whiskersRotation.SetRotationMultiplier(50f); }
+                }
+                else if (speedMultiplier == 50)
+                {
+                    speedMultiplier = 1f;
+                    if (whiskersRotation != null) { whiskersRotation.SetRotationMultiplier(1f); }
                 }
             }
-        }
 
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (canCollide)
+            // Move the entire "Vacuum-Robot" prefab.
+            transform.position += new Vector3(speed * speedMultiplier, 0, 0);
+
+            // Move the child GameObjects along with the parent.
+            robotTransform.position = transform.position;
+            vacuumTransform.position = transform.position;
+            whiskersTransform.position = transform.position;
+
+            // Move the Vacuum based on the selected pathing algorithm
+            if (pathingAlg != null)
             {
-                Debug.Log("Vacuum Collided...");
-                //TODO: Send collision signal to pathing alg (??)
-                speed *= -1;
-
-                // Set timer until we can collide again to prevent vacuum passing through
-                // other objects at high-speeds
-                canCollide = false;
-                StartCoroutine(DelayCollisionEnable(0.0005f));
+                pathingAlg.nextMove(speed * speedMultiplier, robotTransform, vacuumTransform, whiskersTransform);
             }
         }
-    } }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (canCollide)
+        {
+            Debug.Log("Vacuum Collided...");
+            speed *= -1;
+            canCollide = false;
+            StartCoroutine(DelayCollisionEnable(0.0005f));
+        }
+    }
+}
