@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public static class InterSceneManager
 {
     // Main Menu Import File:
@@ -18,12 +14,12 @@ public static class InterSceneManager
     private static bool spiralAlgEnabled;
     private static bool snakingAlgEnabled;
     private static bool wallFollowAlgEnabled;
-        
+
     public static void setSimulationSettings(bool whiskers, string floorCov, int battery, bool randomAlg, bool spiralAlg, bool snakingAlg, bool wallFollowAlg)
     {
         whiskersEnabled = whiskers;
         floorCovering = floorCov;
-        batteryLife = battery; 
+        batteryLife = battery;
         randomAlgEnabled = randomAlg;
         spiralAlgEnabled = spiralAlg;
         snakingAlgEnabled = snakingAlg;
@@ -31,8 +27,13 @@ public static class InterSceneManager
         return;
     }
 
-    public static (bool, string, int, bool, bool, bool, bool) getSimulationSettings()
-    {
-        return (whiskersEnabled, floorCovering,  batteryLife, randomAlgEnabled, spiralAlgEnabled, snakingAlgEnabled, wallFollowAlgEnabled);
-    }
+    public static (bool, string, int, bool, bool, bool, bool) getSimulationSettings() => (whiskersEnabled, floorCovering, batteryLife, randomAlgEnabled, spiralAlgEnabled, snakingAlgEnabled, wallFollowAlgEnabled);
+
+    private static int batteryLifeMinutes = 150;  // default
+
+    public static void SetBatteryLifeMinutes(int value) => batteryLifeMinutes = value;
+
+    public static int GetBatteryLifeMinutes() => batteryLifeMinutes;
+
+    // ... other existing methods and properties
 }

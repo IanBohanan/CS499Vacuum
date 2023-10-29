@@ -165,6 +165,7 @@ public class SimulationSetupController : MonoBehaviour
     public void onStartSimulationPress()
     {
         InterSceneManager.setSimulationSettings(whiskersEnabled, floorCovering, (int)batteryLife, randomAlg, spiralAlg, snakingAlg, wallFollowAlg);
+        InterSceneManager.SetBatteryLifeMinutes((int)batteryLife);
         myData = InterSceneManager.getSimulationSettings();
         Debug.Log(myData);
         // We want to load a new scene after setting up:
