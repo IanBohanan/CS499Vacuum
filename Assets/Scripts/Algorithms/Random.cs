@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class RandomWalk
 {
-
     public Vector2 getNewDirectionVec(bool movingPositively, bool horizontalObjCollision)
     {
         // Generate randomized angle to be used:

@@ -10,19 +10,16 @@ public class Vacuum : MonoBehaviour
     private Transform whiskersTransform;
 
     // Vacuum Attributes
-    private int efficiency
-    {
-        get { return efficiency; }
-        set { efficiency = value; }
-    }
+    private int efficiency;
     private float speed;              // Inches per Second
 
     public float batteryLifeMinutes;  // In Minutes
     private float currBatteryLife;    // In Seconds (for decrementing with timeDelta)
+    private bool whiskersEnabled;
+    private string floorCovering;
     private bool isBatteryDead;
     private bool canCollide = true;
-
-    public BasePathingAlg pathingAlg;
+    private Dictionary<string, bool> pathingDict = new Dictionary<string, bool>();
 
     // Coroutine to prevent Vacuum passing through walls
     private IEnumerator DelayCollisionEnable(float delay)
@@ -38,22 +35,36 @@ public class Vacuum : MonoBehaviour
         // Set Speed
         speed = 0.005f;
 
+        // Assign variables from simulation setup
+        (whiskersEnabled, floorCovering, batteryLifeMinutes,
+            pathingDict["random"], pathingDict["spiral"], pathingDict["snaking"], pathingDict["wallfollow"]) =
+            InterSceneManager.getSimulationSettings();
+
         // Find the child GameObjects by their names.
         robotTransform = transform.Find("Robot");
         vacuumTransform = transform.Find("Vacuum");
-
-        //TODO: Check if whiskers are needed for this run
         whiskersTransform = transform.Find("Whiskers");
 
-        //TODO: Get batteryLife value from UI
-        currBatteryLife = 150 * 60;
+        // Use Simulation setup variables to determine if whiskers are needed
+        if (whiskersEnabled) 
+        {
+            whiskersTransform.gameObject.SetActive(true);
+        } else
+        {
+            whiskersTransform.gameObject.SetActive(false);
+        }
+        
+        // Set battery life from Simulation Setup
+        currBatteryLife = batteryLifeMinutes * 60;
         if (currBatteryLife > 0) { isBatteryDead = false; }
+
+        //TODO: Determine efficiency from floorcovering
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        Debug.Log(InterSceneManager.speedMultiplier);
         if (!isBatteryDead)
         {
             // Decrement the batteryLife of the vacuum
@@ -85,20 +96,8 @@ public class Vacuum : MonoBehaviour
             robotTransform.position = transform.position;
             vacuumTransform.position = transform.position;
             whiskersTransform.position = transform.position;
-
-
-            // ##########################################
-            // # REPLACE BASIC MOVEMENT WITH CODE BELOW #
-            // ##########################################
-
-            // Move the Vacuum based on the selected pathing algorithm
-            if (pathingAlg != null)
-            {
-                pathingAlg.nextMove(speed * (float)InterSceneManager.speedMultiplier, robotTransform, vacuumTransform, whiskersTransform);
-            }
         }
     }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (canCollide)
@@ -113,4 +112,5 @@ public class Vacuum : MonoBehaviour
             StartCoroutine(DelayCollisionEnable(0.0005f));
         }
     }
+
 }
