@@ -58,3 +58,11 @@ As robot vacuums gain popularity and become more affordable, there is an increas
 4. Run the simulation and observe the robot's behavior.
 5. Analyze the results and make necessary adjustments for improved performance.
 6. Compare results from different runs to identify the best configuration.
+
+
+## Screenshots
+
+![Archit Design](./README_Screenshots/Archit.jpg)
+![HouseBuilder](./README_Screenshots/HouseBuilder.jpg)
+![SimulationSetupn](./README_Screenshots/SimulationSetup.jpg)
+![SimulationRunner](./README_Screenshots/SimulationRunner.jpg)
