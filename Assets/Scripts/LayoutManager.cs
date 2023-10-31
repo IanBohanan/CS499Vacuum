@@ -42,7 +42,7 @@ public class LayoutManager : MonoBehaviour
     {
         //ExitDoors.Add();
     }
-    public void addFurniture(string type, float xPos = 0, float yPos = 0)
+    public void addFurniture(string type, float xPos = 0, float yPos = 0, bool imported = false)
     {
         GameObject newFurniture;
         if (type == "chair") newFurniture = Instantiate(Chair, new Vector3(xPos, yPos, 0), Quaternion.identity);
@@ -51,6 +51,7 @@ public class LayoutManager : MonoBehaviour
         else if (type == "door") newFurniture = Instantiate(Door, new Vector3(xPos, yPos, 0), Quaternion.identity);
         else return; // Invalid input
         newFurniture.GetComponent<ClickDrop>().onDeleteClicked += deleteFurniture;
+        if (!imported) newFurniture.GetComponent<ClickDrop>().isDragging = true;
         Furniture.Add(newFurniture);
     }
     #endregion
@@ -149,7 +150,21 @@ public class LayoutManager : MonoBehaviour
         }
         for (int i = 0; i < parsedJSON.Furniture.Count; i++)
         {
-            addFurniture("chair", parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY);
+            if (parsedJSON.Furniture[i].type == "Chair(Clone)") {
+                addFurniture("chair", parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY, true);
+            }
+            else if (parsedJSON.Furniture[i].type == "Chest Variant(Clone)")
+            {
+                addFurniture("chest", parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY, true);
+            }
+            else if (parsedJSON.Furniture[i].type == "Table Variant(Clone)")
+            {
+                addFurniture("table", parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY, true);
+            }
+            else if (parsedJSON.Furniture[i].type == "Door(Clone)")
+            {
+                addFurniture("door", parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY, true);
+            }
         }
     }
     public void saveToJSON(string JSONFilePath)

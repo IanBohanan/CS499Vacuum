@@ -64,7 +64,7 @@ public class Vacuum : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(InterSceneManager.speedMultiplier);
+        //Debug.Log(InterSceneManager.speedMultiplier);
         if (!isBatteryDead)
         {
             // Decrement the batteryLife of the vacuum

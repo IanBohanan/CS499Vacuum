@@ -3,7 +3,7 @@
     <ui:VisualElement name="Body" style="height: auto; width: auto; flex-grow: 1;">
         <ui:Label tabindex="-1" text="Simulation Setup" display-tooltip-when-elided="true" name="Header" style="margin-top: 5%;" />
         <ui:VisualElement name="SettingsContainer" style="width: auto; flex-direction: row; justify-content: space-between;">
-            <ui:VisualElement name="LeftColumn" class="Column" style="flex-grow: 1;">
+            <ui:VisualElement name="LeftColumn" class="Column" style="flex-grow: 0; width: 50%;">
                 <ui:VisualElement name="Whiskers" style="flex-grow: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
                     <ui:Label tabindex="-1" text="Whiskers Attachment" display-tooltip-when-elided="true" class="SettingsLabel" style="font-size: 35px;" />
                     <ui:VisualElement name="WhiskersCheckbox" class="CheckboxContainer" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 5px;">
@@ -13,7 +13,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="FloorCovering" style="flex-grow: 0; height: auto;">
                     <ui:Label tabindex="-1" text="Floor Covering" display-tooltip-when-elided="true" class="SettingsLabel" style="font-size: 35px;" />
-                    <ui:DropdownField index="0" choices="Hardwood,Frieze Cut,Loop Cut,Cut Pile" name="FloorCoveringDropdown" style="font-size: 35px; width: 50%; margin-bottom: 2px;" />
+                    <ui:DropdownField index="0" choices="Hardwood,Frieze Cut,Loop Cut,Cut Pile" name="FloorCoveringDropdown" style="font-size: 24px; width: 50%; margin-bottom: 2px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="BatteryLife" style="flex-grow: 0;">
                     <ui:Label tabindex="-1" text="Battery Life (Minutes)" display-tooltip-when-elided="true" name="BatteryLifeLabel" class="SettingsLabel" style="font-size: 35px;" />

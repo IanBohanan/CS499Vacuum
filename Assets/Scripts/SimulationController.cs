@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class SimulationController : MonoBehaviour
@@ -41,6 +42,7 @@ public class SimulationController : MonoBehaviour
         playPauseBtn.clicked += () => { updateSpeed(0); playPausePressed(); };
         fiveTimesSpeedBtn.clicked += () => updateSpeed(5);
         fiftyTimesSpeedBtn.clicked += () => updateSpeed(50);
+        stopSimBtn.clicked += () => endSimulation();
     }
 
     private void playPausePressed()
@@ -66,5 +68,10 @@ public class SimulationController : MonoBehaviour
         }
         Debug.Log("Speed set to " + InterSceneManager.speedMultiplier);
         return;
+    }
+
+    private void endSimulation()
+    {
+        SceneManager.LoadScene(sceneName: "MainMenu");
     }
 }
