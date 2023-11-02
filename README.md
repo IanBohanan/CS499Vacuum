@@ -61,8 +61,18 @@ As robot vacuums gain popularity and become more affordable, there is an increas
 
 
 ## Screenshots
-
+ Archit Design
+ <br/>
 ![Archit Design](./README_Screenshots/Archit.jpg)
+
+HouseBuilder
+<br/>
 ![HouseBuilder](./README_Screenshots/HouseBuilder.jpg)
-![SimulationSetupn](./README_Screenshots/SimulationSetup.jpg)
+
+SimulationSetup
+<br/>
+![SimulationSetup](./README_Screenshots/SimulationSetup.jpg)
+
+SimulationRunner
+<br/>
 ![SimulationRunner](./README_Screenshots/SimulationRunner.jpg)
