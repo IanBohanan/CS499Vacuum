@@ -22,7 +22,7 @@ public class ClickDrop : MonoBehaviour
     public event OnVariableChangeDelegate onDeleteClicked;
     #endregion
 
-    private bool dragging;
+    private bool dragging = false;
     public bool isDragging
     {
         get { return dragging; }
@@ -82,7 +82,7 @@ public class ClickDrop : MonoBehaviour
         float height = GetComponent<SpriteRenderer>().bounds.size.y;
         isLongObject = (width >= height);
         // On spawn, user will be dragging item
-        isDragging = true;
+        //isDragging = false;
         myCollider = GetComponent<Collider2D>();
     }
 
@@ -113,6 +113,7 @@ public class ClickDrop : MonoBehaviour
 
     void OnMouseDown()
     {
+        Debug.Log(isDragging);
         if (InterSceneManager.deleteMode)
         {
             isDeleteClicked = true;

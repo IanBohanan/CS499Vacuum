@@ -18,6 +18,9 @@ public static class InterSceneManager
     private static bool spiralAlgEnabled;
     private static bool snakingAlgEnabled;
     private static bool wallFollowAlgEnabled;
+
+    // Simulation Speed, used by Vacuum to multiply speed:
+    public static int speedMultiplier = 1;
         
     public static void setSimulationSettings(bool whiskers, string floorCov, int battery, bool randomAlg, bool spiralAlg, bool snakingAlg, bool wallFollowAlg)
     {

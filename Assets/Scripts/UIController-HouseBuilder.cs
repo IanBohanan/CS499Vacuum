@@ -2,6 +2,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
+using UnityEngine.SceneManagement;
+
 enum CurrentState
 {
     Default,
@@ -155,9 +157,13 @@ public class HouseBuilderUI : MonoBehaviour
     private void exportConfirm(bool areYouSure)
     {
         // Save to JSON if confirmed:
-        if (areYouSure) layoutManager.saveToJSON(exportFileSelection);
-        // Hide Popup:
-        exportPopup.style.display = DisplayStyle.None;
+        if (areYouSure) 
+        { 
+            layoutManager.saveToJSON(exportFileSelection); 
+            SceneManager.LoadScene(sceneName: "SimulationSetup"); 
+        }
+            // Hide Popup:
+            exportPopup.style.display = DisplayStyle.None;
     }
 
     public void clearConfirm(bool areYouSure)
