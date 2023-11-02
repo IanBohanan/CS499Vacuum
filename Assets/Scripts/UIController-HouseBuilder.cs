@@ -152,6 +152,7 @@ public class HouseBuilderUI : MonoBehaviour
     {
         // Show Popup:
         exportSelectionContainer.style.display = DisplayStyle.Flex;
+        Camera cam = Camera.main;
     }
 
     private void exportConfirm(bool areYouSure)
