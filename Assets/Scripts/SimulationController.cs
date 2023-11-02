@@ -55,21 +55,27 @@ public class SimulationController : MonoBehaviour
         if (newSpeed == 0) { // Code 0 given, check if play or pause is active
             if (speed == 0)
             {
+                speed = 1;
                 InterSceneManager.speedMultiplier = 1;
+                speedLabel.text = "Speed: 1x";
             }
             else
             {
+                speed = 0;
                 InterSceneManager.speedMultiplier = 0;
+                speedLabel.text = "Speed: 0x";
             }
         }
         else
         {
+            speed = newSpeed;
             InterSceneManager.speedMultiplier = newSpeed;
+            speedLabel.text = "Speed: " + newSpeed + "x";
         }
         Debug.Log("Speed set to " + InterSceneManager.speedMultiplier);
         return;
     }
-
+    
     private void endSimulation()
     {
         SceneManager.LoadScene(sceneName: "MainMenu");
