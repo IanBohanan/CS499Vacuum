@@ -56,15 +56,18 @@ public class SimulationController : MonoBehaviour
             if (speed == 0)
             {
                 InterSceneManager.speedMultiplier = 1;
+                speedLabel.text = "Speed: 1x";
             }
             else
             {
                 InterSceneManager.speedMultiplier = 0;
+                speedLabel.text = "Speed: 0x";
             }
         }
         else
         {
             InterSceneManager.speedMultiplier = newSpeed;
+            speedLabel.text = "Speed: " + newSpeed + "x";
         }
         Debug.Log("Speed set to " + InterSceneManager.speedMultiplier);
         return;
