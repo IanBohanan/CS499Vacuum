@@ -28,9 +28,9 @@ public class WallFollow
         return (directionVec);
     }
 
-    public Vector2 getFirstCollisionVec(Vector2 currentDirection)
+    public Vector2 getFirstCollisionVec(Vector2 currentDirection, bool horizontalWall)
     {
-        if ((currentDirection.x < 0) && (currentDirection.y < 0))
+/*        if ((currentDirection.x < 0) && (currentDirection.y < 0))
         {
             return new Vector2(-1, 0);
         }
@@ -46,42 +46,16 @@ public class WallFollow
         {
             return new Vector2(1, 0);
         }
-        else return new Vector2(0, 0); // Should never run
+        else return new Vector2(0, 0); // Should never run*/
 
-        //Vector2 newDirectionVector = currentDirection;
-        //double x = Math.Round(currentDirection.x, 2);
-        //double y = Math.Round(currentDirection.y, 2);
-
-        //int infiniteLoopStopper = 10000; // Just in case...
-
-        //while (((Math.Abs(x) != 1) && (Math.Abs(y) != 1)) && (infiniteLoopStopper > 0))
-        //{
-        //    float radians = MathF.PI * 1 / 180.0f; // Turn 1 degree
-        //    float cosTheta = MathF.Cos(radians);
-        //    float sinTheta = MathF.Sin(radians);
-
-        //    newDirectionVector.x = newDirectionVector.x * cosTheta - newDirectionVector.y * sinTheta;
-        //    newDirectionVector.y = newDirectionVector.x * sinTheta + newDirectionVector.y * cosTheta;
-
-        //    x = (double)Math.Round(newDirectionVector.x);
-        //    y = (double)Math.Round(newDirectionVector.y);
-
-        //    infiniteLoopStopper--;
-        //}
-        ////while (!IsCardinalDirection(newDirectionVector))
-        ////{
-        ////    float radians = MathF.PI * 1 / 180.0f; // Turn 1 degree
-        ////    float cosTheta = MathF.Cos(radians);
-        ////    float sinTheta = MathF.Sin(radians);
-
-        ////    newDirectionVector = new Vector2(
-        ////        currentDirection.x * cosTheta - currentDirection.y * sinTheta,
-        ////        currentDirection.x * sinTheta + currentDirection.y * cosTheta
-        ////    );
-        ////}
-        //newDirectionVector = new Vector2((float)x, (float)y);
-        //newDirectionVector.Normalize();
-        //return newDirectionVector;
+        if (horizontalWall)
+        {
+            return new Vector2(1,0);
+        }
+        else
+        {
+            return new Vector2(0, -1);
+        }
     }
 
     private bool IsCardinalDirection(Vector2 vector)
@@ -94,7 +68,7 @@ public class WallFollow
         return result;
     }
 
-    public Vector2 getNewDirectionVec(Vector2 currentDirection, bool collision, bool horizontalCollision, bool wallToLeft)
+    public Vector2 getNewDirectionVec(Vector2 currentDirection, bool collision, bool wallToLeft)
     {
         if (collision) // If we hit something, turn right
         {

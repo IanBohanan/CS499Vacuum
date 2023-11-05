@@ -24,75 +24,73 @@
   ],
   "SIMULATION_DATA": [
     {
-      "0": {
-        "Settings": {
-          "whiskers": true,
-          "floorCovering": "Hardwood",
-          "batteryLifeStart": 150
-        },
-        "Random": {
-          "elapsedTime": 55,
-          "batteryLifeEnd": 12,
-          "cleaningEfficiency": 87,
-          "tilesCleaned": 142,
-          "untouchedTiles": 18
-        },
-        "WallFollow": {
-          "elapsedTime": 5,
-          "batteryLifeEnd": 112,
-          "cleaningEfficiency": 5,
-          "tilesCleaned": 80,
-          "untouchedTiles": 80
-        },
-        "Spiral": {
-          "elapsedTime": 62,
-          "batteryLifeEnd": 1,
-          "cleaningEfficiency": 72,
-          "tilesCleaned": 70,
-          "untouchedTiles": 90
-        },
-        "Snaking": {
-          "elapsedTime": 15,
-          "batteryLifeEnd": 149,
-          "cleaningEfficiency": 90,
-          "tilesCleaned": 100,
-          "untouchedTiles": 60
-        }
+      "Settings": {
+        "whiskers": true,
+        "floorCovering": "Hardwood",
+        "batteryLifeStart": 150
       },
-      "1": {
-        "Settings": {
-          "whiskers": true,
-          "floorCovering": "Hardwood",
-          "batteryLifeStart": 150
-        },
-        "Random": {
-          "elapsedTime": 55,
-          "batteryLifeEnd": 12,
-          "cleaningEfficiency": 87,
-          "tilesCleaned": 142,
-          "untouchedTiles": 18
-        },
-        "WallFollow": {
-          "elapsedTime": 5,
-          "batteryLifeEnd": 112,
-          "cleaningEfficiency": 5,
-          "tilesCleaned": 80,
-          "untouchedTiles": 80
-        },
-        "Spiral": {
-          "elapsedTime": 62,
-          "batteryLifeEnd": 1,
-          "cleaningEfficiency": 72,
-          "tilesCleaned": 70,
-          "untouchedTiles": 90
-        },
-        "Snaking": {
-          "elapsedTime": 15,
-          "batteryLifeEnd": 149,
-          "cleaningEfficiency": 90,
-          "tilesCleaned": 100,
-          "untouchedTiles": 60
-        }
+      "Random": {
+        "elapsedTime": 55,
+        "batteryLifeEnd": 12,
+        "cleaningEfficiency": 87,
+        "tilesCleaned": 142,
+        "untouchedTiles": 18
+      },
+      "WallFollow": {
+        "elapsedTime": 5,
+        "batteryLifeEnd": 112,
+        "cleaningEfficiency": 5,
+        "tilesCleaned": 80,
+        "untouchedTiles": 80
+      },
+      "Spiral": {
+        "elapsedTime": 62,
+        "batteryLifeEnd": 1,
+        "cleaningEfficiency": 72,
+        "tilesCleaned": 70,
+        "untouchedTiles": 90
+      },
+      "Snaking": {
+        "elapsedTime": 15,
+        "batteryLifeEnd": 149,
+        "cleaningEfficiency": 90,
+        "tilesCleaned": 100,
+        "untouchedTiles": 60
+      }
+    },
+    {
+      "Settings": {
+        "whiskers": false,
+        "floorCovering": "Freize Cut",
+        "batteryLifeStart": 16
+      },
+      "Random": {
+        "elapsedTime": 16,
+        "batteryLifeEnd": 16,
+        "cleaningEfficiency": 16,
+        "tilesCleaned": 16,
+        "untouchedTiles": 16
+      },
+      "WallFollow": {
+        "elapsedTime": 16,
+        "batteryLifeEnd": 16,
+        "cleaningEfficiency": 16,
+        "tilesCleaned": 16,
+        "untouchedTiles": 16
+      },
+      "Spiral": {
+        "elapsedTime": 16,
+        "batteryLifeEnd": 16,
+        "cleaningEfficiency": 16,
+        "tilesCleaned": 16,
+        "untouchedTiles": 16
+      },
+      "Snaking": {
+        "elapsedTime": 16,
+        "batteryLifeEnd": 16,
+        "cleaningEfficiency": 16,
+        "tilesCleaned": 16,
+        "untouchedTiles": 16
       }
     }
   ]

@@ -1,11 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/SimulationSetup.uss?fileID=7433441132597879392&amp;guid=baf7653f262b44140b455aab59fa51af&amp;type=3#SimulationSetup" />
     <ui:VisualElement name="Body" style="height: auto; width: auto; flex-grow: 1;">
-        <ui:Label tabindex="-1" text="Simulation Setup" display-tooltip-when-elided="true" name="Header" style="margin-top: 5%;" />
+        <ui:Label tabindex="-1" text="Simulation Setup" display-tooltip-when-elided="true" name="Header" style="margin-top: 5%; height: 70px; justify-content: flex-start; align-items: center; -unity-text-align: upper-center; font-size: 50px;" />
         <ui:VisualElement name="SettingsContainer" style="width: auto; flex-direction: row; justify-content: space-between;">
             <ui:VisualElement name="LeftColumn" class="Column" style="flex-grow: 0; width: 50%;">
                 <ui:VisualElement name="Whiskers" style="flex-grow: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
-                    <ui:Label tabindex="-1" text="Whiskers Attachment" display-tooltip-when-elided="true" class="SettingsLabel" style="font-size: 35px;" />
+                    <ui:Label tabindex="-1" text="Whiskers Attachment" display-tooltip-when-elided="true" class="SettingsLabel" style="font-size: 35px; height: 70px;" />
                     <ui:VisualElement name="WhiskersCheckbox" class="CheckboxContainer" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 5px;">
                         <ui:Button text="X" display-tooltip-when-elided="true" name="WhiskerButton" class="CheckboxButton" />
                         <ui:Label tabindex="-1" text="Enabled" display-tooltip-when-elided="true" class="CheckboxLabel" />
@@ -13,16 +13,20 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="FloorCovering" style="flex-grow: 0; height: auto;">
                     <ui:Label tabindex="-1" text="Floor Covering" display-tooltip-when-elided="true" class="SettingsLabel" style="font-size: 35px;" />
-                    <ui:DropdownField index="0" choices="Hardwood,Frieze Cut,Loop Cut,Cut Pile" name="FloorCoveringDropdown" style="font-size: 24px; width: 50%; margin-bottom: 2px;" />
+                    <ui:DropdownField index="0" choices="Hardwood,Loop Pile,Cut Pile,Frieze-Cut Pile" name="FloorCoveringDropdown" style="font-size: 24px; width: 50%; margin-bottom: 2px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="BatteryLife" style="flex-grow: 0;">
-                    <ui:Label tabindex="-1" text="Battery Life (Minutes)" display-tooltip-when-elided="true" name="BatteryLifeLabel" class="SettingsLabel" style="font-size: 35px;" />
+                    <ui:Label tabindex="-1" text="Battery Life (Minutes)" display-tooltip-when-elided="true" name="BatteryLifeLabel" class="SettingsLabel" style="font-size: 35px; height: 60px;" />
                     <ui:Slider value="150" high-value="200" low-value="90" show-input-field="true" direction="Horizontal" name="BatteryLifeSlider" style="font-size: 16px; flex-wrap: wrap-reverse; flex-direction: row; justify-content: flex-start; align-items: auto; flex-grow: 0; flex-shrink: 0; overflow: visible;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="RobotSpeed" style="flex-grow: 0;">
+                    <ui:Label tabindex="-1" text="Robot Speed (Inch/Sec)" display-tooltip-when-elided="true" name="RobotSpeedLabel" class="SettingsLabel" style="font-size: 35px; height: 50px;" />
+                    <ui:Slider value="12" high-value="18" low-value="6" show-input-field="true" direction="Horizontal" name="RobotSpeedSlider" style="font-size: 16px; flex-wrap: wrap-reverse; flex-direction: row; justify-content: flex-start; align-items: auto; flex-grow: 0; flex-shrink: 0; overflow: visible;" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="RightColumn" class="Column" style="flex-grow: 1;">
                 <ui:VisualElement name="Algorithms" style="flex-grow: 1;">
-                    <ui:Label tabindex="-1" text="Pathing Algorithms" display-tooltip-when-elided="true" class="SettingsLabel" style="font-size: 32px;" />
+                    <ui:Label tabindex="-1" text="Pathing Algorithms" display-tooltip-when-elided="true" class="SettingsLabel" style="font-size: 32px; height: 70px;" />
                     <ui:VisualElement name="AlgorithmsCheckboxes" class="IndentedSettings" style="flex-grow: 1;">
                         <ui:VisualElement name="Random" class="CheckboxContainer">
                             <ui:Button text="X" display-tooltip-when-elided="true" name="RandomCheckbox" class="CheckboxButton" />
