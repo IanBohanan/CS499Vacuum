@@ -113,7 +113,6 @@ public class ClickDrop : MonoBehaviour
 
     void OnMouseDown()
     {
-        Debug.Log(isDragging);
         if (InterSceneManager.deleteMode)
         {
             isDeleteClicked = true;

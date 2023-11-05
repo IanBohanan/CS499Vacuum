@@ -100,8 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d03376859d159c749864781d621b330d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 30
-  updateSpinCount: 0
 --- !u!58 &6052429410593021823
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -391,8 +389,8 @@ GameObject:
   - component: {fileID: 497821580701953468}
   - component: {fileID: 8965691294730969451}
   - component: {fileID: 8777790645288690822}
-  - component: {fileID: 6015648830378157389}
   - component: {fileID: 8961130649566387312}
+  - component: {fileID: 1816500499305897779}
   m_Layer: 0
   m_Name: Vacuum-Robot
   m_TagString: Untagged
@@ -482,6 +480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ef99303227bd44cbdeb842ef1191f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  batteryLifeMinutes: 0
 --- !u!50 &8777790645288690822
 Rigidbody2D:
   serializedVersion: 4
@@ -509,18 +508,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6015648830378157389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6098897980556171453}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28ef99303227bd44cbdeb842ef1191f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &8961130649566387312
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -551,7 +538,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -567,3 +554,15 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 6.81, y: 6.81}
   m_EdgeRadius: 0
+--- !u!114 &1816500499305897779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6098897980556171453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d34ac62717addae4ea90a1a348887cd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -50,7 +50,7 @@ public class AlgorithmTester : MonoBehaviour
         //    }
         //}
 
-/*        if ((counter % 500) == 0) {
+        if ((counter % 500) == 0) {
             currentDirectionVec = wallFollow.getStartingVec();
             Debug.Log("Random: "+currentDirectionVec.x + ", " + currentDirectionVec.y);
             currentDirectionVec = wallFollow.getFirstCollisionVec(currentDirectionVec);
@@ -58,7 +58,7 @@ public class AlgorithmTester : MonoBehaviour
             //currentDirectionVec = wallFollow.getNewDirectionVec(currentDirectionVec, false, false, true); 
             //currentDirectionVec = randomAlg.getNewDirectionVec(true, true);
             counter = 0;
-        }*/
+        }
 
     }
 }

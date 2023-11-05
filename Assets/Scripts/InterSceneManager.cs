@@ -34,8 +34,13 @@ public static class InterSceneManager
         return;
     }
 
-    public static (bool, string, int, bool, bool, bool, bool) getSimulationSettings()
+    public static (bool, bool, bool, bool) getPathAlgs()
     {
-        return (whiskersEnabled, floorCovering,  batteryLife, randomAlgEnabled, spiralAlgEnabled, snakingAlgEnabled, wallFollowAlgEnabled);
+        return (randomAlgEnabled, spiralAlgEnabled, snakingAlgEnabled, wallFollowAlgEnabled);
+    }
+
+    public static (bool, string, int) getSimulationSettings()
+    {
+        return (whiskersEnabled, floorCovering, batteryLife);
     }
 }
