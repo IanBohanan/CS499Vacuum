@@ -13,7 +13,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="FloorCovering" style="flex-grow: 0; height: auto;">
                     <ui:Label tabindex="-1" text="Floor Covering" display-tooltip-when-elided="true" class="SettingsLabel" style="font-size: 35px;" />
-                    <ui:DropdownField index="0" choices="Hardwood,Frieze Cut,Loop Cut,Cut Pile" name="FloorCoveringDropdown" style="font-size: 24px; width: 50%; margin-bottom: 2px;" />
+                    <ui:DropdownField index="0" choices="Hardwood,Loop Pile,Cut Pile,Frieze-Cut Pile" name="FloorCoveringDropdown" style="font-size: 24px; width: 50%; margin-bottom: 2px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="BatteryLife" style="flex-grow: 0;">
                     <ui:Label tabindex="-1" text="Battery Life (Minutes)" display-tooltip-when-elided="true" name="BatteryLifeLabel" class="SettingsLabel" style="font-size: 35px;" />
