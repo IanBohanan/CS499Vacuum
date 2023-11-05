@@ -8,11 +8,16 @@ public class MainMenuController : MonoBehaviour
 {
     Button importBtn;
     Button createNewBtn;
+    Button reviewPastSimulationsBtn;
 
     VisualElement importPopup;
     Button importJSONButton;
 
+    VisualElement dataReviewPopup;
+    Button dataReviewConfirmButton;
+
     DropdownField selectionDropdown;
+    DropdownField dataReviewDropdown;
 
     void OnEnable()
     {
@@ -23,28 +28,55 @@ public class MainMenuController : MonoBehaviour
         VisualElement buttonContainer = root.Q<VisualElement>("ButtonContainer");
         Button importBtn = buttonContainer.Q<Button>("ImportButton");
         Button createNewBtn = buttonContainer.Q<Button>("CreateNewButton");
+        reviewPastSimulationsBtn = root.Q<Button>("DataReviewButton");
 
-        // Get Import Popup Panel & Button:
+        // Get Import Popup, Dropdown, & Button:
         importPopup = root.Q<VisualElement>("ImportPopup");
         selectionDropdown = importPopup.Q<DropdownField>("SelectionDropdown");
         importJSONButton = importPopup.Q<Button>("ImportJSONButton");
+
+        // Get Data Review Popup, Dropdown, & Button:
+        dataReviewPopup = root.Q<VisualElement>("DataReviewPopup");
+        dataReviewDropdown = dataReviewPopup.Q<DropdownField>("DataReviewDropdown");
+        dataReviewConfirmButton = dataReviewPopup.Q<Button>("DataReviewConfirmButton");
 
         // Subscribe to button events:
         importBtn.clicked += () => onImportPress();
         createNewBtn.clicked += () => onCreateNewPress();
         importJSONButton.clicked += () => onImportPopupPress();
         selectionDropdown.RegisterValueChangedCallback(onValueChanged);
+        reviewPastSimulationsBtn.clicked += () => onDataReviewPress();
+        dataReviewDropdown.RegisterValueChangedCallback(onDataReviewValueChanged);
+        dataReviewConfirmButton.clicked += () => onDataReviewConfirmPress();
     }
 
-    // Update selected import file:
+    // Update selected house builder import file:
     private void onValueChanged(ChangeEvent<string> evt)
     {
         InterSceneManager.fileSelection = selectionDropdown.value;
     }
 
-    // Open the JSON import panel:
+    // Open the JSON house builder import panel:
     public void onImportPress() {
         importPopup.style.display = DisplayStyle.Flex;
+    }
+
+    // Open the JSON data review import panel:
+    public void onDataReviewPress()
+    {
+        dataReviewPopup.style.display = DisplayStyle.Flex;
+    }
+
+    // Update selected data review import file:
+    private void onDataReviewValueChanged(ChangeEvent<string> evt)
+    {
+        //InterSceneManager.dataReviewFileSelection = dataReviewDropdown.value;
+    }
+
+    private void onDataReviewConfirmPress()
+    {
+        dataReviewPopup.style.display = DisplayStyle.None;
+        SceneManager.LoadScene(sceneName: "DataReview");
     }
 
     // Load in the imported house creation scene:
