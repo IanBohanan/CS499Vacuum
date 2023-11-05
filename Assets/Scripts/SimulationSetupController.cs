@@ -14,6 +14,10 @@ public class SimulationSetupController : MonoBehaviour
     Button startSimulationBtn;
     Label batteryLifeLabel; // New field for displaying battery life
 
+    Slider robotSpeedSlider;
+    Label robotSpeedLabel; // New field for displaying Robot Speed
+
+
     // Algorithm Buttons:
     Button randomBtn;
     Button spiralBtn;
@@ -26,6 +30,7 @@ public class SimulationSetupController : MonoBehaviour
     // Settings Values:
     bool whiskersEnabled = false;
     float batteryLife = 150;
+    float robotSpeed = 12;
     string floorCovering = "Hardwood";
     bool randomAlg = false;
     bool spiralAlg = false;
@@ -67,12 +72,20 @@ public class SimulationSetupController : MonoBehaviour
         batteryLifeSlider.value = batteryLife; // Setting the initial slider value
         UpdateBatteryLifeLabel(); // Display initial battery life
 
+        // Robot Speed slider
+        robotSpeedSlider = root.Q<Slider>("RobotSpeedSlider");
+        robotSpeedLabel = root.Q<Label>("RobotSpeedLabel"); // Initializing the Robot Speed label
+        robotSpeedSlider.value = robotSpeed; // Setting the initial slider value
+        UpdaterobotSpeedLabel(); // Display initial Robot Speed
+
+
         startSimulationBtn = root.Q<Button>("StartButton");
 
         // Subscribe to callback functions:
         whiskersButton.clicked += () => { whiskersToggleFunction(); };
         floorCoveringDropdown.RegisterValueChangedCallback(floorCoveringUpdate);
         batteryLifeSlider.RegisterValueChangedCallback(batteryLifeUpdate);
+        robotSpeedSlider.RegisterValueChangedCallback(robotSpeedUpdate);
         randomBtn.clicked += () => toggleAlg("random");
         spiralBtn.clicked += () => toggleAlg("spiral");
         snakingBtn.clicked += () => toggleAlg("snaking");
@@ -101,6 +114,17 @@ public class SimulationSetupController : MonoBehaviour
     {
         batteryLife = batteryLifeSlider.value;
         UpdateBatteryLifeLabel(); // Update the label when the slider value changes
+    }
+
+    private void robotSpeedUpdate(ChangeEvent<float> evt)
+    {
+        robotSpeed = robotSpeedSlider.value;
+        UpdaterobotSpeedLabel(); // Update the label when the slider value changes
+    }
+
+    private void UpdaterobotSpeedLabel()
+    {
+        robotSpeedLabel.text = $"robotSpeed: {robotSpeed} inch/sec"; // Display updated Robot Speed
     }
 
     private void UpdateBatteryLifeLabel()
