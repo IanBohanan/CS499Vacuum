@@ -7,10 +7,16 @@
             <ui:Button text="Import JSON" display-tooltip-when-elided="true" name="ImportButton" />
             <ui:Button text="Create New" display-tooltip-when-elided="true" name="CreateNewButton" />
         </ui:VisualElement>
+        <ui:Button text="Review Past Simulations" display-tooltip-when-elided="true" name="DataReviewButton" />
     </ui:VisualElement>
     <ui:VisualElement name="ImportPopup" style="flex-grow: 1; display: none;">
-        <ui:Label tabindex="-1" text="Choose JSON file to import:" display-tooltip-when-elided="true" style="font-size: 30px;" />
+        <ui:Label tabindex="-1" text="Choose JSON file to import to house builder:" display-tooltip-when-elided="true" style="font-size: 30px;" />
         <ui:DropdownField index="-1" choices="Layout1,Layout2,Layout3,Layout4,Layout5,Layout6,Layout7,Layout8,Layout9,Layout10" name="SelectionDropdown" />
         <ui:Button text="Import" display-tooltip-when-elided="true" name="ImportJSONButton" style="margin-top: 25px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="DataReviewPopup" style="flex-grow: 1; display: none;">
+        <ui:Label tabindex="-1" text="Choose JSON file to import for data review:" display-tooltip-when-elided="true" style="font-size: 30px;" />
+        <ui:DropdownField index="-1" choices="Layout1,Layout2,Layout3,Layout4,Layout5,Layout6,Layout7,Layout8,Layout9,Layout10" name="DataReviewDropdown" />
+        <ui:Button text="Import" display-tooltip-when-elided="true" name="DataReviewConfirmButton" style="margin-top: 25px;" />
     </ui:VisualElement>
 </ui:UXML>

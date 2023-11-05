@@ -36,9 +36,7 @@ public class Vacuum : MonoBehaviour
         speed = 0.005f;
 
         // Assign variables from simulation setup
-        (whiskersEnabled, floorCovering, batteryLifeMinutes,
-            pathingDict["random"], pathingDict["spiral"], pathingDict["snaking"], pathingDict["wallfollow"]) =
-            InterSceneManager.getSimulationSettings();
+        (whiskersEnabled, floorCovering, batteryLifeMinutes) = InterSceneManager.getSimulationSettings();
 
         // Find the child GameObjects by their names.
         robotTransform = transform.Find("Robot");
@@ -85,6 +83,7 @@ public class Vacuum : MonoBehaviour
                 isBatteryDead = true;
             }
 
+            
             // #################################################
             // # BASIC MOVEMENT TO BE REMOVED FOR PATHING ALGS #
             // #################################################
@@ -96,6 +95,7 @@ public class Vacuum : MonoBehaviour
             robotTransform.position = transform.position;
             vacuumTransform.position = transform.position;
             whiskersTransform.position = transform.position;
+            
         }
     }
     private void OnTriggerEnter2D(Collider2D other)

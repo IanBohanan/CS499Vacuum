@@ -1,0 +1,68 @@
+#Body {
+    flex-grow: 1;
+    background-color: rgb(58, 58, 58);
+}
+
+#ReturnPanel {
+    align-items: center;
+    justify-content: flex-start;
+    height: 15%;
+}
+
+#GoHomeButton {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    -unity-font-style: bold;
+    font-size: 20px;
+    width: 300px;
+    height: 50px;
+    margin-top: 20px;
+}
+
+#PrevNextPanel {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: auto;
+    height: 15%;
+}
+
+.PrevNextButtons {
+    height: 50px;
+    width: 200px;
+    -unity-font-style: bold;
+    font-size: 20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin-top: 50px;
+    margin-right: 150px;
+    margin-bottom: 30px;
+    margin-left: 150px;
+}
+
+#DataPanelSpacer {
+    flex-grow: 0;
+    height: 70%;
+    margin-right: 125px;
+    margin-left: 125px;
+}
+
+#DataPanel {
+    background-color: rgba(0, 0, 0, 0.15);
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+#Data {
+    color: rgb(255, 255, 255);
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

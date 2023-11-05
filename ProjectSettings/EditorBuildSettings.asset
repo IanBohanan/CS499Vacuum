@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SimulationSetup.unity
     guid: b06bf8b4a50d926419b451102665d782
+  - enabled: 1
+    path: Assets/Scenes/DataReview.unity
+    guid: 0537840d706f0df4ca47cb7234401d9b
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

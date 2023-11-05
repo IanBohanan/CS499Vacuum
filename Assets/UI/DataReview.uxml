@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/DataReview.uss?fileID=7433441132597879392&amp;guid=bcd9a9de694817b46915f2e57145bc07&amp;type=3#DataReview" />
+    <ui:VisualElement name="Body" style="flex-grow: 1;">
+        <ui:VisualElement name="ReturnPanel" style="flex-grow: 1;">
+            <ui:Button text="Return to Main Manu" display-tooltip-when-elided="true" name="GoHomeButton" />
+        </ui:VisualElement>
+        <ui:VisualElement name="DataPanelSpacer" style="flex-grow: 1;">
+            <ui:VisualElement name="DataPanel" style="flex-grow: 1;">
+                <ui:TreeView view-data-key="unity-tree-view" name="Data" show-border="false" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="PrevNextPanel" style="flex-grow: 1;">
+            <ui:Button text="PREV" display-tooltip-when-elided="true" name="PrevButton" class="PrevNextButtons" />
+            <ui:Button text="NEXT" display-tooltip-when-elided="true" name="NextButton" class="PrevNextButtons" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

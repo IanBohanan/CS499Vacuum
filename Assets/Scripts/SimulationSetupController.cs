@@ -32,7 +32,7 @@ public class SimulationSetupController : MonoBehaviour
     bool snakingAlg = false;
     bool wallFollowAlg = false;
 
-    private (bool, string, int, bool, bool, bool, bool) myData;
+    private (bool, string, int) myData;
 
     void OnEnable()
     {
@@ -166,7 +166,7 @@ public class SimulationSetupController : MonoBehaviour
     {
         InterSceneManager.setSimulationSettings(whiskersEnabled, floorCovering, (int)batteryLife, randomAlg, spiralAlg, snakingAlg, wallFollowAlg);
         myData = InterSceneManager.getSimulationSettings();
-        Debug.Log(myData);
+        //Debug.Log(myData);
         // We want to load a new scene after setting up:
         SceneManager.LoadScene(sceneName: "Simulation");
     }
