@@ -21,7 +21,7 @@ public class VacuumMovement : MonoBehaviour
 
     RandomWalk randomAlg = new RandomWalk();
     WallFollow wallFollow = new WallFollow();
-    Vector2 currentDirectionVec;
+    public Vector2 currentDirectionVec;
 
     private float speed;    // Speed of the vacuum object
     int counter;        
@@ -43,13 +43,14 @@ public class VacuumMovement : MonoBehaviour
         // Set Speed
         speed = 0.005f;
 
-        // Get Starting Vector for Pathing Alg, save dir globally
-        // currentAlg = getNextAlg();
-        currentAlg = Algorithm.Random;
         counter = 0;
 
         (pathingDict["random"], pathingDict["spiral"], pathingDict["snaking"], 
             pathingDict["wallfollow"]) = InterSceneManager.getPathAlgs();
+
+        // Get Starting Vector for Pathing Alg, save dir globally
+        // currentAlg = getNextAlg();
+        currentAlg = getNextAlg();
 
         // Find the child GameObjects by their names.
         robotTransform = transform.Find("Robot");
@@ -68,18 +69,21 @@ public class VacuumMovement : MonoBehaviour
     {
         counter++;
 
-        if (currentAlg == Algorithm.WallFollow)
+        if (currentAlg == Algorithm.Random)
         {
-            if ((counter % 500) == 0)
-            {
-                currentDirectionVec = wallFollow.getStartingVec();
-                Debug.Log("Random: " + currentDirectionVec.x + ", " + currentDirectionVec.y);
-                currentDirectionVec = wallFollow.getFirstCollisionVec(currentDirectionVec);
-                Debug.Log("Cardinal: " + currentDirectionVec.x + ", " + currentDirectionVec.y);
-                //currentDirectionVec = wallFollow.getNewDirectionVec(currentDirectionVec, false, false, true); 
-                //currentDirectionVec = randomAlg.getNewDirectionVec(true, true);
-                counter = 0;
-            }
+            Debug.Log("Random");
+        }
+        else if (currentAlg == Algorithm.WallFollow)
+        {
+            Debug.Log("WallFollow");
+        }
+        else if (currentAlg == Algorithm.Spiral)
+        {
+            Debug.Log("Spiral");
+        }
+        else if (currentAlg == Algorithm.Snaking)
+        {
+            Debug.Log("Snaking");
         }
 
         // Move the entire "Vacuum-Robot" prefab.
@@ -95,7 +99,6 @@ public class VacuumMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Bleh");
         Vector3 vacuumPos = transform.position;
         Vector3 colliderPos = collision.transform.position;
 
@@ -121,29 +124,37 @@ public class VacuumMovement : MonoBehaviour
 
                 bool horColl = ((topCollision || bottomCollision) && !(bottomCollision || topCollision));
 
-                Debug.Log("RIGHT: " + rightCollision);
-                Debug.Log("LEFT: " + leftCollision);
-                Debug.Log("TOP: " + topCollision);
-                Debug.Log("BOTTOM: " + bottomCollision);
-                Debug.Log(collision.gameObject);
                 bool movingPositively = (currentDirectionVec.x > 0 || currentDirectionVec.y > 0);
                 currentDirectionVec = randomAlg.getNewDirectionVec(movingPositively, horColl);
-                // Set timer until we can collide again to prevent vacuum passing through
-                // other objects at high-speeds
-                canCollide = false;
-                StartCoroutine(DelayCollisionEnable(0.0005f));
+            } 
+            else if (currentAlg == Algorithm.WallFollow)
+            {
+                Debug.Log("WallFollow");
+            }
+            else if (currentAlg == Algorithm.Spiral)
+            {
+                Debug.Log("Spiral");
+            }
+            else if (currentAlg == Algorithm.Snaking)
+            {
+                Debug.Log("Snaking");
             }
 
+            // Set timer until we can collide again to prevent vacuum passing through
+            // other objects at high-speeds
+            canCollide = false;
+            StartCoroutine(DelayCollisionEnable(0.0005f));
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Error Warning");
+        Debug.Log("No collision logic");
     }
 
     private Algorithm getNextAlg()
     {
+        Debug.Log(pathingDict);
         Algorithm nextAlgorithm;
         foreach (var alg in pathingDict)
         {
@@ -169,7 +180,6 @@ public class VacuumMovement : MonoBehaviour
                         nextAlgorithm = Algorithm.Random;
                         break;
                 }
-
                 return nextAlgorithm;
 
             }
