@@ -27,25 +27,34 @@ public class CameraMovement : MonoBehaviour
         zoom = cam.orthographicSize;
 
     }
-
+    // Method to handle zoom input and apply the zoom effect.
     private void getZoom()
-    {
+    {   
+        // Get the scroll wheel input.
         float scroll = Input.GetAxis("Mouse ScrollWheel");
+        // Adjust the zoom level based on input, multiplied by the zoomMultiplier.
         zoom -= scroll * zoomMultiplier;
+        // Clamp the zoom level to the min and max bounds.
         zoom = Mathf.Clamp(zoom, minZoom, maxZoom);
+        // Smoothly transition to the new zoom level.
         cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, zoom, ref velocity, smoothTime);
     }
-
+    // Update is called once per frame.
     private void Update()
-    {
+    {   
+        //Initialize a new Vector3 to store movement input
         Vector3 movement;
+        // Get horizontal and vertical input and multiply by half of the cameraSpeed.
         movement.x = Input.GetAxisRaw("Horizontal") * (cameraSpeed*0.5f);
         movement.y = Input.GetAxisRaw("Vertical") * (cameraSpeed*0.5f);
         movement.z = 0;
-        //movement = movement.normalized; //normalize the movement vector so diagonal movement isn't faster
+        // Uncomment the following line if you want to ensure consistent movement speed in all directions.
+        //movement = movement.normalized; // Normalize the movement vector so diagonal movement isn't faster.
+        // Update the camera's position based on the movement input.
         CameraPostion += movement;
+        // Apply the updated position to the camera's transform.
         transform.position = CameraPostion;
-
+        // Call the getZoom method to handling the zooming
         getZoom();
     }
 
