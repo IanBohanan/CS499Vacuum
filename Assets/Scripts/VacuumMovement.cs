@@ -14,6 +14,14 @@ public class VacuumMovement : MonoBehaviour
     }
     Algorithm currentAlg;
 
+    enum Direction
+    {
+        Left,
+        Right,
+        Up,
+        Down
+    }
+
     // Keep track of all objects in robot vacuum prefab (Consider Serialized Fields?)
     private Transform robotTransform;
     private Transform vacuumTransform;
@@ -60,7 +68,8 @@ public class VacuumMovement : MonoBehaviour
         // Pathing Algorithm Setup
         if (currentAlg == Algorithm.Random)
         {
-            currentDirectionVec = randomAlg.getNewDirectionVec(true, true);
+            currentDirectionVec = new Vector2(-1, 0);
+           // currentDirectionVec = randomAlg.getStartingVec();
         }
     }
 
@@ -71,7 +80,7 @@ public class VacuumMovement : MonoBehaviour
 
         if (currentAlg == Algorithm.Random)
         {
-            Debug.Log("Random");
+            //Debug.Log("Random");
         }
         else if (currentAlg == Algorithm.WallFollow)
         {
@@ -99,33 +108,57 @@ public class VacuumMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Vector3 vacuumPos = transform.position;
-        Vector3 colliderPos = collision.transform.position;
+        // Cast rays in cardinal directions to determine more collision info
+        RaycastHit2D hitDataLeft = Physics2D.Raycast(transform.position, -transform.right);
+        RaycastHit2D hitDataRight = Physics2D.Raycast(transform.position, transform.right);
+        RaycastHit2D hitDataUp = Physics2D.Raycast(transform.position, transform.up);
+        RaycastHit2D hitDataDown = Physics2D.Raycast(transform.position, -transform.up);
 
-        Vector2 vacuumSize = GetComponent<Collider2D>().bounds.size;
-        Vector2 colliderSize = collision.bounds.size;
+        // Initialize Array 
+        RaycastHit2D[] hitData = new RaycastHit2D[] { hitDataLeft, hitDataRight, hitDataUp, hitDataDown };
+
+        Debug.Log("yeah");
+
         if (canCollide)
         {
 
             if (currentAlg == Algorithm.Random)
             {
+                RaycastHit2D shortestRay = hitData[0];
+                int indexOfShortestRay = 0;
+                for (int i = 0; i < hitData.Length; i++)
+                {
+                    RaycastHit2D compareTo = hitData[i];
+                    if (compareTo.distance < shortestRay.distance)
+                    {
+                        shortestRay = compareTo;
+                        indexOfShortestRay = i;
+                    }
 
-                bool rightCollision = vacuumPos.x < colliderPos.x 
-                    && Mathf.Abs(vacuumPos.y - colliderPos.y) < (vacuumSize.y + colliderSize.y) / 2;
+                }
 
-                bool topCollision = vacuumPos.y > colliderPos.y
-                    && Mathf.Abs(vacuumPos.x - colliderPos.x) < (vacuumSize.x + colliderSize.x) / 2;
+                Direction closestDir = (Direction)indexOfShortestRay;
 
-                bool bottomCollision = vacuumPos.y < colliderPos.y
-                    && Mathf.Abs(vacuumPos.x - colliderPos.x) < (vacuumSize.x + colliderSize.x) / 2;
+                Vector2 collisionDir = new Vector2(0, 0);
+                if (closestDir == Direction.Up)
+                {
+                    collisionDir = new Vector2(0, 1);
+                } 
+                else if (closestDir == Direction.Down)
+                {
+                    collisionDir = new Vector2(0, -1);
+                }
+                else if (closestDir == Direction.Right)
+                {
+                    collisionDir = new Vector2(1, 0);
+                }
+                else if (closestDir == Direction.Left)
+                {
+                    collisionDir = new Vector2(-1, 0);
+                }
 
-                bool leftCollision = vacuumPos.x > colliderPos.x
-                    && Mathf.Abs(vacuumPos.y - colliderPos.y) < (vacuumSize.y + colliderSize.y) / 2;
-
-                bool horColl = ((topCollision || bottomCollision) && !(bottomCollision || topCollision));
-
-                bool movingPositively = (currentDirectionVec.x > 0 || currentDirectionVec.y > 0);
-                currentDirectionVec = randomAlg.getNewDirectionVec(movingPositively, horColl);
+                Debug.Log(closestDir);
+                currentDirectionVec = randomAlg.getNewDirectionVec(collisionDir);
             } 
             else if (currentAlg == Algorithm.WallFollow)
             {
