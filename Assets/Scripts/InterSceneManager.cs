@@ -14,7 +14,7 @@ public static class InterSceneManager
     private static bool whiskersEnabled;
     private static string floorCovering;
     private static int batteryLife;
-    private static bool randomAlgEnabled;
+    private static bool randomAlgEnabled = true;
     private static bool spiralAlgEnabled;
     private static bool snakingAlgEnabled;
     private static bool wallFollowAlgEnabled;

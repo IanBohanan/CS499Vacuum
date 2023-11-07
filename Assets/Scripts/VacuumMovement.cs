@@ -57,7 +57,6 @@ public class VacuumMovement : MonoBehaviour
             pathingDict["wallfollow"]) = InterSceneManager.getPathAlgs();
 
         // Get Starting Vector for Pathing Alg, save dir globally
-        // currentAlg = getNextAlg();
         currentAlg = getNextAlg();
 
         // Find the child GameObjects by their names.
@@ -68,8 +67,8 @@ public class VacuumMovement : MonoBehaviour
         // Pathing Algorithm Setup
         if (currentAlg == Algorithm.Random)
         {
-            currentDirectionVec = new Vector2(-1, 0);
-           // currentDirectionVec = randomAlg.getStartingVec();
+            //currentDirectionVec = new Vector2(-1, 0);
+            currentDirectionVec = randomAlg.getStartingVec();
         }
     }
 
@@ -100,9 +99,16 @@ public class VacuumMovement : MonoBehaviour
         Vector3 movePosition = new Vector3(currentDirectionVec.x , currentDirectionVec.y, 0) * speed * InterSceneManager.speedMultiplier;
         // Move the child GameObjects along with the parent.
         transform.position += movePosition;
-        robotTransform.position += movePosition;
+/*        robotTransform.position += movePosition;
         vacuumTransform.position += movePosition;
-        whiskersTransform.position += movePosition;
+        whiskersTransform.position += movePosition;*/
+
+        Rigidbody2D body = GetComponent<Rigidbody2D>();
+
+        body.MovePosition(body.position += new Vector2(movePosition.x, movePosition.y));
+/*
+        Debug.Log("POS: "+transform.position);
+        Debug.Log("RB: "+GetComponent<Rigidbody2D>().position);*/
 
     }
 
