@@ -55,7 +55,7 @@ public class CleanlinessManager : MonoBehaviour
         foreach (var tile in tileData)
         {
             //Change the color of the tile between white(ie. the base image) and pure green.
-            Color newTileColor = Color.Lerp(Color.white, Color.green, tile.Value / 100);
+            Color newTileColor = Color.green;
 
 
             //Okay Unity has some weird debug thing where it has a "lock color" flag for each tile.

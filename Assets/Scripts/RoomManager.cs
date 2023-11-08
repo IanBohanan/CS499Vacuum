@@ -12,7 +12,7 @@ public class RoomManager : MonoBehaviour
     [SerializeField]
     private Tilemap tilemap;
     [SerializeField]
-    private Color cleanColor;
+    private Color floodedColor;
 
     public List<Vector3Int> debugDictList = new List<Vector3Int>();
     public Dictionary<Vector3Int, bool> exploredTiles = new Dictionary<Vector3Int, bool>(); //Dictionary that matches the positions with whether the tile was explored
@@ -86,7 +86,7 @@ public class RoomManager : MonoBehaviour
             //Sooo just gonna have to unlock that flag for the tile, change the color, then lock the flag AGAIN.
             //Otherwise the entire tilemap gets updated and not just the one tile.
             tilemap.SetTileFlags(position, TileFlags.None);
-            tilemap.SetColor(position, cleanColor);
+            tilemap.SetColor(position, floodedColor);
             tilemap.SetTileFlags(position, TileFlags.LockColor);
     }
 
