@@ -285,7 +285,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5322174859671512549}
   - component: {fileID: 8046872224700944876}
-  - component: {fileID: 1453195440626863910}
+  - component: {fileID: 3765513094957211590}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -331,7 +331,7 @@ MonoBehaviour:
   wallEndpoint1: {fileID: 5657930230422461440}
   wallEndpoint2: {fileID: 493650849508206059}
   WallTransform: {fileID: 5322174859671512549}
---- !u!61 &1453195440626863910
+--- !u!61 &3765513094957211590
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -365,7 +365,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 3}
+  m_Offset: {x: 0, y: 3.04}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -375,7 +375,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 7.1}
+  m_Size: {x: 1, y: 7.05}
   m_EdgeRadius: 0
 --- !u!1 &5657930230422461440
 GameObject:

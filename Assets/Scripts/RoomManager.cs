@@ -43,8 +43,8 @@ public class RoomManager : MonoBehaviour
                 return;
             }
 
-            // Check if there's a game object at this position.
-            Vector3 worldPosition = tilemap.CellToWorld(position);
+            // Check if there's a game object at this position in the actual coordinates
+            Vector3 worldPosition = tilemap.GetCellCenterWorld(position);
 
             Collider2D collider = Physics2D.OverlapPoint(worldPosition);
 
@@ -52,6 +52,7 @@ public class RoomManager : MonoBehaviour
             {
                 // Stop inspecting cause furniture is here
                 print(position + " had furniture on it.");
+                activeTiles--;
                 return;
             }
 
@@ -60,10 +61,6 @@ public class RoomManager : MonoBehaviour
             debugDictList.Add(position);
             colorTile(position);
             //Mark the tile with a tint to show it has been explored
-
-
-            // Continue the flood fill for neighboring tiles.
-            activeTiles--;
 
             //Reminder, the position is per TILE. So go by ones, not by world coordinates.
             FloodFill(position + (1*Vector3Int.up));
