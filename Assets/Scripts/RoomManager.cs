@@ -22,7 +22,7 @@ public class RoomManager : MonoBehaviour
     void Start()
     {
         // Define your starting point for flood fill.
-        Vector3Int startPosition = new Vector3Int(0, 0, 0);
+        Vector3Int startPosition = new Vector3Int(1, 0, 0);
         isFlooding = true;
         print("RoomManager: Beginning flood.");
         FloodFill(startPosition);
@@ -44,7 +44,7 @@ public class RoomManager : MonoBehaviour
             }
 
             // Check if there's a game object at this position.
-            Vector3 worldPosition = tilemap.WorldToCell(position);
+            Vector3 worldPosition = tilemap.CellToWorld(position);
 
             Collider2D collider = Physics2D.OverlapPoint(worldPosition);
 
