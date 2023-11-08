@@ -128,7 +128,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      dining-chair_0: 3170963569850710426
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
