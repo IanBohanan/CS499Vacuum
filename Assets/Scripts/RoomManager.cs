@@ -22,10 +22,6 @@ public class RoomManager : MonoBehaviour
     void Start()
     {
         // Define your starting point for flood fill.
-        Vector3Int startPosition = new Vector3Int(1, 0, 0);
-        isFlooding = true;
-        print("RoomManager: Beginning flood.");
-        FloodFill(startPosition);
     }
 
     //Explores a tile, then tries to explore the surrounding tiles (four cardinal directions).
@@ -92,7 +88,16 @@ public class RoomManager : MonoBehaviour
 
     private void Update()
     {
-        if(isFlooding)
+        if (Input.GetKeyDown("space"))
+        {
+            Vector3Int startPosition = new Vector3Int(1, 0, 0);
+            isFlooding = true;
+            print("RoomManager: Beginning flood.");
+            FloodFill(startPosition);
+        }
+
+
+        if (isFlooding)
         {
             if(activeTiles <= 0)
             {
