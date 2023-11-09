@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 
 public class SimulationSetupController : MonoBehaviour
 {
+    //UI Elements
     Button whiskersButton;
     Slider batteryLifeSlider;
     Button startSimulationBtn;
@@ -45,6 +46,7 @@ public class SimulationSetupController : MonoBehaviour
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
         // Parse UI Doc Tree:
+        // Get body element and settings container
         VisualElement body = root.Q<VisualElement>("Body");
         VisualElement settingsContainer = body.Q<VisualElement>("SettingsContainer");
         // Left Column:
@@ -66,13 +68,13 @@ public class SimulationSetupController : MonoBehaviour
         spiralBtn = spiralContainer.Q<Button>("SpiralCheckbox");
         snakingBtn = snakingContainer.Q<Button>("SnakingCheckbox");
         wallFollowBtn = wallFollowContainer.Q<Button>("WallFollowCheckbox");
-
+        // Initialize Battery Life slider and label
         batteryLifeSlider = root.Q<Slider>("BatteryLifeSlider");
         batteryLifeLabel = root.Q<Label>("BatteryLifeLabel"); // Initializing the battery life label
         batteryLifeSlider.value = batteryLife; // Setting the initial slider value
         UpdateBatteryLifeLabel(); // Display initial battery life
 
-        // Robot Speed slider
+        // Initialize Robot Speed slider and label
         robotSpeedSlider = root.Q<Slider>("RobotSpeedSlider");
         robotSpeedLabel = root.Q<Label>("RobotSpeedLabel"); // Initializing the Robot Speed label
         robotSpeedSlider.value = robotSpeed; // Setting the initial slider value
@@ -81,7 +83,7 @@ public class SimulationSetupController : MonoBehaviour
 
         startSimulationBtn = root.Q<Button>("StartButton");
 
-        // Subscribe to callback functions:
+        // Subscribe to callback functions for UI interactions
         whiskersButton.clicked += () => { whiskersToggleFunction(); };
         floorCoveringDropdown.RegisterValueChangedCallback(floorCoveringUpdate);
         batteryLifeSlider.RegisterValueChangedCallback(batteryLifeUpdate);
@@ -92,7 +94,7 @@ public class SimulationSetupController : MonoBehaviour
         wallFollowBtn.clicked += () => toggleAlg("wallFollow");
         startSimulationBtn.clicked += () => onStartSimulationPress();
     }
-
+    // Function to toggle whiskers
     private void whiskersToggleFunction()
     {
         whiskersEnabled = !whiskersEnabled;
@@ -104,34 +106,34 @@ public class SimulationSetupController : MonoBehaviour
             whiskersButton.style.color = new Color(0.7372f, 0.7372f, 0.7372f, 1);
         }
     }
-
+    // Function to update floor covering setting
     private void floorCoveringUpdate(ChangeEvent<string> evt)
     {
         floorCovering = floorCoveringDropdown.value;
     }
-
+    // Function to update battery life setting
     private void batteryLifeUpdate(ChangeEvent<float> evt)
     {
         batteryLife = batteryLifeSlider.value;
         UpdateBatteryLifeLabel(); // Update the label when the slider value changes
     }
-
+    // Function to update robot speed setting
     private void robotSpeedUpdate(ChangeEvent<float> evt)
     {
         robotSpeed = robotSpeedSlider.value;
-        UpdaterobotSpeedLabel(); // Update the label when the slider value changes
+        UpdaterobotSpeedLabel(); 
     }
-
+    // Function to update Robot Speed label
     private void UpdaterobotSpeedLabel()
     {
         robotSpeedLabel.text = $"robotSpeed: {robotSpeed} inch/sec"; // Display updated Robot Speed
     }
-
+   // Function to update Battery Life label 
     private void UpdateBatteryLifeLabel()
     {
         batteryLifeLabel.text = $"Battery Life: {batteryLife} mins"; // Display updated battery life
     }
-
+    // Function to toggle algorithm settings
     private void toggleAlg(string algName)
     {
         switch (algName)
@@ -185,7 +187,7 @@ public class SimulationSetupController : MonoBehaviour
                 break;
         }
     }
-
+    // Function to handle the "Start Simulation" button press
     public void onStartSimulationPress()
     {
         InterSceneManager.setSimulationSettings(whiskersEnabled, floorCovering, (int)batteryLife, randomAlg, spiralAlg, snakingAlg, wallFollowAlg);
