@@ -160,7 +160,8 @@ public class HouseBuilderUI : MonoBehaviour
         // Save to JSON if confirmed:
         if (areYouSure) 
         { 
-            layoutManager.saveToJSON(exportFileSelection); 
+            layoutManager.saveToJSON(exportFileSelection);
+            InterSceneManager.fileSelection = exportDropdown.value;
             SceneManager.LoadScene(sceneName: "SimulationSetup"); 
         }
             // Hide Popup:

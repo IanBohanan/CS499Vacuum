@@ -14,7 +14,7 @@ public class Vacuum : MonoBehaviour
     private float speed;              // Inches per Second
 
     public float batteryLifeMinutes;  // In Minutes
-    private float currBatteryLife;    // In Seconds (for decrementing with timeDelta)
+    public float currBatteryLife;    // In Seconds (for decrementing with timeDelta)
     private bool whiskersEnabled;
     private string floorCovering;
     private bool isBatteryDead;

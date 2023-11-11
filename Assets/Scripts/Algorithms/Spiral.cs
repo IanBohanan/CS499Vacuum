@@ -1,11 +1,28 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class RandomWalk
+public class Spiral
 {
-    public Vector2 getNewDirectionVec(Vector2 collisionDirection)
+    public Vector2 getStartingVec()
+    {
+        // Generate randomized angle to be used:
+        System.Random random = new System.Random();
+        double newAngle = random.Next(0, 360);
+
+        newAngle = newAngle * Math.PI / 180; // Convert degrees to radians
+
+        Vector2 directionVec = new Vector2(); // Initialize new 2D direction vector
+
+        directionVec.x = (float)Math.Cos(newAngle);
+        directionVec.y = (float)Math.Sin(newAngle);
+
+        directionVec.Normalize();
+        return (directionVec);
+    }
+    public Vector2 getNewRandomDirectionVec(Vector2 collisionDirection)
     {
         // Generate randomized angle to be used:
         System.Random random = new System.Random();
@@ -45,20 +62,19 @@ public class RandomWalk
         return (directionVec);
     }
 
-    public Vector2 getStartingVec()
+    public (Vector2, Quaternion) getNewSpiralVec(Vector2 currentDirectionVec, Quaternion currentEulerRotation)
     {
-        // Generate randomized angle to be used:
-        System.Random random = new System.Random();
-        double newAngle = random.Next(0, 360);
+        // Rotate vacuum:
+        Quaternion newRotation = Quaternion.Euler(currentEulerRotation.x, currentEulerRotation.y, currentEulerRotation.z + 2);
 
-        newAngle = newAngle * Math.PI / 180; // Convert degrees to radians
+        // Rotate direction vector:
+        float radians = 2 * Mathf.Deg2Rad;
+        float cosTheta = Mathf.Cos(radians);
+        float sinTheta = Mathf.Sin(radians);
+        float x = currentDirectionVec.x * cosTheta - currentDirectionVec.y * sinTheta;
+        float y = currentDirectionVec.x * sinTheta - currentDirectionVec.y * cosTheta;
+        Vector2 newDirectionVec = new Vector2(x,y);
 
-        Vector2 directionVec = new Vector2(); // Initialize new 2D direction vector
-
-        directionVec.x = (float)Math.Cos(newAngle);
-        directionVec.y = (float)Math.Sin(newAngle);
-
-        directionVec.Normalize();
-        return (directionVec);
+        return (newDirectionVec, newRotation);
     }
 }

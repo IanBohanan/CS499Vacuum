@@ -14,10 +14,10 @@ public static class InterSceneManager
     private static bool whiskersEnabled;
     private static string floorCovering;
     private static int batteryLife;
-    private static bool randomAlgEnabled = true;
-    private static bool spiralAlgEnabled;
-    private static bool snakingAlgEnabled;
-    private static bool wallFollowAlgEnabled;
+    private static bool randomAlgEnabled = false;
+    private static bool spiralAlgEnabled = false;
+    private static bool snakingAlgEnabled = false;
+    private static bool wallFollowAlgEnabled = true;
 
     // Simulation Speed, used by Vacuum to multiply speed:
     public static int speedMultiplier = 1;

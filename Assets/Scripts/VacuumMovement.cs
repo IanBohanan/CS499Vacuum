@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class VacuumMovement : MonoBehaviour
@@ -29,7 +31,13 @@ public class VacuumMovement : MonoBehaviour
 
     RandomWalk randomAlg = new RandomWalk();
     WallFollow wallFollow = new WallFollow();
-    public Vector2 currentDirectionVec;
+    bool wallFollowing = false;
+    bool justTurned = false;
+    Spiral spiral = new Spiral();
+    Vector3 spiralOrigin = Vector3.zero;
+    bool isSpiraling = false;
+
+    public Vector2 currentDirectionVec; // The normalized direction vector to tell the vacuum where to go
 
     private float speed;    // Speed of the vacuum object
     int counter;        
@@ -70,6 +78,20 @@ public class VacuumMovement : MonoBehaviour
             //currentDirectionVec = new Vector2(-1, 0);
             currentDirectionVec = randomAlg.getStartingVec();
         }
+        else if (currentAlg == Algorithm.WallFollow)
+        {
+            currentDirectionVec = new Vector2(0.1f, 0.9f); //wallFollow.getStartingVec();
+        }
+        else if (currentAlg == Algorithm.Spiral)
+        {
+            currentDirectionVec = new Vector2(1, 0); //spiral.getStartingVec();
+        }
+/*
+        RaycastHit2D hitDataLeft = Physics2D.Raycast(transform.position, -transform.right);
+        Debug.Log("First: " + hitDataLeft.distance);
+        transform.rotation = Quaternion.Euler(0, 0, -90);
+        hitDataLeft = Physics2D.Raycast(transform.position, -transform.right);
+        Debug.Log("Then: " + hitDataLeft.distance);*/
     }
 
     // Update is called once per frame
@@ -83,11 +105,86 @@ public class VacuumMovement : MonoBehaviour
         }
         else if (currentAlg == Algorithm.WallFollow)
         {
-            Debug.Log("WallFollow");
+            //Debug.Log("WallFollow");
+            Vector3 botBottom = new Vector3(transform.position.x, transform.position.y + 6, transform.position.z);
+            RaycastHit2D hitDataLeft = Physics2D.Raycast(botBottom, -transform.right);
+            if (hitDataLeft.distance > 8)
+            {
+                if ((!justTurned) && wallFollowing)
+                {
+                    //speed = 0;
+                    //Debug.Log(hitDataLeft.distance);
+                    float x = (currentDirectionVec.x * 6);
+                    float y = (currentDirectionVec.y * 6);
+                    transform.position += new Vector3(x, y, 0);
+                    currentDirectionVec = wallFollow.turnLeft(currentDirectionVec);
+                    if (currentDirectionVec == new Vector2(1, 0))
+                    {
+                        Debug.Log("Right");
+                        // Rotate to face right (positive x)
+                        transform.rotation = Quaternion.Euler(0, 0, -90);
+                    }
+                    else if (currentDirectionVec == new Vector2(0, 1))
+                    {
+                        Debug.Log("up");
+                        // Rotate to face upwards (positive y)
+                        transform.rotation = Quaternion.Euler(0, 0, 0);
+                    }
+                    else if (currentDirectionVec == new Vector2(-1, 0))
+                    {
+                        Debug.Log("Left");
+                        // Rotate to face left (negative y)
+                        transform.rotation = Quaternion.Euler(0, 0, 90);
+                    }
+                    else if (currentDirectionVec == new Vector2(0, -1))
+                    {
+                        Debug.Log("down");
+                        // Rotate to face downwards (negative y)
+                        transform.rotation = Quaternion.Euler(0, 0, 180);
+                    }
+                    justTurned = true;
+                }
+            }
+            else if (justTurned)
+            {
+                justTurned = false;
+            }
         }
         else if (currentAlg == Algorithm.Spiral)
         {
-            Debug.Log("Spiral");
+            if (isSpiraling) {
+                //(Vector2 newVec, Quaternion newQuat) = spiral.getNewSpiralVec(currentDirectionVec, transform.rotation);
+                //float distance = (Vector3.Distance(transform.position, spiralOrigin))/100;
+                //transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.eulerAngles.z + (0.5f-distance));
+                //currentDirectionVec = newVec;}
+                float angle = Time.time * 1; // replace 1 with the whatever speed
+                float radius = 1 + angle; // 1 is the radius
+
+                float x = Mathf.Cos(angle) * radius;
+                float y = Mathf.Sin(angle) * radius;
+
+                Vector3 newPosition = spiralOrigin + new Vector3(x, y, 0);
+
+                transform.position = newPosition;
+            }
+            else
+            {
+                bool enoughSpace = true;
+                RaycastHit2D hitDataLeft = Physics2D.Raycast(transform.position, -transform.right);
+                RaycastHit2D hitDataRight = Physics2D.Raycast(transform.position, transform.right);
+                RaycastHit2D hitDataUp = Physics2D.Raycast(transform.position, transform.up);
+                RaycastHit2D hitDataDown = Physics2D.Raycast(transform.position, -transform.up);
+                if ((hitDataLeft.distance < 10) && (hitDataLeft.collider)) { enoughSpace = false; }
+                if ((hitDataRight.distance < 10) && (hitDataRight.collider)) { enoughSpace = false; }
+                if ((hitDataUp.distance < 10) && (hitDataUp.collider)) { enoughSpace = false; }
+                if ((hitDataDown.distance < 10) && (hitDataDown.collider)) { enoughSpace = false; }
+
+                if (enoughSpace) // We have enough space in all directions to start the spiraling algorithm
+                { 
+                    isSpiraling = true; 
+                    spiralOrigin = transform.position;
+                } 
+            }
         }
         else if (currentAlg == Algorithm.Snaking)
         {
@@ -99,17 +196,6 @@ public class VacuumMovement : MonoBehaviour
         Vector3 movePosition = new Vector3(currentDirectionVec.x , currentDirectionVec.y, 0) * speed * InterSceneManager.speedMultiplier;
         // Move the child GameObjects along with the parent.
         transform.position += movePosition;
-/*        robotTransform.position += movePosition;
-        vacuumTransform.position += movePosition;
-        whiskersTransform.position += movePosition;*/
-
-        Rigidbody2D body = GetComponent<Rigidbody2D>();
-
-        body.MovePosition(body.position += new Vector2(movePosition.x, movePosition.y));
-/*
-        Debug.Log("POS: "+transform.position);
-        Debug.Log("RB: "+GetComponent<Rigidbody2D>().position);*/
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -120,6 +206,11 @@ public class VacuumMovement : MonoBehaviour
         RaycastHit2D hitDataUp = Physics2D.Raycast(transform.position, transform.up);
         RaycastHit2D hitDataDown = Physics2D.Raycast(transform.position, -transform.up);
 
+  /*      Debug.Log(hitDataLeft.distance);
+        Debug.Log(hitDataRight.distance);
+        Debug.Log(hitDataUp.distance);
+        Debug.Log(hitDataDown.distance);*/
+
         // Initialize Array 
         RaycastHit2D[] hitData = new RaycastHit2D[] { hitDataLeft, hitDataRight, hitDataUp, hitDataDown };
 
@@ -127,10 +218,9 @@ public class VacuumMovement : MonoBehaviour
 
         if (canCollide)
         {
-
             if (currentAlg == Algorithm.Random)
             {
-                RaycastHit2D shortestRay = hitData[0];
+/*                RaycastHit2D shortestRay = hitData[0];
                 int indexOfShortestRay = 0;
                 for (int i = 0; i < hitData.Length; i++)
                 {
@@ -141,12 +231,12 @@ public class VacuumMovement : MonoBehaviour
                         indexOfShortestRay = i;
                     }
 
-                }
+                }*/
 
-                Direction closestDir = (Direction)indexOfShortestRay;
+                //Direction closestDir = (Direction)indexOfShortestRay;
 
                 Vector2 collisionDir = new Vector2(0, 0);
-                if (closestDir == Direction.Up)
+/*                if (closestDir == Direction.Up)
                 {
                     collisionDir = new Vector2(0, 1);
                 } 
@@ -161,18 +251,143 @@ public class VacuumMovement : MonoBehaviour
                 else if (closestDir == Direction.Left)
                 {
                     collisionDir = new Vector2(-1, 0);
+                }*/
+
+                //--------------------------------------------------------
+                string closestName = "left";
+                float closest = hitDataLeft.distance; //new Vector2(1, 0);
+
+                if (closest > hitDataRight.distance)
+                {
+                    closest = hitDataRight.distance;
+                    closestName = "right";
+                }
+                if (closest > hitDataUp.distance)
+                {
+                    closest = hitDataUp.distance;
+                    closestName = "up";
+                }
+                if (closest > hitDataDown.distance)
+                {
+                    closest = hitDataDown.distance;
+                    closestName = "down";
                 }
 
-                Debug.Log(closestDir);
-                currentDirectionVec = randomAlg.getNewDirectionVec(collisionDir);
+                switch (closestName)
+                {
+                    case "left":
+                        Debug.Log("left");
+                        collisionDir = new Vector2(-1, 0);
+                        break;
+                    case "right":
+                        Debug.Log("right");
+                        collisionDir = new Vector2(1, 0);
+                        break;
+                    case "up":
+                        Debug.Log("up");
+                        collisionDir = new Vector2(0, 1);
+                        break;
+                    case "down":
+                        Debug.Log("down");
+                        collisionDir = new Vector2(0, -1);
+                        break;
+                    default:
+                        Debug.Log("Uh oh...");
+                        break;
+                }
+                //--------------------------------------------------------
+                /*
+                                ColliderDistance2D dis = GetComponent<Rigidbody2D>().Distance(collision);*/
+
+                currentDirectionVec = -currentDirectionVec;
+
+                float x = currentDirectionVec.x * 0.25f;
+                float y = currentDirectionVec.y * 0.25f;
+
+                currentDirectionVec = -currentDirectionVec;
+
+                transform.position += new Vector3(x, y, 0);
+
+
+
+                bool newDir = true;
+                while (newDir)
+                {
+                    newDir = false;
+                    currentDirectionVec = randomAlg.getStartingVec();
+                    Debug.Log(currentDirectionVec);
+                    if (currentDirectionVec.y > 0)
+                    {
+                        if (hitDataUp.distance < 1){
+                            newDir = true;
+                        }
+                    }
+                    if (currentDirectionVec.x > 0)
+                    {
+                        if (hitDataRight.distance < 1)
+                        {
+                            newDir = true;
+                        }
+                    }
+                    if (currentDirectionVec.y < 0)
+                    {
+                        if (hitDataDown.distance < 1)
+                        {
+                            newDir = true;
+                        }
+                    }
+                    if (currentDirectionVec.x < 0)
+                    {
+                        if (hitDataLeft.distance < 1)
+                        {
+                            newDir = true;
+                        }
+                    }
+                }
+
             } 
             else if (currentAlg == Algorithm.WallFollow)
             {
-                Debug.Log("WallFollow");
+                currentDirectionVec = -currentDirectionVec;
+                float x = currentDirectionVec.x * 0.5f;
+                float y = currentDirectionVec.y * 0.5f;
+                transform.position += new Vector3(x, y, 0);
+                currentDirectionVec = -(currentDirectionVec);
+
+                if (wallFollowing) {
+                    Debug.Log("HERE: " + collision.name);
+                    currentDirectionVec = wallFollow.turnRight(currentDirectionVec); 
+                }
+                else { currentDirectionVec = wallFollow.getFirstCollisionVec(currentDirectionVec, true); wallFollowing = true; }
+
+                if (currentDirectionVec == new Vector2(1, 0))
+                {
+                    Debug.Log("Right");
+                    // Rotate to face right (positive x)
+                    transform.rotation = Quaternion.Euler(0, 0, -90);
+                }
+                else if (currentDirectionVec == new Vector2(0, 1))
+                {
+                    Debug.Log("up");
+                    // Rotate to face upwards (positive y)
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                }
+                else if (currentDirectionVec == new Vector2(-1, 0))
+                {
+                    Debug.Log("Left");
+                    // Rotate to face left (negative y)
+                    transform.rotation = Quaternion.Euler(0, 0, 90);
+                }
+                else if (currentDirectionVec == new Vector2(0, -1))
+                {
+                    Debug.Log("down");
+                    // Rotate to face downwards (negative y)
+                    transform.rotation = Quaternion.Euler(0, 0, 180);
+                }
             }
             else if (currentAlg == Algorithm.Spiral)
             {
-                Debug.Log("Spiral");
+                isSpiraling = false; // Stop the spiral updates
             }
             else if (currentAlg == Algorithm.Snaking)
             {

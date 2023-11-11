@@ -1,1 +1,1 @@
-{"Furniture":[{"type":"Chair(Clone)","posX":6.0,"posY":-3.0},{"type":"Chair(Clone)","posX":-18.0,"posY":15.0}],"Walls":[],"RoomDoors":[],"ExitDoors":[]}
+{"Furniture":[{"type":"Chair(Clone)","posX":6.0,"posY":-3.0},{"type":"Chest Variant(Clone)","posX":33.0,"posY":3.0},{"type":"Chest Variant(Clone)","posX":-15.0,"posY":9.0},{"type":"Chest Variant(Clone)","posX":-15.0,"posY":-21.0},{"type":"Chest Variant(Clone)","posX":33.0,"posY":-15.0}],"Walls":[],"RoomDoors":[],"ExitDoors":[]}
