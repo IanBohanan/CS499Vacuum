@@ -11,12 +11,18 @@ public class SimulationSetupController : MonoBehaviour
 {
     Button whiskersButton;
     Slider batteryLifeSlider;
+
+    // Slider and Label for Range of Whiskers and Vacuum
+    Slider whiskerRangeSlider; // Field for whisker range
+    Slider vacuumRangeSlider;  // Field for vacuum range
+    Label whiskerRangeLabel;   // Field for displaying Whisker's Range
+    Label vacuumRangeLabel;    // Field for displaying Vacuum's efficiency Range
+
     Button startSimulationBtn;
-    Label batteryLifeLabel; // New field for displaying battery life
+    Label batteryLifeLabel; // Field for displaying battery life
 
     Slider robotSpeedSlider;
-    Label robotSpeedLabel; // New field for displaying Robot Speed
-
+    Label robotSpeedLabel; // Field for displaying Robot Speed
 
     // Algorithm Buttons:
     Button randomBtn;
@@ -31,6 +37,8 @@ public class SimulationSetupController : MonoBehaviour
     bool whiskersEnabled = false;
     float batteryLife = 150;
     float robotSpeed = 12;
+    float whiskerRange = 10;
+    float vacuumRange = 10;
     string floorCovering = "Hardwood";
     bool randomAlg = false;
     bool spiralAlg = false;
@@ -78,6 +86,22 @@ public class SimulationSetupController : MonoBehaviour
         robotSpeedSlider.value = robotSpeed; // Setting the initial slider value
         UpdaterobotSpeedLabel(); // Display initial Robot Speed
 
+        // New Slider and Label for Range of Whiskers
+
+        whiskerRangeSlider = root.Q<Slider>("WhiskerRangeSlider");
+        whiskerRangeLabel = root.Q<Label>("WhiskerRangeLabel"); // Initializing the Whisker Range label
+        whiskerRangeSlider.value = whiskerRange; // Setting the initial slider value
+        UpdatewhiskerRangeLabel(); // Display initial Whisker Range
+
+        // New Slider and Label for Range of Vacuum
+
+        vacuumRangeSlider = root.Q<Slider>("VacuumRangeSlider");
+        vacuumRangeLabel = root.Q<Label>("VacuumRangeLabel"); // Initializing the Vacuum Range label
+        vacuumRangeSlider.value = vacuumRange; // Setting the initial slider value
+        UpdatevacuumRangeLabel(); // Display initial Vacuum Range
+
+        whiskerRangeSlider.RegisterValueChangedCallback(whiskerRangeUpdate);
+        vacuumRangeSlider.RegisterValueChangedCallback(vacuumRangeUpdate);
 
         startSimulationBtn = root.Q<Button>("StartButton");
 
@@ -86,6 +110,9 @@ public class SimulationSetupController : MonoBehaviour
         floorCoveringDropdown.RegisterValueChangedCallback(floorCoveringUpdate);
         batteryLifeSlider.RegisterValueChangedCallback(batteryLifeUpdate);
         robotSpeedSlider.RegisterValueChangedCallback(robotSpeedUpdate);
+        // New Slider and Label for Range of Whiskers and Vacuum
+        whiskerRangeSlider.RegisterValueChangedCallback(whiskerRangeUpdate);
+        vacuumRangeSlider.RegisterValueChangedCallback(vacuumRangeUpdate);
         randomBtn.clicked += () => toggleAlg("random");
         spiralBtn.clicked += () => toggleAlg("spiral");
         snakingBtn.clicked += () => toggleAlg("snaking");
@@ -93,10 +120,11 @@ public class SimulationSetupController : MonoBehaviour
         startSimulationBtn.clicked += () => onStartSimulationPress();
     }
 
-    private void whiskersToggleFunction()
+    void whiskersToggleFunction()
     {
         whiskersEnabled = !whiskersEnabled;
-        if (whiskersEnabled) {
+        if (whiskersEnabled)
+        {
             whiskersButton.style.color = Color.black;
         }
         else
@@ -105,31 +133,53 @@ public class SimulationSetupController : MonoBehaviour
         }
     }
 
-    private void floorCoveringUpdate(ChangeEvent<string> evt)
+    void floorCoveringUpdate(ChangeEvent<string> evt)
     {
         floorCovering = floorCoveringDropdown.value;
     }
 
-    private void batteryLifeUpdate(ChangeEvent<float> evt)
+    void batteryLifeUpdate(ChangeEvent<float> evt)
     {
         batteryLife = batteryLifeSlider.value;
-        UpdateBatteryLifeLabel(); // Update the label when the slider value changes
+        UpdateBatteryLifeLabel();
     }
 
-    private void robotSpeedUpdate(ChangeEvent<float> evt)
+    void robotSpeedUpdate(ChangeEvent<float> evt)
     {
         robotSpeed = robotSpeedSlider.value;
-        UpdaterobotSpeedLabel(); // Update the label when the slider value changes
+        UpdaterobotSpeedLabel();
     }
 
-    private void UpdaterobotSpeedLabel()
+    void whiskerRangeUpdate(ChangeEvent<float> evt)
     {
-        robotSpeedLabel.text = $"robotSpeed: {robotSpeed} inch/sec"; // Display updated Robot Speed
+        whiskerRange = whiskerRangeSlider.value;
+        UpdatewhiskerRangeLabel();
     }
 
-    private void UpdateBatteryLifeLabel()
+    void vacuumRangeUpdate(ChangeEvent<float> evt)
     {
-        batteryLifeLabel.text = $"Battery Life: {batteryLife} mins"; // Display updated battery life
+        vacuumRange = vacuumRangeSlider.value;
+        UpdatevacuumRangeLabel();
+    }
+
+    void UpdaterobotSpeedLabel()
+    {
+        robotSpeedLabel.text = $"robotSpeed: {robotSpeed} inch/sec";
+    }
+
+    void UpdateBatteryLifeLabel()
+    {
+        batteryLifeLabel.text = $"Battery Life: {batteryLife} mins";
+    }
+
+    void UpdatewhiskerRangeLabel()
+    {
+        whiskerRangeLabel.text = $"Whisker Range: {whiskerRange} %";
+    }
+
+    void UpdatevacuumRangeLabel()
+    {
+        vacuumRangeLabel.text = $"Vacuum Range: {vacuumRange} %";
     }
 
     private void toggleAlg(string algName)
@@ -188,10 +238,8 @@ public class SimulationSetupController : MonoBehaviour
 
     public void onStartSimulationPress()
     {
-        InterSceneManager.setSimulationSettings(whiskersEnabled, floorCovering, (int)batteryLife, randomAlg, spiralAlg, snakingAlg, wallFollowAlg);
+        InterSceneManager.setSimulationSettings(whiskersEnabled, floorCovering, (int)batteryLife, (int)whiskerRange, (int)vacuumRange, randomAlg, spiralAlg, snakingAlg, wallFollowAlg);
         myData = InterSceneManager.getSimulationSettings();
-        //Debug.Log(myData);
-        // We want to load a new scene after setting up:
         SceneManager.LoadScene(sceneName: "Simulation");
     }
 }

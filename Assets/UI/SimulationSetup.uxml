@@ -7,9 +7,13 @@
                 <ui:VisualElement name="Whiskers" style="flex-grow: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
                     <ui:Label tabindex="-1" text="Whiskers Attachment" display-tooltip-when-elided="true" class="SettingsLabel" style="font-size: 35px; height: 70px;" />
                     <ui:VisualElement name="WhiskersCheckbox" class="CheckboxContainer" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 5px;">
-                        <ui:Button text="X" display-tooltip-when-elided="true" name="WhiskerButton" class="CheckboxButton" />
+                        <ui:Button text="X" display-tooltip-when-elided="true" name="WhiskerButton" class="CheckboxButton new" />
                         <ui:Label tabindex="-1" text="Enabled" display-tooltip-when-elided="true" class="CheckboxLabel" />
                     </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="WhiskerRange" style="flex-grow: 0;">
+                    <ui:Label tabindex="-1" text="Whisker Range (%)" display-tooltip-when-elided="true" name="WhiskerRangeLabel" class="SettingsLabel" style="font-size: 35px; height: 60px;" />
+                    <ui:Slider value="10" high-value="50" low-value="10" show-input-field="true" direction="Horizontal" name="WhiskerRangeSlider" style="font-size: 16px; flex-wrap: wrap-reverse; flex-direction: row; justify-content: flex-start; align-items: auto; flex-grow: 0; flex-shrink: 0; overflow: visible;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="FloorCovering" style="flex-grow: 0; height: auto;">
                     <ui:Label tabindex="-1" text="Floor Covering" display-tooltip-when-elided="true" class="SettingsLabel" style="font-size: 35px;" />
@@ -23,6 +27,10 @@
                     <ui:Label tabindex="-1" text="Robot Speed (Inch/Sec)" display-tooltip-when-elided="true" name="RobotSpeedLabel" class="SettingsLabel" style="font-size: 35px; height: 50px;" />
                     <ui:Slider value="12" high-value="18" low-value="6" show-input-field="true" direction="Horizontal" name="RobotSpeedSlider" style="font-size: 16px; flex-wrap: wrap-reverse; flex-direction: row; justify-content: flex-start; align-items: auto; flex-grow: 0; flex-shrink: 0; overflow: visible;" />
                 </ui:VisualElement>
+                <ui:VisualElement name="VauumRange" style="flex-grow: 0;">
+                    <ui:Label tabindex="-1" text="Vacuum Efficiency Range (%)" display-tooltip-when-elided="true" name="VacuumRangeLabel" class="SettingsLabel" style="font-size: 35px; height: 50px;" />
+                    <ui:Slider value="10" high-value="90" low-value="10" show-input-field="true" direction="Horizontal" name="VacuumRangeSlider" style="font-size: 16px; flex-wrap: wrap-reverse; flex-direction: row; justify-content: flex-start; align-items: auto; flex-grow: 0; flex-shrink: 0; overflow: visible;" />
+                </ui:VisualElement>
             </ui:ScrollView>
             <ui:VisualElement name="LeftColumn" class="Column" style="flex-grow: 0; width: 50%; display: none;" />
             <ui:VisualElement name="RightColumn" class="Column" style="flex-grow: 1;">
@@ -34,7 +42,7 @@
                             <ui:Label tabindex="-1" text="Random" display-tooltip-when-elided="true" class="CheckboxLabel" />
                         </ui:VisualElement>
                         <ui:VisualElement name="Spiral" class="CheckboxContainer">
-                            <ui:Button text="X" display-tooltip-when-elided="true" name="SpiralCheckbox" class="CheckboxButton" />
+                            <ui:Button text="X" display-tooltip-when-elided="true" name="SpiralCheckbox" class="CheckboxButton new" />
                             <ui:Label tabindex="-1" text="Spiral" display-tooltip-when-elided="true" class="CheckboxLabel" />
                         </ui:VisualElement>
                         <ui:VisualElement name="Snaking" class="CheckboxContainer">

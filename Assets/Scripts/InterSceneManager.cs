@@ -22,7 +22,7 @@ public static class InterSceneManager
     // Simulation Speed, used by Vacuum to multiply speed:
     public static int speedMultiplier = 1;
         
-    public static void setSimulationSettings(bool whiskers, string floorCov, int battery, bool randomAlg, bool spiralAlg, bool snakingAlg, bool wallFollowAlg)
+    public static void setSimulationSettings(bool whiskers, string floorCov, int battery, int whiskerRange, int vacuumRange, bool randomAlg, bool spiralAlg, bool snakingAlg, bool wallFollowAlg)
     {
         whiskersEnabled = whiskers;
         floorCovering = floorCov;
