@@ -27,8 +27,10 @@ public class RoomManager : MonoBehaviour
     //Explores a tile, then tries to explore the surrounding tiles (four cardinal directions).
     //Adds all explored tiles to the exploresTiles dictionary.
     //Params: Vector3Int position - the cell position that is being checked
-    void FloodFill(Vector3Int position)
+    IEnumerator FloodFill(Vector3Int position)
     {
+        // Wait for one second
+        yield return new WaitForSeconds(1.0f);
         activeTiles++; //Tell object the tile is now active (and being explored)
         if (tilemap.HasTile(position)) //First check if its a valid position in the tilemap
         {
@@ -36,7 +38,7 @@ public class RoomManager : MonoBehaviour
             if (exploredTiles.ContainsKey(position))
             {
                 activeTiles--;
-                return;
+                yield break;
             }
 
             // Check if there's a game object at this position in the actual coordinates
@@ -49,7 +51,7 @@ public class RoomManager : MonoBehaviour
                 // Stop inspecting cause furniture is here
                 print(position + " had furniture on it.");
                 activeTiles--;
-                return;
+                yield break;
             }
 
             //Add the tile to the dictionary to mark it as explored.
@@ -59,10 +61,11 @@ public class RoomManager : MonoBehaviour
             //Mark the tile with a tint to show it has been explored
 
             //Reminder, the position is per TILE. So go by ones, not by world coordinates.
-            FloodFill(position + (1*Vector3Int.up));
-            FloodFill(position + (1*Vector3Int.down));
-            FloodFill(position + (1*Vector3Int.left));
-            FloodFill(position + (1*Vector3Int.right));
+            //Invoke("LaunchProjectile", 2.0f);
+            StartCoroutine(FloodFill(position + (1 * Vector3Int.up)));
+            StartCoroutine(FloodFill(position + (1 * Vector3Int.down)));
+            StartCoroutine(FloodFill(position + (1 * Vector3Int.left)));
+            StartCoroutine(FloodFill(position + (1 * Vector3Int.right)));
             
         }
         else
@@ -90,10 +93,11 @@ public class RoomManager : MonoBehaviour
     {
         if (Input.GetKeyDown("space"))
         {
-            Vector3Int startPosition = new Vector3Int(1, 0, 0);
+            Vector3Int startPosition = new Vector3Int(0, 0, 0);
             isFlooding = true;
             print("RoomManager: Beginning flood.");
-            FloodFill(startPosition);
+            StartCoroutine(FloodFill(startPosition));
+            
         }
 
 
