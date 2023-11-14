@@ -21,6 +21,8 @@ public class WallPlacer : MonoBehaviour
     public GameObject wallEndpoint1;
     public GameObject wallEndpoint2;
 
+    public WallPlacer previousWall; //The last wall in the "chain" when the player is dragging walls to create
+
     public Transform WallTransform; //The wall parent object at the top of the wall prefab hierarchy
 
     private bool isBeingPlaced = false; //Is the wall the newest one being placed? 
@@ -54,6 +56,13 @@ public class WallPlacer : MonoBehaviour
         UI.SetActive(false);
     }
 
+    //Re-enables this wall placer so it can be edited
+    public void reEnable()
+    {
+        UI.SetActive(true);
+        isBeingPlaced = true;
+    }
+
     //Extends the current wall by placing a wall object on the spawner.
     public void extendWall(Vector3 spawnPoint)
     {
@@ -71,6 +80,7 @@ public class WallPlacer : MonoBehaviour
             GameObject nextWall = Instantiate(wallPrefab, spawnPoint, Quaternion.identity); //Create the new wall object at one of the extenders (may be lower or upper, not guarenteed)
             nextWall.transform.rotation = this.transform.rotation;
             nextWall.GetComponent<WallPlacer>().isBeingPlaced = true; //Enables the wallPlacer for the OBJECT because the unity action turns off the wallPlacer as a global script
+            previousWall = this; 
             firstWallSelected?.Invoke(); //If this is the first wall of a room, disable all other wall points
         }
         disableWallUI();
@@ -122,6 +132,7 @@ public class WallPlacer : MonoBehaviour
             if (isBeingPlaced)
             {
                 Destroy(transform.root.gameObject); //Delete the acrtual wall gameObject, not just this script
+                
             }
         }
     }
@@ -134,13 +145,27 @@ public class WallPlacer : MonoBehaviour
         //Convert mouse position to world coordinates
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
+        float wallDistance = (mousePosition - this.transform.position).magnitude;
+
         //Distance from upper position to mouse point
-        Vector2 distance = mousePosition - upperExtender.transform.position;
+        float extenderDistance = (mousePosition - upperExtender.transform.position).magnitude;
+
+        //Distance from lower position to mouse point
+        float lowerDistance = (mousePosition - lowerExtender.transform.position).magnitude;
 
         //Make sure mouse of far enough away so wall sensitivty isn't off the charts
-        if(distance.magnitude > 10)
+        if (wallDistance > 7)
         {
-            extendWall(upperExtender.transform.position);
+            if (extenderDistance < lowerDistance)
+            {
+                extendWall(upperExtender.transform.position);
+            }
+            else
+            {
+                Destroy(transform.root.gameObject); //Delete the acrtual wall gameObject, not just this script
+                //Then tell the previous wall in chain that it is now being placed
+                previousWall.reEnable();
+            }
         }
     }
 
