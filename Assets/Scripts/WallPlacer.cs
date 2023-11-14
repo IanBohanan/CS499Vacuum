@@ -57,19 +57,21 @@ public class WallPlacer : MonoBehaviour
     //Extends the current wall by placing a wall object on the spawner.
     public void extendWall(Vector3 spawnPoint)
     {
+
         if (upperExtender.gameObject.GetComponent<WallExtender>().connectedToWall && lowerExtender.gameObject.GetComponent<WallExtender>().connectedToWall && isBeingPlaced)
         {
+            //If both upper and lower extender are touching a wall, then declare room closed.
             print("WallPlacer: Room closed!");
             isBeingPlaced = false;
         }
         else
         {
-            //Check to see if this wall is the final one for the room
+            //This wall is not the final one for the room.
             isBeingPlaced = false;
-            GameObject nextWall = Instantiate(wallPrefab, spawnPoint, Quaternion.identity); //Create the new wall object
+            GameObject nextWall = Instantiate(wallPrefab, spawnPoint, Quaternion.identity); //Create the new wall object at one of the extenders (may be lower or upper, not guarenteed)
             nextWall.transform.rotation = this.transform.rotation;
             nextWall.GetComponent<WallPlacer>().isBeingPlaced = true; //Enables the wallPlacer for the OBJECT because the unity action turns off the wallPlacer as a global script
-            firstWallSelected?.Invoke(); //Tell all the other walls that the main extension point has been selected
+            firstWallSelected?.Invoke(); //If this is the first wall of a room, disable all other wall points
         }
         disableWallUI();
         wallEndpoint1.SetActive(true);
@@ -124,6 +126,82 @@ public class WallPlacer : MonoBehaviour
         }
     }
 
+
+    //checks if the mouse cursor is ahead of the upperExtend
+    //If so, then auto-extend wall to get closer to the cursor position
+    private void checkIfCursorAhead()
+    {
+        //Convert mouse position to world coordinates
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        //Distance from upper position to mouse point
+        Vector2 distance = mousePosition - upperExtender.transform.position;
+
+        
+        //Make sure mouse of far enough away so wall sensitivty isn't off the charts
+        if(distance.magnitude > 10)
+        {
+            Quaternion rotation = transform.rotation;
+
+            // Convert the quaternion to euler angles for easier comparison
+            Vector3 eulerAngles = rotation.eulerAngles;
+
+            //Get upperExtend in relation to lower extend - four possibilities
+            /* 1)Wall facing up: rotation 0. Extension occurs if cursor Y > upperExtend.y
+             * 2)Wall facing down: rotation 180 Extension occurs if cursor Y < upperExtend.y
+             * 3)Wall facing left: rotation 90 Extension occurs if cursor X < upperExtend.X
+             * 4)Wall facing right: rotation 270 Extension occurs if cursor X > upperExtend.X
+             */
+            //Check for each rotation, then see how the cursor is position relative to the upperExtend based on that.
+
+
+            // Use a switch statement to check for different wall rotations
+            switch ((int)eulerAngles.y)
+            {
+                case 0: //Wall facing up
+                    if (mousePosition.y > upperExtender.transform.position.y)
+                    {
+                        extendWall(upperExtender.transform.position);
+                    }
+                    break;
+
+                case 180: //wall facing down
+                    if (mousePosition.y < upperExtender.transform.position.y)
+                    {
+                        extendWall(upperExtender.transform.position);
+                    }
+                    break;
+
+                case 90: //Wall facing left
+                    if (mousePosition.x < upperExtender.transform.position.x)
+                    {
+                        extendWall(upperExtender.transform.position);
+                    }
+                    break;
+
+                case 270: //wall facing right
+                    if (mousePosition.x > upperExtender.transform.position.x)
+                    {
+                        extendWall(upperExtender.transform.position);
+                    }
+                    break;
+                default:
+                    Debug.Log("ERROR: WallPlacer: Wall angle is in a non-clockwise rotation!");
+                    break;
+            }
+        }
+
+
+
+    }
+
+    //checks if the mouse cursor is behind the lowerExtend
+    //If so, then delete this wall to get closer to the cursor
+    private void checkIfCursorBehind()
+    {
+
+    }
+
     private void Start()
     {
         if(isBeingPlaced)
@@ -136,7 +214,14 @@ public class WallPlacer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isBeingPlaced)
+        if (isBeingPlaced)
+        {
+            //Update the rotation of the wall based on cursor
             updateRotation();
+            //Auto place another wall if cursor further than the upperExtend
+            checkIfCursorAhead();
+            //Auto delete self if cursor is behind the lowerExtend
+            checkIfCursorBehind();
+        }
     }
 }
