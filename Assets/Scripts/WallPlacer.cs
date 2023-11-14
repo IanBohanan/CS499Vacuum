@@ -137,62 +137,11 @@ public class WallPlacer : MonoBehaviour
         //Distance from upper position to mouse point
         Vector2 distance = mousePosition - upperExtender.transform.position;
 
-        
         //Make sure mouse of far enough away so wall sensitivty isn't off the charts
         if(distance.magnitude > 10)
         {
-            Quaternion rotation = transform.rotation;
-
-            // Convert the quaternion to euler angles for easier comparison
-            Vector3 eulerAngles = rotation.eulerAngles;
-
-            //Get upperExtend in relation to lower extend - four possibilities
-            /* 1)Wall facing up: rotation 0. Extension occurs if cursor Y > upperExtend.y
-             * 2)Wall facing down: rotation 180 Extension occurs if cursor Y < upperExtend.y
-             * 3)Wall facing left: rotation 90 Extension occurs if cursor X < upperExtend.X
-             * 4)Wall facing right: rotation 270 Extension occurs if cursor X > upperExtend.X
-             */
-            //Check for each rotation, then see how the cursor is position relative to the upperExtend based on that.
-
-
-            // Use a switch statement to check for different wall rotations
-            switch ((int)eulerAngles.y)
-            {
-                case 0: //Wall facing up
-                    if (mousePosition.y > upperExtender.transform.position.y)
-                    {
-                        extendWall(upperExtender.transform.position);
-                    }
-                    break;
-
-                case 180: //wall facing down
-                    if (mousePosition.y < upperExtender.transform.position.y)
-                    {
-                        extendWall(upperExtender.transform.position);
-                    }
-                    break;
-
-                case 90: //Wall facing left
-                    if (mousePosition.x < upperExtender.transform.position.x)
-                    {
-                        extendWall(upperExtender.transform.position);
-                    }
-                    break;
-
-                case 270: //wall facing right
-                    if (mousePosition.x > upperExtender.transform.position.x)
-                    {
-                        extendWall(upperExtender.transform.position);
-                    }
-                    break;
-                default:
-                    Debug.Log("ERROR: WallPlacer: Wall angle is in a non-clockwise rotation!");
-                    break;
-            }
+            extendWall(upperExtender.transform.position);
         }
-
-
-
     }
 
     //checks if the mouse cursor is behind the lowerExtend
