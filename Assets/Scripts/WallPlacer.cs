@@ -21,7 +21,8 @@ public class WallPlacer : MonoBehaviour
     public GameObject wallEndpoint1;
     public GameObject wallEndpoint2;
 
-    public WallPlacer previousWall; //The last wall in the "chain" when the player is dragging walls to create
+    public GameObject previousWallObject; //The last wall in the "chain" when the player is dragging walls to create
+    public WallPlacer previousWallScript; //The script of the last wall in the chain
 
     public Transform WallTransform; //The wall parent object at the top of the wall prefab hierarchy
 
@@ -59,15 +60,18 @@ public class WallPlacer : MonoBehaviour
     //Re-enables this wall placer so it can be edited
     public void reEnable()
     {
+        upperExtender.gameObject.GetComponent<WallExtender>().connectedToWall = false;
         UI.SetActive(true);
         isBeingPlaced = true;
+        wallEndpoint1.SetActive(false);
+        wallEndpoint2.SetActive(false);
     }
 
     //Extends the current wall by placing a wall object on the spawner.
     public void extendWall(Vector3 spawnPoint)
     {
 
-        if (upperExtender.gameObject.GetComponent<WallExtender>().connectedToWall && lowerExtender.gameObject.GetComponent<WallExtender>().connectedToWall && isBeingPlaced)
+        if (upperExtender.gameObject.GetComponent<WallExtender>().connectedToWall && isBeingPlaced)
         {
             //If both upper and lower extender are touching a wall, then declare room closed.
             print("WallPlacer: Room closed!");
@@ -78,9 +82,11 @@ public class WallPlacer : MonoBehaviour
             //This wall is not the final one for the room.
             isBeingPlaced = false;
             GameObject nextWall = Instantiate(wallPrefab, spawnPoint, Quaternion.identity); //Create the new wall object at one of the extenders (may be lower or upper, not guarenteed)
+            WallPlacer nextWallScript = nextWall.GetComponent<WallPlacer>();
             nextWall.transform.rotation = this.transform.rotation;
-            nextWall.GetComponent<WallPlacer>().isBeingPlaced = true; //Enables the wallPlacer for the OBJECT because the unity action turns off the wallPlacer as a global script
-            previousWall = this; 
+            nextWallScript.isBeingPlaced = true; //Enables the wallPlacer for the OBJECT because the unity action turns off the wallPlacer as a global script
+            nextWallScript.previousWallScript = this;
+            nextWallScript.previousWallObject = this.gameObject;
             firstWallSelected?.Invoke(); //If this is the first wall of a room, disable all other wall points
         }
         disableWallUI();
@@ -115,7 +121,20 @@ public class WallPlacer : MonoBehaviour
             newRotation = new Vector3(0, 0, 90);
         }
 
-        this.transform.eulerAngles = newRotation;
+        //if new rotation and previous wall rotation has difference of 180, don't rotate! Otherwise it will collide with previous wall!
+        float prevWallRotation = previousWallObject.transform.eulerAngles.z;
+
+        //TODO: Fix this so it detects when the previous wall collision occurs
+        if(!(Mathf.Abs(newRotation.z - prevWallRotation) == 180))
+        {
+            this.transform.eulerAngles = newRotation;
+        }
+        else //Else delete the current wall and go back one in the chain?
+        {
+            Destroy(transform.root.gameObject); //Delete the acrtual wall gameObject, not just this script
+            //Then tell the previous wall in chain that it is now being placed
+            previousWallScript.reEnable();
+        }
 
     }
 
@@ -154,7 +173,7 @@ public class WallPlacer : MonoBehaviour
         float lowerDistance = (mousePosition - lowerExtender.transform.position).magnitude;
 
         //Make sure mouse of far enough away so wall sensitivty isn't off the charts
-        if (wallDistance > 7)
+        if (wallDistance > 14)
         {
             if (extenderDistance < lowerDistance)
             {
@@ -162,9 +181,9 @@ public class WallPlacer : MonoBehaviour
             }
             else
             {
-                Destroy(transform.root.gameObject); //Delete the acrtual wall gameObject, not just this script
+                //Destroy(transform.root.gameObject); //Delete the acrtual wall gameObject, not just this script
                 //Then tell the previous wall in chain that it is now being placed
-                previousWall.reEnable();
+                //previousWallScript.reEnable();
             }
         }
     }
