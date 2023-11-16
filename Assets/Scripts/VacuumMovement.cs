@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class VacuumMovement : MonoBehaviour
 {
+    // Enumeration for different vacuum cleaning algorithms
     enum Algorithm
     {
         Random = 0,
@@ -14,25 +15,26 @@ public class VacuumMovement : MonoBehaviour
     }
     Algorithm currentAlg;
 
-    // Keep track of all objects in robot vacuum prefab (Consider Serialized Fields?)
+    // References to different parts of the vacuum robot
     private Transform robotTransform;
     private Transform vacuumTransform;
     private Transform whiskersTransform;
 
+    // Instances of algorithm classes
     RandomWalk randomAlg = new RandomWalk();
     WallFollow wallFollow = new WallFollow();
     public Vector2 currentDirectionVec;
 
-    private float speed;    // Speed of the vacuum object
+    private float speed; // Movement speed of the vacuum
     int counter;        
-    bool canCollide = true;    // Helps prevent Vacuum phasing through objects
+    bool canCollide = true; // Flag to control collision behavior
 
+    // Dictionary to manage pathing algorithms
     private Dictionary<string, bool> pathingDict = new Dictionary<string, bool>();
 
-    // Coroutine to prevent Vacuum passing through walls
+    // Coroutine to handle collision delay
     private IEnumerator DelayCollisionEnable(float delay)
     {
-        // Set a timer until we can collide again
         yield return new WaitForSeconds(delay);
         canCollide = true;
     }
@@ -40,24 +42,22 @@ public class VacuumMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Set Speed
-        speed = 0.005f;
-
+        speed = 0.005f; // Initialize speed
         counter = 0;
 
+        // Retrieve pathing algorithms from scene manager
         (pathingDict["random"], pathingDict["spiral"], pathingDict["snaking"], 
             pathingDict["wallfollow"]) = InterSceneManager.getPathAlgs();
 
-        // Get Starting Vector for Pathing Alg, save dir globally
-        // currentAlg = getNextAlg();
+        // Determine initial algorithm
         currentAlg = getNextAlg();
 
-        // Find the child GameObjects by their names.
+        // Find and assign the child GameObjects
         robotTransform = transform.Find("Robot");
         vacuumTransform = transform.Find("Vacuum");
         whiskersTransform = transform.Find("Whiskers");
 
-        // Pathing Algorithm Setup
+        // Initialize the pathing algorithm
         if (currentAlg == Algorithm.Random)
         {
             currentDirectionVec = randomAlg.getNewDirectionVec(true, true);
@@ -69,121 +69,77 @@ public class VacuumMovement : MonoBehaviour
     {
         counter++;
 
-        if (currentAlg == Algorithm.Random)
-        {
-            Debug.Log("Random");
-        }
-        else if (currentAlg == Algorithm.WallFollow)
-        {
-            Debug.Log("WallFollow");
-        }
-        else if (currentAlg == Algorithm.Spiral)
-        {
-            Debug.Log("Spiral");
-        }
-        else if (currentAlg == Algorithm.Snaking)
-        {
-            Debug.Log("Snaking");
-        }
+        // Log current algorithm for debugging
+        Debug.Log(currentAlg.ToString());
 
-        // Move the entire "Vacuum-Robot" prefab.
-        // Calculate next Vacuum move
-        Vector3 movePosition = new Vector3(currentDirectionVec.x , currentDirectionVec.y, 0) * speed * InterSceneManager.speedMultiplier;
-        // Move the child GameObjects along with the parent.
+        // Calculate and apply the movement of the vacuum
+        Vector3 movePosition = new Vector3(currentDirectionVec.x, currentDirectionVec.y, 0) * speed * InterSceneManager.speedMultiplier;
         transform.position += movePosition;
         robotTransform.position += movePosition;
         vacuumTransform.position += movePosition;
         whiskersTransform.position += movePosition;
-
     }
 
+    // Handle trigger events for collisions
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Vector3 vacuumPos = transform.position;
-        Vector3 colliderPos = collision.transform.position;
-
-        Vector2 vacuumSize = GetComponent<Collider2D>().bounds.size;
-        Vector2 colliderSize = collision.bounds.size;
         if (canCollide)
         {
+            // Collision logic for different algorithms
+            HandleCollision(collision);
 
-            if (currentAlg == Algorithm.Random)
-            {
-
-                bool rightCollision = vacuumPos.x < colliderPos.x 
-                    && Mathf.Abs(vacuumPos.y - colliderPos.y) < (vacuumSize.y + colliderSize.y) / 2;
-
-                bool topCollision = vacuumPos.y > colliderPos.y
-                    && Mathf.Abs(vacuumPos.x - colliderPos.x) < (vacuumSize.x + colliderSize.x) / 2;
-
-                bool bottomCollision = vacuumPos.y < colliderPos.y
-                    && Mathf.Abs(vacuumPos.x - colliderPos.x) < (vacuumSize.x + colliderSize.x) / 2;
-
-                bool leftCollision = vacuumPos.x > colliderPos.x
-                    && Mathf.Abs(vacuumPos.y - colliderPos.y) < (vacuumSize.y + colliderSize.y) / 2;
-
-                bool horColl = ((topCollision || bottomCollision) && !(bottomCollision || topCollision));
-
-                bool movingPositively = (currentDirectionVec.x > 0 || currentDirectionVec.y > 0);
-                currentDirectionVec = randomAlg.getNewDirectionVec(movingPositively, horColl);
-            } 
-            else if (currentAlg == Algorithm.WallFollow)
-            {
-                Debug.Log("WallFollow");
-            }
-            else if (currentAlg == Algorithm.Spiral)
-            {
-                Debug.Log("Spiral");
-            }
-            else if (currentAlg == Algorithm.Snaking)
-            {
-                Debug.Log("Snaking");
-            }
-
-            // Set timer until we can collide again to prevent vacuum passing through
-            // other objects at high-speeds
+            // Start collision delay coroutine
             canCollide = false;
             StartCoroutine(DelayCollisionEnable(0.0005f));
         }
     }
 
+    // Empty method for collision events - To be implemented if needed
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("No collision logic");
     }
 
+    // Method to determine the next cleaning algorithm
     private Algorithm getNextAlg()
     {
-        Debug.Log(pathingDict);
-        Algorithm nextAlgorithm;
         foreach (var alg in pathingDict)
         {
-            if (alg.Value == true)
+            if (alg.Value)
             {
                 pathingDict[alg.Key] = false;
 
-                switch (alg.Key)
+                return alg.Key switch
                 {
-                    case "random":
-                        nextAlgorithm = Algorithm.Random;
-                        break;
-                    case "spiral":
-                        nextAlgorithm = Algorithm.Spiral;
-                        break;
-                    case "snaking":
-                        nextAlgorithm = Algorithm.Snaking;
-                        break;
-                    case "wallfollow":
-                        nextAlgorithm = Algorithm.WallFollow;
-                        break;
-                    default:
-                        nextAlgorithm = Algorithm.Random;
-                        break;
-                }
-                return nextAlgorithm;
-
+                    "random" => Algorithm.Random,
+                    "spiral" => Algorithm.Spiral,
+                    "snaking" => Algorithm.Snaking,
+                    "wallfollow" => Algorithm.WallFollow,
+                    _ => Algorithm.BadAlg,
+                };
             }
         }
         return Algorithm.BadAlg;
+    }
+
+    // Method to handle collision based on the current algorithm
+    private void HandleCollision(Collider2D collision)
+    {
+        // Add specific collision handling logic for each algorithm here
+        switch (currentAlg)
+        {
+            case Algorithm.Random:
+                // Add Random algorithm collision logic
+                break;
+            case Algorithm.WallFollow:
+                // Add WallFollow algorithm collision logic
+                break;
+            case Algorithm.Spiral:
+                // Add Spiral algorithm collision logic
+                break;
+            case Algorithm.Snaking:
+                // Add Snaking algorithm collision logic
+                break;
+        }
     }
 }
