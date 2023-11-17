@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class VacuumMovement : MonoBehaviour
 {
@@ -36,6 +37,10 @@ public class VacuumMovement : MonoBehaviour
     Spiral spiral = new Spiral();
     Vector3 spiralOrigin = Vector3.zero;
     bool isSpiraling = false;
+
+    bool collidedBefore = false;
+    bool snakingHorizontalWalls = false;
+    string snakingOffsetDirection = "up";
 
     public Vector2 currentDirectionVec; // The normalized direction vector to tell the vacuum where to go
 
@@ -85,6 +90,14 @@ public class VacuumMovement : MonoBehaviour
         else if (currentAlg == Algorithm.Spiral)
         {
             currentDirectionVec = new Vector2(1, 0); //spiral.getStartingVec();
+        }
+        else if (currentAlg == Algorithm.Snaking)
+        {
+            currentDirectionVec = randomAlg.getStartingVec();
+        }
+        else // Invalid algorithm, let's move on to data review
+        {
+            SceneManager.LoadScene(sceneName: "DataReview");
         }
 /*
         RaycastHit2D hitDataLeft = Physics2D.Raycast(transform.position, -transform.right);
@@ -188,7 +201,7 @@ public class VacuumMovement : MonoBehaviour
         }
         else if (currentAlg == Algorithm.Snaking)
         {
-            Debug.Log("Snaking");
+            //Debug.Log("Snaking");
         }
 
         // Move the entire "Vacuum-Robot" prefab.
@@ -213,8 +226,6 @@ public class VacuumMovement : MonoBehaviour
 
         // Initialize Array 
         RaycastHit2D[] hitData = new RaycastHit2D[] { hitDataLeft, hitDataRight, hitDataUp, hitDataDown };
-
-        Debug.Log("yeah");
 
         if (canCollide)
         {
@@ -391,7 +402,126 @@ public class VacuumMovement : MonoBehaviour
             }
             else if (currentAlg == Algorithm.Snaking)
             {
-                Debug.Log("Snaking");
+                // Back up a bit:
+                currentDirectionVec = -currentDirectionVec;
+                float x = currentDirectionVec.x * 0.5f;
+                float y = currentDirectionVec.y * 0.5f;
+                transform.position += new Vector3(x, y, 0);
+                currentDirectionVec = -(currentDirectionVec);
+
+                float minDistance;
+                if (collidedBefore == false) // First collision, determine what wall type we've hit
+                {
+                    collidedBefore = true; // Don't run this block again
+                    minDistance = Mathf.Min(hitDataLeft.distance, hitDataRight.distance, hitDataUp.distance, hitDataDown.distance); // Get mininum distance
+                    if (minDistance == hitDataLeft.distance)
+                    {
+                        snakingHorizontalWalls = false;
+                        snakingOffsetDirection = "up";
+                    }
+                    else if (minDistance == hitDataRight.distance)
+                    {
+                        snakingHorizontalWalls = false;
+                        snakingOffsetDirection = "down";
+                    }
+                    else if (minDistance == hitDataUp.distance)
+                    {
+                        snakingHorizontalWalls = true;
+                        snakingOffsetDirection = "right";
+                    }
+                    else // minDistance == hitDataDown.distance
+                    {
+                        snakingHorizontalWalls = true;
+                        snakingOffsetDirection = "left";
+                    }
+                    Debug.Log("Snaking Horizontal: "+snakingHorizontalWalls);
+                }
+                //---------------------------------------
+                minDistance = Mathf.Min(hitDataLeft.distance, hitDataRight.distance, hitDataUp.distance, hitDataDown.distance); // Get mininum distance
+                bool horizontalWallBounce;
+                if (minDistance == hitDataLeft.distance)
+                {
+                    horizontalWallBounce = false;
+                }
+                else if (minDistance == hitDataRight.distance)
+                {
+                    horizontalWallBounce = false;
+                }
+                else if (minDistance == hitDataUp.distance)
+                {
+                    horizontalWallBounce = true;
+                }
+                else // minDistance == hitDataDown.distance
+                {
+                    horizontalWallBounce = true;
+                }
+                if (horizontalWallBounce != snakingHorizontalWalls) // We've hit a different wall type, so rotate angle of movement 90 degrees
+                {
+                    snakingHorizontalWalls = !snakingHorizontalWalls;
+                    if (currentDirectionVec.x < 0)
+                    {
+                        currentDirectionVec = new Vector2(currentDirectionVec.y, -currentDirectionVec.x);
+                    }
+                    else if (currentDirectionVec.x > 0)
+                    {
+                        currentDirectionVec = new Vector2(-currentDirectionVec.y, currentDirectionVec.x);
+                    }
+                    else if (currentDirectionVec.y < 0)
+                    {
+                        currentDirectionVec = new Vector2(currentDirectionVec.y, -currentDirectionVec.x);
+                    }
+                    else if (currentDirectionVec.y > 0)
+                    {
+                        currentDirectionVec = new Vector2(-currentDirectionVec.y, currentDirectionVec.x);
+                    }
+
+                    if (snakingOffsetDirection == "up")
+                    {
+                        snakingOffsetDirection = "right";
+                    }
+                    else if (snakingOffsetDirection == "right")
+                    {
+                        snakingOffsetDirection = "down";
+                    }
+                    else if (snakingOffsetDirection == "down")
+                    {
+                        snakingOffsetDirection = "left";
+                    }
+                    else if (snakingOffsetDirection == "left")
+                    {
+                        snakingOffsetDirection = "up";
+                    }
+                    else
+                    {
+                        Debug.Log("Invalid snaking offset direction given, defaulting to 'right'");
+                        snakingOffsetDirection = "right";
+                    }
+                }
+                //----------------------------------
+                if (snakingOffsetDirection == "up")
+                {
+                    transform.position = new Vector3(transform.position.x, transform.position.y + 12, transform.position.z);
+                }
+                else if (snakingOffsetDirection == "right")
+                {
+                    transform.position = new Vector3(transform.position.x + 12, transform.position.y, transform.position.z);
+                }
+                else if (snakingOffsetDirection == "down")
+                {
+                    transform.position = new Vector3(transform.position.x, transform.position.y - 12, transform.position.z);
+                }
+                else if (snakingOffsetDirection == "left")
+                {
+                    transform.position = new Vector3(transform.position.x - 12, transform.position.y, transform.position.z);
+                }
+                else
+                {
+                    Debug.Log("Invalid snaking offset direction given.... WHERE DO I GO, GEORGE?!");
+                }
+                currentDirectionVec = new Vector2(-currentDirectionVec.x, -currentDirectionVec.y);
+                //transform.position = currentDirectionVec;
+                //----------------------------------
+                //Debug.Log("Snaking");
             }
 
             // Set timer until we can collide again to prevent vacuum passing through
