@@ -70,6 +70,7 @@ public class WallPlacer : MonoBehaviour
             nextWall.transform.rotation = this.transform.rotation;
             nextWall.GetComponent<WallPlacer>().isBeingPlaced = true; //Enables the wallPlacer for the OBJECT because the unity action turns off the wallPlacer as a global script
             firstWallSelected?.Invoke(); //Tell all the other walls that the main extension point has been selected
+            InterSceneManager.wallList.Add(nextWall);
         }
         disableWallUI();
         wallEndpoint1.SetActive(true);

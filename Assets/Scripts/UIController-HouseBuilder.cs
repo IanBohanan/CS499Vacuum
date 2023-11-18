@@ -162,6 +162,7 @@ public class HouseBuilderUI : MonoBehaviour
         { 
             layoutManager.saveToJSON(exportFileSelection);
             InterSceneManager.fileSelection = exportDropdown.value;
+            InterSceneManager.wallList.Clear(); // Clear the list of walls in case user returns to house builder
             SceneManager.LoadScene(sceneName: "SimulationSetup"); 
         }
             // Hide Popup:

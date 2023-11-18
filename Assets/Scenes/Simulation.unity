@@ -2553,7 +2553,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8961130649566387312, guid: 8d5c2d7e40d3d7f459cfb92fc9074f9c, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8961130649566387312, guid: 8d5c2d7e40d3d7f459cfb92fc9074f9c, type: 3}
       propertyPath: m_AutoTiling

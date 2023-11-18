@@ -64,7 +64,7 @@ public class LayoutManager : MonoBehaviour
         foreach(GameObject obj in RoomDoors) DestroyImmediate(obj, true);
         foreach(GameObject obj in ExitDoors) DestroyImmediate(obj, true);
         Furniture.Clear();
-        Walls.Clear();
+        InterSceneManager.wallList.Clear();
         RoomDoors.Clear();
         ExitDoors.Clear();
     }

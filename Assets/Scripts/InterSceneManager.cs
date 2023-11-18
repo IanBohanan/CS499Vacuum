@@ -7,6 +7,8 @@ public static class InterSceneManager
     // Main Menu Import File:
     public static string fileSelection = "";
 
+    public static List<GameObject> wallList = new List<GameObject>();
+
     // House Builder UI -> ClickDrop
     public static bool deleteMode = false;
 

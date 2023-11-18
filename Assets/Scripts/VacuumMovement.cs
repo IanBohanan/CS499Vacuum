@@ -211,6 +211,11 @@ public class VacuumMovement : MonoBehaviour
         transform.position += movePosition;
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Fuck");
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // Cast rays in cardinal directions to determine more collision info
@@ -529,11 +534,6 @@ public class VacuumMovement : MonoBehaviour
             canCollide = false;
             StartCoroutine(DelayCollisionEnable(0.0005f));
         }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("No collision logic");
     }
 
     private Algorithm getNextAlg()
