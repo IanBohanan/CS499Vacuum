@@ -7,6 +7,8 @@ public static class InterSceneManager
     // Main Menu Import File:
     public static string fileSelection = "";
 
+    public static List<GameObject> wallList = new List<GameObject>();
+
     // House Builder UI -> ClickDrop
     public static bool deleteMode = false;
 
@@ -19,10 +21,10 @@ public static class InterSceneManager
     private static bool whiskersEnabled;
     private static string floorCovering;
     private static int batteryLife;
-    private static bool randomAlgEnabled;
-    private static bool spiralAlgEnabled;
-    private static bool snakingAlgEnabled;
-    private static bool wallFollowAlgEnabled;
+    private static bool randomAlgEnabled = false;
+    private static bool spiralAlgEnabled = false;
+    private static bool snakingAlgEnabled = false;
+    private static bool wallFollowAlgEnabled = false;
 
     // Simulation Speed, used by Vacuum to multiply speed:
     public static int speedMultiplier = 1;

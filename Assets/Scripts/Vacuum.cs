@@ -14,20 +14,10 @@ public class Vacuum : MonoBehaviour
     private float speed;              // Inches per Second
 
     public float batteryLifeMinutes;  // In Minutes
-    private float currBatteryLife;    // In Seconds (for decrementing with timeDelta)
+    public float currBatteryLife;    // In Seconds (for decrementing with timeDelta)
     private bool whiskersEnabled;
     private string floorCovering;
     private bool isBatteryDead;
-    private bool canCollide = true;
-    private Dictionary<string, bool> pathingDict = new Dictionary<string, bool>();
-
-    // Coroutine to prevent Vacuum passing through walls
-    private IEnumerator DelayCollisionEnable(float delay)
-    {
-        // Set a timer until we can collide again
-        yield return new WaitForSeconds(delay);
-        canCollide = true;
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -62,7 +52,6 @@ public class Vacuum : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(InterSceneManager.speedMultiplier);
         if (!isBatteryDead)
         {
             // Decrement the batteryLife of the vacuum
@@ -82,34 +71,7 @@ public class Vacuum : MonoBehaviour
                 }
                 isBatteryDead = true;
             }
-
             
-            // #################################################
-            // # BASIC MOVEMENT TO BE REMOVED FOR PATHING ALGS #
-            // #################################################
-
-            // Move the entire "Vacuum-Robot" prefab.
-            transform.position += new Vector3(speed * (float)InterSceneManager.speedMultiplier, 0, 0);
-
-            // Move the child GameObjects along with the parent.
-            robotTransform.position = transform.position;
-            vacuumTransform.position = transform.position;
-            whiskersTransform.position = transform.position;
-            
-        }
-    }
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (canCollide)
-        {
-            Debug.Log("Vacuum Collided...");
-            //TODO: Send collision signal to pathing alg (??)
-            speed *= -1;
-
-            // Set timer until we can collide again to prevent vacuum passing through
-            // other objects at high-speeds
-            canCollide = false;
-            StartCoroutine(DelayCollisionEnable(0.0005f));
         }
     }
 
