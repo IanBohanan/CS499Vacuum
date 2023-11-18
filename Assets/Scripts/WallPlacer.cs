@@ -21,6 +21,9 @@ public class WallPlacer : MonoBehaviour
     public GameObject wallEndpoint1;
     public GameObject wallEndpoint2;
 
+    public GameObject previousWallObject; //The last wall in the "chain" when the player is dragging walls to create
+    public WallPlacer previousWallScript; //The script of the last wall in the chain
+
     public Transform WallTransform; //The wall parent object at the top of the wall prefab hierarchy
 
     private bool isBeingPlaced = false; //Is the wall the newest one being placed? 
@@ -54,23 +57,37 @@ public class WallPlacer : MonoBehaviour
         UI.SetActive(false);
     }
 
+    //Re-enables this wall placer so it can be edited
+    public void reEnable()
+    {
+        upperExtender.gameObject.GetComponent<WallExtender>().connectedToWall = false;
+        UI.SetActive(true);
+        isBeingPlaced = true;
+        wallEndpoint1.SetActive(false);
+        wallEndpoint2.SetActive(false);
+    }
+
     //Extends the current wall by placing a wall object on the spawner.
     public void extendWall(Vector3 spawnPoint)
     {
-        if (upperExtender.gameObject.GetComponent<WallExtender>().connectedToWall && lowerExtender.gameObject.GetComponent<WallExtender>().connectedToWall && isBeingPlaced)
+
+        if (upperExtender.gameObject.GetComponent<WallExtender>().connectedToWall && isBeingPlaced)
         {
+            //If both upper and lower extender are touching a wall, then declare room closed.
             print("WallPlacer: Room closed!");
             isBeingPlaced = false;
         }
         else
         {
-            //Check to see if this wall is the final one for the room
+            //This wall is not the final one for the room.
             isBeingPlaced = false;
-            GameObject nextWall = Instantiate(wallPrefab, spawnPoint, Quaternion.identity); //Create the new wall object
+            GameObject nextWall = Instantiate(wallPrefab, spawnPoint, Quaternion.identity); //Create the new wall object at one of the extenders (may be lower or upper, not guarenteed)
+            WallPlacer nextWallScript = nextWall.GetComponent<WallPlacer>();
             nextWall.transform.rotation = this.transform.rotation;
-            nextWall.GetComponent<WallPlacer>().isBeingPlaced = true; //Enables the wallPlacer for the OBJECT because the unity action turns off the wallPlacer as a global script
-            firstWallSelected?.Invoke(); //Tell all the other walls that the main extension point has been selected
-            InterSceneManager.wallList.Add(nextWall);
+            nextWallScript.isBeingPlaced = true; //Enables the wallPlacer for the OBJECT because the unity action turns off the wallPlacer as a global script
+            nextWallScript.previousWallScript = this;
+            nextWallScript.previousWallObject = this.gameObject;
+            firstWallSelected?.Invoke(); //If this is the first wall of a room, disable all other wall points
         }
         disableWallUI();
         wallEndpoint1.SetActive(true);
@@ -104,7 +121,20 @@ public class WallPlacer : MonoBehaviour
             newRotation = new Vector3(0, 0, 90);
         }
 
-        this.transform.eulerAngles = newRotation;
+        //if new rotation and previous wall rotation has difference of 180, don't rotate! Otherwise it will collide with previous wall!
+        float prevWallRotation = previousWallObject.transform.eulerAngles.z;
+
+        //TODO: Fix this so it detects when the previous wall collision occurs
+        if(!(Mathf.Abs(newRotation.z - prevWallRotation) == 180))
+        {
+            this.transform.eulerAngles = newRotation;
+        }
+        else //Else delete the current wall and go back one in the chain?
+        {
+            Destroy(transform.root.gameObject); //Delete the acrtual wall gameObject, not just this script
+            //Then tell the previous wall in chain that it is now being placed
+            previousWallScript.reEnable();
+        }
 
     }
 
@@ -121,8 +151,48 @@ public class WallPlacer : MonoBehaviour
             if (isBeingPlaced)
             {
                 Destroy(transform.root.gameObject); //Delete the acrtual wall gameObject, not just this script
+                
             }
         }
+    }
+
+
+    //checks if the mouse cursor is ahead of the upperExtend
+    //If so, then auto-extend wall to get closer to the cursor position
+    private void checkIfCursorAhead()
+    {
+        //Convert mouse position to world coordinates
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        float wallDistance = (mousePosition - this.transform.position).magnitude;
+
+        //Distance from upper position to mouse point
+        float extenderDistance = (mousePosition - upperExtender.transform.position).magnitude;
+
+        //Distance from lower position to mouse point
+        float lowerDistance = (mousePosition - lowerExtender.transform.position).magnitude;
+
+        //Make sure mouse of far enough away so wall sensitivty isn't off the charts
+        if (wallDistance > 14)
+        {
+            if (extenderDistance < lowerDistance)
+            {
+                extendWall(upperExtender.transform.position);
+            }
+            else
+            {
+                //Destroy(transform.root.gameObject); //Delete the acrtual wall gameObject, not just this script
+                //Then tell the previous wall in chain that it is now being placed
+                //previousWallScript.reEnable();
+            }
+        }
+    }
+
+    //checks if the mouse cursor is behind the lowerExtend
+    //If so, then delete this wall to get closer to the cursor
+    private void checkIfCursorBehind()
+    {
+
     }
 
     private void Start()
@@ -137,7 +207,14 @@ public class WallPlacer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isBeingPlaced)
+        if (isBeingPlaced)
+        {
+            //Update the rotation of the wall based on cursor
             updateRotation();
+            //Auto place another wall if cursor further than the upperExtend
+            checkIfCursorAhead();
+            //Auto delete self if cursor is behind the lowerExtend
+            checkIfCursorBehind();
+        }
     }
 }

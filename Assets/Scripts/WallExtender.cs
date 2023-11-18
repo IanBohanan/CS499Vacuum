@@ -31,14 +31,9 @@ public class WallExtender : MonoBehaviour
         {
             if(collision.gameObject.name.Equals("WallEndpoint"))
                 connectedToWall = true;
-            else
-            {
-                connectedToWall = false;
-            }
         }
         catch (Exception e)
         {
-            connectedToWall = false;
         }
     }
 

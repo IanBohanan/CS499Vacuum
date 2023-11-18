@@ -128,7 +128,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      furniture-chest_0: -945781498705853702
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -12,6 +12,11 @@ public static class InterSceneManager
     // House Builder UI -> ClickDrop
     public static bool deleteMode = false;
 
+    //House builder tiles that represent the rooms of the house
+    //Represents the tiles that were explored by the flood fill algorithm of the house
+    //Note: these are TILEMAP positions, not worldspace positions. Use the tilemap!
+    public static List<Vector3Int> houseTiles;
+
     // Simulation Setup Settings:
     private static bool whiskersEnabled;
     private static string floorCovering;
