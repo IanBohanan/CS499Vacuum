@@ -138,7 +138,6 @@ public class SimulationController : MonoBehaviour
     
     private void endSimulation()
     {
-        timer.Stop();
         SceneManager.LoadScene(sceneName: "MainMenu");
     }
 }

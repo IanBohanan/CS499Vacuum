@@ -18,7 +18,7 @@ public static class InterSceneManager
     private static int batteryLife;
     private static bool randomAlgEnabled = false;
     private static bool spiralAlgEnabled = false;
-    private static bool snakingAlgEnabled = true;
+    private static bool snakingAlgEnabled = false;
     private static bool wallFollowAlgEnabled = false;
 
     // Simulation Speed, used by Vacuum to multiply speed:
