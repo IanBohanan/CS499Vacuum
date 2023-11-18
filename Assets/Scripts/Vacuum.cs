@@ -2,115 +2,96 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// This class represents the behavior of a robotic vacuum cleaner in a simulation.
 public class Vacuum : MonoBehaviour
 {
-    // Keep track of all objects in robot vacuum prefab (Consider Serialized Fields?)
-    private Transform robotTransform;
-    private Transform vacuumTransform;
-    private Transform whiskersTransform;
+    // Transform components for the robot vacuum and its parts
+    private Transform robotTransform;      // Transform of the robot itself
+    private Transform vacuumTransform;     // Transform of the vacuum component
+    private Transform whiskersTransform;   // Transform of the whiskers component
 
     // Vacuum Attributes
-    private int efficiency;
-    private float speed;              // Inches per Second
+    private int efficiency;                // Efficiency of the vacuum (not yet implemented)
+    private float speed;                   // Movement speed of the vacuum (inches per second)
 
-    public float batteryLifeMinutes;  // In Minutes
-    private float currBatteryLife;    // In Seconds (for decrementing with timeDelta)
-    private bool whiskersEnabled;
-    private string floorCovering;
-    private bool isBatteryDead;
-    private bool canCollide = true;
-    private Dictionary<string, bool> pathingDict = new Dictionary<string, bool>();
+    public float batteryLifeMinutes;       // Total battery life in minutes
+    private float currBatteryLife;         // Current battery life in seconds
+    private bool whiskersEnabled;          // Flag to check if whiskers are enabled
+    private string floorCovering;          // Type of floor covering
+    private bool isBatteryDead;            // Flag to check if the battery is dead
+    private bool canCollide = true;        // Flag to allow collision
+    private Dictionary<string, bool> pathingDict = new Dictionary<string, bool>(); // Pathing options dictionary
 
-    // Coroutine to prevent Vacuum passing through walls
+    // Coroutine to prevent the vacuum from passing through walls during collision
     private IEnumerator DelayCollisionEnable(float delay)
     {
-        // Set a timer until we can collide again
         yield return new WaitForSeconds(delay);
         canCollide = true;
     }
 
-    // Start is called before the first frame update
+    // Start method called before the first frame update
     void Start()
     {
-        // Set Speed
-        speed = 0.005f;
+        speed = 0.005f; // Set initial speed
 
-        // Assign variables from simulation setup
+        // Get simulation settings from InterSceneManager
         (whiskersEnabled, floorCovering, batteryLifeMinutes) = InterSceneManager.getSimulationSettings();
 
-        // Find the child GameObjects by their names.
+        // Find child GameObjects
         robotTransform = transform.Find("Robot");
         vacuumTransform = transform.Find("Vacuum");
         whiskersTransform = transform.Find("Whiskers");
 
-        // Use Simulation setup variables to determine if whiskers are needed
-        if (whiskersEnabled) 
-        {
-            whiskersTransform.gameObject.SetActive(true);
-        } else
-        {
-            whiskersTransform.gameObject.SetActive(false);
-        }
+        // Activate or deactivate whiskers based on settings
+        whiskersTransform.gameObject.SetActive(whiskersEnabled);
         
-        // Set battery life from Simulation Setup
+        // Initialize battery life
         currBatteryLife = batteryLifeMinutes * 60;
-        if (currBatteryLife > 0) { isBatteryDead = false; }
+        isBatteryDead = currBatteryLife <= 0;
 
-        //TODO: Determine efficiency from floorcovering
+        //TODO: Determine efficiency based on floor covering
     }
 
-    // Update is called once per frame
+    // Update method called once per frame
     void Update()
     {
-        //Debug.Log(InterSceneManager.speedMultiplier);
         if (!isBatteryDead)
         {
-            // Decrement the batteryLife of the vacuum
+            // Decrement battery life based on time and speed multiplier
             currBatteryLife -= Time.deltaTime * (float)InterSceneManager.speedMultiplier;
 
-            // Get whiskers rotation script to call specific whiskers methods
+            // Get whiskers component to control its rotation
             WhiskersRotation whiskersRotation = whiskersTransform.GetComponent<WhiskersRotation>();
 
-            // Check that the vacuum is not dead
+            // Check if battery is dead to stop the vacuum
             if (currBatteryLife <= 0)
             {
-                // If vacuum dead, stop whisker rotation and stop vacuum movement
                 currBatteryLife = 0;
-                if (whiskersRotation != null)
-                {
-                    whiskersRotation.StopRotation();
-                }
+                whiskersRotation?.StopRotation();
                 isBatteryDead = true;
             }
 
-            
-            // #################################################
-            // # BASIC MOVEMENT TO BE REMOVED FOR PATHING ALGS #
-            // #################################################
-
-            // Move the entire "Vacuum-Robot" prefab.
-            transform.position += new Vector3(speed * (float)InterSceneManager.speedMultiplier, 0, 0);
-
-            // Move the child GameObjects along with the parent.
+            // Basic movement logic (to be replaced with pathing algorithms)
+            Vector3 movement = new Vector3(speed * (float)InterSceneManager.speedMultiplier, 0, 0);
+            transform.position += movement;
             robotTransform.position = transform.position;
             vacuumTransform.position = transform.position;
             whiskersTransform.position = transform.position;
-            
         }
     }
+
+    // Handle collision with other objects
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (canCollide)
         {
             Debug.Log("Vacuum Collided...");
-            //TODO: Send collision signal to pathing alg (??)
+            //TODO: Implement collision handling logic for pathing algorithm
             speed *= -1;
 
-            // Set timer until we can collide again to prevent vacuum passing through
-            // other objects at high-speeds
+            // Delay next collision to prevent passing through objects at high speed
             canCollide = false;
             StartCoroutine(DelayCollisionEnable(0.0005f));
         }
     }
-
 }
