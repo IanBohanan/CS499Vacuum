@@ -91,7 +91,7 @@ public class RoomManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             Vector3Int startPosition = new Vector3Int(0, 0, 0);
             isFlooding = true;
