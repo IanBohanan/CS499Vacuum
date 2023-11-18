@@ -1,82 +1,68 @@
-//This script keeps track of which tile is clean and which is dirty.
-//It change change the cleanliness and also the color of the tile.
-
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+// CleanlinessManager handles the cleanliness state of each tile in the environment.
 public class CleanlinessManager : MonoBehaviour
 {
-
-    public float debugCleanAmount;
-
-    [SerializeField]
-    private Tilemap floorTiles;
-    private Vacuum vacuum;
-
-    private Dictionary<Vector3Int, float> tileData = new Dictionary<Vector3Int, float>(); //Dictionary that matches the positions with tile cleanliness.
+    public float debugCleanAmount; // Amount used for debugging cleanliness changes.
 
     [SerializeField]
-    private Color cleanColor;
+    private Tilemap floorTiles; // Reference to the tilemap containing the floor tiles.
+    private Vacuum vacuum; // Reference to the vacuum object in the scene.
 
-    //The outside-facing API that takes in the game world position and changes how clean a tile is.
+    private Dictionary<Vector3Int, float> tileData = new Dictionary<Vector3Int, float>(); // Dictionary to track the cleanliness of each tile.
+
+    [SerializeField]
+    private Color cleanColor; // The color used to represent a clean tile.
+
+    // Public method to clean a tile at a given world position by a specified amount.
     public void makeClean(Vector2 worldPosition, float cleanAmount)
     {
         Vector3Int gridPosition = floorTiles.WorldToCell(worldPosition);
-
         changeCleanliness(gridPosition, cleanAmount);
         VisualizeCleanliness();
     }
 
-    //Changes the cleanliness of a tile given its position and how much to modify it.
-    //Also ensures each tile will be between 0 and 100% clean.
-    //Params: Vector3Int gridPosition - the grid's X,Y,and Z values.
-    //        float toChange -amount that will be added to the the tile's cleanliness value
+    // Private method to change the cleanliness of a tile.
+    // Ensures that the cleanliness value is clamped between 0 and 100.
     private void changeCleanliness(Vector3Int gridPosition, float toChange)
     {
-        //Check if tile is already in dictionary. If not, add the tile to dictionary and make it completely dirty
+        // Add tile to dictionary if it's not already there, starting at 0% cleanliness.
         if (!tileData.ContainsKey(gridPosition))
             tileData.Add(gridPosition, 0f);
 
         float newValue = tileData[gridPosition] + toChange;
-
-        //Set the tile to the new value. Note: Grid tiles cannot go above 100% clean. 
-        //The Mathf "clamp" function will prevent tile from going over value of 100
+        // Clamp the cleanliness value to ensure it's between 0 and 100.
         tileData[gridPosition] = Mathf.Clamp(newValue, 0f, 100f);
 
+        // Debug log to print the new cleanliness value.
         print("CleanlinessManager: Tile cleanliness: " + tileData[gridPosition]);
     }
 
-    //Changes the color of each tile to represent how clean they are
+    // Visualizes the cleanliness of each tile by changing its color.
     private void VisualizeCleanliness()
     {
         foreach (var tile in tileData)
         {
-            //Change the color of the tile between white(ie. the base image) and pure green.
+            // Lerp the color between white (dirty) and green (clean) based on cleanliness percentage.
             Color newTileColor = Color.Lerp(Color.white, Color.green, tile.Value / 100);
 
-
-            //Okay Unity has some weird debug thing where it has a "lock color" flag for each tile.
-            //Whenever setColor is called, ALL unlocked tiles get updated. So we have to unlock then lock each tile individually
-            //Sooo just gonna have to unlock that flag for the tile, change the color, then lock the flag AGAIN.
-            //Otherwise the entire tilemap gets updated and not just the one tile.
+            // Unlock and lock tile color to update its color individually due to Unity's tilemap behavior.
             floorTiles.SetTileFlags(tile.Key, TileFlags.None);
             floorTiles.SetColor(tile.Key, newTileColor);
             floorTiles.SetTileFlags(tile.Key, TileFlags.LockColor);
         }
     }
 
-    //Debug function that changes cleanliness of tile just by clicking on it
+    // Debug method to allow cleaning tiles by clicking on them.
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
             makeClean(mousePosition, debugCleanAmount);
         }
-
     }
 }
