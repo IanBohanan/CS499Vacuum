@@ -124,7 +124,7 @@ public class SimulationSetupController : MonoBehaviour
 
     private void UpdaterobotSpeedLabel()
     {
-        robotSpeedLabel.text = $"robotSpeed: {robotSpeed} inch/sec"; // Display updated Robot Speed
+        robotSpeedLabel.text = $"Robot Speed: {robotSpeed} inch/sec"; // Display updated Robot Speed
     }
 
     private void UpdateBatteryLifeLabel()

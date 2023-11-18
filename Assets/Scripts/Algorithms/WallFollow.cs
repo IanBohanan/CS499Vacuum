@@ -84,11 +84,12 @@ public class WallFollow
         }
     }
 
-    // This will slowly rotate the vacuum 90 degrees to the right and stop the vacuum from moving while doing so
+    // Rotates given vector 90 degrees to the right
     public Vector2 turnRight(Vector2 currentVec)
     {
+        Debug.Log("old: "+currentVec);
         Vector2 newDirectionVec = new Vector2(currentVec.y, -currentVec.x);
-
+        Debug.Log("new: "+newDirectionVec);
         return (newDirectionVec);
     }
 

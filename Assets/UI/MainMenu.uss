@@ -12,7 +12,7 @@
 
 #TitleLabel {
     -unity-font-style: bold;
-    font-size: 72px;
+    font-size: 108px;
     -unity-text-align: middle-center;
     flex-grow: 0;
 }
@@ -167,4 +167,11 @@ Button:hover {
     font-size: 25px;
     -unity-text-align: middle-center;
     margin-top: 10px;
+}
+
+#SubtitleLabel {
+    -unity-font-style: bold;
+    font-size: 48px;
+    -unity-text-align: middle-center;
+    flex-grow: 0;
 }
