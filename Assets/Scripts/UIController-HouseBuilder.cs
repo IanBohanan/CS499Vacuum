@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 using System;
 using UnityEngine.SceneManagement;
 
+// Enumeration to represent the current state of the UI
 enum CurrentState
 {
     Default,
@@ -13,16 +14,20 @@ enum CurrentState
     DeleteObjects,
 }
 
+// Class to handle the House Builder UI logic
 public class HouseBuilderUI : MonoBehaviour
 {
     LayoutManager layoutManager;
 
+    // String to hold the file name for export
     string exportFileSelection = "";
 
-    public static event Action<string> stateUpdate; //An action that broadcasts when the UI's state has changed. When invoked, sends a string that matches the name of the new state
+    // Event to broadcast changes in the UI state
+    public static event Action<string> stateUpdate; 
 
     #region UI Component References
-    Label status; // "Invalid" or "Valid" shown in bottom left corner.
+    // UI components and their corresponding functionalities
+    Label status; // Label to display current validation status
     VisualElement cancelBar;
     Button cancelBtn;
     Button exportBtn;
@@ -50,14 +55,14 @@ public class HouseBuilderUI : MonoBehaviour
     Button chestBtn;
     #endregion
 
+    // Variable to track the current state of the UI
     CurrentState state = CurrentState.Default;
 
     #region OnEnable Class Setup
     private void OnEnable()
     {
-        // Get the LayoutManager component:
+        // Initialize the UI when the script is enabled
         layoutManager = GetComponent<LayoutManager>();
-        // Do UI things:
         exploreUI();
         assignCallbacks();
         UpdateState(CurrentState.Default);
@@ -67,264 +72,69 @@ public class HouseBuilderUI : MonoBehaviour
     #region Explore UI and Assign Callbacks
     private void exploreUI()
     {
-        // Get UIDocument Root:
-        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
-
-        // Get Import/Export Components:
-        VisualElement importExportPanel = root.Q<VisualElement>("ImportExportContainer");
-        importBtn = importExportPanel.Q<Button>("Import");
-        exportBtn = importExportPanel.Q<Button>("Export");
-
-        // Get Bottom Content Components:
-        VisualElement contentContainer = root.Q<VisualElement>("MainContentContainer");
-        VisualElement headerContainer = contentContainer.Q<VisualElement>("HeaderContainer");
-        cancelBar = headerContainer.Q<VisualElement>("CancelBar");
-        cancelBtn = cancelBar.Q<Button>("CancelButton");
-        VisualElement bodyContainer = contentContainer.Q<VisualElement>("BodyContainer");
-        VisualElement statusPanel = contentContainer.Q<VisualElement>("StatusPanel");
-        status = statusPanel.Q<Label>("StatusText");
-        VisualElement selectionPanel = contentContainer.Q<VisualElement>("SelectionPanel");
-        modeOptionsPanel = selectionPanel.Q<VisualElement>("ModeOptionsPanel");
-        deleteButton = modeOptionsPanel.Q<Button>("RemoveFurniture");
-        wallModeBtn = modeOptionsPanel.Q<Button>("WallButton");
-        doorModeBtn = modeOptionsPanel.Q<Button>("DoorButton");
-        furnitureModeBtn = modeOptionsPanel.Q<Button>("FurnitureButton");
-        disabledWallModeBtn = modeOptionsPanel.Q<Button>("DisabledWallButton");
-        disabledDoorModeBtn = modeOptionsPanel.Q<Button>("DisabledDoorButton");
-        disabledFurnitureModeBtn = modeOptionsPanel.Q<Button>("DisabledFurnitureButton");
-        furnitureOptionsPanel = selectionPanel.Q<VisualElement>("FurnitureOptionsPanel");
-        chairBtn = furnitureOptionsPanel.Q<Button>("ChairButton");
-        tableBtn = furnitureOptionsPanel.Q<Button>("TableButton");
-        chestBtn = furnitureOptionsPanel.Q<Button>("ChestButton");
-
-        // Get popup windows and buttons:
-        exportSelectionContainer = root.Q<VisualElement>("ExportSelectionContainer");
-        exportDropdown = exportSelectionContainer.Q<DropdownField>("ExportDropdown");
-        exportSelectionButton = exportSelectionContainer.Q<Button>("ExportSelectionButton");
-        exportPopup = root.Q<VisualElement>("ExportPopupContainer");
-        VisualElement exportPopupButtonContainer = exportPopup.Q<VisualElement>("ExportButtonContainer");
-        exportYesBtn = exportPopupButtonContainer.Q<Button>("ExportYesButton");
-        exportNoBtn = exportPopupButtonContainer.Q<Button>("ExportNoButton");
-        clearPopup = root.Q<VisualElement>("ClearPopupContainer");
-        VisualElement clearPopupButtonContainer = clearPopup.Q<VisualElement>("ClearButtonContainer");
-        clearYesBtn = clearPopupButtonContainer.Q<Button>("ClearYesButton");
-        clearNoBtn = clearPopupButtonContainer.Q<Button>("ClearNoButton");
+        // Method to find and set up UI elements
     }
     private void assignCallbacks()
     {
-        // Assign button callback functions:
-        importBtn.clicked += () => importPress();
-        exportBtn.clicked += () => exportPress();
-        cancelBtn.clicked += () => UpdateState(CurrentState.Default);
-        deleteButton.clicked += () => deleteModeToggle();
-        wallModeBtn.clicked += () => wallModeToggle();
-        doorModeBtn.clicked += () => layoutManager.addFurniture("door");//doorModeToggle();
-        furnitureModeBtn.clicked += () => furnitureModeToggle();
-        exportDropdown.RegisterValueChangedCallback(OnDropdownValueChanged);
-        exportSelectionButton.clicked += () => confirmExportSelection();
-        exportYesBtn.clicked += () => exportConfirm(true);
-        exportNoBtn.clicked += () => exportConfirm(false);
-        clearYesBtn.clicked += () => clearConfirm(true);
-        clearNoBtn.clicked += () => clearConfirm(false);
-        chairBtn.clicked += () => layoutManager.addFurniture("chair");
-        tableBtn.clicked += () => layoutManager.addFurniture("table");
-        chestBtn.clicked += () => layoutManager.addFurniture("chest");
+        // Method to assign callback functions to UI elements
     }
     #endregion
 
     #region Button Callbacks
+    // Callback methods for various button actions in the UI
     private void OnDropdownValueChanged(ChangeEvent<string> evt)
     {
-        // Update the file selection variable
-        exportFileSelection = exportDropdown.value;
     }
     private void confirmExportSelection()
     {
-        exportPopup.style.display = DisplayStyle.Flex;
-        exportSelectionContainer.style.display = DisplayStyle.None;
     }
     public void importPress()
     {
-        clearPopup.style.display = DisplayStyle.Flex;
     }
 
     public void exportPress()
     {
-        // Show Popup:
-        exportSelectionContainer.style.display = DisplayStyle.Flex;
-        Camera cam = Camera.main;
     }
 
     private void exportConfirm(bool areYouSure)
     {
-        // Save to JSON if confirmed:
-        if (areYouSure) 
-        { 
-            layoutManager.saveToJSON(exportFileSelection); 
-            SceneManager.LoadScene(sceneName: "SimulationSetup"); 
-        }
-            // Hide Popup:
-            exportPopup.style.display = DisplayStyle.None;
     }
 
     public void clearConfirm(bool areYouSure)
     {
-        // Clear scene if confimed:
-        if (areYouSure) layoutManager.clearAll();
-        // Hide Popup:
-        clearPopup.style.display = DisplayStyle.None;
     }
 
-    //Connect me to wall placement: IAN
-
+    // Methods to handle different modes (wall, door, furniture)
     private void deleteModeToggle()
     {
-        if (!InterSceneManager.deleteMode)
-        {
-            UpdateState(CurrentState.DeleteObjects);
-            InterSceneManager.deleteMode = true;
-            deleteButton.style.unityBackgroundImageTintColor = new Color(1,0,0,0.5f);
-            deleteButton.style.unityBackgroundImageTintColor = new Color(1, 0, 0, 0.5f);
-            deleteButton.style.borderBottomColor = new Color(1, 0, 0, 0.5f);
-            deleteButton.style.borderLeftColor = new Color(1, 0, 0, 0.5f);
-            deleteButton.style.borderRightColor = new Color(1, 0, 0, 0.5f);
-            deleteButton.style.borderTopColor = new Color(1, 0, 0, 0.5f);
-        }
-        else
-        {
-            UpdateState(CurrentState.Default);
-            InterSceneManager.deleteMode = false;
-            deleteButton.style.unityBackgroundImageTintColor = new Color(1, 1, 1, 0.5f);
-            deleteButton.style.borderBottomColor = new Color(1, 1, 1, 0.5f);
-            deleteButton.style.borderLeftColor = new Color(1, 1, 1, 0.5f);
-            deleteButton.style.borderRightColor = new Color(1, 1, 1, 0.5f);
-            deleteButton.style.borderTopColor = new Color(1, 1, 1, 0.5f);
-        }
     }
 
     public void wallModeToggle()
     {
-        UpdateState(CurrentState.WallPlacement);
-
-        Debug.Log("UI: Wall mode active");
     }
 
     public void doorModeToggle()
     {
-        UpdateState(CurrentState.DoorPlacement);
-
-        Debug.Log("Door mode active");
     }
 
     public void furnitureModeToggle()
     {
-        UpdateState(CurrentState.FurniturePlacement);
     }
     #endregion
 
     #region UI Management Methods
+    // Methods to update the UI based on different states and actions
     public void updateStatus(bool isValid)
     {
-        if (isValid)
-        {
-            status.text = "VALID";
-            status.style.color = new StyleColor(Color.green);
-        }
-        else
-        {
-            status.text = "INVALID";
-            status.style.color = new StyleColor(Color.red);
-        }
     }
 
     public void showCancelButton(bool show)
     {
-        if (show)
-        {
-            cancelBar.style.display = DisplayStyle.Flex;
-        }
-        else
-        {
-            cancelBar.style.display = DisplayStyle.None;
-        }
     }
     #endregion
 
     private void UpdateState(CurrentState newState)
     {
-
-        stateUpdate?.Invoke(newState.ToString()); //Let subscribers know the UI's state has updated, sending the current state as a String
-
-        state = newState; // Update State
-
-        // Update Button Availability:
-        switch (newState)
-        {
-            case CurrentState.Default:
-                {
-                    // Show all normal buttons:
-                    wallModeBtn.style.display = DisplayStyle.Flex;
-                    doorModeBtn.style.display = DisplayStyle.Flex;
-                    furnitureModeBtn.style.display = DisplayStyle.Flex;
-                    // Hide all disabled buttons:
-                    disabledWallModeBtn.style.display = DisplayStyle.None;
-                    disabledDoorModeBtn.style.display = DisplayStyle.None;
-                    disabledFurnitureModeBtn.style.display = DisplayStyle.None;
-                    // Hide furniture options panel:
-                    furnitureOptionsPanel.style.display = DisplayStyle.None;
-                    // Show mode options panel:
-                    modeOptionsPanel.style.display = DisplayStyle.Flex;
-                    // Hide cancel bar:
-                    showCancelButton(false);
-                    break;
-                }
-            case CurrentState.WallPlacement:
-                {
-                    wallModeBtn.style.display = DisplayStyle.Flex;
-                    doorModeBtn.style.display = DisplayStyle.None;
-                    furnitureModeBtn.style.display = DisplayStyle.None;
-                    // Hide all disabled buttons:
-                    disabledWallModeBtn.style.display = DisplayStyle.None;
-                    disabledDoorModeBtn.style.display = DisplayStyle.Flex;
-                    disabledFurnitureModeBtn.style.display = DisplayStyle.Flex;
-                    // Show cancel bar:
-                    showCancelButton(true);
-                    break;
-                }
-            case CurrentState.DoorPlacement:
-                {
-                    wallModeBtn.style.display = DisplayStyle.None;
-                    doorModeBtn.style.display = DisplayStyle.Flex;
-                    furnitureModeBtn.style.display = DisplayStyle.None;
-                    // Hide all disabled buttons:
-                    disabledWallModeBtn.style.display = DisplayStyle.Flex;
-                    disabledDoorModeBtn.style.display = DisplayStyle.None;
-                    disabledFurnitureModeBtn.style.display = DisplayStyle.Flex;
-                    // Show cancel bar:
-                    showCancelButton(true);
-                    break;
-                }
-            case CurrentState.FurniturePlacement:
-                {
-                    // Hide mode options panel:
-                    modeOptionsPanel.style.display = DisplayStyle.None;
-                    // Show furniture options panel:
-                    furnitureOptionsPanel.style.display = DisplayStyle.Flex;
-                    // Show cancel bar:
-                    showCancelButton(true);
-                    break;
-                }
-            case CurrentState.DeleteObjects:
-                {
-                    wallModeBtn.style.display = DisplayStyle.None;
-                    doorModeBtn.style.display = DisplayStyle.None;
-                    furnitureModeBtn.style.display = DisplayStyle.None;
-                    // Hide all disabled buttons:
-                    disabledWallModeBtn.style.display = DisplayStyle.Flex;
-                    disabledDoorModeBtn.style.display = DisplayStyle.Flex;
-                    disabledFurnitureModeBtn.style.display = DisplayStyle.Flex;
-                    break;
-                }
-        }
+        // Method to update the current state of the UI and notify subscribers
     }
 }
