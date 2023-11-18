@@ -214,137 +214,14 @@ public class VacuumMovement : MonoBehaviour
         // Initialize Array 
         RaycastHit2D[] hitData = new RaycastHit2D[] { hitDataLeft, hitDataRight, hitDataUp, hitDataDown };
 
-        Debug.Log("yeah");
-
         if (canCollide)
         {
             if (currentAlg == Algorithm.Random)
             {
-/*                RaycastHit2D shortestRay = hitData[0];
-                int indexOfShortestRay = 0;
-                for (int i = 0; i < hitData.Length; i++)
-                {
-                    RaycastHit2D compareTo = hitData[i];
-                    if (compareTo.distance < shortestRay.distance)
-                    {
-                        shortestRay = compareTo;
-                        indexOfShortestRay = i;
-                    }
-
-                }*/
-
-                //Direction closestDir = (Direction)indexOfShortestRay;
-
-                Vector2 collisionDir = new Vector2(0, 0);
-/*                if (closestDir == Direction.Up)
-                {
-                    collisionDir = new Vector2(0, 1);
-                } 
-                else if (closestDir == Direction.Down)
-                {
-                    collisionDir = new Vector2(0, -1);
-                }
-                else if (closestDir == Direction.Right)
-                {
-                    collisionDir = new Vector2(1, 0);
-                }
-                else if (closestDir == Direction.Left)
-                {
-                    collisionDir = new Vector2(-1, 0);
-                }*/
-
-                //--------------------------------------------------------
-                string closestName = "left";
-                float closest = hitDataLeft.distance; //new Vector2(1, 0);
-
-                if (closest > hitDataRight.distance)
-                {
-                    closest = hitDataRight.distance;
-                    closestName = "right";
-                }
-                if (closest > hitDataUp.distance)
-                {
-                    closest = hitDataUp.distance;
-                    closestName = "up";
-                }
-                if (closest > hitDataDown.distance)
-                {
-                    closest = hitDataDown.distance;
-                    closestName = "down";
-                }
-
-                switch (closestName)
-                {
-                    case "left":
-                        Debug.Log("left");
-                        collisionDir = new Vector2(-1, 0);
-                        break;
-                    case "right":
-                        Debug.Log("right");
-                        collisionDir = new Vector2(1, 0);
-                        break;
-                    case "up":
-                        Debug.Log("up");
-                        collisionDir = new Vector2(0, 1);
-                        break;
-                    case "down":
-                        Debug.Log("down");
-                        collisionDir = new Vector2(0, -1);
-                        break;
-                    default:
-                        Debug.Log("Uh oh...");
-                        break;
-                }
-                //--------------------------------------------------------
-                /*
-                                ColliderDistance2D dis = GetComponent<Rigidbody2D>().Distance(collision);*/
-
-                currentDirectionVec = -currentDirectionVec;
-
-                float x = currentDirectionVec.x * 0.25f;
-                float y = currentDirectionVec.y * 0.25f;
-
-                currentDirectionVec = -currentDirectionVec;
-
-                transform.position += new Vector3(x, y, 0);
-
-
-
-                bool newDir = true;
-                while (newDir)
-                {
-                    newDir = false;
-                    currentDirectionVec = randomAlg.getStartingVec();
-                    Debug.Log(currentDirectionVec);
-                    if (currentDirectionVec.y > 0)
-                    {
-                        if (hitDataUp.distance < 1){
-                            newDir = true;
-                        }
-                    }
-                    if (currentDirectionVec.x > 0)
-                    {
-                        if (hitDataRight.distance < 1)
-                        {
-                            newDir = true;
-                        }
-                    }
-                    if (currentDirectionVec.y < 0)
-                    {
-                        if (hitDataDown.distance < 1)
-                        {
-                            newDir = true;
-                        }
-                    }
-                    if (currentDirectionVec.x < 0)
-                    {
-                        if (hitDataLeft.distance < 1)
-                        {
-                            newDir = true;
-                        }
-                    }
-                }
-
+                // Determine collider direction to move in the opposite direction of collider
+                Direction closestDir = GetClosestDirFromRayList(hitData);
+                Vector2 collisionDir = DirToVector(closestDir);
+                currentDirectionVec = randomAlg.getNewDirectionVec(collisionDir);
             } 
             else if (currentAlg == Algorithm.WallFollow)
             {
@@ -439,5 +316,52 @@ public class VacuumMovement : MonoBehaviour
             }
         }
         return Algorithm.BadAlg;
+    }
+    private Direction GetClosestDirFromRayList(RaycastHit2D[] rays)
+    {
+        RaycastHit2D shortestRay = rays[0];
+        int indexOfShortestRay = 0;
+        for (int i = 0; i < rays.Length; i++)
+        {
+            RaycastHit2D compareTo = rays[i];
+            if (compareTo.collider != null)
+            {
+                if (compareTo.distance < shortestRay.distance)
+                {
+                    shortestRay = compareTo;
+                    indexOfShortestRay = i;
+                }
+            }
+
+        }
+
+        return (Direction)indexOfShortestRay;
+    }
+
+    private Vector2 DirToVector(Direction dir)
+    {
+        Vector2 collisionDir = new Vector2(0, 0);
+        if (dir == Direction.Up)
+        {
+            collisionDir = new Vector2(0, 1);
+        }
+        else if (dir == Direction.Down)
+        {
+            collisionDir = new Vector2(0, -1);
+        }
+        else if (dir == Direction.Right)
+        {
+            collisionDir = new Vector2(1, 0);
+        }
+        else if (dir == Direction.Left)
+        {
+            collisionDir = new Vector2(-1, 0);
+        }
+        else
+        {
+            Debug.Log("Default Movement Value = 0");
+        }
+
+        return collisionDir;
     }
 }
