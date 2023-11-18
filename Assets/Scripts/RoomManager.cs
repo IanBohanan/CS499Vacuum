@@ -97,7 +97,6 @@ public class RoomManager : MonoBehaviour
             isFlooding = true;
             print("RoomManager: Beginning flood.");
             StartCoroutine(FloodFill(startPosition));
-            
         }
 
 
@@ -107,6 +106,7 @@ public class RoomManager : MonoBehaviour
             {
                 activeTiles = 0;
                 print("RoomManager: Done flooding!");
+                InterSceneManager.houseTiles = debugDictList; //Send final list of floodable tiles to the next scene!
                 isFlooding = false;
                 exploredTiles.Clear(); //reset the dictionary next time we start flooding
             }
