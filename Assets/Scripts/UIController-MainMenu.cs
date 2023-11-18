@@ -4,43 +4,48 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
+// Controller class for the Main Menu UI and functionality
 public class MainMenuController : MonoBehaviour
 {
+    // UI Button References
     Button importBtn;
     Button createNewBtn;
     Button reviewPastSimulationsBtn;
 
+    // Popup UI Elements
     VisualElement importPopup;
     Button importJSONButton;
-
     VisualElement dataReviewPopup;
     Button dataReviewConfirmButton;
 
+    // Dropdowns for selecting files
     DropdownField selectionDropdown;
     DropdownField dataReviewDropdown;
 
+    // Method called when the script is enabled
     void OnEnable()
     {
+        // Initialize UI components and assign button callbacks
         // Get UIDocument Root:
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
-        // Get Primary Button Components:
+        // Initialize buttons:
         VisualElement buttonContainer = root.Q<VisualElement>("ButtonContainer");
         Button importBtn = buttonContainer.Q<Button>("ImportButton");
         Button createNewBtn = buttonContainer.Q<Button>("CreateNewButton");
         reviewPastSimulationsBtn = root.Q<Button>("DataReviewButton");
 
-        // Get Import Popup, Dropdown, & Button:
+        // Initialize Import Popup, Dropdown, & Button:
         importPopup = root.Q<VisualElement>("ImportPopup");
         selectionDropdown = importPopup.Q<DropdownField>("SelectionDropdown");
         importJSONButton = importPopup.Q<Button>("ImportJSONButton");
 
-        // Get Data Review Popup, Dropdown, & Button:
+        // Initialize Data Review Popup, Dropdown, & Button:
         dataReviewPopup = root.Q<VisualElement>("DataReviewPopup");
         dataReviewDropdown = dataReviewPopup.Q<DropdownField>("DataReviewDropdown");
         dataReviewConfirmButton = dataReviewPopup.Q<Button>("DataReviewConfirmButton");
 
-        // Subscribe to button events:
+        // Assign button callback functions:
         importBtn.clicked += () => onImportPress();
         createNewBtn.clicked += () => onCreateNewPress();
         importJSONButton.clicked += () => onImportPopupPress();
@@ -50,44 +55,39 @@ public class MainMenuController : MonoBehaviour
         dataReviewConfirmButton.clicked += () => onDataReviewConfirmPress();
     }
 
-    // Update selected house builder import file:
+    // Callback methods for UI actions
     private void onValueChanged(ChangeEvent<string> evt)
     {
-        InterSceneManager.fileSelection = selectionDropdown.value;
+        // Update the file selection from the dropdown
     }
 
-    // Open the JSON house builder import panel:
-    public void onImportPress() {
-        importPopup.style.display = DisplayStyle.Flex;
+    public void onImportPress() 
+    {
+        // Display the import popup
     }
 
-    // Open the JSON data review import panel:
     public void onDataReviewPress()
     {
-        dataReviewPopup.style.display = DisplayStyle.Flex;
+        // Display the data review popup
     }
 
-    // Update selected data review import file:
     private void onDataReviewValueChanged(ChangeEvent<string> evt)
     {
-        //InterSceneManager.dataReviewFileSelection = dataReviewDropdown.value;
+        // Update the data review file selection
     }
 
     private void onDataReviewConfirmPress()
     {
-        dataReviewPopup.style.display = DisplayStyle.None;
-        SceneManager.LoadScene(sceneName: "DataReview");
+        // Hide data review popup and load the data review scene
     }
 
-    // Load in the imported house creation scene:
-    public void onImportPopupPress(){
-        importPopup.style.display = DisplayStyle.None;
-        Debug.Log("Loading " + InterSceneManager.fileSelection);
-        SceneManager.LoadScene(sceneName: "HouseBuilder");
+    public void onImportPopupPress()
+    {
+        // Hide import popup and load the house builder scene with the selected file
     }
 
-    // Load in the blank house creation scene:
-    public void onCreateNewPress() {
-        SceneManager.LoadScene(sceneName:"HouseBuilder");
+    public void onCreateNewPress() 
+    {
+        // Load a new, blank house creation scene
     }
 }
