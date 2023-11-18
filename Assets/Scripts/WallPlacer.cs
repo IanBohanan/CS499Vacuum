@@ -3,140 +3,118 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+// WallPlacer class is responsible for handling wall placement and interaction in a house building environment.
 public class WallPlacer : MonoBehaviour
 {
-    //When selecting the first wall to extend from, all the walls activate their points.
-    //When the first point is selected, every other wall should disable their UI since the extension has been chosen.
-    //This action is what tells all the other walls that the extension has been chosen.
+    // Static event to notify when the first wall is selected in the placement process.
     public static event Action firstWallSelected;
 
-    public GameObject wallPrefab; //The wall prefab that will be spawned when this wall is extended.
+    // References to prefab and UI elements for wall placement
+    public GameObject wallPrefab;           // Prefab used for spawning new wall segments.
+    public GameObject upperExtender;        // The upper extension point of the wall.
+    public GameObject lowerExtender;        // The lower pivot point of the wall.
+    public GameObject UI;                   // UI elements associated with the wall.
+    public GameObject wallEndpoint1;        // First endpoint of the wall.
+    public GameObject wallEndpoint2;        // Second endpoint of the wall.
+    public Transform WallTransform;         // The transform of the wall's parent object.
 
-    public GameObject upperExtender; //The location of the new wall object when extended
+    private bool isBeingPlaced = false;     // Flag to determine if the wall is currently being placed.
 
-    public GameObject lowerExtender; //The location of the wall's pivot point
-
-    public GameObject UI; //The UI of the wall object
-
-    public GameObject wallEndpoint1;
-    public GameObject wallEndpoint2;
-
-    public Transform WallTransform; //The wall parent object at the top of the wall prefab hierarchy
-
-    private bool isBeingPlaced = false; //Is the wall the newest one being placed? 
-
-    //When object created (and enabled) subscribe to the UI's stateUpdate action
+    // Subscribe to events when the object is enabled.
     private void OnEnable()
     {
         HouseBuilderUI.stateUpdate += stateUpdated;
         WallPlacer.firstWallSelected += disableSpawners;
     }
 
-    //When object created (and enabled) unsubscribe to the UI's stateUpdate action. 
-    //Very important or else errors will happen!
+    // Unsubscribe from events when the object is disabled to prevent errors.
     private void OnDisable()
     {
         HouseBuilderUI.stateUpdate -= stateUpdated;
         WallPlacer.firstWallSelected -= disableSpawners;
     }
 
+    // Method to disable wall extenders (spawn points) on other walls.
     public void disableSpawners()
     {
-        if(!isBeingPlaced)
+        if (!isBeingPlaced)
         {
             disableWallUI();
         }
     }
 
-    //Disables the UI, leaving just the wall
+    // Disables the UI of the wall, leaving only the wall visible.
     public void disableWallUI()
     {
         UI.SetActive(false);
     }
 
-    //Extends the current wall by placing a wall object on the spawner.
+    // Method to extend the wall by placing a new wall object at the spawn point.
     public void extendWall(Vector3 spawnPoint)
     {
-        if (upperExtender.gameObject.GetComponent<WallExtender>().connectedToWall && lowerExtender.gameObject.GetComponent<WallExtender>().connectedToWall && isBeingPlaced)
+        // Checks if the current wall is the final one to close the room.
+        if (upperExtender.GetComponent<WallExtender>().connectedToWall && 
+            lowerExtender.GetComponent<WallExtender>().connectedToWall && 
+            isBeingPlaced)
         {
             print("WallPlacer: Room closed!");
             isBeingPlaced = false;
         }
         else
         {
-            //Check to see if this wall is the final one for the room
+            // Create the new wall object and initialize it.
             isBeingPlaced = false;
-            GameObject nextWall = Instantiate(wallPrefab, spawnPoint, Quaternion.identity); //Create the new wall object
+            GameObject nextWall = Instantiate(wallPrefab, spawnPoint, Quaternion.identity);
             nextWall.transform.rotation = this.transform.rotation;
-            nextWall.GetComponent<WallPlacer>().isBeingPlaced = true; //Enables the wallPlacer for the OBJECT because the unity action turns off the wallPlacer as a global script
-            firstWallSelected?.Invoke(); //Tell all the other walls that the main extension point has been selected
+            nextWall.GetComponent<WallPlacer>().isBeingPlaced = true;
+            firstWallSelected?.Invoke();
         }
         disableWallUI();
         wallEndpoint1.SetActive(true);
         wallEndpoint2.SetActive(true);
     }
 
-    //Updates how the wall should be rotated (in 90 degree increments) based on the cursor's position relative to pivot point
+    // Updates the rotation of the wall based on the cursor's position relative to the pivot point.
     public void updateRotation()
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
         Vector2 distance = mousePosition - lowerExtender.transform.position;
-
         Vector3 newRotation = this.transform.eulerAngles;
 
-        if (distance.y < -1) //Mouse is far (two grid spaces) below the pivot point. Make it face downward
-        {
-            newRotation = new Vector3(0, 0, 180);
-        }
-        if(distance.y > 1)//Mouse is far above the pivot point. Make it face upright
-        {
-            newRotation = new Vector3(0, 0, 0);
-        }
-
-        if(distance.x > 3) //Mouse is far right, make it face right
-        {
-            newRotation = new Vector3(0, 0, 270);
-        }
-        if (distance.x < -3) //Mouse is far left, make it face left
-        {
-            newRotation = new Vector3(0, 0, 90);
-        }
+        // Update rotation based on mouse position relative to lower extender
+        if (distance.y < -1) { newRotation = new Vector3(0, 0, 180); }
+        if (distance.y > 1) { newRotation = new Vector3(0, 0, 0); }
+        if (distance.x > 3) { newRotation = new Vector3(0, 0, 270); }
+        if (distance.x < -3) { newRotation = new Vector3(0, 0, 90); }
 
         this.transform.eulerAngles = newRotation;
-
     }
 
-    //Triggered whenever the UI state changes
+    // Called when the UI state changes, to update wall placement UI accordingly.
     private void stateUpdated(string newState)
     {
-        if (newState == "WallPlacement")
-        {
-            UI.SetActive(true);
-        }
-        else //UI updated away from wall placement to somewhere else. Thus the user doesn't actually want this wall object placed!
+        // Activate or deactivate UI based on the current UI state.
+        if (newState == "WallPlacement") { UI.SetActive(true); }
+        else
         {
             disableWallUI();
-            if (isBeingPlaced)
-            {
-                Destroy(transform.root.gameObject); //Delete the acrtual wall gameObject, not just this script
-            }
+            if (isBeingPlaced) { Destroy(transform.root.gameObject); }
         }
     }
 
+    // Initialize the wall endpoints at the start.
     private void Start()
     {
-        if(isBeingPlaced)
+        if (isBeingPlaced)
         {
             wallEndpoint1.SetActive(false);
             wallEndpoint2.SetActive(false);
         }
     }
 
-    // Update is called once per frame
+    // Update the wall rotation every frame if it is being placed.
     void Update()
     {
-        if(isBeingPlaced)
-            updateRotation();
+        if (isBeingPlaced) updateRotation();
     }
 }
