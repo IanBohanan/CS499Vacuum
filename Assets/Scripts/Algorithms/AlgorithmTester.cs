@@ -6,7 +6,7 @@ using UnityEngine;
 public class AlgorithmTester : MonoBehaviour
 {
 
-    RandomWalk randomAlg = new RandomWalk();
+    Random randomAlg = new Random();
     WallFollow wallFollow = new WallFollow();
     Vector2 currentDirectionVec = new Vector2(1f, 0f);
 

@@ -29,7 +29,7 @@ public class VacuumMovement : MonoBehaviour
     private Transform vacuumTransform;
     private Transform whiskersTransform;
 
-    RandomWalk randomAlg = new RandomWalk();
+    Random randomAlg = new Random();
     WallFollow wallFollow = new WallFollow();
     bool wallFollowing = false;
     bool justTurned = false;
@@ -57,7 +57,7 @@ public class VacuumMovement : MonoBehaviour
     void Start()
     {
         // Set Speed
-        speed = 0.005f;
+        speed = 0.05f;
 
         counter = 0;
 
@@ -217,7 +217,7 @@ public class VacuumMovement : MonoBehaviour
         if (canCollide)
         {
             if (currentAlg == Algorithm.Random)
-            {
+            { 
                 // Determine collider direction to move in the opposite direction of collider
                 Direction closestDir = GetClosestDirFromRayList(hitData);
                 Vector2 collisionDir = DirToVector(closestDir);
@@ -264,6 +264,11 @@ public class VacuumMovement : MonoBehaviour
             }
             else if (currentAlg == Algorithm.Spiral)
             {
+                // On Spiral collision, go in random direction to get to open space
+                // Determine collider direction to move in the opposite direction of collider
+                Direction closestDir = GetClosestDirFromRayList(hitData);
+                Vector2 collisionDir = DirToVector(closestDir);
+                currentDirectionVec = spiral.getNewRandomDirectionVec(collisionDir);
                 isSpiraling = false; // Stop the spiral updates
             }
             else if (currentAlg == Algorithm.Snaking)
@@ -274,7 +279,7 @@ public class VacuumMovement : MonoBehaviour
             // Set timer until we can collide again to prevent vacuum passing through
             // other objects at high-speeds
             canCollide = false;
-            StartCoroutine(DelayCollisionEnable(0.0005f));
+            StartCoroutine(DelayCollisionEnable(0.000001f));
         }
     }
 
@@ -326,15 +331,21 @@ public class VacuumMovement : MonoBehaviour
             RaycastHit2D compareTo = rays[i];
             if (compareTo.collider != null)
             {
-                if (compareTo.distance < shortestRay.distance)
+                if (shortestRay.distance == 0)
                 {
+                    shortestRay = compareTo;
+                }
+                if (compareTo.distance < shortestRay.distance && shortestRay.distance != 0)
+                {
+                    
                     shortestRay = compareTo;
                     indexOfShortestRay = i;
                 }
             }
 
         }
-
+        Debug.Log((Direction)indexOfShortestRay);
+        Debug.Log(shortestRay.distance);
         return (Direction)indexOfShortestRay;
     }
 
