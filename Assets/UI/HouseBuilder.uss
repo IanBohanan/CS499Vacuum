@@ -298,5 +298,13 @@ Button {
 }
 
 #RemoveFurniture {
-    width: 15%;
+    width: 20%;
+}
+
+#PlaceFlag {
+    width: 20%;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
 }

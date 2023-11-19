@@ -37,7 +37,7 @@ public class ClickDrop : MonoBehaviour
 
     // Offset values to be set for each furniture type. Allows correct grid snapping.
     private int offsetY;
-    private int offsetX;
+    private float offsetX;
 
     public Collider2D myCollider;
 
@@ -47,6 +47,12 @@ public class ClickDrop : MonoBehaviour
         string objectType = (gameObject.name); // Chair, Table, or Chest
         switch (objectType)
         {
+            case "Flag(Clone)":
+                {
+                    offsetY = 3;
+                    offsetX = 0.5f;
+                    break;
+                }
             case "Chair(Clone)":
                 {
                     offsetY = 3;

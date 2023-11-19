@@ -16,6 +16,7 @@
             <ui:VisualElement name="SelectionPanel">
                 <ui:VisualElement name="ModeOptionsPanel" style="flex-grow: 1; flex-direction: row;">
                     <ui:Button display-tooltip-when-elided="true" name="RemoveFurniture" class="SelectionButton" style="background-image: url(&apos;project://database/Assets/Sprites/UI_Icons/Trash%20bin%20no%20backgroud%201.png?fileID=2800000&amp;guid=e6bf9fe77d4342d47af705e8d4bd5fce&amp;type=3#Trash bin no backgroud 1&apos;); -unity-slice-left: 2; -unity-slice-top: 2; -unity-slice-right: 2; -unity-slice-bottom: 2; -unity-slice-scale: 4px;" />
+                    <ui:Button display-tooltip-when-elided="true" name="PlaceFlag" class="SelectionButton" style="background-image: url(&apos;project://database/Assets/Sprites/UI_Icons/Flag.png?fileID=2800000&amp;guid=54223485c99e8dd43b3c757c816e0e17&amp;type=3#Flag&apos;); -unity-slice-left: 2; -unity-slice-top: 2; -unity-slice-right: 2; -unity-slice-bottom: 2; -unity-slice-scale: 4px; -unity-background-image-tint-color: rgb(255, 255, 255);" />
                     <ui:Button text="Wall" display-tooltip-when-elided="true" name="WallButton" class="SelectionButton" />
                     <ui:Button text="Wall" display-tooltip-when-elided="true" name="DisabledWallButton" class="DisabledSelectionButton" />
                     <ui:Button text="Door" display-tooltip-when-elided="true" name="DoorButton" class="SelectionButton" />
@@ -34,7 +35,7 @@
     <ui:VisualElement name="ImportExportContainer">
         <ui:Button display-tooltip-when-elided="true" name="Import" class="ImportExportBtn" style="background-image: url(&apos;project://database/Assets/Sprites/UI_Icons/Brush%20Icon.png?fileID=92981570342396628&amp;guid=5b5d0f796cfa1924087f738b59e15f7d&amp;type=3#Brush Icon_0&apos;);" />
         <ui:Button display-tooltip-when-elided="true" name="Export" class="ImportExportBtn" style="background-image: url(&apos;project://database/Assets/UI/export_icon.png?fileID=5937232031438256114&amp;guid=72ff555bd964dae4eb0518a41a2b21a7&amp;type=3#export_icon_3&apos;); -unity-background-scale-mode: scale-to-fit;" />
-        <ui:Label tabindex="-1" text="Export House" display-tooltip-when-elided="true" name="ImportExportLabel" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-right: 25px;" />
+        <ui:Label tabindex="-1" text="House Builder" display-tooltip-when-elided="true" name="ImportExportLabel" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-right: 25px;" />
     </ui:VisualElement>
     <ui:VisualElement name="ClearPopupContainer" class="PopupContainer" style="flex-grow: 1; border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; display: none;">
         <ui:Label tabindex="-1" text="Are you sure you want to clear the house and revert to a blank canvas?" display-tooltip-when-elided="true" style="flex-wrap: wrap; max-width: 90%; white-space: normal; flex-grow: 0; align-self: center; height: 40%;" />
