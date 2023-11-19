@@ -9,6 +9,8 @@ public static class InterSceneManager
 
     public static List<GameObject> wallList = new List<GameObject>();
 
+    public static List<GameObject> flagList = new List<GameObject>();
+
     // House Builder UI -> ClickDrop
     public static bool deleteMode = false;
 

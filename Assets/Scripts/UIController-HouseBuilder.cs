@@ -19,6 +19,8 @@ public class HouseBuilderUI : MonoBehaviour
 
     string exportFileSelection = "";
 
+    [SerializeField] GameObject FlagPrefab;
+
     public static event Action<string> stateUpdate; //An action that broadcasts when the UI's state has changed. When invoked, sends a string that matches the name of the new state
 
     #region UI Component References
@@ -38,6 +40,7 @@ public class HouseBuilderUI : MonoBehaviour
     Button clearYesBtn;
     VisualElement modeOptionsPanel;
     Button deleteButton;
+    Button flagButton;
     Button wallModeBtn;
     Button doorModeBtn;
     Button furnitureModeBtn;
@@ -86,6 +89,7 @@ public class HouseBuilderUI : MonoBehaviour
         VisualElement selectionPanel = contentContainer.Q<VisualElement>("SelectionPanel");
         modeOptionsPanel = selectionPanel.Q<VisualElement>("ModeOptionsPanel");
         deleteButton = modeOptionsPanel.Q<Button>("RemoveFurniture");
+        flagButton = modeOptionsPanel.Q<Button>("PlaceFlag");
         wallModeBtn = modeOptionsPanel.Q<Button>("WallButton");
         doorModeBtn = modeOptionsPanel.Q<Button>("DoorButton");
         furnitureModeBtn = modeOptionsPanel.Q<Button>("FurnitureButton");
@@ -117,6 +121,7 @@ public class HouseBuilderUI : MonoBehaviour
         exportBtn.clicked += () => exportPress();
         cancelBtn.clicked += () => UpdateState(CurrentState.Default);
         deleteButton.clicked += () => deleteModeToggle();
+        flagButton.clicked += () => placeFlag();
         wallModeBtn.clicked += () => wallModeToggle();
         doorModeBtn.clicked += () => layoutManager.addFurniture("door");//doorModeToggle();
         furnitureModeBtn.clicked += () => furnitureModeToggle();
@@ -163,6 +168,7 @@ public class HouseBuilderUI : MonoBehaviour
             layoutManager.saveToJSON(exportFileSelection);
             InterSceneManager.fileSelection = exportDropdown.value;
             InterSceneManager.wallList.Clear(); // Clear the list of walls in case user returns to house builder
+            InterSceneManager.flagList.Clear();
             SceneManager.LoadScene(sceneName: "SimulationSetup"); 
         }
             // Hide Popup:
@@ -202,6 +208,14 @@ public class HouseBuilderUI : MonoBehaviour
             deleteButton.style.borderRightColor = new Color(1, 1, 1, 0.5f);
             deleteButton.style.borderTopColor = new Color(1, 1, 1, 0.5f);
         }
+    }
+
+    private void placeFlag()
+    {
+        GameObject newFlag = Instantiate(FlagPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        newFlag.GetComponent<ClickDrop>().isDragging = true;
+        Debug.Log(InterSceneManager.flagList.Count);
+        InterSceneManager.flagList.Add(newFlag);
     }
 
     public void wallModeToggle()
