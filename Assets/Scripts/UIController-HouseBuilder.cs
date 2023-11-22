@@ -123,7 +123,7 @@ public class HouseBuilderUI : MonoBehaviour
         deleteButton.clicked += () => deleteModeToggle();
         flagButton.clicked += () => placeFlag();
         wallModeBtn.clicked += () => wallModeToggle();
-        doorModeBtn.clicked += () => layoutManager.addFurniture("door");//doorModeToggle();
+        doorModeBtn.clicked += () => layoutManager.addFurniture("door", Quaternion.identity);//doorModeToggle();
         furnitureModeBtn.clicked += () => furnitureModeToggle();
         exportDropdown.RegisterValueChangedCallback(OnDropdownValueChanged);
         exportSelectionButton.clicked += () => confirmExportSelection();
@@ -131,9 +131,9 @@ public class HouseBuilderUI : MonoBehaviour
         exportNoBtn.clicked += () => exportConfirm(false);
         clearYesBtn.clicked += () => clearConfirm(true);
         clearNoBtn.clicked += () => clearConfirm(false);
-        chairBtn.clicked += () => layoutManager.addFurniture("chair");
-        tableBtn.clicked += () => layoutManager.addFurniture("table");
-        chestBtn.clicked += () => layoutManager.addFurniture("chest");
+        chairBtn.clicked += () => layoutManager.addFurniture("chair", Quaternion.identity);
+        tableBtn.clicked += () => layoutManager.addFurniture("table", Quaternion.identity);
+        chestBtn.clicked += () => layoutManager.addFurniture("chest", Quaternion.identity);
     }
     #endregion
 

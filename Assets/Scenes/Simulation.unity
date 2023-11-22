@@ -198,6 +198,7 @@ MonoBehaviour:
   Table: {fileID: 8355322023197080307, guid: 4b6c4f5a74272882e851cfd04a9e14c0, type: 3}
   Chest: {fileID: 8767307218612572923, guid: a7bebe800748a984ea72d51b59a36932, type: 3}
   Door: {fileID: 8767307218612572923, guid: e3e1a173f8d234a4cbe33cb0f0dd6d54, type: 3}
+  Wall: {fileID: 3405475371861840181, guid: b5c5764a8d409374f94c22b0a3eaa18f, type: 3}
 --- !u!1 &399588629
 GameObject:
   m_ObjectHideFlags: 0
