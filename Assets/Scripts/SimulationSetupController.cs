@@ -81,6 +81,9 @@ public class SimulationSetupController : MonoBehaviour
 
         startSimulationBtn = root.Q<Button>("StartButton");
 
+        // Set random as enabled by default:
+        toggleAlg("random");
+
         // Subscribe to callback functions:
         whiskersButton.clicked += () => { whiskersToggleFunction(); };
         floorCoveringDropdown.RegisterValueChangedCallback(floorCoveringUpdate);
