@@ -48,10 +48,21 @@ public class RoomManager : MonoBehaviour
 
             if (collider != null)
             {
-                // Stop inspecting cause furniture is here
-                print(position + " had furniture on it.");
-                activeTiles--;
-                yield break;
+                //Something is on this tile. Could be a flag, wall, object, etc.
+
+                //Make sure it is not the room flag we're looking for
+                if (collider.tag != "RoomFlag")
+                {
+                    // Stop inspecting cause furniture is here
+                    print(position + " had furniture on it.");
+                    activeTiles--;
+                    yield break;
+                }
+                else
+                {
+                    //otherwise it is a room flag! So mark flag as found then continue flooding.
+                }
+                
             }
 
             //Add the tile to the dictionary to mark it as explored.
