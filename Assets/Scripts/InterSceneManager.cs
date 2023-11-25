@@ -52,4 +52,29 @@ public static class InterSceneManager
     {
         return (whiskersEnabled, floorCovering, batteryLife);
     }
+
+    public static void setAlgorithm(string algName, bool enabled = false)
+    {
+        if (algName == "random")
+        {
+            randomAlgEnabled = enabled;
+        }
+        else if (algName == "spiral")
+        {
+            spiralAlgEnabled = enabled;
+        }
+        else if (algName == "snaking")
+        {
+            snakingAlgEnabled = enabled;
+        }
+        else if (algName == "wallFollow")
+        {
+            wallFollowAlgEnabled = enabled;
+        }
+        else
+        {
+            Debug.Log("Invalid algorithm name given when setting algorithm state. What happened, George?");
+        }
+        return;
+    }
 }

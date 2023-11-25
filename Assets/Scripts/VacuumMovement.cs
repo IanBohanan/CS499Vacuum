@@ -34,6 +34,10 @@ public class VacuumMovement : MonoBehaviour
     WallFollow wallFollow = new WallFollow();
     bool wallFollowing = false;
     bool justTurned = false;
+    bool currentlyTurningLeft = false;
+    Vector3 targetPositionA;
+    Vector3 targetPositionB;
+
     Spiral spiral = new Spiral();
     Vector3 spiralOrigin = Vector3.zero;
     bool isSpiraling = false;
@@ -118,49 +122,53 @@ public class VacuumMovement : MonoBehaviour
         }
         else if (currentAlg == Algorithm.WallFollow)
         {
-            //Debug.Log("WallFollow");
-            Vector3 botBottom = new Vector3(transform.position.x, transform.position.y + 6, transform.position.z);
-            RaycastHit2D hitDataLeft = Physics2D.Raycast(botBottom, -transform.right);
-            if (hitDataLeft.distance > 8)
             {
-                if ((!justTurned) && wallFollowing)
+                Vector3 botBottom = new Vector3(transform.position.x, transform.position.y + 6, transform.position.z);
+                RaycastHit2D hitDataLeft = Physics2D.Raycast(transform.position, -transform.right);
+                if (hitDataLeft.distance > 10)
                 {
-                    //speed = 0;
-                    //Debug.Log(hitDataLeft.distance);
-                    float x = (currentDirectionVec.x * 6);
-                    float y = (currentDirectionVec.y * 6);
-                    transform.position += new Vector3(x, y, 0);
-                    currentDirectionVec = wallFollow.turnLeft(currentDirectionVec);
-                    if (currentDirectionVec == new Vector2(1, 0))
+                    if ((!justTurned) && wallFollowing)
                     {
-                        Debug.Log("Right");
-                        // Rotate to face right (positive x)
-                        transform.rotation = Quaternion.Euler(0, 0, -90);
+                        //speed = 0;
+                        //Debug.Log(hitDataLeft.distance);
+                        float x = (currentDirectionVec.x * 6);
+                        float y = (currentDirectionVec.y * 6);
+                        targetPositionA = (transform.position + (new Vector3(x, y, 0)));
+                        x = -(currentDirectionVec.y); 
+                        y = (currentDirectionVec.x);
+                        targetPositionB = (targetPositionA + (new Vector3(x, y, 0)));
+                        currentDirectionVec = wallFollow.turnLeft(currentDirectionVec);
+                        if (currentDirectionVec == new Vector2(1, 0))
+                        {
+                            Debug.Log("Right");
+                            // Rotate to face right (positive x)
+                            transform.rotation = Quaternion.Euler(0, 0, -90);
+                        }
+                        else if (currentDirectionVec == new Vector2(0, 1))
+                        {
+                            Debug.Log("up");
+                            // Rotate to face upwards (positive y)
+                            transform.rotation = Quaternion.Euler(0, 0, 0);
+                        }
+                        else if (currentDirectionVec == new Vector2(-1, 0))
+                        {
+                            Debug.Log("Left");
+                            // Rotate to face left (negative y)
+                            transform.rotation = Quaternion.Euler(0, 0, 90);
+                        }
+                        else if (currentDirectionVec == new Vector2(0, -1))
+                        {
+                            Debug.Log("down");
+                            // Rotate to face downwards (negative y)
+                            transform.rotation = Quaternion.Euler(0, 0, 180);
+                        }
+                        justTurned = true;
                     }
-                    else if (currentDirectionVec == new Vector2(0, 1))
-                    {
-                        Debug.Log("up");
-                        // Rotate to face upwards (positive y)
-                        transform.rotation = Quaternion.Euler(0, 0, 0);
-                    }
-                    else if (currentDirectionVec == new Vector2(-1, 0))
-                    {
-                        Debug.Log("Left");
-                        // Rotate to face left (negative y)
-                        transform.rotation = Quaternion.Euler(0, 0, 90);
-                    }
-                    else if (currentDirectionVec == new Vector2(0, -1))
-                    {
-                        Debug.Log("down");
-                        // Rotate to face downwards (negative y)
-                        transform.rotation = Quaternion.Euler(0, 0, 180);
-                    }
-                    justTurned = true;
                 }
-            }
-            else if (justTurned)
-            {
-                justTurned = false;
+                else if (justTurned)
+                {
+                    justTurned = false;
+                }
             }
         }
         else if (currentAlg == Algorithm.Spiral)
@@ -209,11 +217,6 @@ public class VacuumMovement : MonoBehaviour
         Vector3 movePosition = new Vector3(currentDirectionVec.x , currentDirectionVec.y, 0) * speed * InterSceneManager.speedMultiplier;
         // Move the child GameObjects along with the parent.
         transform.position += movePosition;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("Fuck");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -550,18 +553,23 @@ public class VacuumMovement : MonoBehaviour
                 {
                     case "random":
                         nextAlgorithm = Algorithm.Random;
+                        InterSceneManager.setAlgorithm("random", false);
                         break;
                     case "spiral":
                         nextAlgorithm = Algorithm.Spiral;
+                        InterSceneManager.setAlgorithm("spiral", false);
                         break;
                     case "snaking":
                         nextAlgorithm = Algorithm.Snaking;
+                        InterSceneManager.setAlgorithm("snaking", false);
                         break;
                     case "wallfollow":
                         nextAlgorithm = Algorithm.WallFollow;
+                        InterSceneManager.setAlgorithm("wallFollow", false);
                         break;
                     default:
                         nextAlgorithm = Algorithm.Random;
+                        InterSceneManager.setAlgorithm("random", false);
                         break;
                 }
                 return nextAlgorithm;
