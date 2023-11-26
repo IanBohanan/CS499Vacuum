@@ -78,6 +78,8 @@ public class VacuumMovement : MonoBehaviour
         (pathingDict["random"], pathingDict["spiral"], pathingDict["snaking"], 
             pathingDict["wallfollow"]) = InterSceneManager.getPathAlgs();
 
+        pathingDict = initialAlgCheck(pathingDict);
+
         // Get Starting Vector for Pathing Alg, save dir globally
         currentAlg = getNextAlg();
 
@@ -622,6 +624,41 @@ public class VacuumMovement : MonoBehaviour
         return Algorithm.BadAlg;
     }
 
+    private Dictionary<string, bool> initialAlgCheck(Dictionary<string, bool> pathDict)
+    {
+
+        // Check if all pathing algorithms are turned off
+        bool allValuesAreFalse = true;
+        foreach (var pair in pathDict)
+        {
+            if (pair.Value != false)
+            {
+                allValuesAreFalse = false;
+                break;
+            }
+        }
+
+        // IF all are false, we create a default dictionary
+        if (allValuesAreFalse)
+        {
+            // Create a default dictionary with only random enabled
+            Dictionary<string, bool> defaultPathDict = new Dictionary<string, bool>
+            {
+                { "random", true },
+                { "spiral", false },
+                { "snaking", false },
+                { "wallfollow", false }
+            };
+            return defaultPathDict;
+        }
+        // Otherwise, just return the dictionary that the user specified
+        else
+        {
+            return pathDict;
+        }
+
+    }
+    
     // Method to rotate a Vector3 by 45 degrees counterclockwise
     Vector3 RotateVector45Degrees(Vector3 direction)
     {
