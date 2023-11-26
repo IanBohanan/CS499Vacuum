@@ -178,9 +178,10 @@ public class LayoutManager : MonoBehaviour
     }
     public void saveToJSON(string JSONFilePath)
     {
+        GameObject[] walls = GameObject.FindGameObjectsWithTag("WallBuddy");
         SerializableList<Object> FullList = new SerializableList<Object>();
         foreach (GameObject f in Furniture) FullList.Furniture.Add(new Object(f.name, f.transform.position.x, f.transform.position.y, f.transform.rotation));
-        foreach (GameObject w in InterSceneManager.wallList) FullList.Walls.Add(new Object(w.name, w.transform.position.x, w.transform.position.y, w.transform.rotation));
+        foreach (GameObject w in walls) FullList.Walls.Add(new Object(w.name, w.transform.position.x, w.transform.position.y, w.transform.rotation));
         foreach (GameObject rd in RoomDoors) FullList.RoomDoors.Add(new Object(rd.name, rd.transform.position.x, rd.transform.position.y, rd.transform.rotation));
         foreach (GameObject ed in ExitDoors) FullList.ExitDoors.Add(new Object(ed.name, ed.transform.position.x, ed.transform.position.y, ed.transform.rotation));
         try
