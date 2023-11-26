@@ -273,6 +273,11 @@ public class VacuumMovement : MonoBehaviour
                 // Determine collider direction to move in the opposite direction of collider
                 Direction closestDir = GetClosestDirFromRayList(hitData);
                 Vector2 collisionDir = DirToVector(closestDir);
+
+                currentDirectionVec = -currentDirectionVec;
+                float x = currentDirectionVec.x * 0.5f;
+                float y = currentDirectionVec.y * 0.5f;
+                transform.position += new Vector3(x, y, 0);
                 currentDirectionVec = randomAlg.getNewDirectionVec(collisionDir);
             }
             else if (currentAlg == Algorithm.WallFollow)
