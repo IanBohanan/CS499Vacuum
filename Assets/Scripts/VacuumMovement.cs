@@ -248,7 +248,7 @@ public class VacuumMovement : MonoBehaviour
 
         // Move the entire "Vacuum-Robot" prefab.
         // Calculate next Vacuum move
-        Vector3 movePosition = new Vector3(currentDirectionVec.x , currentDirectionVec.y, 0) * speed * InterSceneManager.speedMultiplier;
+        Vector3 movePosition = new Vector3(currentDirectionVec.x , currentDirectionVec.y, 0) * speed * InterSceneManager.speedMultiplier * (InterSceneManager.vacuumSpeed/6);
         // Move the child GameObjects along with the parent.
         transform.position += movePosition;
     }

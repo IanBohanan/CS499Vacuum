@@ -30,6 +30,9 @@ public static class InterSceneManager
 
     // Simulation Speed, used by Vacuum to multiply speed:
     public static int speedMultiplier = 1;
+
+    // Vacuum movement speed, set in simulation setup
+    public static int vacuumSpeed = 12;
         
     public static void setSimulationSettings(bool whiskers, string floorCov, int battery, bool randomAlg, bool spiralAlg, bool snakingAlg, bool wallFollowAlg)
     {
