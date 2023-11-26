@@ -17,6 +17,7 @@ public class WallPlacer : MonoBehaviour
     public GameObject lowerExtender; //The location of the wall's pivot point
 
     public GameObject UI; //The UI of the wall object
+    public GameObject deleteBtn; //The big red x to delete the wall.
 
     public GameObject wallEndpoint1;
     public GameObject wallEndpoint2;
@@ -122,20 +123,29 @@ public class WallPlacer : MonoBehaviour
             newRotation = new Vector3(0, 0, 90);
         }
 
-        //if new rotation and previous wall rotation has difference of 180, don't rotate! Otherwise it will collide with previous wall!
-        float prevWallRotation = previousWallObject.transform.eulerAngles.z;
+        try
+        {
+            //if new rotation and previous wall rotation has difference of 180, don't rotate! Otherwise it will collide with previous wall!
+            float prevWallRotation = previousWallObject.transform.eulerAngles.z;
 
-        //TODO: Fix this so it detects when the previous wall collision occurs
-        if(!(Mathf.Abs(newRotation.z - prevWallRotation) == 180))
-        {
-            this.transform.eulerAngles = newRotation;
+            //TODO: Fix this so it detects when the previous wall collision occurs
+            if (!(Mathf.Abs(newRotation.z - prevWallRotation) == 180))
+            {
+                this.transform.eulerAngles = newRotation;
+            }
+            else //Else delete the current wall and go back one in the chain?
+            {
+                Destroy(transform.root.gameObject); //Delete the acrtual wall gameObject, not just this script
+                                                    //Then tell the previous wall in chain that it is now being placed
+                previousWallScript.reEnable();
+            }
         }
-        else //Else delete the current wall and go back one in the chain?
+        catch(Exception e)
         {
-            Destroy(transform.root.gameObject); //Delete the acrtual wall gameObject, not just this script
-            //Then tell the previous wall in chain that it is now being placed
-            previousWallScript.reEnable();
+
         }
+
+
 
     }
 
@@ -145,10 +155,14 @@ public class WallPlacer : MonoBehaviour
         if (newState == "WallPlacement")
         {
             UI.SetActive(true);
+
+            //When the wall button freshly pressed, then allow user to delete the wall.
+            deleteBtn.SetActive(true);
         }
         else //UI updated away from wall placement to somewhere else. Thus the user doesn't actually want this wall object placed!
         {
             disableWallUI();
+            deleteBtn.SetActive(false);
             if (isBeingPlaced)
             {
                 Destroy(transform.root.gameObject); //Delete the acrtual wall gameObject, not just this script
@@ -189,11 +203,12 @@ public class WallPlacer : MonoBehaviour
         }
     }
 
-    //checks if the mouse cursor is behind the lowerExtend
-    //If so, then delete this wall to get closer to the cursor
-    private void checkIfCursorBehind()
+    //Deletes the entire wall object.
+    //Triggered when the delete button is pressed
+    public void deleteSelf()
     {
-
+        print("WallPlacer: Delete button pressed! Deleting self!");
+        Destroy(transform.root.gameObject); //Delete the acrtual wall gameObject, not just this script
     }
 
     private void Start()
@@ -214,8 +229,6 @@ public class WallPlacer : MonoBehaviour
             updateRotation();
             //Auto place another wall if cursor further than the upperExtend
             checkIfCursorAhead();
-            //Auto delete self if cursor is behind the lowerExtend
-            checkIfCursorBehind();
         }
     }
 }
