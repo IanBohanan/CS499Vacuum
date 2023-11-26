@@ -14,6 +14,8 @@ public class LayoutManager : MonoBehaviour
     [SerializeField] GameObject Chest;
     [SerializeField] GameObject Door;
 
+    [SerializeField] GameObject Wall;
+
     // GameObject List Categories:
     List<GameObject> Walls = new List<GameObject>();
     List<GameObject> RoomDoors = new List<GameObject>();
@@ -42,13 +44,13 @@ public class LayoutManager : MonoBehaviour
     {
         //ExitDoors.Add();
     }
-    public void addFurniture(string type, float xPos = 0, float yPos = 0, bool imported = false)
+    public void addFurniture(string type, Quaternion rotation, float xPos = 0, float yPos = 0, bool imported = false)
     {
         GameObject newFurniture;
-        if (type == "chair") newFurniture = Instantiate(Chair, new Vector3(xPos, yPos, 0), Quaternion.identity);
-        else if (type == "table") newFurniture = Instantiate(Table, new Vector3(xPos, yPos, 0), Quaternion.identity);
-        else if (type == "chest") newFurniture = Instantiate(Chest, new Vector3(xPos, yPos, 0), Quaternion.identity);
-        else if (type == "door") newFurniture = Instantiate(Door, new Vector3(xPos, yPos, 0), Quaternion.identity);
+        if (type == "chair") newFurniture = Instantiate(Chair, new Vector3(xPos, yPos, 0), rotation);
+        else if (type == "table") newFurniture = Instantiate(Table, new Vector3(xPos, yPos, 0), rotation);
+        else if (type == "chest") newFurniture = Instantiate(Chest, new Vector3(xPos, yPos, 0), rotation);
+        else if (type == "door") newFurniture = Instantiate(Door, new Vector3(xPos, yPos, 0), rotation);
         else return; // Invalid input
         newFurniture.GetComponent<ClickDrop>().onDeleteClicked += deleteFurniture;
         if (!imported) newFurniture.GetComponent<ClickDrop>().isDragging = true;
@@ -126,12 +128,14 @@ public class LayoutManager : MonoBehaviour
         public string type = "";
         public float posX = 0;
         public float posY = 0;
+        public Quaternion rotation = Quaternion.identity;
 
-        public Object(string type, float posX, float posY)
+        public Object(string type, float posX, float posY, Quaternion rot)
         {
             this.type = type;
             this.posX = posX;
             this.posY = posY;
+            this.rotation = rot;
         }
     }
     #endregion
@@ -151,29 +155,34 @@ public class LayoutManager : MonoBehaviour
         for (int i = 0; i < parsedJSON.Furniture.Count; i++)
         {
             if (parsedJSON.Furniture[i].type == "Chair(Clone)") {
-                addFurniture("chair", parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY, true);
+                addFurniture("chair", parsedJSON.Furniture[i].rotation, parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY, true);
             }
             else if (parsedJSON.Furniture[i].type == "Chest Variant(Clone)")
             {
-                addFurniture("chest", parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY, true);
+                addFurniture("chest", parsedJSON.Furniture[i].rotation, parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY, true);
             }
             else if (parsedJSON.Furniture[i].type == "Table Variant(Clone)")
             {
-                addFurniture("table", parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY, true);
+                addFurniture("table", parsedJSON.Furniture[i].rotation, parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY, true);
             }
             else if (parsedJSON.Furniture[i].type == "Door(Clone)")
             {
-                addFurniture("door", parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY, true);
+                addFurniture("door", parsedJSON.Furniture[i].rotation, parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY, true);
             }
+        }
+        for (int i =0; i < parsedJSON.Walls.Count; i++)
+        {
+            GameObject newWall = Instantiate(Wall, new Vector3(parsedJSON.Walls[i].posX, parsedJSON.Walls[i].posY, 0), parsedJSON.Walls[i].rotation);
+            newWall.GetComponent<WallPlacer>().disableSpawners(); // Disable wall extending endpoints
         }
     }
     public void saveToJSON(string JSONFilePath)
     {
         SerializableList<Object> FullList = new SerializableList<Object>();
-        foreach (GameObject f in Furniture) FullList.Furniture.Add(new Object(f.name, f.transform.position.x, f.transform.position.y));
-        foreach (GameObject w in Walls) FullList.Walls.Add(new Object(w.name, w.transform.position.x, w.transform.position.y));
-        foreach (GameObject rd in RoomDoors) FullList.RoomDoors.Add(new Object(rd.name, rd.transform.position.x, rd.transform.position.y));
-        foreach (GameObject ed in ExitDoors) FullList.ExitDoors.Add(new Object(ed.name, ed.transform.position.x, ed.transform.position.y));
+        foreach (GameObject f in Furniture) FullList.Furniture.Add(new Object(f.name, f.transform.position.x, f.transform.position.y, f.transform.rotation));
+        foreach (GameObject w in InterSceneManager.wallList) FullList.Walls.Add(new Object(w.name, w.transform.position.x, w.transform.position.y, w.transform.rotation));
+        foreach (GameObject rd in RoomDoors) FullList.RoomDoors.Add(new Object(rd.name, rd.transform.position.x, rd.transform.position.y, rd.transform.rotation));
+        foreach (GameObject ed in ExitDoors) FullList.ExitDoors.Add(new Object(ed.name, ed.transform.position.x, ed.transform.position.y, ed.transform.rotation));
         try
         {
             string FullJSON = JsonUtility.ToJson(FullList);

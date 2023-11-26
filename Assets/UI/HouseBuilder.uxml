@@ -17,12 +17,12 @@
                 <ui:VisualElement name="ModeOptionsPanel" style="flex-grow: 1; flex-direction: row;">
                     <ui:Button display-tooltip-when-elided="true" name="RemoveFurniture" class="SelectionButton" style="background-image: url(&apos;project://database/Assets/Sprites/UI_Icons/Trash%20bin%20no%20backgroud%201.png?fileID=2800000&amp;guid=e6bf9fe77d4342d47af705e8d4bd5fce&amp;type=3#Trash bin no backgroud 1&apos;); -unity-slice-left: 2; -unity-slice-top: 2; -unity-slice-right: 2; -unity-slice-bottom: 2; -unity-slice-scale: 4px;" />
                     <ui:Button display-tooltip-when-elided="true" name="PlaceFlag" class="SelectionButton" style="background-image: url(&apos;project://database/Assets/Sprites/UI_Icons/Flag.png?fileID=2800000&amp;guid=54223485c99e8dd43b3c757c816e0e17&amp;type=3#Flag&apos;); -unity-slice-left: 2; -unity-slice-top: 2; -unity-slice-right: 2; -unity-slice-bottom: 2; -unity-slice-scale: 4px; -unity-background-image-tint-color: rgb(255, 255, 255);" />
-                    <ui:Button text="Wall" display-tooltip-when-elided="true" name="WallButton" class="SelectionButton" />
-                    <ui:Button text="Wall" display-tooltip-when-elided="true" name="DisabledWallButton" class="DisabledSelectionButton" />
-                    <ui:Button text="Door" display-tooltip-when-elided="true" name="DoorButton" class="SelectionButton" />
-                    <ui:Button text="Door" display-tooltip-when-elided="true" name="DisabledDoorButton" class="DisabledSelectionButton" />
-                    <ui:Button text="Furniture" display-tooltip-when-elided="true" name="FurnitureButton" class="SelectionButton" />
-                    <ui:Button text="Furniture" display-tooltip-when-elided="true" name="DisabledFurnitureButton" class="DisabledSelectionButton" />
+                    <ui:Button text="Wall" display-tooltip-when-elided="true" name="WallButton" class="SelectionButton" style="font-size: 27px;" />
+                    <ui:Button text="Wall" display-tooltip-when-elided="true" name="DisabledWallButton" class="DisabledSelectionButton" style="font-size: 27px;" />
+                    <ui:Button text="Door" display-tooltip-when-elided="true" name="DoorButton" class="SelectionButton" style="font-size: 27px;" />
+                    <ui:Button text="Door" display-tooltip-when-elided="true" name="DisabledDoorButton" class="DisabledSelectionButton" style="font-size: 27px;" />
+                    <ui:Button text="Furniture" display-tooltip-when-elided="true" name="FurnitureButton" class="SelectionButton" style="font-size: 27px;" />
+                    <ui:Button text="Furniture" display-tooltip-when-elided="true" name="DisabledFurnitureButton" class="DisabledSelectionButton" style="font-size: 27px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="FurnitureOptionsPanel" style="flex-grow: 1; flex-direction: row; display: none;">
                     <ui:Button text="Chair" display-tooltip-when-elided="true" name="ChairButton" class="SelectionButton" />

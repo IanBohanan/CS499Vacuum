@@ -88,6 +88,7 @@ public class WallPlacer : MonoBehaviour
             nextWallScript.previousWallScript = this;
             nextWallScript.previousWallObject = this.gameObject;
             firstWallSelected?.Invoke(); //If this is the first wall of a room, disable all other wall points
+            InterSceneManager.wallList.Add(nextWall);
         }
         disableWallUI();
         wallEndpoint1.SetActive(true);

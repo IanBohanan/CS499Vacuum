@@ -51,6 +51,8 @@ public class SimulationController : MonoBehaviour
         subscribeToCallbacks();
 
         InvokeRepeating("updateLabels", 1, 1); // Start a repeating timer that fires every second
+
+        speedLabel.text = "Speed: " + InterSceneManager.speedMultiplier + "x";
     }
 
     private void updateLabels()
@@ -138,6 +140,6 @@ public class SimulationController : MonoBehaviour
     
     private void endSimulation()
     {
-        SceneManager.LoadScene(sceneName: "MainMenu");
+        SceneManager.LoadScene(sceneName: "CheckForAlgs");
     }
 }
