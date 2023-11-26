@@ -81,6 +81,9 @@ public class SimulationSetupController : MonoBehaviour
 
         startSimulationBtn = root.Q<Button>("StartButton");
 
+        // Set random as enabled by default:
+        toggleAlg("random");
+
         // Subscribe to callback functions:
         whiskersButton.clicked += () => { whiskersToggleFunction(); };
         floorCoveringDropdown.RegisterValueChangedCallback(floorCoveringUpdate);
@@ -189,6 +192,8 @@ public class SimulationSetupController : MonoBehaviour
     public void onStartSimulationPress()
     {
         InterSceneManager.setSimulationSettings(whiskersEnabled, floorCovering, (int)batteryLife, randomAlg, spiralAlg, snakingAlg, wallFollowAlg);
+        InterSceneManager.vacuumSpeed = (int)robotSpeedSlider.value;
+        Debug.Log(InterSceneManager.vacuumSpeed);
         myData = InterSceneManager.getSimulationSettings();
         //Debug.Log(myData);
         // We want to load a new scene after setting up:

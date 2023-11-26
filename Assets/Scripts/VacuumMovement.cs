@@ -34,13 +34,22 @@ public class VacuumMovement : MonoBehaviour
     WallFollow wallFollow = new WallFollow();
     bool wallFollowing = false;
     bool justTurned = false;
+    bool currentlyTurningLeft = false;
+    Vector3 targetPositionA;
+    bool passedA = false;
+    Vector3 targetPositionB;
+    bool passedB = false;
+
     Spiral spiral = new Spiral();
     Vector3 spiralOrigin = Vector3.zero;
     bool isSpiraling = false;
+    float spiralStartTime = 0f;
 
     bool collidedBefore = false;
     bool snakingHorizontalWalls = false;
     string snakingOffsetDirection = "up";
+    bool currentlyOffsettingSnake = false;
+    Vector3 postOffsetSnakeDirection = Vector3.zero;
 
     public Vector2 currentDirectionVec; // The normalized direction vector to tell the vacuum where to go
 
@@ -110,7 +119,7 @@ public class VacuumMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         counter++;
 
@@ -120,18 +129,30 @@ public class VacuumMovement : MonoBehaviour
         }
         else if (currentAlg == Algorithm.WallFollow)
         {
-            //Debug.Log("WallFollow");
             Vector3 botBottom = new Vector3(transform.position.x, transform.position.y + 6, transform.position.z);
-            RaycastHit2D hitDataLeft = Physics2D.Raycast(botBottom, -transform.right);
-            if (hitDataLeft.distance > 8)
+            RaycastHit2D hitDataLeft = Physics2D.Raycast(transform.position, -transform.right);
+            if ((!justTurned) && hitDataLeft.distance > 10)
             {
-                if ((!justTurned) && wallFollowing)
+                if (wallFollowing)
                 {
                     //speed = 0;
                     //Debug.Log(hitDataLeft.distance);
-                    float x = (currentDirectionVec.x * 6);
-                    float y = (currentDirectionVec.y * 6);
-                    transform.position += new Vector3(x, y, 0);
+                    float x = (currentDirectionVec.x * 8);
+                    float y = (currentDirectionVec.y * 8);
+                    targetPositionA = (transform.position + (new Vector3(x, y, 0)));
+                    x = -(currentDirectionVec.y); 
+                    y = (currentDirectionVec.x);
+                    targetPositionB = (targetPositionA + (new Vector3(x, y, 0)));
+
+                    justTurned = true;
+                }
+            }
+            else if (justTurned)
+            {
+                if ((!passedA) && (Vector3.Distance(targetPositionA, transform.position) < 3)){
+                    Debug.Log("passed A");
+                    transform.position = targetPositionA;
+                    passedA = true;
                     currentDirectionVec = wallFollow.turnLeft(currentDirectionVec);
                     if (currentDirectionVec == new Vector2(1, 0))
                     {
@@ -157,12 +178,20 @@ public class VacuumMovement : MonoBehaviour
                         // Rotate to face downwards (negative y)
                         transform.rotation = Quaternion.Euler(0, 0, 180);
                     }
-                    justTurned = true;
                 }
-            }
-            else if (justTurned)
-            {
-                justTurned = false;
+                else if ((!passedB) && (Vector3.Distance(targetPositionB, transform.position) < 3))
+                {
+                    Debug.Log("passed B");
+                    transform.position = targetPositionB;
+                    passedB = true;
+                }
+                if (passedA && passedB)
+                {
+                    Debug.Log("passed both");
+                    justTurned = false;
+                    passedA = false;
+                    passedB = false;
+                }
             }
         }
         else if (currentAlg == Algorithm.Spiral)
@@ -172,7 +201,8 @@ public class VacuumMovement : MonoBehaviour
                 //float distance = (Vector3.Distance(transform.position, spiralOrigin))/100;
                 //transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.eulerAngles.z + (0.5f-distance));
                 //currentDirectionVec = newVec;}
-                float angle = Time.time * 1; // replace 1 with the whatever speed
+                float angle = (Time.time - spiralStartTime) * (InterSceneManager.speedMultiplier); // replace 1 with the whatever speed
+                angle = angle / 5;
                 float radius = 1 + angle; // 1 is the radius
 
                 float x = Mathf.Cos(angle) * radius;
@@ -189,33 +219,40 @@ public class VacuumMovement : MonoBehaviour
                 RaycastHit2D hitDataRight = Physics2D.Raycast(transform.position, transform.right);
                 RaycastHit2D hitDataUp = Physics2D.Raycast(transform.position, transform.up);
                 RaycastHit2D hitDataDown = Physics2D.Raycast(transform.position, -transform.up);
-                if ((hitDataLeft.distance < 10) && (hitDataLeft.collider)) { enoughSpace = false; }
-                if ((hitDataRight.distance < 10) && (hitDataRight.collider)) { enoughSpace = false; }
-                if ((hitDataUp.distance < 10) && (hitDataUp.collider)) { enoughSpace = false; }
-                if ((hitDataDown.distance < 10) && (hitDataDown.collider)) { enoughSpace = false; }
+                if ((hitDataLeft.distance < 20) && (hitDataLeft.collider)) { enoughSpace = false; }
+                if ((hitDataRight.distance < 20) && (hitDataRight.collider)) { enoughSpace = false; }
+                if ((hitDataUp.distance < 20) && (hitDataUp.collider)) { enoughSpace = false; }
+                if ((hitDataDown.distance < 20) && (hitDataDown.collider)) { enoughSpace = false; }
 
                 if (enoughSpace) // We have enough space in all directions to start the spiraling algorithm
                 { 
                     isSpiraling = true; 
                     spiralOrigin = transform.position;
+                    spiralStartTime = Time.time;
                 } 
             }
         }
         else if (currentAlg == Algorithm.Snaking)
         {
+            if (currentlyOffsettingSnake && (Vector3.Distance(targetPositionA, transform.position) < 1))
+            {
+                transform.position = targetPositionA;
+                currentlyOffsettingSnake = false;
+                if ((postOffsetSnakeDirection.x ==1) || (postOffsetSnakeDirection.x == -1) || (postOffsetSnakeDirection.x == 0))
+                {
+                    postOffsetSnakeDirection = RotateVector45Degrees(postOffsetSnakeDirection);
+                }
+                currentDirectionVec = postOffsetSnakeDirection;
+                //Debug.Log(postOffsetSnakeDirection);
+            }
             //Debug.Log("Snaking");
         }
 
         // Move the entire "Vacuum-Robot" prefab.
         // Calculate next Vacuum move
-        Vector3 movePosition = new Vector3(currentDirectionVec.x , currentDirectionVec.y, 0) * speed * InterSceneManager.speedMultiplier;
+        Vector3 movePosition = new Vector3(currentDirectionVec.x , currentDirectionVec.y, 0) * speed * InterSceneManager.speedMultiplier * (InterSceneManager.vacuumSpeed/6);
         // Move the child GameObjects along with the parent.
         transform.position += movePosition;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("Fuck");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -225,11 +262,6 @@ public class VacuumMovement : MonoBehaviour
         RaycastHit2D hitDataRight = Physics2D.Raycast(transform.position, transform.right);
         RaycastHit2D hitDataUp = Physics2D.Raycast(transform.position, transform.up);
         RaycastHit2D hitDataDown = Physics2D.Raycast(transform.position, -transform.up);
-
-  /*      Debug.Log(hitDataLeft.distance);
-        Debug.Log(hitDataRight.distance);
-        Debug.Log(hitDataUp.distance);
-        Debug.Log(hitDataDown.distance);*/
 
         // Initialize Array 
         RaycastHit2D[] hitData = new RaycastHit2D[] { hitDataLeft, hitDataRight, hitDataUp, hitDataDown };
@@ -366,6 +398,7 @@ public class VacuumMovement : MonoBehaviour
             } 
             else if (currentAlg == Algorithm.WallFollow)
             {
+                justTurned = false;
                 currentDirectionVec = -currentDirectionVec;
                 float x = currentDirectionVec.x * 0.5f;
                 float y = currentDirectionVec.y * 0.5f;
@@ -406,9 +439,17 @@ public class VacuumMovement : MonoBehaviour
             else if (currentAlg == Algorithm.Spiral)
             {
                 isSpiraling = false; // Stop the spiral updates
+                currentDirectionVec = -currentDirectionVec;
+                float x = currentDirectionVec.x * 0.5f;
+                float y = currentDirectionVec.y * 0.5f;
+                transform.position += new Vector3(x, y, 0);
+                currentDirectionVec = -(currentDirectionVec);
+                currentDirectionVec = randomAlg.getStartingVec();
             }
             else if (currentAlg == Algorithm.Snaking)
             {
+                currentlyOffsettingSnake = true;
+
                 // Back up a bit:
                 currentDirectionVec = -currentDirectionVec;
                 float x = currentDirectionVec.x * 0.5f;
@@ -505,27 +546,32 @@ public class VacuumMovement : MonoBehaviour
                     }
                 }
                 //----------------------------------
+                postOffsetSnakeDirection = new Vector2(-currentDirectionVec.x, -currentDirectionVec.y);
+                //----------------------------------
                 if (snakingOffsetDirection == "up")
                 {
-                    transform.position = new Vector3(transform.position.x, transform.position.y + 12, transform.position.z);
+                    targetPositionA = new Vector3(transform.position.x, transform.position.y + 12, transform.position.z);
+                    currentDirectionVec = new Vector3(0, 1);
                 }
                 else if (snakingOffsetDirection == "right")
                 {
-                    transform.position = new Vector3(transform.position.x + 12, transform.position.y, transform.position.z);
+                    targetPositionA = new Vector3(transform.position.x + 12, transform.position.y, transform.position.z);
+                    currentDirectionVec = new Vector3(1, 0);
                 }
                 else if (snakingOffsetDirection == "down")
                 {
-                    transform.position = new Vector3(transform.position.x, transform.position.y - 12, transform.position.z);
+                    targetPositionA = new Vector3(transform.position.x, transform.position.y - 12, transform.position.z);
+                    currentDirectionVec = new Vector3(0, -1);
                 }
                 else if (snakingOffsetDirection == "left")
                 {
-                    transform.position = new Vector3(transform.position.x - 12, transform.position.y, transform.position.z);
+                    targetPositionA = new Vector3(transform.position.x - 12, transform.position.y, transform.position.z);
+                    currentDirectionVec = new Vector3(-1, 0);
                 }
                 else
                 {
                     Debug.Log("Invalid snaking offset direction given.... WHERE DO I GO, GEORGE?!");
                 }
-                currentDirectionVec = new Vector2(-currentDirectionVec.x, -currentDirectionVec.y);
                 //transform.position = currentDirectionVec;
                 //----------------------------------
                 //Debug.Log("Snaking");
@@ -552,18 +598,23 @@ public class VacuumMovement : MonoBehaviour
                 {
                     case "random":
                         nextAlgorithm = Algorithm.Random;
+                        InterSceneManager.setAlgorithm("random", false);
                         break;
                     case "spiral":
                         nextAlgorithm = Algorithm.Spiral;
+                        InterSceneManager.setAlgorithm("spiral", false);
                         break;
                     case "snaking":
                         nextAlgorithm = Algorithm.Snaking;
+                        InterSceneManager.setAlgorithm("snaking", false);
                         break;
                     case "wallfollow":
                         nextAlgorithm = Algorithm.WallFollow;
+                        InterSceneManager.setAlgorithm("wallFollow", false);
                         break;
                     default:
                         nextAlgorithm = Algorithm.Random;
+                        InterSceneManager.setAlgorithm("random", false);
                         break;
                 }
                 return nextAlgorithm;
@@ -605,5 +656,19 @@ public class VacuumMovement : MonoBehaviour
         {
             return pathDict;
         }
+
+    }
+    
+    // Method to rotate a Vector3 by 45 degrees counterclockwise
+    Vector3 RotateVector45Degrees(Vector3 direction)
+    {
+        float angleInRadians = Mathf.Deg2Rad * 45f;
+        float cosTheta = Mathf.Cos(angleInRadians);
+        float sinTheta = Mathf.Sin(angleInRadians);
+
+        float x = direction.x * cosTheta - direction.y * sinTheta;
+        float y = direction.x * sinTheta + direction.y * cosTheta;
+
+        return new Vector3(x, y, direction.z).normalized;
     }
 }
