@@ -423,6 +423,7 @@ public class VacuumMovement : MonoBehaviour
                         Debug.Log("Invalid snaking offset direction given, defaulting to 'right'");
                         snakingOffsetDirection = "right";
                     }
+                    Debug.Log(snakingOffsetDirection);
                 }
                 //----------------------------------
                 postOffsetSnakeDirection = new Vector2(-currentDirectionVec.x, -currentDirectionVec.y);
