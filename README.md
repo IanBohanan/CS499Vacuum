@@ -50,15 +50,18 @@ As robot vacuums gain popularity and become more affordable, there is an increas
 - The Programming language used for this project is C#.
 - The application is executable on a Windows PC.
 
+
 ## Getting Started
 
-1. Download and install the simulation tool from https://unity.com/download.
-2. Launch the application and familiarize yourself with the GUI.
-3. Begin by setting up a floor plan and configuring the robot's attributes.
-4. Run the simulation and observe the robot's behavior.
-5. Analyze the results and make necessary adjustments for improved performance.
-6. Compare results from different runs to identify the best configuration.
+To run the vacuum simulation, follow these steps:
 
+1. Install the .exe file.
+5. Click the 'Play' button in the Unity Editor to run the game or application within the editor.
+6. Launch the application and familiarize yourself with the GUI.
+7. Begin by setting up a floor plan and configuring the robot's attributes.
+8. Run the simulation and observe the robot's behavior.
+9. Analyze the results and make necessary adjustments for improved performance.
+10. Compare results from different runs to identify the best configuration.
 
 ## Screenshots
  Archit Design
