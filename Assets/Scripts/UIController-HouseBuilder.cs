@@ -35,6 +35,8 @@ public class HouseBuilderUI : MonoBehaviour
     VisualElement exportPopup;
     Button exportNoBtn;
     Button exportYesBtn;
+    VisualElement validityPopup;
+    Button validityConfirmBtn;
     VisualElement clearPopup;
     Button clearNoBtn;
     Button clearYesBtn;
@@ -113,6 +115,8 @@ public class HouseBuilderUI : MonoBehaviour
         VisualElement clearPopupButtonContainer = clearPopup.Q<VisualElement>("ClearButtonContainer");
         clearYesBtn = clearPopupButtonContainer.Q<Button>("ClearYesButton");
         clearNoBtn = clearPopupButtonContainer.Q<Button>("ClearNoButton");
+        validityPopup = root.Q<VisualElement>("ValidityCheckPopup");
+        validityConfirmBtn = root.Q<Button>("ValidityConfirmButton");
     }
     private void assignCallbacks()
     {
@@ -127,6 +131,7 @@ public class HouseBuilderUI : MonoBehaviour
         furnitureModeBtn.clicked += () => furnitureModeToggle();
         exportDropdown.RegisterValueChangedCallback(OnDropdownValueChanged);
         exportSelectionButton.clicked += () => confirmExportSelection();
+        validityConfirmBtn.clicked += () => validityConfirmPress();
         exportYesBtn.clicked += () => exportConfirm(true);
         exportNoBtn.clicked += () => exportConfirm(false);
         clearYesBtn.clicked += () => clearConfirm(true);
@@ -156,8 +161,16 @@ public class HouseBuilderUI : MonoBehaviour
     public void exportPress()
     {
         // Show Popup:
-        exportSelectionContainer.style.display = DisplayStyle.Flex;
+        validityPopup.style.display = DisplayStyle.Flex;
         Camera cam = Camera.main;
+        Vector3 newCamPosition = new Vector3(cam.transform.position.x, cam.transform.position.y + 50000, cam.transform.position.z);
+        cam.transform.position = newCamPosition;
+    }
+
+    private void validityConfirmPress()
+    {
+        validityPopup.style.display = DisplayStyle.None;
+        exportSelectionContainer.style.display = DisplayStyle.Flex;
     }
 
     private void exportConfirm(bool areYouSure)
@@ -173,6 +186,9 @@ public class HouseBuilderUI : MonoBehaviour
         }
             // Hide Popup:
             exportPopup.style.display = DisplayStyle.None;
+        Camera cam = Camera.main;
+        Vector3 newCamPosition = new Vector3(cam.transform.position.x, cam.transform.position.y - 50000, cam.transform.position.z);
+        cam.transform.position = newCamPosition;
     }
 
     public void clearConfirm(bool areYouSure)
