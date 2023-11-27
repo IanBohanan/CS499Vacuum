@@ -26,6 +26,8 @@ public class SimulationController : MonoBehaviour
     GameObject vacuumBuddy;
     Vacuum vacuumData;
 
+    [SerializeField] GameObject hardwoodTile;
+
     private void OnEnable()
     {
         vacuumBuddy = GameObject.FindGameObjectWithTag("VacuumBuddy");
@@ -53,6 +55,22 @@ public class SimulationController : MonoBehaviour
         InvokeRepeating("updateLabels", 1, 1); // Start a repeating timer that fires every second
 
         speedLabel.text = "Speed: " + InterSceneManager.speedMultiplier + "x";
+
+        for (int i = 0; i < 100; i++)
+        {
+            for (int j = 0; j < 100; j++)
+            {
+                InterSceneManager.houseTiles.Add(new Vector3Int(j*6, i*6, 0));
+            }
+        }
+
+
+        // Spawn collider tiles:
+        for (int i = 0; i < InterSceneManager.houseTiles.Count; i++)
+        {
+            Instantiate(hardwoodTile,new Vector3(InterSceneManager.houseTiles[i].x+0.5f, InterSceneManager.houseTiles[i].y+3, InterSceneManager.houseTiles[i].z), Quaternion.identity);
+        }
+
     }
 
     private void updateLabels()

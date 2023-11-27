@@ -257,6 +257,10 @@ public class VacuumMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.name == "HardwoodTile(Clone)")
+        {
+            return;
+        }
         // Cast rays in cardinal directions to determine more collision info
         RaycastHit2D hitDataLeft = Physics2D.Raycast(transform.position, -transform.right);
         RaycastHit2D hitDataRight = Physics2D.Raycast(transform.position, transform.right);

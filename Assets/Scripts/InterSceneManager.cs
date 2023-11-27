@@ -17,7 +17,7 @@ public static class InterSceneManager
     //House builder tiles that represent the rooms of the house
     //Represents the tiles that were explored by the flood fill algorithm of the house
     //Note: these are TILEMAP positions, not worldspace positions. Use the tilemap!
-    public static List<Vector3Int> houseTiles;
+    public static List<Vector3Int> houseTiles = new List<Vector3Int>();
 
     // Simulation Setup Settings:
     private static bool whiskersEnabled;
