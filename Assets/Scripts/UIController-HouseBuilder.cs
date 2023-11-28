@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEditor.EditorTools;
 
 enum CurrentState
 {
@@ -53,6 +54,8 @@ public class HouseBuilderUI : MonoBehaviour
     Button chairBtn;
     Button tableBtn;
     Button chestBtn;
+
+    GameObject roomManager;
     #endregion
 
     CurrentState state = CurrentState.Default;
@@ -66,12 +69,16 @@ public class HouseBuilderUI : MonoBehaviour
         exploreUI();
         assignCallbacks();
         UpdateState(CurrentState.Default);
+        RoomManager.finishedFlooding += updateStatus;
     }
     #endregion
 
     #region Explore UI and Assign Callbacks
     private void exploreUI()
     {
+        // Get RoomManager:
+        roomManager = GameObject.Find("RoomManager");
+
         // Get UIDocument Root:
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
@@ -87,7 +94,7 @@ public class HouseBuilderUI : MonoBehaviour
         cancelBtn = cancelBar.Q<Button>("CancelButton");
         VisualElement bodyContainer = contentContainer.Q<VisualElement>("BodyContainer");
         VisualElement statusPanel = contentContainer.Q<VisualElement>("StatusPanel");
-        status = statusPanel.Q<Label>("StatusText");
+        status = root.Q<Label>("StatusText");
         VisualElement selectionPanel = contentContainer.Q<VisualElement>("SelectionPanel");
         modeOptionsPanel = selectionPanel.Q<VisualElement>("ModeOptionsPanel");
         deleteButton = modeOptionsPanel.Q<Button>("RemoveFurniture");
@@ -160,11 +167,34 @@ public class HouseBuilderUI : MonoBehaviour
 
     public void exportPress()
     {
+        // Start flood fill:
+        string result = roomManager.GetComponent<RoomManager>().beginFlood();
+        if (result == "Not Enough Flags")
+        {
+            Debug.Log("not enough flags");
+            updateStatus(false);
+        }
+        else if (result == "Found All")
+        {
+            Debug.Log("Found All");
+            updateStatus(true);
+        }
+        else if (result == "Didn't Find All")
+        {
+            Debug.Log("no found flag");
+            updateStatus(false);
+        }
+        Debug.Log("I'M HERE");
         // Show Popup:
         validityPopup.style.display = DisplayStyle.Flex;
         Camera cam = Camera.main;
         Vector3 newCamPosition = new Vector3(cam.transform.position.x, cam.transform.position.y + 50000, cam.transform.position.z);
         cam.transform.position = newCamPosition;
+    }
+
+    public void callMeMaybe()
+    {
+        Debug.Log("Here");
     }
 
     private void validityConfirmPress()
