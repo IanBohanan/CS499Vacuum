@@ -4,11 +4,9 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Tilemaps;
 
 public class VacuumMovement : MonoBehaviour
 {
-    Tilemap tilemap;
     enum Algorithm
     {
         Random = 0,
@@ -72,7 +70,6 @@ public class VacuumMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tilemap = GameObject.Find("UIFloor").GetComponent<Tilemap>();
         // Set Speed
         speed = 0.005f;
 
@@ -124,21 +121,6 @@ public class VacuumMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        // Figure out which tile in the tilemap we're currently over:
-        Vector3Int cellPosition = tilemap.WorldToCell(transform.position);
-
-        if (tilemap.cellBounds.Contains(cellPosition))
-        {
-            Debug.Log(cellPosition.x + " " + cellPosition.y);
-            int tileIndex = InterSceneManager.houseTiles.IndexOf(cellPosition);
-            if (tileIndex != -1)
-            {
-                Debug.Log(tileIndex + " " + cellPosition.x + " " + cellPosition.y);
-            }
-        }
-
-        //---------------------------------
-
         counter++;
 
         if (currentAlg == Algorithm.Random)
