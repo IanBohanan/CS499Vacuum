@@ -60,7 +60,7 @@ public class SimulationController : MonoBehaviour
         {
             for (int j = 0; j < 100; j++)
             {
-                InterSceneManager.houseTiles.Add(new Vector3Int(j*6, i*6, 0));
+                InterSceneManager.houseTiles.Add(new Vector3Int(j*6, (i*6)+3, 0));
             }
         }
 
@@ -68,7 +68,7 @@ public class SimulationController : MonoBehaviour
         // Spawn collider tiles:
         for (int i = 0; i < InterSceneManager.houseTiles.Count; i++)
         {
-            Instantiate(hardwoodTile,new Vector3(InterSceneManager.houseTiles[i].x+0.5f, InterSceneManager.houseTiles[i].y+3, InterSceneManager.houseTiles[i].z), Quaternion.identity);
+            Instantiate(hardwoodTile, new Vector3(InterSceneManager.houseTiles[i].x, InterSceneManager.houseTiles[i].y, InterSceneManager.houseTiles[i].z), Quaternion.identity);
         }
 
     }
