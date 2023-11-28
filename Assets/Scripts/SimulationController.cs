@@ -55,21 +55,21 @@ public class SimulationController : MonoBehaviour
         InvokeRepeating("updateLabels", 1, 1); // Start a repeating timer that fires every second
 
         speedLabel.text = "Speed: " + InterSceneManager.speedMultiplier + "x";
-
+/*
         for (int i = 0; i < 100; i++)
         {
             for (int j = 0; j < 100; j++)
             {
-                InterSceneManager.houseTiles.Add(new Vector3Int(j*6, (i*6)+3, 0));
+                InterSceneManager.houseTiles.Add(new Vector3Int(j * 6, (i * 6) + 3, 0));
             }
-        }
+        }*/
 
 
-        // Spawn collider tiles:
-        for (int i = 0; i < InterSceneManager.houseTiles.Count; i++)
-        {
-            Instantiate(hardwoodTile, new Vector3(InterSceneManager.houseTiles[i].x, InterSceneManager.houseTiles[i].y, InterSceneManager.houseTiles[i].z), Quaternion.identity);
-        }
+        /*        // Spawn collider tiles:
+                for (int i = 0; i < InterSceneManager.houseTiles.Count; i++)
+                {
+                    Instantiate(hardwoodTile, new Vector3(InterSceneManager.houseTiles[i].x, InterSceneManager.houseTiles[i].y, InterSceneManager.houseTiles[i].z), Quaternion.identity);
+                }*/
 
     }
 
