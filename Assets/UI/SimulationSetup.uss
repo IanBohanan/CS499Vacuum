@@ -144,3 +144,9 @@
 
 .unity-slider {
 }
+
+#LeftColumn {
+    flex-grow: 0;
+    width: 50%;
+    height: 70%;
+}
