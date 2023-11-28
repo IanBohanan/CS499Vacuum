@@ -57,10 +57,11 @@
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="ValidityCheckPopup" class="PopupContainer" style="flex-grow: 1; border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; display: none;">
-        <ui:Label tabindex="-1" text="If you set your flags right, then this house is..." display-tooltip-when-elided="true" style="flex-wrap: wrap; max-width: 90%; white-space: normal; flex-grow: 0; align-self: center; height: auto; flex-shrink: 1;" />
+        <ui:Label tabindex="-1" text="If you set your flags right, then this house is..." display-tooltip-when-elided="true" name="StatusLabel" style="flex-wrap: wrap; max-width: 90%; white-space: normal; flex-grow: 0; align-self: center; height: auto; flex-shrink: 1;" />
         <ui:VisualElement name="StatusPanel" style="-unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgba(79, 79, 79, 0.41); border-right-width: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); background-image: none;">
             <ui:Label tabindex="-1" text="VALID" display-tooltip-when-elided="true" name="StatusText" />
         </ui:VisualElement>
-        <ui:Button text="Okay" display-tooltip-when-elided="true" name="ValidityConfirmButton" />
+        <ui:Button text="Proceed" display-tooltip-when-elided="true" name="ValidityConfirmButton" style="display: none;" />
+        <ui:Button text="Go Back" display-tooltip-when-elided="true" name="ValidityProblemButton" style="display: none;" />
     </ui:VisualElement>
 </ui:UXML>

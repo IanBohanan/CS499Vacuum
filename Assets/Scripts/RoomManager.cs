@@ -17,6 +17,7 @@ public class RoomManager : MonoBehaviour
 {
 
     public static event Action<bool> finishedFlooding; //Sent out at end of room flooding
+    public static event Action<bool> unableToFlood; //Sent out at end of room flooding
 
     [SerializeField]
     private Tilemap tilemap;
@@ -120,6 +121,7 @@ public class RoomManager : MonoBehaviour
 
         if (flags.Length < 2)
         {
+            unableToFlood?.Invoke(true);
             return "Not Enough Flags";
         }
 

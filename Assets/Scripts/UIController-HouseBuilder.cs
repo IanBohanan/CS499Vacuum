@@ -26,6 +26,7 @@ public class HouseBuilderUI : MonoBehaviour
 
     #region UI Component References
     Label status; // "Invalid" or "Valid" shown in bottom left corner.
+    Label statusLabel;
     VisualElement cancelBar;
     Button cancelBtn;
     Button exportBtn;
@@ -38,6 +39,7 @@ public class HouseBuilderUI : MonoBehaviour
     Button exportYesBtn;
     VisualElement validityPopup;
     Button validityConfirmBtn;
+    Button validityProblemBtn;
     VisualElement clearPopup;
     Button clearNoBtn;
     Button clearYesBtn;
@@ -70,6 +72,7 @@ public class HouseBuilderUI : MonoBehaviour
         assignCallbacks();
         UpdateState(CurrentState.Default);
         RoomManager.finishedFlooding += updateStatus;
+        RoomManager.unableToFlood += unableToFlood;
     }
     #endregion
 
@@ -95,6 +98,7 @@ public class HouseBuilderUI : MonoBehaviour
         VisualElement bodyContainer = contentContainer.Q<VisualElement>("BodyContainer");
         VisualElement statusPanel = contentContainer.Q<VisualElement>("StatusPanel");
         status = root.Q<Label>("StatusText");
+        statusLabel = root.Q<Label>("StatusLabel");
         VisualElement selectionPanel = contentContainer.Q<VisualElement>("SelectionPanel");
         modeOptionsPanel = selectionPanel.Q<VisualElement>("ModeOptionsPanel");
         deleteButton = modeOptionsPanel.Q<Button>("RemoveFurniture");
@@ -124,6 +128,7 @@ public class HouseBuilderUI : MonoBehaviour
         clearNoBtn = clearPopupButtonContainer.Q<Button>("ClearNoButton");
         validityPopup = root.Q<VisualElement>("ValidityCheckPopup");
         validityConfirmBtn = root.Q<Button>("ValidityConfirmButton");
+        validityProblemBtn = root.Q<Button>("ValidityProblemButton");
     }
     private void assignCallbacks()
     {
@@ -139,6 +144,7 @@ public class HouseBuilderUI : MonoBehaviour
         exportDropdown.RegisterValueChangedCallback(OnDropdownValueChanged);
         exportSelectionButton.clicked += () => confirmExportSelection();
         validityConfirmBtn.clicked += () => validityConfirmPress();
+        validityProblemBtn.clicked += () => validityProblemPress();
         exportYesBtn.clicked += () => exportConfirm(true);
         exportNoBtn.clicked += () => exportConfirm(false);
         clearYesBtn.clicked += () => clearConfirm(true);
@@ -168,23 +174,8 @@ public class HouseBuilderUI : MonoBehaviour
     public void exportPress()
     {
         // Start flood fill:
+        setStatusWaiting();
         string result = roomManager.GetComponent<RoomManager>().beginFlood();
-        if (result == "Not Enough Flags")
-        {
-            Debug.Log("not enough flags");
-            updateStatus(false);
-        }
-        else if (result == "Found All")
-        {
-            Debug.Log("Found All");
-            updateStatus(true);
-        }
-        else if (result == "Didn't Find All")
-        {
-            Debug.Log("no found flag");
-            updateStatus(false);
-        }
-        Debug.Log("I'M HERE");
         // Show Popup:
         validityPopup.style.display = DisplayStyle.Flex;
         Camera cam = Camera.main;
@@ -192,15 +183,15 @@ public class HouseBuilderUI : MonoBehaviour
         cam.transform.position = newCamPosition;
     }
 
-    public void callMeMaybe()
-    {
-        Debug.Log("Here");
-    }
-
     private void validityConfirmPress()
     {
         validityPopup.style.display = DisplayStyle.None;
         exportSelectionContainer.style.display = DisplayStyle.Flex;
+    }
+
+    private void validityProblemPress()
+    {
+        validityPopup.style.display = DisplayStyle.None;
     }
 
     private void exportConfirm(bool areYouSure)
@@ -289,14 +280,39 @@ public class HouseBuilderUI : MonoBehaviour
     {
         if (isValid)
         {
+            statusLabel.style.display = DisplayStyle.Flex;
+            statusLabel.text = "If you've set your flags up correctly, then this layout is...";
             status.text = "VALID";
             status.style.color = new StyleColor(Color.green);
+            validityConfirmBtn.style.display = DisplayStyle.Flex;
+            validityProblemBtn.style.display = DisplayStyle.None;
         }
         else
         {
+            statusLabel.style.display = DisplayStyle.Flex;
+            statusLabel.text = "If you've set your flags up correctly, then this layout is...";
             status.text = "INVALID";
             status.style.color = new StyleColor(Color.red);
+            validityConfirmBtn.style.display = DisplayStyle.None;
+            validityProblemBtn.style.display = DisplayStyle.Flex;
         }
+    }
+
+    public void setStatusWaiting()
+    {
+        status.text = "Checking Layout...";
+        statusLabel.style.display = DisplayStyle.None;
+        status.style.color = new StyleColor(Color.white);
+    }
+
+    public void unableToFlood(bool ableToFlood)
+    {
+        statusLabel.style.display = DisplayStyle.Flex;
+        statusLabel.text = "At least 2 flags are required to check layout validity. Proceed at your own risk.";
+        status.text = "Unknown";
+        status.style.color = new StyleColor(Color.yellow);
+        validityConfirmBtn.style.display = DisplayStyle.Flex;
+        validityProblemBtn.style.display = DisplayStyle.Flex;
     }
 
     public void showCancelButton(bool show)
