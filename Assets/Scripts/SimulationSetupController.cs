@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using static LayoutManager;
 
 public class SimulationSetupController : MonoBehaviour
 {
@@ -230,9 +231,22 @@ public class SimulationSetupController : MonoBehaviour
         InterSceneManager.vacuumSpeed = (int)robotSpeedSlider.value;
         InterSceneManager.vacuumEfficiency = (int)vacuumEfficiencySlider.value;
         InterSceneManager.whiskersEfficiency = (int)whiskersEfficiencySlider.value;
-        Debug.Log(InterSceneManager.vacuumSpeed);
         myData = InterSceneManager.getSimulationSettings();
-        //Debug.Log(myData);
+
+        // Set JSON file entry num for use in all simulation scene runs:
+        SerializableList<LayoutManager.Object> parsedJSON = new SerializableList<LayoutManager.Object>();
+        try
+        {
+            string unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/" + InterSceneManager.fileSelection + ".json");
+            parsedJSON = JsonUtility.FromJson<SerializableList<LayoutManager.Object>>(unparsedJSON);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("JSON Import Exception: " + e.Message);
+        }
+        InterSceneManager.JSONEntryNum = parsedJSON.SIMULATION_DATA.Count;
+        InterSceneManager.startDateTime = (DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString());
+
         // We want to load a new scene after setting up:
         SceneManager.LoadScene(sceneName: "Simulation");
     }

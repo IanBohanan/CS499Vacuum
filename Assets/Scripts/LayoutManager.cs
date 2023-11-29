@@ -118,10 +118,12 @@ public class LayoutManager : MonoBehaviour
     #region Serializable Classes
     [System.Serializable] public class SerializableList<T>
     {
+        public Vector3 vacuumPosition = Vector3.zero;
         public List<T> Furniture = new List<T>();
         public List<T> Walls = new List<T>();
         public List<T> RoomDoors = new List<T>();
         public List<T> ExitDoors = new List<T>();
+        public List<SimulationEntry> SIMULATION_DATA = new List<SimulationEntry>();
     }
 
     [System.Serializable] public class Object
@@ -177,6 +179,8 @@ public class LayoutManager : MonoBehaviour
             newWall.GetComponent<WallPlacer>().disableSpawners(); // Disable wall extending endpoints
         }
 
+        GameObject.Find("Vacuum-Robot").transform.position = parsedJSON.vacuumPosition;
+
         var currentScene = SceneManager.GetActiveScene();
         var currentSceneName = currentScene.name;
         if (currentSceneName == "Simulation")
@@ -193,6 +197,7 @@ public class LayoutManager : MonoBehaviour
     {
         GameObject[] walls = GameObject.FindGameObjectsWithTag("WallBuddy");
         SerializableList<Object> FullList = new SerializableList<Object>();
+        FullList.vacuumPosition = GameObject.Find("Vacuum-Robot").transform.position;
         foreach (GameObject f in Furniture) FullList.Furniture.Add(new Object(f.name, f.transform.position.x, f.transform.position.y, f.transform.rotation));
         foreach (GameObject w in walls) FullList.Walls.Add(new Object(w.name, w.transform.position.x, w.transform.position.y, w.transform.rotation));
         foreach (GameObject rd in RoomDoors) FullList.RoomDoors.Add(new Object(rd.name, rd.transform.position.x, rd.transform.position.y, rd.transform.rotation));

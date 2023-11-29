@@ -83,7 +83,7 @@ public class MainMenuController : MonoBehaviour
     public void onImportPopupPress(){
         importPopup.style.display = DisplayStyle.None;
         Debug.Log("Loading " + InterSceneManager.fileSelection);
-        SceneManager.LoadScene(sceneName: "HouseBuilder");
+        SceneManager.LoadScene(sceneName: "UseOrEditLayout");
     }
 
     // Load in the blank house creation scene:

@@ -77,6 +77,12 @@ public class ClickDrop : MonoBehaviour
                     offsetX = 3;
                     break;
                 }
+            case "VacuumRobot":
+                    {
+                    offsetX = 0;
+                    offsetY = 0;
+                    break;
+                }
             default:
                 {
                     offsetY = 0;

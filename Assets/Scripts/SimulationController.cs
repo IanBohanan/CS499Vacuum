@@ -140,6 +140,13 @@ public class SimulationController : MonoBehaviour
     
     private void endSimulation()
     {
+        // Store elapsed time and ending battery life in InterSceneManager to then be stored in JSON:
+        int totalSecondsElapsed = elapsedSeconds + (elapsedMinutes*60) + (elapsedHours*60*60);
+
+        InterSceneManager.algorithmName = vacuumBuddy.GetComponent<VacuumMovement>().currentAlg.ToString();
+        InterSceneManager.simulationElapsedSeconds = totalSecondsElapsed;
+        InterSceneManager.endingBatteryLifeSeconds = (int)vacuumData.currBatteryLife;
+
         SceneManager.LoadScene(sceneName: "CheckForAlgs");
     }
 }

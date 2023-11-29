@@ -1,1 +1,909 @@
-{"Furniture":[],"Walls":[{"type":"Wall (1)","posX":3.4700000286102297,"posY":3.0,"rotation":{"x":0.0,"y":0.0,"z":-0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall","posX":3.4700000286102297,"posY":3.0,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)","posX":9.29000186920166,"posY":2.999999523162842,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)","posX":15.110004425048829,"posY":2.9999990463256838,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)","posX":20.930007934570314,"posY":2.9999985694885256,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)","posX":26.750011444091798,"posY":2.999998092651367,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":32.57001495361328,"posY":2.999997615814209,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":38.390018463134769,"posY":2.999997138977051,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":44.21002197265625,"posY":2.9999966621398927,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":50.030025482177737,"posY":2.9999961853027345,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":55.85002899169922,"posY":2.999995708465576,"rotation":{"x":0.0,"y":0.0,"z":0.0,"w":1.0}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":55.85002899169922,"posY":8.819999694824219,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":50.030025482177737,"posY":8.819999694824219,"rotation":{"x":0.0,"y":0.0,"z":0.0,"w":1.0}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":50.030025482177737,"posY":14.640003204345704,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":44.21002197265625,"posY":14.640003204345704,"rotation":{"x":0.0,"y":0.0,"z":0.0,"w":1.0}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":44.21002197265625,"posY":20.460006713867189,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":38.390018463134769,"posY":20.460006713867189,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":32.57001495361328,"posY":20.460006713867189,"rotation":{"x":0.0,"y":0.0,"z":0.0,"w":1.0}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":32.57001495361328,"posY":26.280010223388673,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":26.750011444091798,"posY":26.280010223388673,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":20.930007934570314,"posY":26.280010223388673,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":15.110002517700196,"posY":26.280010223388673,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":9.289996147155762,"posY":26.280010223388673,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":3.469989776611328,"posY":26.280010223388673,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-2.350017547607422,"posY":26.280010223388673,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-8.170025825500489,"posY":26.280010223388673,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-13.990034103393555,"posY":26.280010223388673,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-19.810043334960939,"posY":26.280010223388673,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-25.630054473876954,"posY":26.280010223388673,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-31.45006561279297,"posY":26.280010223388673,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-37.270076751708987,"posY":26.280010223388673,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-43.090087890625,"posY":26.280010223388673,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-48.910099029541019,"posY":26.280010223388673,"rotation":{"x":0.0,"y":0.0,"z":1.0,"w":-4.371138828673793e-8}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-48.910099029541019,"posY":20.459999084472658,"rotation":{"x":0.0,"y":0.0,"z":1.0,"w":-4.371138828673793e-8}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-48.910099029541019,"posY":14.63998794555664,"rotation":{"x":0.0,"y":0.0,"z":1.0,"w":-4.371138828673793e-8}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-48.910099029541019,"posY":8.819976806640625,"rotation":{"x":0.0,"y":0.0,"z":1.0,"w":-4.371138828673793e-8}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-48.910099029541019,"posY":2.9999656677246095,"rotation":{"x":0.0,"y":0.0,"z":1.0,"w":-4.371138828673793e-8}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-48.910099029541019,"posY":-2.8200454711914064,"rotation":{"x":0.0,"y":0.0,"z":1.0,"w":-4.371138828673793e-8}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-48.910099029541019,"posY":-8.640056610107422,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-43.090087890625,"posY":-8.640057563781739,"rotation":{"x":0.0,"y":0.0,"z":1.0,"w":-4.371138828673793e-8}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-43.090087890625,"posY":-14.46006965637207,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-37.270076751708987,"posY":-14.460070610046387,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-31.45006561279297,"posY":-14.460071563720704,"rotation":{"x":0.0,"y":0.0,"z":1.0,"w":-4.371138828673793e-8}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-31.45006561279297,"posY":-20.28008270263672,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-25.630054473876954,"posY":-20.28008270263672,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-19.810043334960939,"posY":-20.28008270263672,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-13.990030288696289,"posY":-20.28008270263672,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-8.17001724243164,"posY":-20.28008270263672,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":-2.350004196166992,"posY":-20.28008270263672,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":3.4700098037719728,"posY":-20.28008270263672,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":9.290023803710938,"posY":-20.28008270263672,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":15.110038757324219,"posY":-20.28008270263672,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":20.9300537109375,"posY":-20.28008270263672,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":26.75006866455078,"posY":-20.28008270263672,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":32.57008361816406,"posY":-20.28008270263672,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":38.390098571777347,"posY":-20.28008270263672,"rotation":{"x":0.0,"y":0.0,"z":0.0,"w":1.0}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":38.390098571777347,"posY":-14.460067749023438,"rotation":{"x":0.0,"y":0.0,"z":0.7071068286895752,"w":-0.7071068286895752}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":44.210113525390628,"posY":-14.460067749023438,"rotation":{"x":0.0,"y":0.0,"z":0.0,"w":1.0}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":44.210113525390628,"posY":-8.640052795410157,"rotation":{"x":0.0,"y":0.0,"z":0.0,"w":1.0}},{"type":"Wall (1)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)","posX":44.210113525390628,"posY":-2.820037364959717,"rotation":{"x":0.0,"y":0.0,"z":0.0,"w":1.0}}],"RoomDoors":[],"ExitDoors":[]}
+{
+  "Furniture": [
+  ],
+  "Walls": [
+    {
+      "type": "Wall (1)",
+      "posX": 3.4700000286102297,
+      "posY": 3.0,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall",
+      "posX": 3.4700000286102297,
+      "posY": 3.0,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 3.4700000286102297,
+      "posY": 3.0,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 3.4700000286102297,
+      "posY": 3.0,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 3.4700000286102297,
+      "posY": 3.0,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 3.4700000286102297,
+      "posY": 3.0,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 3.4700000286102297,
+      "posY": 3.0,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 3.4700000286102297,
+      "posY": 3.0,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 3.4700000286102297,
+      "posY": 3.0,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 3.4700000286102297,
+      "posY": 3.0,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 3.4700000286102297,
+      "posY": 3.0,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 9.29000186920166,
+      "posY": 2.999999523162842,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 15.110004425048829,
+      "posY": 2.999999523162842,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 20.930007934570314,
+      "posY": 2.999999523162842,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 26.750011444091798,
+      "posY": 2.999999523162842,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 32.57001495361328,
+      "posY": 2.999999523162842,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 38.390018463134769,
+      "posY": 2.999999523162842,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 38.390018463134769,
+      "posY": 8.820003509521485,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 38.390018463134769,
+      "posY": 14.640007019042969,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 38.390018463134769,
+      "posY": 20.460010528564454,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 32.57001495361328,
+      "posY": 20.460010528564454,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 32.57001495361328,
+      "posY": 26.280014038085939,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 26.750011444091798,
+      "posY": 26.280014038085939,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 26.750011444091798,
+      "posY": 32.10001754760742,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 20.930007934570314,
+      "posY": 32.10001754760742,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 15.110002517700196,
+      "posY": 32.10001754760742,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 9.289996147155762,
+      "posY": 32.10001754760742,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 3.469989776611328,
+      "posY": 32.10001754760742,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 3.4699902534484865,
+      "posY": 37.92002487182617,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -2.35001802444458,
+      "posY": 37.92002487182617,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -8.170027732849121,
+      "posY": 37.92002487182617,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -13.990038871765137,
+      "posY": 37.92002487182617,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -19.81005096435547,
+      "posY": 37.92002487182617,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -25.63006591796875,
+      "posY": 37.92002487182617,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -31.45008087158203,
+      "posY": 37.92002487182617,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -37.27009582519531,
+      "posY": 37.92002487182617,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -43.090110778808597,
+      "posY": 37.92002487182617,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -48.910125732421878,
+      "posY": 37.92002487182617,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -54.730140686035159,
+      "posY": 37.92002487182617,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0,
+        "w": -4.371138828673793e-8
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -54.730140686035159,
+      "posY": 32.10000991821289,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0,
+        "w": -4.371138828673793e-8
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -54.730140686035159,
+      "posY": 26.27999496459961,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -60.55015563964844,
+      "posY": 26.27999496459961,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0,
+        "w": -4.371138828673793e-8
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -60.55015563964844,
+      "posY": 20.459980010986329,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0,
+        "w": -4.371138828673793e-8
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -60.55015563964844,
+      "posY": 14.639965057373047,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0,
+        "w": -4.371138828673793e-8
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -60.55015563964844,
+      "posY": 8.819950103759766,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0,
+        "w": -4.371138828673793e-8
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -60.55015563964844,
+      "posY": 2.9999351501464845,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0,
+        "w": -4.371138828673793e-8
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -60.55015563964844,
+      "posY": -2.820079803466797,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -54.730140686035159,
+      "posY": -2.8200807571411135,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0,
+        "w": -4.371138828673793e-8
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -54.730140686035159,
+      "posY": -8.640095710754395,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -48.910125732421878,
+      "posY": -8.640096664428711,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0,
+        "w": -4.371138828673793e-8
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -48.910125732421878,
+      "posY": -14.460111618041993,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -43.090110778808597,
+      "posY": -14.460112571716309,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0,
+        "w": -4.371138828673793e-8
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -43.090110778808597,
+      "posY": -20.280128479003908,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -37.27009582519531,
+      "posY": -20.280128479003908,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0,
+        "w": -4.371138828673793e-8
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -37.27009582519531,
+      "posY": -26.100143432617189,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -31.45008087158203,
+      "posY": -26.100143432617189,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -25.63006591796875,
+      "posY": -26.100143432617189,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -19.81005096435547,
+      "posY": -26.100143432617189,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0,
+        "w": -4.371138828673793e-8
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -19.810049057006837,
+      "posY": -31.92015838623047,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -13.990033149719239,
+      "posY": -31.92015838623047,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -8.170016288757325,
+      "posY": -31.92015838623047,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": -2.3499984741210939,
+      "posY": -31.92015838623047,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 3.470020294189453,
+      "posY": -31.92015838623047,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 9.290040016174317,
+      "posY": -31.92015838623047,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 15.110060691833496,
+      "posY": -31.92015838623047,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 20.93008041381836,
+      "posY": -31.92015838623047,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 20.93008041381836,
+      "posY": -26.10013771057129,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 20.93008041381836,
+      "posY": -20.28011703491211,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 20.93008041381836,
+      "posY": -14.46009635925293,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 26.750102996826173,
+      "posY": -14.46009635925293,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 26.750102996826173,
+      "posY": -8.64007568359375,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 26.750102996826173,
+      "posY": -2.820054531097412,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": 0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 20.93008041381836,
+      "posY": -2.8200550079345705,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 20.93008041381836,
+      "posY": 2.9999680519104006,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 20.93008041381836,
+      "posY": 8.819991111755371,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 26.750102996826173,
+      "posY": 8.819990158081055,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 26.750102996826173,
+      "posY": 14.640012741088868,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      }
+    },
+    {
+      "type": "Wall(Clone)",
+      "posX": 26.750102996826173,
+      "posY": 20.46003532409668,
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.7071068286895752,
+        "w": -0.7071068286895752
+      }
+    }
+  ],
+  "RoomDoors": [
+  ],
+  "ExitDoors": [
+  ],
+  "SIMULATION_DATA": [
+    {
+      "Settings": {
+        "whiskers": false,
+        "floorCovering": "Hardwood",
+        "batteryLifeStart": 150
+      },
+      "Random": {
+        "elapsedTime": "00:00:00",
+        "batteryLifeEnd": "00:00:00",
+        "cleaningEfficiency": 0.0,
+        "tilesPartiallyCleaned": 0,
+        "tilesCleaned": 0,
+        "untouchedTiles": 0
+      },
+      "WallFollow": {
+        "elapsedTime": "00:07:43",
+        "batteryLifeEnd": "02:21:46",
+        "cleaningEfficiency": 9.29012393951416,
+        "tilesPartiallyCleaned": 48,
+        "tilesCleaned": 3,
+        "untouchedTiles": 57
+      },
+      "Spiral": {
+        "elapsedTime": "00:00:16",
+        "batteryLifeEnd": "02:29:46",
+        "cleaningEfficiency": 2.515432119369507,
+        "tilesPartiallyCleaned": 3,
+        "tilesCleaned": 1,
+        "untouchedTiles": 104
+      },
+      "Snaking": {
+        "elapsedTime": "00:00:00",
+        "batteryLifeEnd": "00:00:00",
+        "cleaningEfficiency": 0.0,
+        "tilesPartiallyCleaned": 0,
+        "tilesCleaned": 0,
+        "untouchedTiles": 0
+      }
+    }
+  ]
+}

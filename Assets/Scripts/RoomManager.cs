@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 
 public class RoomManager : MonoBehaviour
@@ -18,6 +19,7 @@ public class RoomManager : MonoBehaviour
 
     public static event Action<bool> finishedFlooding; //Sent out at end of room flooding
     public static event Action<bool> unableToFlood; //Sent out at end of room flooding
+    public static event Action spawnedTiles; //Sent out at end of room flooding
 
     [SerializeField]
     private Tilemap tilemap;
@@ -107,6 +109,20 @@ public class RoomManager : MonoBehaviour
             tilemap.SetTileFlags(position, TileFlags.LockColor);
     }
 
+    //Changes the color of each tile to represent it has NOT been explored
+    private void uncolorTile(Vector3Int position)
+    {
+        //Change the color of the tile between white(ie. the base image) and tint
+
+        //Okay Unity has some weird debug thing where it has a "lock color" flag for each tile.
+        //Whenever setColor is called, ALL unlocked tiles get updated. So we have to unlock then lock each tile individually
+        //Sooo just gonna have to unlock that flag for the tile, change the color, then lock the flag AGAIN.
+        //Otherwise the entire tilemap gets updated and not just the one tile.
+        tilemap.SetTileFlags(position, TileFlags.None);
+        tilemap.SetColor(position, Color.white);
+        tilemap.SetTileFlags(position, TileFlags.LockColor);
+    }
+
 
     //Starts flooding the entire room given a specific startposition
     //(Note: startposition should become a flag's square at some point instead of 0,0)
@@ -115,14 +131,23 @@ public class RoomManager : MonoBehaviour
     {
         print("RoomManager: Beginning flood.");
 
+        // Reset tile colors from last flood:
+        if (InterSceneManager.houseTiles != null)
+        {
+            foreach (Vector3Int tile in InterSceneManager.houseTiles)
+            {
+                uncolorTile(tile);
+            }
+        }
+
         //also get all instances 
         GameObject[] flags = GameObject.FindGameObjectsWithTag("RoomFlag");
         foundFlags.Clear(); //Reset the foundFlags dictionary
+        debugDictList.Clear(); // Reset the touchedTiles list;
 
-        if (flags.Length < 2)
+        if (flags.Length < 1)
         {
             unableToFlood?.Invoke(true);
-            return "Not Enough Flags";
         }
 
         isFlooding = true;
@@ -132,8 +157,11 @@ public class RoomManager : MonoBehaviour
             flag.GetComponent<Flag>().roomName = "Flag " + foundFlags.Count;
             foundFlags.Add(flag, false);
         }
-
-        StartCoroutine(FloodFill(tilemap.WorldToCell(flags[0].transform.position)));
+        // Get vacuum object, disable its boxcollider when we do our thing, and re-enable it when done (in UI-Controller-HouseBuilder.cs). 
+        // Also, the flood fill starts from the vacuum's position.
+        GameObject vacuum = GameObject.Find("Vacuum-Robot");
+        vacuum.GetComponent<BoxCollider2D>().enabled = false;
+        StartCoroutine(FloodFill(tilemap.WorldToCell(vacuum.transform.position)));
 
         if (foundAllFlags)
         {
@@ -191,7 +219,14 @@ public class RoomManager : MonoBehaviour
                 isFlooding = false;
                 exploredTiles.Clear(); //reset the dictionary next time we start flooding
 
-                finishedFlooding?.Invoke(foundAllFlags);
+                if (foundFlags.Count > 0)
+                {
+                    finishedFlooding?.Invoke(foundAllFlags);
+                }
+                else
+                {
+                    spawnedTiles?.Invoke();
+                }
             }
         }
     }

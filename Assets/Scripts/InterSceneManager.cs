@@ -8,6 +8,7 @@ public class SerializableTile
 {
     public Vector3Int pos = Vector3Int.zero;
     public int hits = 0;
+    public float cleanliness = 0;
 
     public SerializableTile(Vector3Int position, int hitNum)
     {
@@ -35,9 +36,9 @@ public static class InterSceneManager
     public static List<SerializableTile> cleanedTiles = new List<SerializableTile>();
 
     // Simulation Setup Settings:
-    private static bool whiskersEnabled;
-    private static string floorCovering;
-    private static int batteryLife;
+    public static bool whiskersEnabled;
+    public static string floorCovering;
+    public static int batteryLife;
     private static bool randomAlgEnabled = false;
     private static bool spiralAlgEnabled = false;
     private static bool snakingAlgEnabled = false;
@@ -52,6 +53,13 @@ public static class InterSceneManager
     // Vacuum and Whiskers attachement efficiency values (percentage):
     public static int vacuumEfficiency = 50;
     public static int whiskersEfficiency = 50;
+
+    // Simulation End Data for Use in JSON Storage:
+    public static string startDateTime = "";
+    public static string algorithmName = "";
+    public static int JSONEntryNum = 0;
+    public static int simulationElapsedSeconds = 0;
+    public static int endingBatteryLifeSeconds = 0;
 
     public static void setSimulationSettings(bool whiskers, string floorCov, int battery, bool randomAlg, bool spiralAlg, bool snakingAlg, bool wallFollowAlg)
     {

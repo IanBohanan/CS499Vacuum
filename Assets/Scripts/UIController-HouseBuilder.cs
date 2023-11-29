@@ -180,7 +180,6 @@ public class HouseBuilderUI : MonoBehaviour
         {
             obj.GetComponent<BoxCollider2D>().enabled = false;
         }
-        Debug.Log("FUCKEJRE: "+objectsThatShouldntHaveColliders.Length);
         // Start flood fill:
         setStatusWaiting();
         string result = roomManager.GetComponent<RoomManager>().beginFlood();
@@ -328,11 +327,13 @@ public class HouseBuilderUI : MonoBehaviour
     public void unableToFlood(bool ableToFlood)
     {
         statusLabel.style.display = DisplayStyle.Flex;
-        statusLabel.text = "At least 2 flags are required to check layout validity. Proceed at your own risk.";
+        statusLabel.text = "No flags given for layout validation. Proceed at your own risk.";
         status.text = "Unknown";
         status.style.color = new StyleColor(Color.yellow);
         validityConfirmBtn.style.display = DisplayStyle.Flex;
         validityProblemBtn.style.display = DisplayStyle.Flex;
+        GameObject vacuum = GameObject.Find("Vacuum-Robot");
+        vacuum.GetComponent<BoxCollider2D>().enabled = true;
     }
 
     public void showCancelButton(bool show)

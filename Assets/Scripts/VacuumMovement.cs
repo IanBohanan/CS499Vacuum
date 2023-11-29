@@ -9,7 +9,7 @@ using UnityEngine.Tilemaps;
 public class VacuumMovement : MonoBehaviour
 {
     Tilemap tilemap;
-    enum Algorithm
+    public enum Algorithm
     {
         Random = 0,
         WallFollow = 1,
@@ -17,7 +17,7 @@ public class VacuumMovement : MonoBehaviour
         Snaking = 3,
         BadAlg = -1
     }
-    Algorithm currentAlg;
+    public Algorithm currentAlg;
 
     enum Direction
     {
@@ -69,15 +69,52 @@ public class VacuumMovement : MonoBehaviour
         canCollide = true;
     }
 
+    //Changes the color of each the color matching the selected floor covering:
+    private void colorTile(Vector3Int position)
+    {
+        //Change the color of the tile between white(ie. the base image) and tint
+
+        //Okay Unity has some weird debug thing where it has a "lock color" flag for each tile.
+        //Whenever setColor is called, ALL unlocked tiles get updated. So we have to unlock then lock each tile individually
+        //Sooo just gonna have to unlock that flag for the tile, change the color, then lock the flag AGAIN.
+        //Otherwise the entire tilemap gets updated and not just the one tile.
+        tilemap.SetTileFlags(position, TileFlags.None);
+        if (InterSceneManager.floorCovering == "Hardwood")
+        {
+            tilemap.SetColor(position, new UnityEngine.Color(150,75,0,255));
+        }
+        else if (InterSceneManager.floorCovering == "Loop Pile")
+        {
+            tilemap.SetColor(position, Color.blue);
+        }
+        else if (InterSceneManager.floorCovering == "Cut Pile")
+        {
+            tilemap.SetColor(position, Color.magenta);
+        }
+        else if (InterSceneManager.floorCovering == "Frieze-Cut Pile")
+        {
+            tilemap.SetColor(position, Color.cyan);
+        }
+        else
+        {
+            Debug.Log("You've lied to me, George. VacuumMovement.cs->ColorTile");
+        }
+        tilemap.SetTileFlags(position, TileFlags.LockColor);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         // Set up tilemap data:
         tilemap = GameObject.Find("UIFloor").GetComponent<Tilemap>();
+        InterSceneManager.cleanedTiles.Clear();
         foreach (Vector3Int tile in InterSceneManager.houseTiles)
         {
+            // Create new "CleanedTiles" list with associated hit counters:
             SerializableTile newTile = new SerializableTile(tile, 0);
             InterSceneManager.cleanedTiles.Add(newTile);
+            // Color the tiles in the simulation scene to match the floor covering selected:
+            colorTile(tile);
         }
 
         // Set Speed
