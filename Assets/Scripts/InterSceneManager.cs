@@ -1,6 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+
+[System.Serializable]
+public class SerializableTile
+{
+    public Vector3Int pos = Vector3Int.zero;
+    public int hits = 0;
+
+    public SerializableTile(Vector3Int position, int hitNum)
+    {
+        this.pos = position;
+        this.hits = hitNum;
+    }
+}
 
 public static class InterSceneManager
 {
@@ -18,6 +32,7 @@ public static class InterSceneManager
     //Represents the tiles that were explored by the flood fill algorithm of the house
     //Note: these are TILEMAP positions, not worldspace positions. Use the tilemap!
     public static List<Vector3Int> houseTiles;
+    public static List<SerializableTile> cleanedTiles = new List<SerializableTile>();
 
     // Simulation Setup Settings:
     private static bool whiskersEnabled;

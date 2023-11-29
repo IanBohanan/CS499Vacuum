@@ -173,6 +173,14 @@ public class HouseBuilderUI : MonoBehaviour
 
     public void exportPress()
     {
+        // Disable Chair/Table colliders:
+        // Disable colliders for chairs/tables:
+        GameObject[] objectsThatShouldntHaveColliders = GameObject.FindGameObjectsWithTag("NoColliderBuddy");
+        foreach (GameObject obj in objectsThatShouldntHaveColliders)
+        {
+            obj.GetComponent<BoxCollider2D>().enabled = false;
+        }
+        Debug.Log("FUCKEJRE: "+objectsThatShouldntHaveColliders.Length);
         // Start flood fill:
         setStatusWaiting();
         string result = roomManager.GetComponent<RoomManager>().beginFlood();
@@ -192,6 +200,12 @@ public class HouseBuilderUI : MonoBehaviour
     private void validityProblemPress()
     {
         validityPopup.style.display = DisplayStyle.None;
+        // Re-enable colliders for chairs/tables:
+        GameObject[] objectsThatShouldntHaveColliders = GameObject.FindGameObjectsWithTag("NoColliderBuddy");
+        foreach (GameObject obj in objectsThatShouldntHaveColliders)
+        {
+            obj.GetComponent<BoxCollider2D>().enabled = true;
+        }
     }
 
     private void exportConfirm(bool areYouSure)
@@ -210,6 +224,12 @@ public class HouseBuilderUI : MonoBehaviour
         Camera cam = Camera.main;
         Vector3 newCamPosition = new Vector3(cam.transform.position.x, cam.transform.position.y - 50000, cam.transform.position.z);
         cam.transform.position = newCamPosition;
+        // Re-enable colliders for chairs/tables:
+        GameObject[] objectsThatShouldntHaveColliders = GameObject.FindGameObjectsWithTag("NoColliderBuddy");
+        foreach (GameObject obj in objectsThatShouldntHaveColliders)
+        {
+            obj.GetComponent<BoxCollider2D>().enabled = true;
+        }
     }
 
     public void clearConfirm(bool areYouSure)

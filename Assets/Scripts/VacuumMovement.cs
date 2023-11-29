@@ -72,7 +72,14 @@ public class VacuumMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Set up tilemap data:
         tilemap = GameObject.Find("UIFloor").GetComponent<Tilemap>();
+        foreach (Vector3Int tile in InterSceneManager.houseTiles)
+        {
+            SerializableTile newTile = new SerializableTile(tile, 0);
+            InterSceneManager.cleanedTiles.Add(newTile);
+        }
+
         // Set Speed
         speed = 0.005f;
 
@@ -124,21 +131,6 @@ public class VacuumMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        // Figure out which tile in the tilemap we're currently over:
-        Vector3Int cellPosition = tilemap.WorldToCell(transform.position);
-
-        if (tilemap.cellBounds.Contains(cellPosition))
-        {
-            Debug.Log(cellPosition.x + " " + cellPosition.y);
-            int tileIndex = InterSceneManager.houseTiles.IndexOf(cellPosition);
-            if (tileIndex != -1)
-            {
-                Debug.Log(tileIndex + " " + cellPosition.x + " " + cellPosition.y);
-            }
-        }
-
-        //---------------------------------
-
         counter++;
 
         if (currentAlg == Algorithm.Random)
@@ -271,6 +263,20 @@ public class VacuumMovement : MonoBehaviour
         Vector3 movePosition = new Vector3(currentDirectionVec.x , currentDirectionVec.y, 0) * speed * InterSceneManager.speedMultiplier * (InterSceneManager.vacuumSpeed/3);
         // Move the child GameObjects along with the parent.
         transform.position += movePosition;
+
+        // Figure out which tile in the tilemap we're currently over:
+        Vector3Int cellPosition = tilemap.WorldToCell(transform.position);
+
+        if (tilemap.cellBounds.Contains(cellPosition))
+        {
+            int tileIndex = InterSceneManager.houseTiles.IndexOf(cellPosition);
+            if (tileIndex != -1)
+            {
+                //Debug.Log(tileIndex + " " + cellPosition.x + " " + cellPosition.y);
+                InterSceneManager.cleanedTiles[tileIndex].hits++;
+            }
+        }
+        //---------------------------------
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

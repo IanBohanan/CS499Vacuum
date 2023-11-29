@@ -4,6 +4,7 @@ using System;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 public class LayoutManager : MonoBehaviour
 {
@@ -174,6 +175,18 @@ public class LayoutManager : MonoBehaviour
         {
             GameObject newWall = Instantiate(Wall, new Vector3(parsedJSON.Walls[i].posX, parsedJSON.Walls[i].posY, 0), parsedJSON.Walls[i].rotation);
             newWall.GetComponent<WallPlacer>().disableSpawners(); // Disable wall extending endpoints
+        }
+
+        var currentScene = SceneManager.GetActiveScene();
+        var currentSceneName = currentScene.name;
+        if (currentSceneName == "Simulation")
+        {
+            // Disable all BoxColliders in the Chair and Table Objects:
+            GameObject[] objectsThatShouldntHaveColliders = GameObject.FindGameObjectsWithTag("NoColliderBuddy");
+            foreach (GameObject obj in objectsThatShouldntHaveColliders)
+            {
+                obj.GetComponent<BoxCollider2D>().enabled = false;
+            }
         }
     }
     public void saveToJSON(string JSONFilePath)

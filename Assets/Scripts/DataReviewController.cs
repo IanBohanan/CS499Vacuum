@@ -46,7 +46,7 @@ public class RootObject<T>
 public class DataReviewController : MonoBehaviour
 {
     int currentRun = 0;
-    string jsonFile = "Layout1";
+    string jsonFile = InterSceneManager.fileSelection;
 
     TreeView data;
     Button returnToMainMenu;
@@ -78,6 +78,30 @@ public class DataReviewController : MonoBehaviour
         subscribeToCallbacks();
 
         fillDataPanel();
+
+        int tileNum = 0;
+        int tilesCleaned = 0;
+        int totalHits = 0;
+        int tilesNotCleaned = 0;
+
+        foreach (SerializableTile tile in InterSceneManager.cleanedTiles)
+        {
+            tileNum++;
+            if (tile.hits != 0)
+            {
+                tilesCleaned++;
+            }
+            else
+            {
+                tilesNotCleaned++;
+            }
+            totalHits += tile.hits;
+        }
+
+        Debug.Log("Tiles: " + tileNum);
+        Debug.Log("Tiles Cleaned: " + tilesCleaned);
+        Debug.Log("Tiles Not Cleaned: " + tilesNotCleaned);
+        Debug.Log("Total Hits: " + totalHits);
     }
 
     // Subscribe to function callbacks:
