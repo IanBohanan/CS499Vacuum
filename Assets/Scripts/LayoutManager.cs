@@ -163,6 +163,7 @@ public class LayoutManager : MonoBehaviour
             else if (parsedJSON.Furniture[i].type == "Chest Variant(Clone)")
             {
                 addFurniture("chest", parsedJSON.Furniture[i].rotation, parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY, true);
+                InterSceneManager.coveredTileNum += 6;
             }
             else if (parsedJSON.Furniture[i].type == "Table Variant(Clone)")
             {

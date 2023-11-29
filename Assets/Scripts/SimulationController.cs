@@ -28,6 +28,8 @@ public class SimulationController : MonoBehaviour
 
     private void OnEnable()
     {
+        InterSceneManager.coveredTileNum = 0;
+
         vacuumBuddy = GameObject.FindGameObjectWithTag("VacuumBuddy");
         vacuumData = (vacuumBuddy.GetComponent<Vacuum>());
 

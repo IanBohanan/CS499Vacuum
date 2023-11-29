@@ -155,6 +155,7 @@ public class DataReviewController : MonoBehaviour
         AddLabelToData("Whiskers: "+parsedJSON.SIMULATION_DATA[currentRun].Settings.whiskers);
         AddLabelToData("Floor Covering: "+parsedJSON.SIMULATION_DATA[currentRun].Settings.floorCovering);
         AddLabelToData("Starting Battery Life: "+parsedJSON.SIMULATION_DATA[currentRun].Settings.batteryLifeStart);
+        AddLabelToData("Covered Tiles: " + InterSceneManager.coveredTileNum);
 
         AddNewSectionHeader("\nRandom:");
         AddLabelToData("Elapsed Time: " + parsedJSON.SIMULATION_DATA[currentRun].Random.elapsedTime);

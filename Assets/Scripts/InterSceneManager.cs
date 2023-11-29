@@ -60,6 +60,7 @@ public static class InterSceneManager
     public static int JSONEntryNum = 0;
     public static int simulationElapsedSeconds = 0;
     public static int endingBatteryLifeSeconds = 0;
+    public static int coveredTileNum = 0;
 
     public static void setSimulationSettings(bool whiskers, string floorCov, int battery, bool randomAlg, bool spiralAlg, bool snakingAlg, bool wallFollowAlg)
     {
