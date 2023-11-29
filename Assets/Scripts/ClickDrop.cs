@@ -34,6 +34,7 @@ public class ClickDrop : MonoBehaviour
     }
 
     public bool isLongObject;
+    private bool isDoor = false;
 
     // Offset values to be set for each furniture type. Allows correct grid snapping.
     private int offsetY;
@@ -75,6 +76,7 @@ public class ClickDrop : MonoBehaviour
                 {
                     offsetY = 3;
                     offsetX = 3;
+                    isDoor = true;
                     break;
                 }
             default:
@@ -126,10 +128,22 @@ public class ClickDrop : MonoBehaviour
         // If not deleting:
         else if (isDragging)
         {
-            if (!IsOverlapping())
+            if(isDoor) //Unique check for doors, since we do want overlapping objects
             {
-                isDragging = false;
-            } 
+                if(IsDoorCompatible()) //Check that door can be placed
+                {
+                    isDragging = false;
+                }
+            }
+            else //All other objects do NOT want to have any overlapping objects
+            {
+                if (!IsOverlapping())
+                {
+                    isDragging = false;
+                }
+            }
+
+
         }
         else
         {
@@ -158,6 +172,37 @@ public class ClickDrop : MonoBehaviour
             }
         }
         // If no overlapping objects found, return false
+        return false;
+    }
+
+    //Checks if there are four overlapping wall instances.
+    //If so, true. Otherwise return false
+    //This is used for Door Objects.
+    bool IsDoorCompatible()
+    {
+        //Get the collider of the door
+        BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
+
+        //Calculate its size and center
+        Vector2 colliderSize = new Vector2(boxCollider.size.x * transform.localScale.x, boxCollider.size.y * transform.localScale.y);
+
+        Vector2 colliderCenter = (Vector2)transform.position + boxCollider.offset;
+
+        //Get list of every collider overlapping the door
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(colliderCenter, colliderSize, 0f);
+
+        int wallCount = 0;
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.gameObject.tag == "WallBuddy")
+            {
+                wallCount++;
+                if (wallCount >= 4)
+                {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 }
