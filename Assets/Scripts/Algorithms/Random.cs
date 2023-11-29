@@ -3,58 +3,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Snaking
+public class RandomWalk
 {
-    public (Vector2, string) getNewDirectionVec(Vector2 currentDirection, float distanceUp,float distanceRight, float distanceDown, float distanceLeft)
+    public Vector2 getNewDirectionVec(Vector2 collisionDirection)
     {
-        Vector2 directionVec = new Vector2(); // New direction to be returned
-        string offsetDirection = "right"; // The direction the vacuum needs to move in before snaking back the way it came
+        // Generate randomized angle to be used:
+        System.Random random = new System.Random();
+        double newAngle = random.Next(40, 140); // Collisions only possible with flat object, meaning 180 degrees of valid range for new movement direction
 
-        if (currentDirection.x > 0) // Moving right
-        {
-            offsetDirection = "right";
-            if (currentDirection.y > 0) // Moving up
-            {
-                if (distanceUp > distanceRight)
-                {
-                    // Want to offset Down
-                }
-                directionVec = -currentDirection;
-            }
-            else if (currentDirection.y < 0) // Moving down
-            {
-                // Want to offset Up
-                directionVec = -currentDirection;
-            }
-            else // We're not moving somehow
-            {
-                directionVec = getStartingVec(); // Just get random vector, I guess
-            }
-        }
-        else if (currentDirection.x < 0) // Moving left
-        {
+        newAngle = newAngle * Math.PI / 180; // Convert degrees to radians
 
-        }
-        else // Moving perfectly vertically (very low chance, but technically possible)
+        Vector2 directionVec = new Vector2(); // Initialize new 2D direction vector
+
+        if (collisionDirection.x == 1) // Collision to right of us
         {
-            offsetDirection = "right";
-            if (currentDirection.y > 0) // Moving up
-            {
-                directionVec = -currentDirection;
-            }
-            else if (currentDirection.y < 0) // Moving down
-            {
-                directionVec = -currentDirection;
-            }
-            else // We're not moving somehow
-            {
-                directionVec = getStartingVec(); // Just get random vector, I guess
-            }
+            directionVec.x = (float)-Math.Sin(newAngle);
+            directionVec.y = (float)Math.Cos(newAngle);
+        }
+        else if (collisionDirection.y == 1) // Collision above us
+        {
+            directionVec.x = (float)Math.Cos(newAngle);
+            directionVec.y = (float)-Math.Sin(newAngle);
+        }
+        else if (collisionDirection.x == -1) // Collision to left of us
+        {
+            directionVec.x = (float)Math.Sin(newAngle);
+            directionVec.y = (float)Math.Cos(newAngle);
+        }
+        else if (collisionDirection.y == -1) // Collision below us
+        {
+            directionVec.x = (float)Math.Cos(newAngle);
+            directionVec.y = (float)Math.Sin(newAngle);
+        }
+        else // Invalid direction vector
+        {
+            Debug.Log("Invalid direction vector given to Random Algorithm!");
         }
 
         directionVec.Normalize(); // Normalize so that magnitude can be applied later on
 
-        return (directionVec, offsetDirection);
+        return (directionVec);
     }
 
     public Vector2 getStartingVec()

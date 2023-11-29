@@ -71,7 +71,7 @@ public class VacuumMovement : MonoBehaviour
     void Start()
     {
         // Set Speed
-        speed = 0.005f;
+        speed = 0.5f;
 
         counter = 0;
 
@@ -275,8 +275,8 @@ public class VacuumMovement : MonoBehaviour
                 Vector2 collisionDir = DirToVector(closestDir);
 
                 currentDirectionVec = -currentDirectionVec;
-                float x = currentDirectionVec.x * 0.5f;
-                float y = currentDirectionVec.y * 0.5f;
+                float x = currentDirectionVec.x;
+                float y = currentDirectionVec.y;
                 transform.position += new Vector3(x, y, 0);
                 currentDirectionVec = randomAlg.getNewDirectionVec(collisionDir);
             }
