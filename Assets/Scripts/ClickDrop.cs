@@ -73,7 +73,7 @@ public class ClickDrop : MonoBehaviour
                 }
             case "Door(Clone)":
                 {
-                    offsetY = 0;
+                    offsetY = 3;
                     offsetX = 3;
                     break;
                 }
