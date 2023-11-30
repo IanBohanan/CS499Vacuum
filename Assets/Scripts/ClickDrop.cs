@@ -126,7 +126,7 @@ public class ClickDrop : MonoBehaviour
             isDeleteClicked = true;
         }
         // If not deleting:
-        else if (isDragging)
+        else if (isDragging) //User is placing an object down
         {
             if(isDoor) //Unique check for doors, since we do want overlapping objects
             {
@@ -142,15 +142,23 @@ public class ClickDrop : MonoBehaviour
                     isDragging = false;
                 }
             }
-
-
         }
-        else
+        else //User is trying to pick up a previously placed object
         {
-            if (!IsOverlapping())
+            if(isDoor)
             {
-                isDragging = true;
+                //Doors will be overlapping, so add extra branch so just allow all doors to be picked up again
+                isDragging = true; 
             }
+            else
+            {
+                //Non door objects cannot be placed with any overlapping furniture
+                if (!IsOverlapping())
+                {
+                    isDragging = true;
+                }
+            }
+
         }
     }
 
