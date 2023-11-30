@@ -3,56 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-// WallExtender class is responsible for detecting interactions between wall endpoints and triggering wall extension.
 public class WallExtender : MonoBehaviour
 {
-    public WallPlacer wall; // Reference to the WallPlacer script on the wall prefab.
+    public WallPlacer wall; // Reference to the WallPlacer script on the prefab wall object.
 
-    public bool connectedToWall = false; // Flag to check if this extender is touching another wall.
+    public bool connectedToWall = false; // Indicates whether this extender is touching another wall.
 
-    // Initialize the connectedToWall flag when the script starts.
     private void Start()
     {
-        connectedToWall = false;
+        connectedToWall = false; // Initialize the connectedToWall flag as false when the object is created.
     }
 
-    // Reset the connectedToWall flag when the GameObject is enabled.
     private void OnEnable()
     {
-        connectedToWall = false;
+        connectedToWall = false; // Reset the connectedToWall flag to false when the object is enabled.
     }
 
-    // OnMouseDown is called when the user clicks on the GameObject.
     void OnMouseDown()
     {
-        // Trigger wall extension from the current position.
+        // When the object is clicked, call the extendWall method of the associated WallPlacer script.
         wall.extendWall(this.transform.position);
     }
 
-    // OnTriggerEnter2D is called when another collider enters the trigger (2D physics only).
     void OnTriggerEnter2D(Collider2D collision)
     {
         try
         {
-            // Check if the collision is with a wall endpoint and update the connectedToWall flag accordingly.
+            // Check if a collision occurred with an object named "WallEndpoint".
             if (collision.gameObject.name.Equals("WallEndpoint"))
-                connectedToWall = true;
-            else
-            {
-                connectedToWall = false;
-            }
+                connectedToWall = true; // Set connectedToWall to true if the collision happened with a wall endpoint.
         }
         catch (Exception e)
         {
-            // If an exception occurs, ensure connectedToWall is set to false.
-            connectedToWall = false;
+            // Handle any exceptions that may occur during collision checking.
         }
     }
 
-    // OnTriggerExit2D is called when another collider leaves the trigger (2D physics only).
     void OnTriggerExit2D(Collider2D other)
     {
-        // Reset the connectedToWall flag when the collider exits the trigger.
-        connectedToWall = false;
+        connectedToWall = false; // When exiting a trigger zone, set connectedToWall to false to indicate no longer connected to a wall.
     }
 }
