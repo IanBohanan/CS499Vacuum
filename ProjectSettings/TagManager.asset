@@ -7,6 +7,7 @@ TagManager:
   - VacuumBuddy
   - RoomFlag
   - WallBuddy
+  - DoorBuddy
   layers:
   - Default
   - TransparentFX

@@ -47,25 +47,41 @@ public class RoomManager : MonoBehaviour
             // Check if there's a game object at this position in the actual coordinates
             Vector3 worldPosition = tilemap.GetCellCenterWorld(position);
 
-            Collider2D collider = Physics2D.OverlapPoint(worldPosition);
+            Collider2D[] colliders = Physics2D.OverlapPointAll(worldPosition);
 
-            if (collider != null)
+            if(colliders.Length > 0)
             {
-                //Something is on this tile. Could be a flag, wall, object, etc.
+                foreach (Collider2D collider in colliders)
+                {
+                    if (collider != null)
+                    {
+                        //Something is on this tile. Could be a flag, wall, object, etc.
 
-                //Make sure it is not the room flag we're looking for
-                if (collider.tag != "RoomFlag")
-                {
-                    // Stop inspecting cause furniture is here
-                    activeTiles--;
-                    yield break;
+                        //Make sure it is not the room flag we're looking for
+                        if (collider.tag != "RoomFlag")
+                        {
+                            // Now it may be a furniture or wall object.
+                            //Check to see if there is a door we can go through
+                            if (collider.tag != "DoorBuddy")
+                            {
+                                //It's not a door! So leave the tile alone
+                                activeTiles--;
+                                yield break;
+                            }
+                            else
+                            {
+                                print("RoomManager: Encountered a door skipping through!");
+                                break;
+                            }
+                        }
+                        else //otherwise it is a room flag! So mark flag as found then continue flooding.
+                        {
+                            foundFlags[collider.gameObject] = true; //Mark the specific flag as found.
+                            print("Found " + collider.gameObject.GetComponent<Flag>().roomName);
+                            break;
+                        }
+                    }
                 }
-                else //otherwise it is a room flag! So mark flag as found then continue flooding.
-                {
-                    foundFlags[collider.gameObject] = true; //Mark the specific flag as found.
-                    print("Found " + collider.gameObject.GetComponent<Flag>().roomName);
-                }
-                
             }
 
             //Add the tile to the dictionary to mark it as explored.

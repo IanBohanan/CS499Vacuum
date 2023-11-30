@@ -165,6 +165,8 @@ public class HouseBuilderUI : MonoBehaviour
         // Save to JSON if confirmed:
         if (areYouSure) 
         { 
+            //Save the walLList here instead?
+
             layoutManager.saveToJSON(exportFileSelection);
             InterSceneManager.fileSelection = exportDropdown.value;
             InterSceneManager.wallList.Clear(); // Clear the list of walls in case user returns to house builder
