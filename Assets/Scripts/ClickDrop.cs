@@ -119,6 +119,11 @@ public class ClickDrop : MonoBehaviour
             {
                 mousePosition = new Vector3(mousePosition.x + offsetX, mousePosition.y + offsetY, mousePosition.z);
             }
+            // Offset rotated chests by half a tile to the right:
+            if ((!isLongObject) && transform.name == "Chest Variant(Clone)")
+            {
+                mousePosition = new Vector3(mousePosition.x + 3, mousePosition.y, mousePosition.z);
+            }
             transform.position = mousePosition;
         }
     }

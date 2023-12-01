@@ -156,6 +156,7 @@ public class DataReviewController : MonoBehaviour
         AddLabelToData("Floor Covering: "+parsedJSON.SIMULATION_DATA[currentRun].Settings.floorCovering);
         AddLabelToData("Starting Battery Life: "+parsedJSON.SIMULATION_DATA[currentRun].Settings.batteryLifeStart);
         AddLabelToData("Covered Tiles: " + InterSceneManager.coveredTileNum);
+        AddLabelToData("Covered Square Feet: " + (InterSceneManager.coveredTileNum/2));
 
         AddNewSectionHeader("\nRandom:");
         AddLabelToData("Elapsed Time: " + parsedJSON.SIMULATION_DATA[currentRun].Random.elapsedTime);
@@ -164,6 +165,9 @@ public class DataReviewController : MonoBehaviour
         AddLabelToData("Tiles Partially Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Random.tilesPartiallyCleaned);
         AddLabelToData("Tiles Fully Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Random.tilesCleaned);
         AddLabelToData("Untouched Tiles: " + parsedJSON.SIMULATION_DATA[currentRun].Random.untouchedTiles);
+        AddLabelToData("Sqft Partially Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].Random.tilesPartiallyCleaned / 2));
+        AddLabelToData("Sqft Fully Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].Random.tilesCleaned / 2));
+        AddLabelToData("Untouched Sqft: " + (parsedJSON.SIMULATION_DATA[currentRun].Random.untouchedTiles / 2));
 
 
         AddNewSectionHeader("\nWall Follow:");
@@ -173,6 +177,9 @@ public class DataReviewController : MonoBehaviour
         AddLabelToData("Tiles Partially Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.tilesPartiallyCleaned);
         AddLabelToData("Tiles Fully Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.tilesCleaned);
         AddLabelToData("Untouched Tiles: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.untouchedTiles);
+        AddLabelToData("Sqft Partially Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].WallFollow.tilesPartiallyCleaned / 2));
+        AddLabelToData("Sqft Fully Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].WallFollow.tilesCleaned / 2));
+        AddLabelToData("Untouched Sqft: " + (parsedJSON.SIMULATION_DATA[currentRun].WallFollow.untouchedTiles / 2));
 
         AddNewSectionHeader("\nSpiral:");
         AddLabelToData("Elapsed Time: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.elapsedTime);
@@ -181,6 +188,9 @@ public class DataReviewController : MonoBehaviour
         AddLabelToData("Tiles Partially Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.tilesPartiallyCleaned);
         AddLabelToData("Tiles Fully Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.tilesCleaned);
         AddLabelToData("Untouched Tiles: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.untouchedTiles);
+        AddLabelToData("Sqft Partially Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].Spiral.tilesPartiallyCleaned / 2));
+        AddLabelToData("Sqft Fully Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].Spiral.tilesCleaned / 2));
+        AddLabelToData("Untouched Sqft: " + (parsedJSON.SIMULATION_DATA[currentRun].Spiral.untouchedTiles / 2));
 
         AddNewSectionHeader("\nSnaking:");
         AddLabelToData("Elapsed Time: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.elapsedTime);
@@ -189,6 +199,9 @@ public class DataReviewController : MonoBehaviour
         AddLabelToData("Tiles Partially Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.tilesPartiallyCleaned);
         AddLabelToData("Tiles Fully Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.tilesCleaned);
         AddLabelToData("Untouched Tiles: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.untouchedTiles);
+        AddLabelToData("Sqft Partially Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].Snaking.tilesPartiallyCleaned / 2));
+        AddLabelToData("Sqft Fully Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].Snaking.tilesCleaned / 2));
+        AddLabelToData("Untouched Sqft: " + (parsedJSON.SIMULATION_DATA[currentRun].Snaking.untouchedTiles / 2));
     }
     private void AddRunNumberLabel(string text)
     {
