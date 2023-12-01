@@ -2,7 +2,7 @@
 //This script keeps track of the flood fill algorithm and makes sure each room can be reached by the vacuum by flooding the house
 //To do so, it gets every flag object (marked with a unique tag) in the scene. It stores each flag instance in a dictionary with whether it was found (or not)
 /* Then it floods the house tilemap, marking clear tiles as "explored" in the exploredTiles dictionary.
- *          Note: tiles with anything on them will not be counted as explored (except flags). IE any tile that cannot be explored by the vacuum is not checked.
+ *          Note: tiles with anything on them will not be counted as explored (except flags and doors). IE any tile that cannot be explored by the vacuum is not checked.
  * Finally it checks if each of the flags in the foundFlags dictionary was found. If not, it say which flag was not reached by the flood algo.
  * */
 

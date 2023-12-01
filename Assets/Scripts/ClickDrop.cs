@@ -204,13 +204,23 @@ public class ClickDrop : MonoBehaviour
         {
             if (collider.gameObject.tag == "WallBuddy")
             {
-                wallCount++;
-                if (wallCount >= 4)
+                //Check that the rotation of the wall matches the door.
+                //To do that, get the rotations of this door object and compare it to the wall. If angle >= 180 then the rotation is comptaible (horizontal door = horizontal wall, and vertical door = vertical wall)
+                float wallRotation = collider.gameObject.transform.rotation.eulerAngles.z; //The the rotation of the wall object (in degrees)
+                float curRotation = this.transform.rotation.eulerAngles.z;
+                if(Math.Abs(wallRotation - curRotation) >= 180 || Math.Abs(wallRotation - curRotation) == 90)
                 {
-                    return true;
+                    wallCount++;
+                    if (wallCount >= 3)
+                    {
+                        print("ClickDrop: Wall compatible!");
+                        return true;
+                    }
                 }
             }
         }
+
+        print("ClickDrop: Not compatible! Only " + wallCount + " walls!");
         return false;
     }
 }
