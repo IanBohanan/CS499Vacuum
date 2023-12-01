@@ -202,7 +202,7 @@ public class VacuumMovement : MonoBehaviour
             }
             else if (justTurned)
             {
-                if ((!passedA) && (Vector3.Distance(targetPositionA, transform.position) < 3)){
+                if ((!passedA) && (Vector3.Distance(targetPositionA, transform.position) < ((3)))){
                     Debug.Log("passed A");
                     transform.position = targetPositionA;
                     passedA = true;
@@ -232,7 +232,7 @@ public class VacuumMovement : MonoBehaviour
                         transform.rotation = Quaternion.Euler(0, 0, 180);
                     }
                 }
-                else if ((!passedB) && (Vector3.Distance(targetPositionB, transform.position) < 3))
+                else if ((!passedB) && (Vector3.Distance(targetPositionB, transform.position) < ((3))))
                 {
                     Debug.Log("passed B");
                     transform.position = targetPositionB;
@@ -272,10 +272,10 @@ public class VacuumMovement : MonoBehaviour
                 RaycastHit2D hitDataRight = Physics2D.Raycast(transform.position, transform.right);
                 RaycastHit2D hitDataUp = Physics2D.Raycast(transform.position, transform.up);
                 RaycastHit2D hitDataDown = Physics2D.Raycast(transform.position, -transform.up);
-                if ((hitDataLeft.distance < 20) && (hitDataLeft.collider)) { enoughSpace = false; }
-                if ((hitDataRight.distance < 20) && (hitDataRight.collider)) { enoughSpace = false; }
-                if ((hitDataUp.distance < 20) && (hitDataUp.collider)) { enoughSpace = false; }
-                if ((hitDataDown.distance < 20) && (hitDataDown.collider)) { enoughSpace = false; }
+                if ((hitDataLeft.distance < 50) && (hitDataLeft.collider)) { enoughSpace = false; }
+                if ((hitDataRight.distance < 50) && (hitDataRight.collider)) { enoughSpace = false; }
+                if ((hitDataUp.distance < 50) && (hitDataUp.collider)) { enoughSpace = false; }
+                if ((hitDataDown.distance < 50) && (hitDataDown.collider)) { enoughSpace = false; }
 
                 if (enoughSpace) // We have enough space in all directions to start the spiraling algorithm
                 { 
@@ -287,7 +287,7 @@ public class VacuumMovement : MonoBehaviour
         }
         else if (currentAlg == Algorithm.Snaking)
         {
-            if (currentlyOffsettingSnake && (Vector3.Distance(targetPositionA, transform.position) < 1))
+            if (currentlyOffsettingSnake && (Vector3.Distance(targetPositionA, transform.position) < (InterSceneManager.speedMultiplier/2)))
             {
                 transform.position = targetPositionA;
                 currentlyOffsettingSnake = false;
@@ -366,103 +366,15 @@ public class VacuumMovement : MonoBehaviour
         RaycastHit2D hitDataUp = Physics2D.Raycast(transform.position, transform.up);
         RaycastHit2D hitDataDown = Physics2D.Raycast(transform.position, -transform.up);
 
-        // Initialize Array 
-        RaycastHit2D[] hitData = new RaycastHit2D[] { hitDataLeft, hitDataRight, hitDataUp, hitDataDown };
-
         if (canCollide)
         {
             if (currentAlg == Algorithm.Random)
             {
-/*                RaycastHit2D shortestRay = hitData[0];
-                int indexOfShortestRay = 0;
-                for (int i = 0; i < hitData.Length; i++)
-                {
-                    RaycastHit2D compareTo = hitData[i];
-                    if (compareTo.distance < shortestRay.distance)
-                    {
-                        shortestRay = compareTo;
-                        indexOfShortestRay = i;
-                    }
-
-                }*/
-
-                //Direction closestDir = (Direction)indexOfShortestRay;
-
-                Vector2 collisionDir = new Vector2(0, 0);
-/*                if (closestDir == Direction.Up)
-                {
-                    collisionDir = new Vector2(0, 1);
-                } 
-                else if (closestDir == Direction.Down)
-                {
-                    collisionDir = new Vector2(0, -1);
-                }
-                else if (closestDir == Direction.Right)
-                {
-                    collisionDir = new Vector2(1, 0);
-                }
-                else if (closestDir == Direction.Left)
-                {
-                    collisionDir = new Vector2(-1, 0);
-                }*/
-
-                //--------------------------------------------------------
-                string closestName = "left";
-                float closest = hitDataLeft.distance; //new Vector2(1, 0);
-
-                if (closest > hitDataRight.distance)
-                {
-                    closest = hitDataRight.distance;
-                    closestName = "right";
-                }
-                if (closest > hitDataUp.distance)
-                {
-                    closest = hitDataUp.distance;
-                    closestName = "up";
-                }
-                if (closest > hitDataDown.distance)
-                {
-                    closest = hitDataDown.distance;
-                    closestName = "down";
-                }
-
-                switch (closestName)
-                {
-                    case "left":
-                        Debug.Log("left");
-                        collisionDir = new Vector2(-1, 0);
-                        break;
-                    case "right":
-                        Debug.Log("right");
-                        collisionDir = new Vector2(1, 0);
-                        break;
-                    case "up":
-                        Debug.Log("up");
-                        collisionDir = new Vector2(0, 1);
-                        break;
-                    case "down":
-                        Debug.Log("down");
-                        collisionDir = new Vector2(0, -1);
-                        break;
-                    default:
-                        Debug.Log("Uh oh...");
-                        break;
-                }
-                //--------------------------------------------------------
-                /*
-                                ColliderDistance2D dis = GetComponent<Rigidbody2D>().Distance(collision);*/
-
                 currentDirectionVec = -currentDirectionVec;
-
                 float x = currentDirectionVec.x * (0.25f * InterSceneManager.speedMultiplier);
                 float y = currentDirectionVec.y * (0.25f * InterSceneManager.speedMultiplier);
-
                 currentDirectionVec = -currentDirectionVec;
-
                 transform.position += new Vector3(x, y, 0);
-
-
-
                 bool newDir = true;
                 while (newDir)
                 {
@@ -497,17 +409,17 @@ public class VacuumMovement : MonoBehaviour
                         }
                     }
                 }
-
             } 
             else if (currentAlg == Algorithm.WallFollow)
             {
                 justTurned = false;
                 consecutiveLeftTurns = 0;
+                // Back up a bit:
                 currentDirectionVec = -currentDirectionVec;
-                float x = currentDirectionVec.x * 0.5f;
-                float y = currentDirectionVec.y * 0.5f;
+                float x = currentDirectionVec.x * (0.1f * InterSceneManager.speedMultiplier);
+                float y = currentDirectionVec.y * (0.1f * InterSceneManager.speedMultiplier);
+                currentDirectionVec = -currentDirectionVec;
                 transform.position += new Vector3(x, y, 0);
-                currentDirectionVec = -(currentDirectionVec);
 
                 if (wallFollowing) {
                     Debug.Log("HERE: " + collision.name);
@@ -543,23 +455,55 @@ public class VacuumMovement : MonoBehaviour
             else if (currentAlg == Algorithm.Spiral)
             {
                 isSpiraling = false; // Stop the spiral updates
+                currentDirectionVec = -CalculateNormalizedDirection(transform.position, spiralOrigin);
                 currentDirectionVec = -currentDirectionVec;
-                float x = currentDirectionVec.x * 0.5f;
-                float y = currentDirectionVec.y * 0.5f;
+                float x = currentDirectionVec.x * (0.25f * InterSceneManager.speedMultiplier);
+                float y = currentDirectionVec.y * (0.25f * InterSceneManager.speedMultiplier);
+                currentDirectionVec = -currentDirectionVec;
                 transform.position += new Vector3(x, y, 0);
-                currentDirectionVec = -(currentDirectionVec);
-                currentDirectionVec = randomAlg.getStartingVec();
+                bool newDir = true;
+                while (newDir)
+                {
+                    newDir = false;
+                    currentDirectionVec = randomAlg.getStartingVec();
+                    if (currentDirectionVec.y > 0)
+                    {
+                        if (hitDataUp.distance < 5)
+                        {
+                            newDir = true;
+                        }
+                    }
+                    if (currentDirectionVec.x > 0)
+                    {
+                        if (hitDataRight.distance < 5)
+                        {
+                            newDir = true;
+                        }
+                    }
+                    if (currentDirectionVec.y < 0)
+                    {
+                        if (hitDataDown.distance < 5)
+                        {
+                            newDir = true;
+                        }
+                    }
+                    if (currentDirectionVec.x < 0)
+                    {
+                        if (hitDataLeft.distance < 5)
+                        {
+                            newDir = true;
+                        }
+                    }
+                }
             }
             else if (currentAlg == Algorithm.Snaking)
             {
                 currentlyOffsettingSnake = true;
 
                 // Back up a bit:
-                currentDirectionVec = -currentDirectionVec;
-                float x = currentDirectionVec.x * 0.5f;
-                float y = currentDirectionVec.y * 0.5f;
+                float x = -currentDirectionVec.x * (0.25f * InterSceneManager.speedMultiplier);
+                float y = -currentDirectionVec.y * (0.25f * InterSceneManager.speedMultiplier);
                 transform.position += new Vector3(x, y, 0);
-                currentDirectionVec = -(currentDirectionVec);
 
                 float minDistance;
                 if (collidedBefore == false) // First collision, determine what wall type we've hit
@@ -686,6 +630,23 @@ public class VacuumMovement : MonoBehaviour
             canCollide = false;
             StartCoroutine(DelayCollisionEnable(0.0001f));
         }
+    }
+
+    // Example method to find normalized direction vector from origin to target
+    public static Vector3 CalculateNormalizedDirection(Vector3 origin, Vector3 target)
+    {
+
+        // Calculate direction vector
+        Vector3 direction = target - origin;
+
+        // Ensure the direction vector is non-zero before normalizing
+        if (direction != Vector3.zero)
+        {
+            // Normalize the direction vector
+            direction.Normalize();
+        }
+
+        return direction;
     }
 
     private Algorithm getNextAlg()

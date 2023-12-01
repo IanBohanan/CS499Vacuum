@@ -50,6 +50,7 @@ public class SimulationSetupController : MonoBehaviour
 
     void OnEnable()
     {
+        Debug.Log("There are: " + InterSceneManager.houseTiles.Count + " tiles.");
         // Get UIDocument Root:
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
