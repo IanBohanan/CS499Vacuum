@@ -70,7 +70,7 @@ public class MainMenuController : MonoBehaviour
     // Update selected data review import file:
     private void onDataReviewValueChanged(ChangeEvent<string> evt)
     {
-        //InterSceneManager.dataReviewFileSelection = dataReviewDropdown.value;
+        InterSceneManager.fileSelection = dataReviewDropdown.value;
     }
 
     private void onDataReviewConfirmPress()

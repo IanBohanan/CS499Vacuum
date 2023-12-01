@@ -180,10 +180,14 @@ public class LayoutManager : MonoBehaviour
             newWall.GetComponent<WallPlacer>().disableSpawners(); // Disable wall extending endpoints
         }
 
-        GameObject.Find("Vacuum-Robot").transform.position = parsedJSON.vacuumPosition;
-
         var currentScene = SceneManager.GetActiveScene();
         var currentSceneName = currentScene.name;
+
+        if (currentSceneName != "ShowColorCodedResults")
+        {
+            GameObject.Find("Vacuum-Robot").transform.position = parsedJSON.vacuumPosition;
+        }
+
         if (currentSceneName == "Simulation")
         {
             // Disable all BoxColliders in the Chair and Table Objects:

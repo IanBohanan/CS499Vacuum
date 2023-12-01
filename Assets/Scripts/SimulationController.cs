@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Timers;
 using UnityEditor.TerrainTools;
 using UnityEngine;
@@ -55,6 +56,8 @@ public class SimulationController : MonoBehaviour
         InvokeRepeating("updateLabels", 1, 1); // Start a repeating timer that fires every second
 
         speedLabel.text = "Speed: " + InterSceneManager.speedMultiplier + "x";
+
+        Vacuum.batteryDead += endSimulation;
     }
 
     private void updateLabels()

@@ -38,7 +38,7 @@ public class SimulationSetupController : MonoBehaviour
     bool whiskersEnabled = false;
     float batteryLife = 150;
     float robotSpeed = 12;
-    float vacuumEfficiency = 50;
+    float vacuumEfficiency = 90;
     float whiskersEfficiency = 50;
     string floorCovering = "Hardwood";
     bool randomAlg = false;
@@ -103,8 +103,11 @@ public class SimulationSetupController : MonoBehaviour
 
         startSimulationBtn = root.Q<Button>("StartButton");
 
-        // Set random as enabled by default:
+        // Set all algorithms as enabled by default:
         toggleAlg("random");
+        toggleAlg("spiral");
+        toggleAlg("snaking");
+        toggleAlg("wallFollow");
 
         // Subscribe to callback functions:
         whiskersButton.clicked += () => { whiskersToggleFunction(); };
@@ -135,6 +138,24 @@ public class SimulationSetupController : MonoBehaviour
     private void floorCoveringUpdate(ChangeEvent<string> evt)
     {
         floorCovering = floorCoveringDropdown.value;
+        switch(floorCovering)
+        {
+            case "Hardwood":
+                vacuumEfficiencySlider.value = 90;
+                break;
+            case "Loop Pile":
+                vacuumEfficiencySlider.value = 75;
+                break;
+            case "Cut Pile":
+                vacuumEfficiencySlider.value = 70;
+                break;
+            case "Frieze-Cut Pile":
+                vacuumEfficiencySlider.value = 65;
+                break;
+            default:
+                Debug.Log("That's not a real floor covering, George. SimulationSetupController.cs");
+                break;
+        }
     }
 
     private void batteryLifeUpdate(ChangeEvent<float> evt)
@@ -223,6 +244,15 @@ public class SimulationSetupController : MonoBehaviour
                 Debug.Log("Invalid algorithm name string given!");
                 break;
         }
+
+        if ((randomAlg == false) && (spiralAlg == false) && (snakingAlg == false) && (wallFollowAlg == false))
+        {
+            startSimulationBtn.style.display = DisplayStyle.None;
+        }
+        else
+        {
+            startSimulationBtn.style.display = DisplayStyle.Flex;
+        }
     }
 
     public void onStartSimulationPress()
@@ -231,6 +261,7 @@ public class SimulationSetupController : MonoBehaviour
         InterSceneManager.vacuumSpeed = (int)robotSpeedSlider.value;
         InterSceneManager.vacuumEfficiency = (int)vacuumEfficiencySlider.value;
         InterSceneManager.whiskersEfficiency = (int)whiskersEfficiencySlider.value;
+        if (!whiskersEnabled) { InterSceneManager.whiskersEfficiency = 0; } // Whiskers have no efficiency if not enabled
         myData = InterSceneManager.getSimulationSettings();
 
         // Set JSON file entry num for use in all simulation scene runs:

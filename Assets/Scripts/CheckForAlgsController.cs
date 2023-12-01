@@ -89,7 +89,7 @@ public class CheckForAlgsController : MonoBehaviour
             {
                 float vacEff = InterSceneManager.vacuumEfficiency;
                 float whiskEff = InterSceneManager.whiskersEfficiency;
-                tile.cleanliness = (tile.hits * (vacEff/60)) + (tile.hits * (whiskEff/60));
+                tile.cleanliness = (tile.hits * (vacEff/120)) + (tile.hits * (whiskEff/120));
                 if (tile.cleanliness >= 100)
                 {
                     tile.cleanliness = 100; // Cap cleanliness percentage to 100
@@ -180,21 +180,6 @@ public class CheckForAlgsController : MonoBehaviour
             Debug.Log("JSON Saving Exception: " + e.Message);
         }
 
-        //------------------------------------------------------
-        //------------------------------------------------------
-        //------------------------------------------------------
-        // Check if there are any more algorithms to run.
-        // If so, go back to the simulation scene,
-        // otherwise, go to the data review scene
-        (bool rand, bool spiral, bool snaking, bool wall) = InterSceneManager.getPathAlgs();
-
-        if (rand || spiral || snaking || wall)
-        {
-            SceneManager.LoadScene(sceneName: "Simulation");
-        }
-        else
-        {
-            SceneManager.LoadScene(sceneName: "DataReview");
-        }
+        SceneManager.LoadScene("ShowColorCodedResults");
     }
 }

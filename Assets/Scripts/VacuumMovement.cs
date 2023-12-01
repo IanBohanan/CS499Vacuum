@@ -9,6 +9,8 @@ using UnityEngine.Tilemaps;
 public class VacuumMovement : MonoBehaviour
 {
     Tilemap tilemap;
+
+    [SerializeField] GameObject hardwoodTile;
     public enum Algorithm
     {
         Random = 0,
@@ -115,6 +117,7 @@ public class VacuumMovement : MonoBehaviour
             InterSceneManager.cleanedTiles.Add(newTile);
             // Color the tiles in the simulation scene to match the floor covering selected:
             colorTile(tile);
+            //Instantiate(hardwoodTile, tilemap.CellToWorld(tile), Quaternion.identity);
         }
 
         // Set Speed
@@ -310,7 +313,43 @@ public class VacuumMovement : MonoBehaviour
             if (tileIndex != -1)
             {
                 //Debug.Log(tileIndex + " " + cellPosition.x + " " + cellPosition.y);
-                InterSceneManager.cleanedTiles[tileIndex].hits++;
+                InterSceneManager.cleanedTiles[tileIndex].hits += InterSceneManager.speedMultiplier;
+            }
+        }
+        Vector3Int newcellPosition = new Vector3Int(cellPosition.x-1, cellPosition.y, cellPosition.z);
+        if (tilemap.cellBounds.Contains(newcellPosition))
+        {
+            int tileIndex = InterSceneManager.houseTiles.IndexOf(newcellPosition);
+            if (tileIndex != -1)
+            {
+                InterSceneManager.cleanedTiles[tileIndex].hits += Mathf.RoundToInt(InterSceneManager.speedMultiplier/2);
+            }
+        }
+        newcellPosition = new Vector3Int(cellPosition.x + 1, cellPosition.y, cellPosition.z);
+        if (tilemap.cellBounds.Contains(newcellPosition))
+        {
+            int tileIndex = InterSceneManager.houseTiles.IndexOf(newcellPosition);
+            if (tileIndex != -1)
+            {
+                InterSceneManager.cleanedTiles[tileIndex].hits += Mathf.RoundToInt(InterSceneManager.speedMultiplier / 2);
+            }
+        }
+        newcellPosition = new Vector3Int(cellPosition.x, cellPosition.y-1, cellPosition.z);
+        if (tilemap.cellBounds.Contains(newcellPosition))
+        {
+            int tileIndex = InterSceneManager.houseTiles.IndexOf(newcellPosition);
+            if (tileIndex != -1)
+            {
+                InterSceneManager.cleanedTiles[tileIndex].hits += Mathf.RoundToInt(InterSceneManager.speedMultiplier / 2);
+            }
+        }
+        newcellPosition = new Vector3Int(cellPosition.x, cellPosition.y+1, cellPosition.z);
+        if (tilemap.cellBounds.Contains(newcellPosition))
+        {
+            int tileIndex = InterSceneManager.houseTiles.IndexOf(newcellPosition);
+            if (tileIndex != -1)
+            {
+                InterSceneManager.cleanedTiles[tileIndex].hits += Mathf.RoundToInt(InterSceneManager.speedMultiplier / 2);
             }
         }
         //---------------------------------

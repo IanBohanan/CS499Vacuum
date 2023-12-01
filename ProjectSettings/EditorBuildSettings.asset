@@ -29,5 +29,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SpawnTiles.unity
     guid: 53621dbf67539f349ac36d5a8f0b2a9d
+  - enabled: 1
+    path: Assets/Scenes/ShowColorCodedResults.unity
+    guid: c70325f27d505d045bfc77af472af9c5
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
