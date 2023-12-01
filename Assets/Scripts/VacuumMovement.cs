@@ -183,7 +183,7 @@ public class VacuumMovement : MonoBehaviour
         {
             Vector3 botBottom = new Vector3(transform.position.x, transform.position.y + 6, transform.position.z);
             RaycastHit2D hitDataLeft = Physics2D.Raycast(transform.position, -transform.right);
-            if ((!justTurned) && hitDataLeft.distance > 10)
+            if ((!justTurned) && hitDataLeft.distance > 15)
             {
                 if (wallFollowing && (consecutiveLeftTurns < 4))
                 {
@@ -196,51 +196,53 @@ public class VacuumMovement : MonoBehaviour
                     y = (currentDirectionVec.x);
                     targetPositionB = (targetPositionA + (new Vector3(x, y, 0)));
 
-                    justTurned = true;
+                    if (InterSceneManager.speedMultiplier == 50)
+                    {
+                        Debug.Log("here");
+                        transform.position = targetPositionB;
+                        currentDirectionVec = wallFollow.turnLeft(currentDirectionVec);
+                    }
+                    else
+                    {
+                        justTurned = true;
+                    }
                     consecutiveLeftTurns++;
                 }
             }
             else if (justTurned)
             {
                 if ((!passedA) && (Vector3.Distance(targetPositionA, transform.position) < ((3)))){
-                    Debug.Log("passed A");
                     transform.position = targetPositionA;
                     passedA = true;
                     currentDirectionVec = wallFollow.turnLeft(currentDirectionVec);
                     if (currentDirectionVec == new Vector2(1, 0))
                     {
-                        Debug.Log("Right");
                         // Rotate to face right (positive x)
                         transform.rotation = Quaternion.Euler(0, 0, -90);
                     }
                     else if (currentDirectionVec == new Vector2(0, 1))
                     {
-                        Debug.Log("up");
                         // Rotate to face upwards (positive y)
                         transform.rotation = Quaternion.Euler(0, 0, 0);
                     }
                     else if (currentDirectionVec == new Vector2(-1, 0))
                     {
-                        Debug.Log("Left");
                         // Rotate to face left (negative y)
                         transform.rotation = Quaternion.Euler(0, 0, 90);
                     }
                     else if (currentDirectionVec == new Vector2(0, -1))
                     {
-                        Debug.Log("down");
                         // Rotate to face downwards (negative y)
                         transform.rotation = Quaternion.Euler(0, 0, 180);
                     }
                 }
                 else if ((!passedB) && (Vector3.Distance(targetPositionB, transform.position) < ((3))))
                 {
-                    Debug.Log("passed B");
                     transform.position = targetPositionB;
                     passedB = true;
                 }
                 if (passedA && passedB)
                 {
-                    Debug.Log("passed both");
                     justTurned = false;
                     passedA = false;
                     passedB = false;
@@ -422,32 +424,27 @@ public class VacuumMovement : MonoBehaviour
                 transform.position += new Vector3(x, y, 0);
 
                 if (wallFollowing) {
-                    Debug.Log("HERE: " + collision.name);
                     currentDirectionVec = wallFollow.turnRight(currentDirectionVec); 
                 }
                 else { currentDirectionVec = wallFollow.getFirstCollisionVec(currentDirectionVec, true); wallFollowing = true; }
 
                 if (currentDirectionVec == new Vector2(1, 0))
                 {
-                    Debug.Log("Right");
                     // Rotate to face right (positive x)
                     transform.rotation = Quaternion.Euler(0, 0, -90);
                 }
                 else if (currentDirectionVec == new Vector2(0, 1))
                 {
-                    Debug.Log("up");
                     // Rotate to face upwards (positive y)
                     transform.rotation = Quaternion.Euler(0, 0, 0);
                 }
                 else if (currentDirectionVec == new Vector2(-1, 0))
                 {
-                    Debug.Log("Left");
                     // Rotate to face left (negative y)
                     transform.rotation = Quaternion.Euler(0, 0, 90);
                 }
                 else if (currentDirectionVec == new Vector2(0, -1))
                 {
-                    Debug.Log("down");
                     // Rotate to face downwards (negative y)
                     transform.rotation = Quaternion.Euler(0, 0, 180);
                 }

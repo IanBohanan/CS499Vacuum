@@ -40,7 +40,7 @@ public class RoomManager : MonoBehaviour
     {
         activeTiles++;
         // Wait for one second
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.025f);
        
         if (tilemap.HasTile(position)) //First check if its a valid position in the tilemap
         {
