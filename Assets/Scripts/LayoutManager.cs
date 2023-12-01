@@ -148,7 +148,15 @@ public class LayoutManager : MonoBehaviour
         SerializableList<Object> parsedJSON = new SerializableList<Object>();
         try
         {
-            string unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/" + InterSceneManager.fileSelection + ".json");
+            string unparsedJSON = "";
+            if (InterSceneManager.userWantsDefaultHouse)
+            {
+                unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/Default_Layout.json");
+            }
+            else
+            {
+                unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/" + InterSceneManager.fileSelection + ".json");
+            }
             parsedJSON = JsonUtility.FromJson<SerializableList<Object>>(unparsedJSON);
         }
         catch (Exception e)

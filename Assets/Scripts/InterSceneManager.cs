@@ -22,6 +22,8 @@ public static class InterSceneManager
     // Main Menu Import File:
     public static string fileSelection = "";
 
+    public static bool userWantsDefaultHouse = false;
+
     public static List<GameObject> wallList = new List<GameObject>();
 
     public static List<GameObject> flagList = new List<GameObject>();
