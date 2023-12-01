@@ -297,7 +297,7 @@ public class HouseBuilderUI : MonoBehaviour
     #region UI Management Methods
     public void updateStatus(bool isValid)
     {
-        if (isValid)
+        if (isValid && ((InterSceneManager.houseTiles.Count) > 400) && ((InterSceneManager.houseTiles.Count) < 16000))
         {
             statusLabel.style.display = DisplayStyle.Flex;
             statusLabel.text = "If you've set your flags up correctly, then this layout is...";

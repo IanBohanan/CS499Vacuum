@@ -44,6 +44,8 @@ public class VacuumMovement : MonoBehaviour
     Vector3 targetPositionB;
     bool passedB = false;
 
+    int consecutiveLeftTurns = 0;
+
     Spiral spiral = new Spiral();
     Vector3 spiralOrigin = Vector3.zero;
     bool isSpiraling = false;
@@ -183,7 +185,7 @@ public class VacuumMovement : MonoBehaviour
             RaycastHit2D hitDataLeft = Physics2D.Raycast(transform.position, -transform.right);
             if ((!justTurned) && hitDataLeft.distance > 10)
             {
-                if (wallFollowing)
+                if (wallFollowing && (consecutiveLeftTurns < 4))
                 {
                     //speed = 0;
                     //Debug.Log(hitDataLeft.distance);
@@ -195,6 +197,7 @@ public class VacuumMovement : MonoBehaviour
                     targetPositionB = (targetPositionA + (new Vector3(x, y, 0)));
 
                     justTurned = true;
+                    consecutiveLeftTurns++;
                 }
             }
             else if (justTurned)
@@ -300,7 +303,7 @@ public class VacuumMovement : MonoBehaviour
 
         // Move the entire "Vacuum-Robot" prefab.
         // Calculate next Vacuum move
-        Vector3 movePosition = new Vector3(currentDirectionVec.x , currentDirectionVec.y, 0) * speed * InterSceneManager.speedMultiplier * (InterSceneManager.vacuumSpeed/3);
+        Vector3 movePosition = new Vector3(currentDirectionVec.x , currentDirectionVec.y, 0) * speed * InterSceneManager.speedMultiplier * (InterSceneManager.vacuumSpeed);
         // Move the child GameObjects along with the parent.
         transform.position += movePosition;
 
@@ -451,8 +454,8 @@ public class VacuumMovement : MonoBehaviour
 
                 currentDirectionVec = -currentDirectionVec;
 
-                float x = currentDirectionVec.x * 0.25f;
-                float y = currentDirectionVec.y * 0.25f;
+                float x = currentDirectionVec.x * (0.25f * InterSceneManager.speedMultiplier);
+                float y = currentDirectionVec.y * (0.25f * InterSceneManager.speedMultiplier);
 
                 currentDirectionVec = -currentDirectionVec;
 
@@ -499,6 +502,7 @@ public class VacuumMovement : MonoBehaviour
             else if (currentAlg == Algorithm.WallFollow)
             {
                 justTurned = false;
+                consecutiveLeftTurns = 0;
                 currentDirectionVec = -currentDirectionVec;
                 float x = currentDirectionVec.x * 0.5f;
                 float y = currentDirectionVec.y * 0.5f;
@@ -680,7 +684,7 @@ public class VacuumMovement : MonoBehaviour
             // Set timer until we can collide again to prevent vacuum passing through
             // other objects at high-speeds
             canCollide = false;
-            StartCoroutine(DelayCollisionEnable(0.0005f));
+            StartCoroutine(DelayCollisionEnable(0.0001f));
         }
     }
 
