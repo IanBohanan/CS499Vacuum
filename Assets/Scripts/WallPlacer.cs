@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Tilemaps;
 
 public class WallPlacer : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class WallPlacer : MonoBehaviour
     public WallPlacer previousWallScript; //The script of the last wall in the chain
 
     public Transform WallTransform; //The wall parent object at the top of the wall prefab hierarchy
+
+    public Tilemap grid; 
 
     private bool isBeingPlaced = false; //Is the wall the newest one being placed? 
 
@@ -82,7 +85,12 @@ public class WallPlacer : MonoBehaviour
         {
             //This wall is not the final one for the room.
             isBeingPlaced = false;
-            GameObject nextWall = Instantiate(wallPrefab, spawnPoint, Quaternion.identity); //Create the new wall object at one of the extenders (may be lower or upper, not guarenteed)
+
+            Vector3Int tilePosition = grid.WorldToCell(upperExtender.transform.position); //Convert the position of the next qall's spawn into tilemap coordinates
+            Vector3 cellCenter = grid.GetCellCenterWorld(tilePosition); //Get the center of the tile of the extenderPoint. That way the next wall snaps to the center of the tile.
+            cellCenter.z = 0;
+            GameObject nextWall = Instantiate(wallPrefab, cellCenter, Quaternion.identity); //Create the new wall object in the middle of the next tile (based on the upperExtender's position)
+
             WallPlacer nextWallScript = nextWall.GetComponent<WallPlacer>();
             nextWall.transform.rotation = this.transform.rotation;
             nextWallScript.isBeingPlaced = true; //Enables the wallPlacer for the OBJECT because the unity action turns off the wallPlacer as a global script
@@ -212,7 +220,11 @@ public class WallPlacer : MonoBehaviour
 
     private void Start()
     {
-        if(isBeingPlaced)
+
+        //Get the tilemap of the housebuilder scene. We can't reference it since it is a prefab.
+        grid = GameObject.FindWithTag("GridBuddy").GetComponent<Tilemap>();
+
+        if (isBeingPlaced)
         {
             wallEndpoint1.SetActive(false);
             wallEndpoint2.SetActive(false);
