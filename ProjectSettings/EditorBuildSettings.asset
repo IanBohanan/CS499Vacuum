@@ -23,5 +23,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CheckForAlgs.unity
     guid: 36f3c3a3d7120aa428dee1f280c93e40
+  - enabled: 1
+    path: Assets/Scenes/UseOrEditLayout.unity
+    guid: 246aea2f04d05854c96d4153791e3611
+  - enabled: 1
+    path: Assets/Scenes/SpawnTiles.unity
+    guid: 53621dbf67539f349ac36d5a8f0b2a9d
+  - enabled: 1
+    path: Assets/Scenes/ShowColorCodedResults.unity
+    guid: c70325f27d505d045bfc77af472af9c5
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

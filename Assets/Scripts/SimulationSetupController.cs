@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using static LayoutManager;
 
 public class SimulationSetupController : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class SimulationSetupController : MonoBehaviour
     bool whiskersEnabled = false;
     float batteryLife = 150;
     float robotSpeed = 12;
+    float vacuumEfficiency = 90;
+    float whiskersEfficiency = 30;
     string floorCovering = "Hardwood";
     bool randomAlg = false;
     bool spiralAlg = false;
@@ -41,6 +44,7 @@ public class SimulationSetupController : MonoBehaviour
 
     void OnEnable()
     {
+        Debug.Log("There are: " + InterSceneManager.houseTiles.Count + " tiles.");
         // Get UIDocument Root:
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
@@ -81,8 +85,11 @@ public class SimulationSetupController : MonoBehaviour
 
         startSimulationBtn = root.Q<Button>("StartButton");
 
-        // Set random as enabled by default:
+        // Set all algorithms as enabled by default:
         toggleAlg("random");
+        toggleAlg("spiral");
+        toggleAlg("snaking");
+        toggleAlg("wallFollow");
 
         // Subscribe to callback functions:
         whiskersButton.clicked += () => { whiskersToggleFunction(); };
@@ -111,6 +118,24 @@ public class SimulationSetupController : MonoBehaviour
     private void floorCoveringUpdate(ChangeEvent<string> evt)
     {
         floorCovering = floorCoveringDropdown.value;
+        switch(floorCovering)
+        {
+            case "Hardwood":
+                vacuumEfficiencySlider.value = 90;
+                break;
+            case "Loop Pile":
+                vacuumEfficiencySlider.value = 75;
+                break;
+            case "Cut Pile":
+                vacuumEfficiencySlider.value = 70;
+                break;
+            case "Frieze-Cut Pile":
+                vacuumEfficiencySlider.value = 65;
+                break;
+            default:
+                Debug.Log("That's not a real floor covering, George. SimulationSetupController.cs");
+                break;
+        }
     }
 
     private void batteryLifeUpdate(ChangeEvent<float> evt)
@@ -187,15 +212,40 @@ public class SimulationSetupController : MonoBehaviour
                 Debug.Log("Invalid algorithm name string given!");
                 break;
         }
+
+        if ((randomAlg == false) && (spiralAlg == false) && (snakingAlg == false) && (wallFollowAlg == false))
+        {
+            startSimulationBtn.style.display = DisplayStyle.None;
+        }
+        else
+        {
+            startSimulationBtn.style.display = DisplayStyle.Flex;
+        }
     }
 
     public void onStartSimulationPress()
     {
         InterSceneManager.setSimulationSettings(whiskersEnabled, floorCovering, (int)batteryLife, randomAlg, spiralAlg, snakingAlg, wallFollowAlg);
         InterSceneManager.vacuumSpeed = (int)robotSpeedSlider.value;
-        Debug.Log(InterSceneManager.vacuumSpeed);
+        InterSceneManager.vacuumEfficiency = (int)vacuumEfficiencySlider.value;
+        InterSceneManager.whiskersEfficiency = (int)whiskersEfficiencySlider.value;
+        if (!whiskersEnabled) { InterSceneManager.whiskersEfficiency = 0; } // Whiskers have no efficiency if not enabled
         myData = InterSceneManager.getSimulationSettings();
-        //Debug.Log(myData);
+
+        // Set JSON file entry num for use in all simulation scene runs:
+        SerializableList<LayoutManager.Object> parsedJSON = new SerializableList<LayoutManager.Object>();
+        try
+        {
+            string unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/" + InterSceneManager.fileSelection + ".json");
+            parsedJSON = JsonUtility.FromJson<SerializableList<LayoutManager.Object>>(unparsedJSON);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("JSON Import Exception: " + e.Message);
+        }
+        InterSceneManager.JSONEntryNum = parsedJSON.SIMULATION_DATA.Count;
+        InterSceneManager.startDateTime = (DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString());
+
         // We want to load a new scene after setting up:
         SceneManager.LoadScene(sceneName: "Simulation");
     }
