@@ -2,30 +2,23 @@
 //This script keeps track of the flood fill algorithm and makes sure each room can be reached by the vacuum by flooding the house
 //To do so, it gets every flag object (marked with a unique tag) in the scene. It stores each flag instance in a dictionary with whether it was found (or not)
 /* Then it floods the house tilemap, marking clear tiles as "explored" in the exploredTiles dictionary.
- *          Note: tiles with anything on them will not be counted as explored (except flags). IE any tile that cannot be explored by the vacuum is not checked.
+ *          Note: tiles with anything on them will not be counted as explored (except flags and doors). IE any tile that cannot be explored by the vacuum is not checked.
  * Finally it checks if each of the flags in the foundFlags dictionary was found. If not, it say which flag was not reached by the flood algo.
  * */
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 
 public class RoomManager : MonoBehaviour
 {
 
-    public static event Action<bool> finishedFlooding; //Sent out at end of room flooding
-    public static event Action<bool> unableToFlood; //Sent out at end of room flooding
-    public static event Action spawnedTiles; //Sent out at end of room flooding
-
     [SerializeField]
     private Tilemap tilemap;
     [SerializeField]
     private Color floodedColor;
-    bool foundAllFlags = false;
 
     public List<Vector3Int> debugDictList = new List<Vector3Int>();
     private Dictionary<GameObject, bool> foundFlags = new Dictionary<GameObject, bool>(); //Which flags were currently found by the floodFill aglo
@@ -40,7 +33,7 @@ public class RoomManager : MonoBehaviour
     {
         activeTiles++;
         // Wait for one second
-        yield return new WaitForSeconds(0.025f);
+        yield return new WaitForSeconds(0.5f);
        
         if (tilemap.HasTile(position)) //First check if its a valid position in the tilemap
         {
@@ -54,25 +47,41 @@ public class RoomManager : MonoBehaviour
             // Check if there's a game object at this position in the actual coordinates
             Vector3 worldPosition = tilemap.GetCellCenterWorld(position);
 
-            Collider2D collider = Physics2D.OverlapPoint(worldPosition);
+            Collider2D[] colliders = Physics2D.OverlapPointAll(worldPosition);
 
-            if (collider != null)
+            if(colliders.Length > 0)
             {
-                //Something is on this tile. Could be a flag, wall, object, etc.
+                foreach (Collider2D collider in colliders)
+                {
+                    if (collider != null)
+                    {
+                        //Something is on this tile. Could be a flag, wall, object, etc.
 
-                //Make sure it is not the room flag we're looking for
-                if (collider.tag != "RoomFlag")
-                {
-                    // Stop inspecting cause furniture is here
-                    activeTiles--;
-                    yield break;
+                        //Make sure it is not the room flag we're looking for
+                        if (collider.tag != "RoomFlag")
+                        {
+                            // Now it may be a furniture or wall object.
+                            //Check to see if there is a door we can go through
+                            if (collider.tag != "DoorBuddy")
+                            {
+                                //It's not a door! So leave the tile alone
+                                activeTiles--;
+                                yield break;
+                            }
+                            else
+                            {
+                                print("RoomManager: Encountered a door skipping through!");
+                                break;
+                            }
+                        }
+                        else //otherwise it is a room flag! So mark flag as found then continue flooding.
+                        {
+                            foundFlags[collider.gameObject] = true; //Mark the specific flag as found.
+                            print("Found " + collider.gameObject.GetComponent<Flag>().roomName);
+                            break;
+                        }
+                    }
                 }
-                else //otherwise it is a room flag! So mark flag as found then continue flooding.
-                {
-                    foundFlags[collider.gameObject] = true; //Mark the specific flag as found.
-                    print("Found " + collider.gameObject.GetComponent<Flag>().roomName);
-                }
-                
             }
 
             //Add the tile to the dictionary to mark it as explored.
@@ -109,78 +118,35 @@ public class RoomManager : MonoBehaviour
             tilemap.SetTileFlags(position, TileFlags.LockColor);
     }
 
-    //Changes the color of each tile to represent it has NOT been explored
-    private void uncolorTile(Vector3Int position)
-    {
-        //Change the color of the tile between white(ie. the base image) and tint
-
-        //Okay Unity has some weird debug thing where it has a "lock color" flag for each tile.
-        //Whenever setColor is called, ALL unlocked tiles get updated. So we have to unlock then lock each tile individually
-        //Sooo just gonna have to unlock that flag for the tile, change the color, then lock the flag AGAIN.
-        //Otherwise the entire tilemap gets updated and not just the one tile.
-        tilemap.SetTileFlags(position, TileFlags.None);
-        tilemap.SetColor(position, Color.white);
-        tilemap.SetTileFlags(position, TileFlags.LockColor);
-    }
-
 
     //Starts flooding the entire room given a specific startposition
     //(Note: startposition should become a flag's square at some point instead of 0,0)
     //Then finds all the flags in the scene and keeps track of which ones were or weren't found.
-    public string beginFlood()
+    private void beginFlood(Vector3Int startPosition)
     {
         print("RoomManager: Beginning flood.");
-
-        // Reset tile colors from last flood:
-        if (InterSceneManager.houseTiles != null)
-        {
-            foreach (Vector3Int tile in InterSceneManager.houseTiles)
-            {
-                uncolorTile(tile);
-            }
-        }
 
         //also get all instances 
         GameObject[] flags = GameObject.FindGameObjectsWithTag("RoomFlag");
         foundFlags.Clear(); //Reset the foundFlags dictionary
-        debugDictList.Clear(); // Reset the touchedTiles list;
-
-        if (flags.Length < 1)
-        {
-            unableToFlood?.Invoke(true);
-        }
-
-        isFlooding = true;
 
         foreach (GameObject flag in flags)
         {
             flag.GetComponent<Flag>().roomName = "Flag " + foundFlags.Count;
             foundFlags.Add(flag, false);
         }
-        // Get vacuum object, disable its boxcollider when we do our thing, and re-enable it when done (in UI-Controller-HouseBuilder.cs). 
-        // Also, the flood fill starts from the vacuum's position.
-        GameObject vacuum = GameObject.Find("Vacuum-Robot");
-        vacuum.GetComponent<BoxCollider2D>().enabled = false;
-        StartCoroutine(FloodFill(tilemap.WorldToCell(vacuum.transform.position)));
 
-        if (foundAllFlags)
-        {
-            return "Found All";
-        }
-        else
-        {
-            return "Didn't Find All";
-        }
+        StartCoroutine(FloodFill(startPosition));
     }
 
     private void Update()
     {
-/*        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             Vector3Int startPosition = new Vector3Int(0, 0, 0);
             isFlooding = true;
             beginFlood(startPosition);
-        }*/
+        }
 
 
         if (isFlooding)
@@ -207,26 +173,16 @@ public class RoomManager : MonoBehaviour
                 if(!unreachableFlag)
                 {
                     print("RoomManager: Found all flags!");
-                    foundAllFlags = true;
-                    InterSceneManager.houseTiles = debugDictList; //Send final list of floodable tiles to the next scene
                 }
                 else
                 {
                     print("RoomManager: Did not find all flags!");
-                    foundAllFlags = false;
                     //IDK do something to prevent going to next scene
                 }
+
+                InterSceneManager.houseTiles = debugDictList; //Send final list of floodable tiles to the next scene
                 isFlooding = false;
                 exploredTiles.Clear(); //reset the dictionary next time we start flooding
-
-                if (foundFlags.Count > 0)
-                {
-                    finishedFlooding?.Invoke(foundAllFlags);
-                }
-                else
-                {
-                    spawnedTiles?.Invoke();
-                }
             }
         }
     }

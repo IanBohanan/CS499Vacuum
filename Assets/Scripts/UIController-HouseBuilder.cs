@@ -81,9 +81,6 @@ public class HouseBuilderUI : MonoBehaviour
     #region Explore UI and Assign Callbacks
     private void exploreUI()
     {
-        // Get RoomManager:
-        roomManager = GameObject.Find("RoomManager");
-
         // Get UIDocument Root:
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
@@ -227,6 +224,8 @@ public class HouseBuilderUI : MonoBehaviour
         // Save to JSON if confirmed:
         if (areYouSure) 
         { 
+            //Save the walLList here instead?
+
             layoutManager.saveToJSON(exportFileSelection);
             InterSceneManager.fileSelection = exportDropdown.value;
             InterSceneManager.wallList.Clear(); // Clear the list of walls in case user returns to house builder

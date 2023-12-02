@@ -6,7 +6,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
-using static LayoutManager;
 
 public class SimulationSetupController : MonoBehaviour
 {
@@ -17,12 +16,6 @@ public class SimulationSetupController : MonoBehaviour
 
     Slider robotSpeedSlider;
     Label robotSpeedLabel; // New field for displaying Robot Speed
-
-    Slider vacuumEfficiencySlider;
-    Label vacuumEfficiencyLabel; // New field for displaying Robot Speed
-
-    Slider whiskersEfficiencySlider;
-    Label whiskersEfficiencyLabel; // New field for displaying Robot Speed
 
 
     // Algorithm Buttons:
@@ -38,8 +31,6 @@ public class SimulationSetupController : MonoBehaviour
     bool whiskersEnabled = false;
     float batteryLife = 150;
     float robotSpeed = 12;
-    float vacuumEfficiency = 90;
-    float whiskersEfficiency = 30;
     string floorCovering = "Hardwood";
     bool randomAlg = false;
     bool spiralAlg = false;
@@ -50,7 +41,6 @@ public class SimulationSetupController : MonoBehaviour
 
     void OnEnable()
     {
-        Debug.Log("There are: " + InterSceneManager.houseTiles.Count + " tiles.");
         // Get UIDocument Root:
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
@@ -77,46 +67,28 @@ public class SimulationSetupController : MonoBehaviour
         snakingBtn = snakingContainer.Q<Button>("SnakingCheckbox");
         wallFollowBtn = wallFollowContainer.Q<Button>("WallFollowCheckbox");
 
-        // Battery Life Slider:
         batteryLifeSlider = root.Q<Slider>("BatteryLifeSlider");
         batteryLifeLabel = root.Q<Label>("BatteryLifeLabel"); // Initializing the battery life label
         batteryLifeSlider.value = batteryLife; // Setting the initial slider value
         UpdateBatteryLifeLabel(); // Display initial battery life
 
-        // Robot Speed Slider:
+        // Robot Speed slider
         robotSpeedSlider = root.Q<Slider>("RobotSpeedSlider");
         robotSpeedLabel = root.Q<Label>("RobotSpeedLabel"); // Initializing the Robot Speed label
         robotSpeedSlider.value = robotSpeed; // Setting the initial slider value
         UpdaterobotSpeedLabel(); // Display initial Robot Speed
 
-        // Vacuum Efficiency Slider:
-        vacuumEfficiencySlider = root.Q<Slider>("VacuumEfficiencySlider");
-        vacuumEfficiencyLabel = root.Q<Label>("VacuumEfficiencyLabel"); // Initializing the Robot Speed label
-        vacuumEfficiencySlider.value = vacuumEfficiency; // Setting the initial slider value
-        vacuumEfficiencyLabel.text = $"Vacuum Efficiency: {(int)vacuumEfficiency}%"; // Display initial vacuum efficiency
-
-        // Whiskers Efficiency Slider:
-        whiskersEfficiencySlider = root.Q<Slider>("WhiskersEfficiencySlider");
-        whiskersEfficiencyLabel = root.Q<Label>("WhiskersEfficiencyLabel"); // Initializing the Robot Speed label
-        whiskersEfficiencySlider.value = whiskersEfficiency; // Setting the initial slider value
-        whiskersEfficiencyLabel.text = $"Whiskers Efficiency: {(int)whiskersEfficiency}%"; // Display initial whiskers efficiency
-
 
         startSimulationBtn = root.Q<Button>("StartButton");
 
-        // Set all algorithms as enabled by default:
+        // Set random as enabled by default:
         toggleAlg("random");
-        toggleAlg("spiral");
-        toggleAlg("snaking");
-        toggleAlg("wallFollow");
 
         // Subscribe to callback functions:
         whiskersButton.clicked += () => { whiskersToggleFunction(); };
         floorCoveringDropdown.RegisterValueChangedCallback(floorCoveringUpdate);
         batteryLifeSlider.RegisterValueChangedCallback(batteryLifeUpdate);
         robotSpeedSlider.RegisterValueChangedCallback(robotSpeedUpdate);
-        vacuumEfficiencySlider.RegisterValueChangedCallback(vacuumEfficiencyUpdate);
-        whiskersEfficiencySlider.RegisterValueChangedCallback(whiskersEfficiencyUpdate);
         randomBtn.clicked += () => toggleAlg("random");
         spiralBtn.clicked += () => toggleAlg("spiral");
         snakingBtn.clicked += () => toggleAlg("snaking");
@@ -139,24 +111,6 @@ public class SimulationSetupController : MonoBehaviour
     private void floorCoveringUpdate(ChangeEvent<string> evt)
     {
         floorCovering = floorCoveringDropdown.value;
-        switch(floorCovering)
-        {
-            case "Hardwood":
-                vacuumEfficiencySlider.value = 90;
-                break;
-            case "Loop Pile":
-                vacuumEfficiencySlider.value = 75;
-                break;
-            case "Cut Pile":
-                vacuumEfficiencySlider.value = 70;
-                break;
-            case "Frieze-Cut Pile":
-                vacuumEfficiencySlider.value = 65;
-                break;
-            default:
-                Debug.Log("That's not a real floor covering, George. SimulationSetupController.cs");
-                break;
-        }
     }
 
     private void batteryLifeUpdate(ChangeEvent<float> evt)
@@ -171,26 +125,14 @@ public class SimulationSetupController : MonoBehaviour
         UpdaterobotSpeedLabel(); // Update the label when the slider value changes
     }
 
-    private void vacuumEfficiencyUpdate(ChangeEvent<float> evt)
-    {
-        vacuumEfficiency = vacuumEfficiencySlider.value;
-        vacuumEfficiencyLabel.text = $"Vacuum Efficiency: {(int)vacuumEfficiency}%"; // Display updated vacuum efficiency
-    }
-
-    private void whiskersEfficiencyUpdate(ChangeEvent<float> evt)
-    {
-        whiskersEfficiency = whiskersEfficiencySlider.value;
-        whiskersEfficiencyLabel.text = $"Whiskers Efficiency: {(int)whiskersEfficiency}%"; // Display updated whiskers efficiency
-    }
-
     private void UpdaterobotSpeedLabel()
     {
-        robotSpeedLabel.text = $"Robot Speed: {(int)robotSpeed} inch/sec"; // Display updated Robot Speed
+        robotSpeedLabel.text = $"Robot Speed: {robotSpeed} inch/sec"; // Display updated Robot Speed
     }
 
     private void UpdateBatteryLifeLabel()
     {
-        batteryLifeLabel.text = $"Battery Life: {(int)batteryLife} mins"; // Display updated battery life
+        batteryLifeLabel.text = $"Battery Life: {batteryLife} mins"; // Display updated battery life
     }
 
     private void toggleAlg(string algName)
@@ -245,40 +187,15 @@ public class SimulationSetupController : MonoBehaviour
                 Debug.Log("Invalid algorithm name string given!");
                 break;
         }
-
-        if ((randomAlg == false) && (spiralAlg == false) && (snakingAlg == false) && (wallFollowAlg == false))
-        {
-            startSimulationBtn.style.display = DisplayStyle.None;
-        }
-        else
-        {
-            startSimulationBtn.style.display = DisplayStyle.Flex;
-        }
     }
 
     public void onStartSimulationPress()
     {
         InterSceneManager.setSimulationSettings(whiskersEnabled, floorCovering, (int)batteryLife, randomAlg, spiralAlg, snakingAlg, wallFollowAlg);
         InterSceneManager.vacuumSpeed = (int)robotSpeedSlider.value;
-        InterSceneManager.vacuumEfficiency = (int)vacuumEfficiencySlider.value;
-        InterSceneManager.whiskersEfficiency = (int)whiskersEfficiencySlider.value;
-        if (!whiskersEnabled) { InterSceneManager.whiskersEfficiency = 0; } // Whiskers have no efficiency if not enabled
+        Debug.Log(InterSceneManager.vacuumSpeed);
         myData = InterSceneManager.getSimulationSettings();
-
-        // Set JSON file entry num for use in all simulation scene runs:
-        SerializableList<LayoutManager.Object> parsedJSON = new SerializableList<LayoutManager.Object>();
-        try
-        {
-            string unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/" + InterSceneManager.fileSelection + ".json");
-            parsedJSON = JsonUtility.FromJson<SerializableList<LayoutManager.Object>>(unparsedJSON);
-        }
-        catch (Exception e)
-        {
-            Debug.Log("JSON Import Exception: " + e.Message);
-        }
-        InterSceneManager.JSONEntryNum = parsedJSON.SIMULATION_DATA.Count;
-        InterSceneManager.startDateTime = (DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString());
-
+        //Debug.Log(myData);
         // We want to load a new scene after setting up:
         SceneManager.LoadScene(sceneName: "Simulation");
     }

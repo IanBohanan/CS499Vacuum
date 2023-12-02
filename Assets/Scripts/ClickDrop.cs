@@ -34,6 +34,7 @@ public class ClickDrop : MonoBehaviour
     }
 
     public bool isLongObject;
+    private bool isDoor = false;
 
     // Offset values to be set for each furniture type. Allows correct grid snapping.
     private int offsetY;
@@ -73,8 +74,9 @@ public class ClickDrop : MonoBehaviour
                 }
             case "Door(Clone)":
                 {
-                    offsetY = 0;
+                    offsetY = 3;
                     offsetX = 3;
+                    isDoor = true;
                     break;
                 }
             case "VacuumRobot":
@@ -135,19 +137,39 @@ public class ClickDrop : MonoBehaviour
             isDeleteClicked = true;
         }
         // If not deleting:
-        else if (isDragging)
+        else if (isDragging) //User is placing an object down
         {
-            if (!IsOverlapping())
+            if(isDoor) //Unique check for doors, since we do want overlapping objects
             {
-                isDragging = false;
-            } 
-        }
-        else
-        {
-            if (!IsOverlapping())
-            {
-                isDragging = true;
+                if(IsDoorCompatible()) //Check that door can be placed
+                {
+                    isDragging = false;
+                }
             }
+            else //All other objects do NOT want to have any overlapping objects
+            {
+                if (!IsOverlapping())
+                {
+                    isDragging = false;
+                }
+            }
+        }
+        else //User is trying to pick up a previously placed object
+        {
+            if(isDoor)
+            {
+                //Doors will be overlapping, so add extra branch so just allow all doors to be picked up again
+                isDragging = true; 
+            }
+            else
+            {
+                //Non door objects cannot be placed with any overlapping furniture
+                if (!IsOverlapping())
+                {
+                    isDragging = true;
+                }
+            }
+
         }
     }
 
@@ -169,6 +191,47 @@ public class ClickDrop : MonoBehaviour
             }
         }
         // If no overlapping objects found, return false
+        return false;
+    }
+
+    //Checks if there are four overlapping wall instances.
+    //If so, true. Otherwise return false
+    //This is used for Door Objects.
+    bool IsDoorCompatible()
+    {
+        //Get the collider of the door
+        BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
+
+        //Calculate its size and center
+        Vector2 colliderSize = new Vector2(boxCollider.size.x * transform.localScale.x, boxCollider.size.y * transform.localScale.y);
+
+        Vector2 colliderCenter = (Vector2)transform.position + boxCollider.offset;
+
+        //Get list of every collider overlapping the door
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(colliderCenter, colliderSize, 0f);
+
+        int wallCount = 0;
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.gameObject.tag == "WallBuddy")
+            {
+                //Check that the rotation of the wall matches the door.
+                //To do that, get the rotations of this door object and compare it to the wall. If angle >= 180 then the rotation is comptaible (horizontal door = horizontal wall, and vertical door = vertical wall)
+                float wallRotation = collider.gameObject.transform.rotation.eulerAngles.z; //The the rotation of the wall object (in degrees)
+                float curRotation = this.transform.rotation.eulerAngles.z;
+                if(Math.Abs(wallRotation - curRotation) >= 180 || Math.Abs(wallRotation - curRotation) == 90)
+                {
+                    wallCount++;
+                    if (wallCount >= 3)
+                    {
+                        print("ClickDrop: Wall compatible!");
+                        return true;
+                    }
+                }
+            }
+        }
+
+        print("ClickDrop: Not compatible! Only " + wallCount + " walls!");
         return false;
     }
 }

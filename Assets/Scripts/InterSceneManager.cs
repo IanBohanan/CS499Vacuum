@@ -51,6 +51,7 @@ public static class InterSceneManager
 
     // Vacuum movement speed, set in simulation setup
     public static int vacuumSpeed = 12;
+        
 
     // Vacuum and Whiskers attachement efficiency values (percentage):
     public static int vacuumEfficiency = 50;
