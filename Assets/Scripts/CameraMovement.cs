@@ -1,4 +1,4 @@
-// This script allows for camera movement and zoom control in a Unity 2D game.
+// This script controls the movement and zooming of a 2D camera in a Unity game.
 
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    // Variables for camera movement and zoom control
+    // Variables to store camera position and camera component
     private Vector3 CameraPostion;  // Stores the current camera position
     private Camera cam;             // Reference to the camera component
 
