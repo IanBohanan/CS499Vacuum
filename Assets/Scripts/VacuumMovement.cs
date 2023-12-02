@@ -7,10 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class VacuumMovement : MonoBehaviour
 {
-    Tilemap tilemap;
-
-    [SerializeField] GameObject hardwoodTile;
-    public enum Algorithm
+    enum Algorithm
     {
         Random = 0,
         WallFollow = 1,
@@ -18,7 +15,7 @@ public class VacuumMovement : MonoBehaviour
         Snaking = 3,
         BadAlg = -1
     }
-    public Algorithm currentAlg;
+    Algorithm currentAlg;
 
     enum Direction
     {
@@ -42,8 +39,6 @@ public class VacuumMovement : MonoBehaviour
     bool passedA = false;
     Vector3 targetPositionB;
     bool passedB = false;
-
-    int consecutiveLeftTurns = 0;
 
     Spiral spiral = new Spiral();
     Vector3 spiralOrigin = Vector3.zero;
@@ -72,54 +67,9 @@ public class VacuumMovement : MonoBehaviour
         canCollide = true;
     }
 
-    //Changes the color of each the color matching the selected floor covering:
-    private void colorTile(Vector3Int position)
-    {
-        //Change the color of the tile between white(ie. the base image) and tint
-
-        //Okay Unity has some weird debug thing where it has a "lock color" flag for each tile.
-        //Whenever setColor is called, ALL unlocked tiles get updated. So we have to unlock then lock each tile individually
-        //Sooo just gonna have to unlock that flag for the tile, change the color, then lock the flag AGAIN.
-        //Otherwise the entire tilemap gets updated and not just the one tile.
-        tilemap.SetTileFlags(position, TileFlags.None);
-        if (InterSceneManager.floorCovering == "Hardwood")
-        {
-            tilemap.SetColor(position, new UnityEngine.Color(150,75,0,255));
-        }
-        else if (InterSceneManager.floorCovering == "Loop Pile")
-        {
-            tilemap.SetColor(position, Color.blue);
-        }
-        else if (InterSceneManager.floorCovering == "Cut Pile")
-        {
-            tilemap.SetColor(position, Color.magenta);
-        }
-        else if (InterSceneManager.floorCovering == "Frieze-Cut Pile")
-        {
-            tilemap.SetColor(position, Color.cyan);
-        }
-        else
-        {
-            Debug.Log("You've lied to me, George. VacuumMovement.cs->ColorTile");
-        }
-        tilemap.SetTileFlags(position, TileFlags.LockColor);
-    }
-
     // Start is called before the first frame update
     void Start()
     {
-        // Set up tilemap data:
-        tilemap = GameObject.Find("UIFloor").GetComponent<Tilemap>();
-        InterSceneManager.cleanedTiles.Clear();
-        foreach (Vector3Int tile in InterSceneManager.houseTiles)
-        {
-            // Create new "CleanedTiles" list with associated hit counters:
-            SerializableTile newTile = new SerializableTile(tile, 0);
-            InterSceneManager.cleanedTiles.Add(newTile);
-            // Color the tiles in the simulation scene to match the floor covering selected:
-            colorTile(tile);
-            //Instantiate(hardwoodTile, tilemap.CellToWorld(tile), Quaternion.identity);
-        }
         // Set Speed
         speed = 0.005f;
 
@@ -181,9 +131,9 @@ public class VacuumMovement : MonoBehaviour
         {
             Vector3 botBottom = new Vector3(transform.position.x, transform.position.y + 6, transform.position.z);
             RaycastHit2D hitDataLeft = Physics2D.Raycast(transform.position, -transform.right);
-            if ((!justTurned) && hitDataLeft.distance > ((InterSceneManager.speedMultiplier == 50)? 15:10))
+            if ((!justTurned) && hitDataLeft.distance > 10)
             {
-                if (wallFollowing && (consecutiveLeftTurns < 4))
+                if (wallFollowing)
                 {
                     //speed = 0;
                     //Debug.Log(hitDataLeft.distance);
@@ -194,53 +144,50 @@ public class VacuumMovement : MonoBehaviour
                     y = (currentDirectionVec.x);
                     targetPositionB = (targetPositionA + (new Vector3(x, y, 0)));
 
-                    if (InterSceneManager.speedMultiplier == 50)
-                    {
-                        Debug.Log("here");
-                        transform.position = targetPositionB;
-                        currentDirectionVec = wallFollow.turnLeft(currentDirectionVec);
-                    }
-                    else
-                    {
-                        justTurned = true;
-                    }
-                    consecutiveLeftTurns++;
+                    justTurned = true;
                 }
             }
             else if (justTurned)
             {
-                if ((!passedA) && (Vector3.Distance(targetPositionA, transform.position) < ((3)))){
+                if ((!passedA) && (Vector3.Distance(targetPositionA, transform.position) < 3)){
+                    Debug.Log("passed A");
                     transform.position = targetPositionA;
                     passedA = true;
                     currentDirectionVec = wallFollow.turnLeft(currentDirectionVec);
                     if (currentDirectionVec == new Vector2(1, 0))
                     {
+                        Debug.Log("Right");
                         // Rotate to face right (positive x)
                         transform.rotation = Quaternion.Euler(0, 0, -90);
                     }
                     else if (currentDirectionVec == new Vector2(0, 1))
                     {
+                        Debug.Log("up");
                         // Rotate to face upwards (positive y)
                         transform.rotation = Quaternion.Euler(0, 0, 0);
                     }
                     else if (currentDirectionVec == new Vector2(-1, 0))
                     {
+                        Debug.Log("Left");
                         // Rotate to face left (negative y)
                         transform.rotation = Quaternion.Euler(0, 0, 90);
                     }
                     else if (currentDirectionVec == new Vector2(0, -1))
                     {
+                        Debug.Log("down");
                         // Rotate to face downwards (negative y)
                         transform.rotation = Quaternion.Euler(0, 0, 180);
                     }
                 }
-                else if ((!passedB) && (Vector3.Distance(targetPositionB, transform.position) < ((3))))
+                else if ((!passedB) && (Vector3.Distance(targetPositionB, transform.position) < 3))
                 {
+                    Debug.Log("passed B");
                     transform.position = targetPositionB;
                     passedB = true;
                 }
                 if (passedA && passedB)
                 {
+                    Debug.Log("passed both");
                     justTurned = false;
                     passedA = false;
                     passedB = false;
@@ -272,10 +219,10 @@ public class VacuumMovement : MonoBehaviour
                 RaycastHit2D hitDataRight = Physics2D.Raycast(transform.position, transform.right);
                 RaycastHit2D hitDataUp = Physics2D.Raycast(transform.position, transform.up);
                 RaycastHit2D hitDataDown = Physics2D.Raycast(transform.position, -transform.up);
-                if ((hitDataLeft.distance < 50) && (hitDataLeft.collider)) { enoughSpace = false; }
-                if ((hitDataRight.distance < 50) && (hitDataRight.collider)) { enoughSpace = false; }
-                if ((hitDataUp.distance < 50) && (hitDataUp.collider)) { enoughSpace = false; }
-                if ((hitDataDown.distance < 50) && (hitDataDown.collider)) { enoughSpace = false; }
+                if ((hitDataLeft.distance < 20) && (hitDataLeft.collider)) { enoughSpace = false; }
+                if ((hitDataRight.distance < 20) && (hitDataRight.collider)) { enoughSpace = false; }
+                if ((hitDataUp.distance < 20) && (hitDataUp.collider)) { enoughSpace = false; }
+                if ((hitDataDown.distance < 20) && (hitDataDown.collider)) { enoughSpace = false; }
 
                 if (enoughSpace) // We have enough space in all directions to start the spiraling algorithm
                 { 
@@ -287,7 +234,7 @@ public class VacuumMovement : MonoBehaviour
         }
         else if (currentAlg == Algorithm.Snaking)
         {
-            if (currentlyOffsettingSnake && (Vector3.Distance(targetPositionA, transform.position) < (InterSceneManager.speedMultiplier/2)))
+            if (currentlyOffsettingSnake && (Vector3.Distance(targetPositionA, transform.position) < 1))
             {
                 transform.position = targetPositionA;
                 currentlyOffsettingSnake = false;
@@ -303,59 +250,9 @@ public class VacuumMovement : MonoBehaviour
 
         // Move the entire "Vacuum-Robot" prefab.
         // Calculate next Vacuum move
-        Vector3 movePosition = new Vector3(currentDirectionVec.x , currentDirectionVec.y, 0) * speed * (currentlyOffsettingSnake ? InterSceneManager.speedMultiplier/2:InterSceneManager.speedMultiplier) * (InterSceneManager.vacuumSpeed);
+        Vector3 movePosition = new Vector3(currentDirectionVec.x , currentDirectionVec.y, 0) * speed * InterSceneManager.speedMultiplier * (InterSceneManager.vacuumSpeed/3);
         // Move the child GameObjects along with the parent.
         transform.position += movePosition;
-
-        // Figure out which tile in the tilemap we're currently over:
-        Vector3Int cellPosition = tilemap.WorldToCell(transform.position);
-
-        if (tilemap.cellBounds.Contains(cellPosition))
-        {
-            int tileIndex = InterSceneManager.houseTiles.IndexOf(cellPosition);
-            if (tileIndex != -1)
-            {
-                //Debug.Log(tileIndex + " " + cellPosition.x + " " + cellPosition.y);
-                InterSceneManager.cleanedTiles[tileIndex].hits += Mathf.RoundToInt(InterSceneManager.speedMultiplier/2);
-            }
-        }
-        Vector3Int newcellPosition = new Vector3Int(cellPosition.x-1, cellPosition.y, cellPosition.z);
-        if (tilemap.cellBounds.Contains(newcellPosition))
-        {
-            int tileIndex = InterSceneManager.houseTiles.IndexOf(newcellPosition);
-            if (tileIndex != -1)
-            {
-                InterSceneManager.cleanedTiles[tileIndex].hits += Mathf.RoundToInt(InterSceneManager.speedMultiplier/2);
-            }
-        }
-        newcellPosition = new Vector3Int(cellPosition.x + 1, cellPosition.y, cellPosition.z);
-        if (tilemap.cellBounds.Contains(newcellPosition))
-        {
-            int tileIndex = InterSceneManager.houseTiles.IndexOf(newcellPosition);
-            if (tileIndex != -1)
-            {
-                InterSceneManager.cleanedTiles[tileIndex].hits += Mathf.RoundToInt(InterSceneManager.speedMultiplier / 2);
-            }
-        }
-        newcellPosition = new Vector3Int(cellPosition.x, cellPosition.y-1, cellPosition.z);
-        if (tilemap.cellBounds.Contains(newcellPosition))
-        {
-            int tileIndex = InterSceneManager.houseTiles.IndexOf(newcellPosition);
-            if (tileIndex != -1)
-            {
-                InterSceneManager.cleanedTiles[tileIndex].hits += Mathf.RoundToInt(InterSceneManager.speedMultiplier / 2);
-            }
-        }
-        newcellPosition = new Vector3Int(cellPosition.x, cellPosition.y+1, cellPosition.z);
-        if (tilemap.cellBounds.Contains(newcellPosition))
-        {
-            int tileIndex = InterSceneManager.houseTiles.IndexOf(newcellPosition);
-            if (tileIndex != -1)
-            {
-                InterSceneManager.cleanedTiles[tileIndex].hits += Mathf.RoundToInt(InterSceneManager.speedMultiplier / 2);
-            }
-        }
-        //---------------------------------
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -366,133 +263,72 @@ public class VacuumMovement : MonoBehaviour
         RaycastHit2D hitDataUp = Physics2D.Raycast(transform.position, transform.up);
         RaycastHit2D hitDataDown = Physics2D.Raycast(transform.position, -transform.up);
 
+        // Initialize Array 
+        RaycastHit2D[] hitData = new RaycastHit2D[] { hitDataLeft, hitDataRight, hitDataUp, hitDataDown };
+
         if (canCollide)
         {
             if (currentAlg == Algorithm.Random)
             {
+                // Determine collider direction to move in the opposite direction of collider
+                Direction closestDir = GetClosestDirFromRayList(hitData);
+                Vector2 collisionDir = DirToVector(closestDir);
+
                 currentDirectionVec = -currentDirectionVec;
-                float x = currentDirectionVec.x * (0.25f * InterSceneManager.speedMultiplier);
-                float y = currentDirectionVec.y * (0.25f * InterSceneManager.speedMultiplier);
-                currentDirectionVec = -currentDirectionVec;
+                float x = currentDirectionVec.x * 0.5f;
+                float y = currentDirectionVec.y * 0.5f;
                 transform.position += new Vector3(x, y, 0);
-                bool newDir = true;
-                while (newDir)
-                {
-                    newDir = false;
-                    currentDirectionVec = randomAlg.getStartingVec();
-                    Debug.Log(currentDirectionVec);
-                    if (currentDirectionVec.y > 0)
-                    {
-                        if (hitDataUp.distance < 5){
-                            newDir = true;
-                        }
-                    }
-                    if (currentDirectionVec.x > 0)
-                    {
-                        if (hitDataRight.distance < 5)
-                        {
-                            newDir = true;
-                        }
-                    }
-                    if (currentDirectionVec.y < 5)
-                    {
-                        if (hitDataDown.distance < 1)
-                        {
-                            newDir = true;
-                        }
-                    }
-                    if (currentDirectionVec.x < 5)
-                    {
-                        if (hitDataLeft.distance < 1)
-                        {
-                            newDir = true;
-                        }
-                    }
-                }
-            } 
+                currentDirectionVec = randomAlg.getNewDirectionVec(collisionDir);
+            }
             else if (currentAlg == Algorithm.WallFollow)
             {
                 justTurned = false;
-                consecutiveLeftTurns = 0;
-                // Back up a bit:
                 currentDirectionVec = -currentDirectionVec;
-                float x = currentDirectionVec.x * (0.1f * InterSceneManager.speedMultiplier);
-                float y = currentDirectionVec.y * (0.1f * InterSceneManager.speedMultiplier);
-                currentDirectionVec = -currentDirectionVec;
+                float x = currentDirectionVec.x * 0.5f;
+                float y = currentDirectionVec.y * 0.5f;
                 transform.position += new Vector3(x, y, 0);
+                currentDirectionVec = -(currentDirectionVec);
 
-                if (wallFollowing) {
-                    currentDirectionVec = wallFollow.turnRight(currentDirectionVec); 
+                if (wallFollowing)
+                {
+                    currentDirectionVec = wallFollow.turnRight(currentDirectionVec);
                 }
                 else { currentDirectionVec = wallFollow.getFirstCollisionVec(currentDirectionVec, true); wallFollowing = true; }
 
                 if (currentDirectionVec == new Vector2(1, 0))
                 {
+                    Debug.Log("Right");
                     // Rotate to face right (positive x)
                     transform.rotation = Quaternion.Euler(0, 0, -90);
                 }
                 else if (currentDirectionVec == new Vector2(0, 1))
                 {
+                    Debug.Log("up");
                     // Rotate to face upwards (positive y)
                     transform.rotation = Quaternion.Euler(0, 0, 0);
                 }
                 else if (currentDirectionVec == new Vector2(-1, 0))
                 {
+                    Debug.Log("Left");
                     // Rotate to face left (negative y)
                     transform.rotation = Quaternion.Euler(0, 0, 90);
                 }
                 else if (currentDirectionVec == new Vector2(0, -1))
                 {
+                    Debug.Log("down");
                     // Rotate to face downwards (negative y)
                     transform.rotation = Quaternion.Euler(0, 0, 180);
                 }
             }
             else if (currentAlg == Algorithm.Spiral)
             {
-                if (isSpiraling)
-                {
-                    currentDirectionVec = -CalculateNormalizedDirection(transform.position, spiralOrigin);
-                }
                 isSpiraling = false; // Stop the spiral updates
                 currentDirectionVec = -currentDirectionVec;
-                float x = currentDirectionVec.x * (0.25f * InterSceneManager.speedMultiplier);
-                float y = currentDirectionVec.y * (0.25f * InterSceneManager.speedMultiplier);
-                currentDirectionVec = -currentDirectionVec;
+                float x = currentDirectionVec.x * 0.5f;
+                float y = currentDirectionVec.y * 0.5f;
                 transform.position += new Vector3(x, y, 0);
-                bool newDir = true;
-                while (newDir)
-                {
-                    newDir = false;
-                    currentDirectionVec = randomAlg.getStartingVec();
-                    if (currentDirectionVec.y > 0)
-                    {
-                        if (hitDataUp.distance < 5)
-                        {
-                            newDir = true;
-                        }
-                    }
-                    if (currentDirectionVec.x > 0)
-                    {
-                        if (hitDataRight.distance < 5)
-                        {
-                            newDir = true;
-                        }
-                    }
-                    if (currentDirectionVec.y < 0)
-                    {
-                        if (hitDataDown.distance < 5)
-                        {
-                            newDir = true;
-                        }
-                    }
-                    if (currentDirectionVec.x < 0)
-                    {
-                        if (hitDataLeft.distance < 5)
-                        {
-                            newDir = true;
-                        }
-                    }
-                }
+                currentDirectionVec = -(currentDirectionVec);
+                currentDirectionVec = randomAlg.getStartingVec();
             }
             else if (currentAlg == Algorithm.Snaking)
             {
@@ -500,10 +336,10 @@ public class VacuumMovement : MonoBehaviour
 
                 // Back up a bit:
                 currentDirectionVec = -currentDirectionVec;
-                float x = currentDirectionVec.x * (0.25f * InterSceneManager.speedMultiplier);
-                float y = currentDirectionVec.y * (0.25f * InterSceneManager.speedMultiplier);
-                currentDirectionVec = -currentDirectionVec;
+                float x = currentDirectionVec.x * 0.5f;
+                float y = currentDirectionVec.y * 0.5f;
                 transform.position += new Vector3(x, y, 0);
+                currentDirectionVec = -(currentDirectionVec);
 
                 float minDistance;
                 if (collidedBefore == false) // First collision, determine what wall type we've hit
@@ -629,25 +465,8 @@ public class VacuumMovement : MonoBehaviour
             // Set timer until we can collide again to prevent vacuum passing through
             // other objects at high-speeds
             canCollide = false;
-            StartCoroutine(DelayCollisionEnable(0.0001f));
+            StartCoroutine(DelayCollisionEnable(0.0005f));
         }
-    }
-
-    // Example method to find normalized direction vector from origin to target
-    public static Vector3 CalculateNormalizedDirection(Vector3 origin, Vector3 target)
-    {
-
-        // Calculate direction vector
-        Vector3 direction = target - origin;
-
-        // Ensure the direction vector is non-zero before normalizing
-        if (direction != Vector3.zero)
-        {
-            // Normalize the direction vector
-            direction.Normalize();
-        }
-
-        return direction;
     }
 
     private Algorithm getNextAlg()

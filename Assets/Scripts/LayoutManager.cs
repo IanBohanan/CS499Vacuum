@@ -4,7 +4,6 @@ using System;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using Unity.VisualScripting;
-using UnityEngine.SceneManagement;
 
 public class LayoutManager : MonoBehaviour
 {
@@ -118,12 +117,10 @@ public class LayoutManager : MonoBehaviour
     #region Serializable Classes
     [System.Serializable] public class SerializableList<T>
     {
-        public Vector3 vacuumPosition = Vector3.zero;
         public List<T> Furniture = new List<T>();
         public List<T> Walls = new List<T>();
         public List<T> RoomDoors = new List<T>();
         public List<T> ExitDoors = new List<T>();
-        public List<SimulationEntry> SIMULATION_DATA = new List<SimulationEntry>();
     }
 
     [System.Serializable] public class Object
@@ -148,15 +145,7 @@ public class LayoutManager : MonoBehaviour
         SerializableList<Object> parsedJSON = new SerializableList<Object>();
         try
         {
-            string unparsedJSON = "";
-            if (InterSceneManager.userWantsDefaultHouse)
-            {
-                unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/Default_Layout.json");
-            }
-            else
-            {
-                unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/" + InterSceneManager.fileSelection + ".json");
-            }
+            string unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/" + InterSceneManager.fileSelection + ".json");
             parsedJSON = JsonUtility.FromJson<SerializableList<Object>>(unparsedJSON);
         }
         catch (Exception e)
@@ -171,7 +160,6 @@ public class LayoutManager : MonoBehaviour
             else if (parsedJSON.Furniture[i].type == "Chest Variant(Clone)")
             {
                 addFurniture("chest", parsedJSON.Furniture[i].rotation, parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY, true);
-                InterSceneManager.coveredTileNum += 6;
             }
             else if (parsedJSON.Furniture[i].type == "Table Variant(Clone)")
             {
@@ -187,30 +175,11 @@ public class LayoutManager : MonoBehaviour
             GameObject newWall = Instantiate(Wall, new Vector3(parsedJSON.Walls[i].posX, parsedJSON.Walls[i].posY, 0), parsedJSON.Walls[i].rotation);
             newWall.GetComponent<WallPlacer>().disableSpawners(); // Disable wall extending endpoints
         }
-
-        var currentScene = SceneManager.GetActiveScene();
-        var currentSceneName = currentScene.name;
-
-        if (currentSceneName != "ShowColorCodedResults")
-        {
-            GameObject.Find("Vacuum-Robot").transform.position = parsedJSON.vacuumPosition;
-        }
-
-        if (currentSceneName == "Simulation")
-        {
-            // Disable all BoxColliders in the Chair and Table Objects:
-            GameObject[] objectsThatShouldntHaveColliders = GameObject.FindGameObjectsWithTag("NoColliderBuddy");
-            foreach (GameObject obj in objectsThatShouldntHaveColliders)
-            {
-                obj.GetComponent<BoxCollider2D>().enabled = false;
-            }
-        }
     }
     public void saveToJSON(string JSONFilePath)
     {
         GameObject[] walls = GameObject.FindGameObjectsWithTag("WallBuddy");
         SerializableList<Object> FullList = new SerializableList<Object>();
-        FullList.vacuumPosition = GameObject.Find("Vacuum-Robot").transform.position;
         foreach (GameObject f in Furniture) FullList.Furniture.Add(new Object(f.name, f.transform.position.x, f.transform.position.y, f.transform.rotation));
         foreach (GameObject w in walls) FullList.Walls.Add(new Object(w.name, w.transform.position.x, w.transform.position.y, w.transform.rotation));
         foreach (GameObject rd in RoomDoors) FullList.RoomDoors.Add(new Object(rd.name, rd.transform.position.x, rd.transform.position.y, rd.transform.rotation));

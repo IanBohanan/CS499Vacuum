@@ -19,11 +19,6 @@ public class MainMenuController : MonoBehaviour
     DropdownField selectionDropdown;
     DropdownField dataReviewDropdown;
 
-    VisualElement createNewPopup;
-    Button useDefaultBtn;
-    Button fromScratchBtn;
-    Button cancelCreateNewBtn;
-
     void OnEnable()
     {
         // Get UIDocument Root:
@@ -45,12 +40,6 @@ public class MainMenuController : MonoBehaviour
         dataReviewDropdown = dataReviewPopup.Q<DropdownField>("DataReviewDropdown");
         dataReviewConfirmButton = dataReviewPopup.Q<Button>("DataReviewConfirmButton");
 
-        // Get Create New Popup, Dropdown, & Buttons:
-        createNewPopup = root.Q<VisualElement>("CreateNewPopup");
-        useDefaultBtn = createNewPopup.Q<Button>("UseDefaultButton");
-        fromScratchBtn = createNewPopup.Q<Button>("FromScratchButton");
-        cancelCreateNewBtn = createNewPopup.Q<Button>("CreateNewCancelButton");
-
         // Subscribe to button events:
         importBtn.clicked += () => onImportPress();
         createNewBtn.clicked += () => onCreateNewPress();
@@ -59,9 +48,6 @@ public class MainMenuController : MonoBehaviour
         reviewPastSimulationsBtn.clicked += () => onDataReviewPress();
         dataReviewDropdown.RegisterValueChangedCallback(onDataReviewValueChanged);
         dataReviewConfirmButton.clicked += () => onDataReviewConfirmPress();
-        useDefaultBtn.clicked += () => useDefaultPress();
-        fromScratchBtn.clicked += () => fromScratchPress();
-        cancelCreateNewBtn.clicked += () => cancelCreateNewPress();
     }
 
     // Update selected house builder import file:
@@ -84,7 +70,7 @@ public class MainMenuController : MonoBehaviour
     // Update selected data review import file:
     private void onDataReviewValueChanged(ChangeEvent<string> evt)
     {
-        InterSceneManager.fileSelection = dataReviewDropdown.value;
+        //InterSceneManager.dataReviewFileSelection = dataReviewDropdown.value;
     }
 
     private void onDataReviewConfirmPress()
@@ -94,31 +80,14 @@ public class MainMenuController : MonoBehaviour
     }
 
     // Load in the imported house creation scene:
-    public void onImportPopupPress() {
+    public void onImportPopupPress(){
         importPopup.style.display = DisplayStyle.None;
         Debug.Log("Loading " + InterSceneManager.fileSelection);
-        SceneManager.LoadScene(sceneName: "UseOrEditLayout");
+        SceneManager.LoadScene(sceneName: "HouseBuilder");
     }
 
-    // Open Create New Popup
+    // Load in the blank house creation scene:
     public void onCreateNewPress() {
-        createNewPopup.style.display = DisplayStyle.Flex;
-    }
-
-    private void useDefaultPress()
-    {
-        InterSceneManager.userWantsDefaultHouse = true;
-        SceneManager.LoadScene(sceneName: "HouseBuilder");
-    }
-
-    private void fromScratchPress()
-    {
-        InterSceneManager.userWantsDefaultHouse = false;
-        SceneManager.LoadScene(sceneName: "HouseBuilder");
-    }
-
-    public void cancelCreateNewPress()
-    {
-        createNewPopup.style.display = DisplayStyle.None;
+        SceneManager.LoadScene(sceneName:"HouseBuilder");
     }
 }
