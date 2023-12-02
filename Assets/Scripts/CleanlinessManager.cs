@@ -1,68 +1,54 @@
+// This script is responsible for controlling the camera's movement and zoom in a Unity 2D game.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-// CleanlinessManager handles the cleanliness state of each tile in the environment.
-public class CleanlinessManager : MonoBehaviour
+public class CameraMovement : MonoBehaviour
 {
-    public float debugCleanAmount; // Amount used for debugging cleanliness changes.
+    // Variables to store camera position and camera component
+    private Vector3 CameraPostion;  // Stores the current camera position
+    private Camera cam;             // Reference to the camera component
 
-    [SerializeField]
-    private Tilemap floorTiles; // Reference to the tilemap containing the floor tiles.
-    private Vacuum vacuum; // Reference to the vacuum object in the scene.
+    [Header("Camera Settings")]
+    public float cameraSpeed;       // Speed of camera movement
+    private float zoom;             // Current camera zoom level
+    private float zoomMultiplier = 4f; // Multiplier for zoom sensitivity
+    private float minZoom = 20f;    // Minimum allowed zoom level
+    private float maxZoom = 80f;    // Maximum allowed zoom level
+    private float velocity = 0f;    // Velocity for smooth zooming
+    private float smoothTime = 0.25f; // Smoothness factor for zooming
 
-    private Dictionary<Vector3Int, float> tileData = new Dictionary<Vector3Int, float>(); // Dictionary to track the cleanliness of each tile.
-
-    [SerializeField]
-    private Color cleanColor; // The color used to represent a clean tile.
-
-    // Public method to clean a tile at a given world position by a specified amount.
-    public void makeClean(Vector2 worldPosition, float cleanAmount)
+    private void Start()
     {
-        Vector3Int gridPosition = floorTiles.WorldToCell(worldPosition);
-        changeCleanliness(gridPosition, cleanAmount);
-        VisualizeCleanliness();
+        // Initialize camera position and get a reference to the Camera component
+        CameraPostion = transform.position;
+        cam = GetComponent<Camera>();
+        zoom = cam.orthographicSize;
     }
 
-    // Private method to change the cleanliness of a tile.
-    // Ensures that the cleanliness value is clamped between 0 and 100.
-    private void changeCleanliness(Vector3Int gridPosition, float toChange)
+    private void getZoom()
     {
-        // Add tile to dictionary if it's not already there, starting at 0% cleanliness.
-        if (!tileData.ContainsKey(gridPosition))
-            tileData.Add(gridPosition, 0f);
-
-        float newValue = tileData[gridPosition] + toChange;
-        // Clamp the cleanliness value to ensure it's between 0 and 100.
-        tileData[gridPosition] = Mathf.Clamp(newValue, 0f, 100f);
-
-        // Debug log to print the new cleanliness value.
-        print("CleanlinessManager: Tile cleanliness: " + tileData[gridPosition]);
+        // Adjust the camera's orthographic size (zoom) based on mouse scroll input
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        zoom -= scroll * zoomMultiplier;
+        zoom = Mathf.Clamp(zoom, minZoom, maxZoom);
+        // Smoothly transition to the new zoom level
+        cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, zoom, ref velocity, smoothTime);
     }
 
-    // Visualizes the cleanliness of each tile by changing its color.
-    private void VisualizeCleanliness()
-    {
-        foreach (var tile in tileData)
-        {
-            // Lerp the color between white (dirty) and green (clean) based on cleanliness percentage.
-            Color newTileColor = Color.Lerp(Color.white, Color.green, tile.Value / 100);
-
-            // Unlock and lock tile color to update its color individually due to Unity's tilemap behavior.
-            floorTiles.SetTileFlags(tile.Key, TileFlags.None);
-            floorTiles.SetColor(tile.Key, newTileColor);
-            floorTiles.SetTileFlags(tile.Key, TileFlags.LockColor);
-        }
-    }
-
-    // Debug method to allow cleaning tiles by clicking on them.
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            makeClean(mousePosition, debugCleanAmount);
-        }
+        // Capture user input for camera movement
+        Vector3 movement;
+        movement.x = Input.GetAxisRaw("Horizontal") * (cameraSpeed * 0.5f);
+        movement.y = Input.GetAxisRaw("Vertical") * (cameraSpeed * 0.5f);
+        movement.z = 0;
+        // Update the camera position based on user input
+        CameraPostion += movement;
+        transform.position = CameraPostion;
+
+        // Call the getZoom() function to handle zooming based on mouse scroll input
+        getZoom();
     }
 }
