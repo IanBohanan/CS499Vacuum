@@ -219,7 +219,13 @@ public class WallPlacer : MonoBehaviour
     private void Start()
     {
         //Get the tilemap of the housebuilder scene. We can't reference it since it is a prefab.
-        grid = GameObject.FindWithTag("GridBuddy").GetComponent<Tilemap>();
+        try
+        {
+            grid = GameObject.FindWithTag("GridBuddy").GetComponent<Tilemap>();
+        }
+        catch(Exception e)
+        { }
+        
         if (isBeingPlaced)
         {
             wallEndpoint1.SetActive(false);
