@@ -1,3 +1,5 @@
+// This script, MainMenuController, manages the main menu of a Unity application. It handles UI interactions and navigation between different scenes, including importing house layouts and reviewing past simulations.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +8,7 @@ using UnityEngine.UIElements;
 
 public class MainMenuController : MonoBehaviour
 {
-    // Define UI elements for the main menu
+    // References to UI elements:
     Button importBtn;
     Button createNewBtn;
     Button reviewPastSimulationsBtn;
@@ -22,28 +24,26 @@ public class MainMenuController : MonoBehaviour
 
     void OnEnable()
     {
-        // Initialize UI components when the script is enabled
-
-        // Access the root element of the UI Document attached to this GameObject
+        // Get UIDocument Root:
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
-        // Accessing and initializing primary button components from the UI
+        // Get Primary Button Components:
         VisualElement buttonContainer = root.Q<VisualElement>("ButtonContainer");
         Button importBtn = buttonContainer.Q<Button>("ImportButton");
         Button createNewBtn = buttonContainer.Q<Button>("CreateNewButton");
         reviewPastSimulationsBtn = root.Q<Button>("DataReviewButton");
 
-        // Setup for the import popup, including dropdown and button
+        // Get Import Popup, Dropdown, & Button:
         importPopup = root.Q<VisualElement>("ImportPopup");
         selectionDropdown = importPopup.Q<DropdownField>("SelectionDropdown");
         importJSONButton = importPopup.Q<Button>("ImportJSONButton");
 
-        // Setup for the data review popup, including dropdown and confirm button
+        // Get Data Review Popup, Dropdown, & Button:
         dataReviewPopup = root.Q<VisualElement>("DataReviewPopup");
         dataReviewDropdown = dataReviewPopup.Q<DropdownField>("DataReviewDropdown");
         dataReviewConfirmButton = dataReviewPopup.Q<Button>("DataReviewConfirmButton");
 
-        // Subscribing to button click events to handle user interactions
+        // Subscribe to button events:
         importBtn.clicked += () => onImportPress();
         createNewBtn.clicked += () => onCreateNewPress();
         importJSONButton.clicked += () => onImportPopupPress();
@@ -53,44 +53,44 @@ public class MainMenuController : MonoBehaviour
         dataReviewConfirmButton.clicked += () => onDataReviewConfirmPress();
     }
 
-    // Handle change event for the house builder import file selection
+    // Update selected house builder import file:
     private void onValueChanged(ChangeEvent<string> evt)
     {
         InterSceneManager.fileSelection = selectionDropdown.value;
     }
 
-    // Handle import button press to display the import panel
+    // Open the JSON house builder import panel:
     public void onImportPress() {
         importPopup.style.display = DisplayStyle.Flex;
     }
 
-    // Handle data review button press to display the data review panel
+    // Open the JSON data review import panel:
     public void onDataReviewPress()
     {
         dataReviewPopup.style.display = DisplayStyle.Flex;
     }
 
-    // Handle change event for data review file selection
+    // Update selected data review import file:
     private void onDataReviewValueChanged(ChangeEvent<string> evt)
     {
-        // Logic to handle data review file selection can be added here
+        // InterSceneManager.dataReviewFileSelection = dataReviewDropdown.value; // This line is commented out and may need to be uncommented if necessary.
     }
 
-    // Handle confirm button press in data review, load the data review scene
+    // Load the data review scene:
     private void onDataReviewConfirmPress()
     {
         dataReviewPopup.style.display = DisplayStyle.None;
         SceneManager.LoadScene(sceneName: "DataReview");
     }
 
-    // Handle import button press in the import popup, load the house builder scene with the selected file
+    // Load the imported house creation scene:
     public void onImportPopupPress(){
         importPopup.style.display = DisplayStyle.None;
         Debug.Log("Loading " + InterSceneManager.fileSelection);
         SceneManager.LoadScene(sceneName: "HouseBuilder");
     }
 
-    // Handle create new button press, load the blank house creation scene
+    // Load a blank house creation scene:
     public void onCreateNewPress() {
         SceneManager.LoadScene(sceneName:"HouseBuilder");
     }
