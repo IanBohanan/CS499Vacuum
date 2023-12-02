@@ -10,6 +10,10 @@ public class RandomWalk
         // Generate randomized angle to be used:
         System.Random random = new System.Random();
         double newAngle = random.Next(40, 140); // Collisions only possible with flat object, meaning 180 degrees of valid range for new movement direction
+        if (InterSceneManager.speedMultiplier > 25)
+        {
+            newAngle = random.Next(50, 120);
+        }
 
         newAngle = newAngle * Math.PI / 180; // Convert degrees to radians
 

@@ -51,6 +51,9 @@ public class VacuumMovement : MonoBehaviour
     bool currentlyOffsettingSnake = false;
     Vector3 postOffsetSnakeDirection = Vector3.zero;
 
+    public float spiralSpeed = 1.0f;
+    public float spiralRadius = 1.0f;
+
     public Vector2 currentDirectionVec; // The normalized direction vector to tell the vacuum where to go
 
     private float speed;    // Speed of the vacuum object
@@ -71,7 +74,7 @@ public class VacuumMovement : MonoBehaviour
     void Start()
     {
         // Set Speed
-        speed = 0.5f;
+        speed = InterSceneManager.vacuumSpeed / 1000f;
 
         counter = 0;
 
@@ -202,13 +205,15 @@ public class VacuumMovement : MonoBehaviour
                 //transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.eulerAngles.z + (0.5f-distance));
                 //currentDirectionVec = newVec;}
                 float angle = (Time.time - spiralStartTime) * (InterSceneManager.speedMultiplier); // replace 1 with the whatever speed
-                angle = angle / 5;
                 float radius = 1 + angle; // 1 is the radius
 
-                float x = Mathf.Cos(angle) * radius;
-                float y = Mathf.Sin(angle) * radius;
+                // Calculate width based on the speed of the object
+                float width = radius * InterSceneManager.speedMultiplier;
 
-                Vector3 newPosition = spiralOrigin + new Vector3(x, y, 0);
+                float x = Mathf.Cos(angle) * (radius);
+                float y = Mathf.Sin(angle) * (radius);
+
+                Vector3 newPosition = spiralOrigin + new Vector3(x / InterSceneManager.speedMultiplier, y / InterSceneManager.speedMultiplier, 0);
 
                 transform.position = newPosition;
             }
@@ -243,9 +248,7 @@ public class VacuumMovement : MonoBehaviour
                     postOffsetSnakeDirection = RotateVector45Degrees(postOffsetSnakeDirection);
                 }
                 currentDirectionVec = postOffsetSnakeDirection;
-                //Debug.Log(postOffsetSnakeDirection);
             }
-            //Debug.Log("Snaking");
         }
 
         // Move the entire "Vacuum-Robot" prefab.
@@ -266,7 +269,7 @@ public class VacuumMovement : MonoBehaviour
         // Initialize Array 
         RaycastHit2D[] hitData = new RaycastHit2D[] { hitDataLeft, hitDataRight, hitDataUp, hitDataDown };
 
-        if (canCollide)
+        if (true)
         {
             if (currentAlg == Algorithm.Random)
             {
@@ -323,12 +326,16 @@ public class VacuumMovement : MonoBehaviour
             else if (currentAlg == Algorithm.Spiral)
             {
                 isSpiraling = false; // Stop the spiral updates
+
+                // Determine collider direction to move in the opposite direction of collider
+                Direction closestDir = GetClosestDirFromRayList(hitData);
+                Vector2 collisionDir = DirToVector(closestDir);
+
                 currentDirectionVec = -currentDirectionVec;
                 float x = currentDirectionVec.x * 0.5f;
                 float y = currentDirectionVec.y * 0.5f;
                 transform.position += new Vector3(x, y, 0);
-                currentDirectionVec = -(currentDirectionVec);
-                currentDirectionVec = randomAlg.getStartingVec();
+                currentDirectionVec = randomAlg.getNewDirectionVec(collisionDir);
             }
             else if (currentAlg == Algorithm.Snaking)
             {

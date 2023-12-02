@@ -2368,6 +2368,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8777790645288690822, guid: 8d5c2d7e40d3d7f459cfb92fc9074f9c, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8777790645288690822, guid: 8d5c2d7e40d3d7f459cfb92fc9074f9c, type: 3}
       propertyPath: m_CollisionDetection
       value: 1
       objectReference: {fileID: 0}
@@ -2453,6 +2457,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0433d09a96482514d82fcbaff564aca4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spiralSpeed: 1
+  spiralRadius: 1
   currentDirectionVec: {x: -1, y: 0}
 --- !u!1 &2138000016
 GameObject:
