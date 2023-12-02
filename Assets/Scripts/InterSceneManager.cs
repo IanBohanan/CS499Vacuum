@@ -1,51 +1,90 @@
+// This script defines a static class called InterSceneManager, which serves as a data storage and management system
+// for various settings and data used across different scenes in a Unity application.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// This class is used to manage data across different scenes in a Unity game
 public static class InterSceneManager
 {
-    // Variable to store file selection from Main Menu
+    // Main Menu Import File:
     public static string fileSelection = "";
 
-    // Flag to toggle delete mode in House Builder UI
+    public static List<GameObject> wallList = new List<GameObject>();
+
+    public static List<GameObject> flagList = new List<GameObject>();
+
+    // House Builder UI -> ClickDrop
     public static bool deleteMode = false;
 
-    // Private variables to store Simulation Setup Settings:
-    private static bool whiskersEnabled; // Flag for enabling whiskers
-    private static string floorCovering; // Type of floor covering
-    private static int batteryLife; // Duration of battery life
-    private static bool randomAlgEnabled; // Flag for enabling random algorithm
-    private static bool spiralAlgEnabled; // Flag for enabling spiral algorithm
-    private static bool snakingAlgEnabled; // Flag for enabling snaking algorithm
-    private static bool wallFollowAlgEnabled; // Flag for enabling wall following algorithm
+    // House builder tiles that represent the rooms of the house
+    // Represents the tiles that were explored by the flood fill algorithm of the house
+    // Note: these are TILEMAP positions, not worldspace positions. Use the tilemap!
+    public static List<Vector3Int> houseTiles;
 
-    // Public variable to adjust simulation speed
-    public static int speedMultiplier = 1; // Multiplier for simulation speed
-    
-    // Method to set simulation settings
+    // Simulation Setup Settings:
+    private static bool whiskersEnabled;
+    private static string floorCovering;
+    private static int batteryLife;
+    private static bool randomAlgEnabled = false;
+    private static bool spiralAlgEnabled = false;
+    private static bool snakingAlgEnabled = false;
+    private static bool wallFollowAlgEnabled = false;
+
+    // Simulation Speed, used by Vacuum to multiply speed:
+    public static int speedMultiplier = 1;
+
+    // Vacuum movement speed, set in simulation setup
+    public static int vacuumSpeed = 12;
+
+    // Set simulation settings with provided values
     public static void setSimulationSettings(bool whiskers, string floorCov, int battery, bool randomAlg, bool spiralAlg, bool snakingAlg, bool wallFollowAlg)
     {
-        whiskersEnabled = whiskers; // Set whiskers flag
-        floorCovering = floorCov; // Set floor covering type
-        batteryLife = battery; // Set battery life
-        randomAlgEnabled = randomAlg; // Set random algorithm flag
-        spiralAlgEnabled = spiralAlg; // Set spiral algorithm flag
-        snakingAlgEnabled = snakingAlg; // Set snaking algorithm flag
-        wallFollowAlgEnabled = wallFollowAlg; // Set wall following algorithm flag
+        whiskersEnabled = whiskers;
+        floorCovering = floorCov;
+        batteryLife = battery;
+        randomAlgEnabled = randomAlg;
+        spiralAlgEnabled = spiralAlg;
+        snakingAlgEnabled = snakingAlg;
+        wallFollowAlgEnabled = wallFollowAlg;
+        return;
     }
 
-    // Method to get the status of path algorithms
+    // Get the states of different pathfinding algorithms
     public static (bool, bool, bool, bool) getPathAlgs()
     {
-        // Return the status of each pathfinding algorithm
         return (randomAlgEnabled, spiralAlgEnabled, snakingAlgEnabled, wallFollowAlgEnabled);
     }
 
-    // Method to get current simulation settings
+    // Get the simulation settings (whiskers enabled, floor covering, battery life)
     public static (bool, string, int) getSimulationSettings()
     {
-        // Return the whiskers enabled flag, floor covering type, and battery life
         return (whiskersEnabled, floorCovering, batteryLife);
+    }
+
+    // Set the state of a specific algorithm (enabled or disabled)
+    public static void setAlgorithm(string algName, bool enabled = false)
+    {
+        if (algName == "random")
+        {
+            randomAlgEnabled = enabled;
+        }
+        else if (algName == "spiral")
+        {
+            spiralAlgEnabled = enabled;
+        }
+        else if (algName == "snaking")
+        {
+            snakingAlgEnabled = enabled;
+        }
+        else if (algName == "wallFollow")
+        {
+            wallFollowAlgEnabled = enabled;
+        }
+        else
+        {
+            Debug.Log("Invalid algorithm name given when setting algorithm state. What happened, George?");
+        }
+        return;
     }
 }
