@@ -4,7 +4,6 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Tilemaps;
 
 public class VacuumMovement : MonoBehaviour
 {
@@ -121,7 +120,6 @@ public class VacuumMovement : MonoBehaviour
             colorTile(tile);
             //Instantiate(hardwoodTile, tilemap.CellToWorld(tile), Quaternion.identity);
         }
-
         // Set Speed
         speed = 0.005f;
 
@@ -177,7 +175,7 @@ public class VacuumMovement : MonoBehaviour
 
         if (currentAlg == Algorithm.Random)
         {
-            //Debug.Log("Random");
+
         }
         else if (currentAlg == Algorithm.WallFollow)
         {
@@ -360,7 +358,7 @@ public class VacuumMovement : MonoBehaviour
         //---------------------------------
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         // Cast rays in cardinal directions to determine more collision info
         RaycastHit2D hitDataLeft = Physics2D.Raycast(transform.position, -transform.right);
@@ -532,7 +530,7 @@ public class VacuumMovement : MonoBehaviour
                         snakingHorizontalWalls = true;
                         snakingOffsetDirection = "left";
                     }
-                    Debug.Log("Snaking Horizontal: "+snakingHorizontalWalls);
+                    Debug.Log("Snaking Horizontal: " + snakingHorizontalWalls);
                 }
                 //---------------------------------------
                 minDistance = Mathf.Min(hitDataLeft.distance, hitDataRight.distance, hitDataUp.distance, hitDataDown.distance); // Get mininum distance
@@ -594,6 +592,7 @@ public class VacuumMovement : MonoBehaviour
                         Debug.Log("Invalid snaking offset direction given, defaulting to 'right'");
                         snakingOffsetDirection = "right";
                     }
+                    Debug.Log(snakingOffsetDirection);
                 }
                 //----------------------------------
                 postOffsetSnakeDirection = new Vector2(-currentDirectionVec.x, -currentDirectionVec.y);
@@ -737,5 +736,59 @@ public class VacuumMovement : MonoBehaviour
         float y = direction.x * sinTheta + direction.y * cosTheta;
 
         return new Vector3(x, y, direction.z).normalized;
+    }
+
+    private Direction GetClosestDirFromRayList(RaycastHit2D[] rays)
+    {
+        RaycastHit2D shortestRay = rays[0];
+        int indexOfShortestRay = 0;
+        for (int i = 0; i < rays.Length; i++)
+        {
+            RaycastHit2D compareTo = rays[i];
+            if (compareTo.collider != null)
+            {
+                if (shortestRay.distance == 0)
+                {
+                    shortestRay = compareTo;
+                }
+                if (compareTo.distance < shortestRay.distance && shortestRay.distance != 0)
+                {
+
+                    shortestRay = compareTo;
+                    indexOfShortestRay = i;
+                }
+            }
+
+        }
+        Debug.Log((Direction)indexOfShortestRay);
+        Debug.Log(shortestRay.distance);
+        return (Direction)indexOfShortestRay;
+    }
+
+    private Vector2 DirToVector(Direction dir)
+    {
+        Vector2 collisionDir = new Vector2(0, 0);
+        if (dir == Direction.Up)
+        {
+            collisionDir = new Vector2(0, 1);
+        }
+        else if (dir == Direction.Down)
+        {
+            collisionDir = new Vector2(0, -1);
+        }
+        else if (dir == Direction.Right)
+        {
+            collisionDir = new Vector2(1, 0);
+        }
+        else if (dir == Direction.Left)
+        {
+            collisionDir = new Vector2(-1, 0);
+        }
+        else
+        {
+            Debug.Log("Default Movement Value = 0");
+        }
+
+        return collisionDir;
     }
 }

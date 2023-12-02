@@ -6,7 +6,6 @@
  * Finally it checks if each of the flags in the foundFlags dictionary was found. If not, it say which flag was not reached by the flood algo.
  * */
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +15,6 @@ using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 public class RoomManager : MonoBehaviour
 {
-
     public static event Action<bool> finishedFlooding; //Sent out at end of room flooding
     public static event Action<bool> unableToFlood; //Sent out at end of room flooding
     public static event Action spawnedTiles; //Sent out at end of room flooding
@@ -25,7 +23,6 @@ public class RoomManager : MonoBehaviour
     private Tilemap tilemap;
     [SerializeField]
     private Color floodedColor;
-    bool foundAllFlags = false;
 
     public List<Vector3Int> debugDictList = new List<Vector3Int>();
     private Dictionary<GameObject, bool> foundFlags = new Dictionary<GameObject, bool>(); //Which flags were currently found by the floodFill aglo
@@ -127,7 +124,7 @@ public class RoomManager : MonoBehaviour
     //Starts flooding the entire room given a specific startposition
     //(Note: startposition should become a flag's square at some point instead of 0,0)
     //Then finds all the flags in the scene and keeps track of which ones were or weren't found.
-    public string beginFlood()
+    private void beginFlood(Vector3Int startPosition)
     {
         print("RoomManager: Beginning flood.");
 
@@ -144,14 +141,12 @@ public class RoomManager : MonoBehaviour
         GameObject[] flags = GameObject.FindGameObjectsWithTag("RoomFlag");
         foundFlags.Clear(); //Reset the foundFlags dictionary
         debugDictList.Clear(); // Reset the touchedTiles list;
-
         if (flags.Length < 1)
         {
             unableToFlood?.Invoke(true);
         }
 
         isFlooding = true;
-
         foreach (GameObject flag in flags)
         {
             flag.GetComponent<Flag>().roomName = "Flag " + foundFlags.Count;
@@ -175,12 +170,12 @@ public class RoomManager : MonoBehaviour
 
     private void Update()
     {
-/*        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             Vector3Int startPosition = new Vector3Int(0, 0, 0);
             isFlooding = true;
             beginFlood(startPosition);
-        }*/
+        }
 
 
         if (isFlooding)
@@ -207,15 +202,14 @@ public class RoomManager : MonoBehaviour
                 if(!unreachableFlag)
                 {
                     print("RoomManager: Found all flags!");
-                    foundAllFlags = true;
-                    InterSceneManager.houseTiles = debugDictList; //Send final list of floodable tiles to the next scene
                 }
                 else
                 {
                     print("RoomManager: Did not find all flags!");
-                    foundAllFlags = false;
                     //IDK do something to prevent going to next scene
                 }
+
+                InterSceneManager.houseTiles = debugDictList; //Send final list of floodable tiles to the next scene
                 isFlooding = false;
                 exploredTiles.Clear(); //reset the dictionary next time we start flooding
 

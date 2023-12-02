@@ -57,10 +57,6 @@ Button {
     background-color: rgba(108, 108, 108, 0.41);
     align-items: center;
     justify-content: center;
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
 }
 
 #StatusText {
@@ -312,35 +308,4 @@ Button {
     padding-right: 0;
     padding-bottom: 0;
     padding-left: 0;
-}
-
-.PopupSelectionContainer > Button {
-    -unity-font-style: bold;
-    border-top-width: 3px;
-    border-right-width: 3px;
-    border-bottom-width: 3px;
-    border-left-width: 3px;
-    border-left-color: rgb(0, 0, 0);
-    border-right-color: rgb(0, 0, 0);
-    border-top-color: rgb(0, 0, 0);
-    border-bottom-color: rgb(0, 0, 0);
-    font-size: 20px;
-    width: 200px;
-    margin-top: 0;
-    margin-right: 10px;
-    margin-bottom: 0;
-    margin-left: 10px;
-}
-
-#ConfirmButton {
-    -unity-font-style: bold;
-    font-size: 16px;
-    border-top-width: 3px;
-    border-right-width: 3px;
-    border-bottom-width: 3px;
-    border-left-width: 3px;
-    border-left-color: rgb(0, 0, 0);
-    border-right-color: rgb(0, 0, 0);
-    border-top-color: rgb(0, 0, 0);
-    border-bottom-color: rgb(0, 0, 0);
 }

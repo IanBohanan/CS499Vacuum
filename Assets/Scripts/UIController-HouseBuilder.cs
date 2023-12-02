@@ -81,9 +81,6 @@ public class HouseBuilderUI : MonoBehaviour
     #region Explore UI and Assign Callbacks
     private void exploreUI()
     {
-        // Get RoomManager:
-        roomManager = GameObject.Find("RoomManager");
-
         // Get UIDocument Root:
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 

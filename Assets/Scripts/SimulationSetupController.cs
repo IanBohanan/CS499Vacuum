@@ -18,12 +18,6 @@ public class SimulationSetupController : MonoBehaviour
     Slider robotSpeedSlider;
     Label robotSpeedLabel; // New field for displaying Robot Speed
 
-    Slider vacuumEfficiencySlider;
-    Label vacuumEfficiencyLabel; // New field for displaying Robot Speed
-
-    Slider whiskersEfficiencySlider;
-    Label whiskersEfficiencyLabel; // New field for displaying Robot Speed
-
 
     // Algorithm Buttons:
     Button randomBtn;
@@ -77,29 +71,16 @@ public class SimulationSetupController : MonoBehaviour
         snakingBtn = snakingContainer.Q<Button>("SnakingCheckbox");
         wallFollowBtn = wallFollowContainer.Q<Button>("WallFollowCheckbox");
 
-        // Battery Life Slider:
         batteryLifeSlider = root.Q<Slider>("BatteryLifeSlider");
         batteryLifeLabel = root.Q<Label>("BatteryLifeLabel"); // Initializing the battery life label
         batteryLifeSlider.value = batteryLife; // Setting the initial slider value
         UpdateBatteryLifeLabel(); // Display initial battery life
 
-        // Robot Speed Slider:
+        // Robot Speed slider
         robotSpeedSlider = root.Q<Slider>("RobotSpeedSlider");
         robotSpeedLabel = root.Q<Label>("RobotSpeedLabel"); // Initializing the Robot Speed label
         robotSpeedSlider.value = robotSpeed; // Setting the initial slider value
         UpdaterobotSpeedLabel(); // Display initial Robot Speed
-
-        // Vacuum Efficiency Slider:
-        vacuumEfficiencySlider = root.Q<Slider>("VacuumEfficiencySlider");
-        vacuumEfficiencyLabel = root.Q<Label>("VacuumEfficiencyLabel"); // Initializing the Robot Speed label
-        vacuumEfficiencySlider.value = vacuumEfficiency; // Setting the initial slider value
-        vacuumEfficiencyLabel.text = $"Vacuum Efficiency: {(int)vacuumEfficiency}%"; // Display initial vacuum efficiency
-
-        // Whiskers Efficiency Slider:
-        whiskersEfficiencySlider = root.Q<Slider>("WhiskersEfficiencySlider");
-        whiskersEfficiencyLabel = root.Q<Label>("WhiskersEfficiencyLabel"); // Initializing the Robot Speed label
-        whiskersEfficiencySlider.value = whiskersEfficiency; // Setting the initial slider value
-        whiskersEfficiencyLabel.text = $"Whiskers Efficiency: {(int)whiskersEfficiency}%"; // Display initial whiskers efficiency
 
 
         startSimulationBtn = root.Q<Button>("StartButton");
@@ -115,8 +96,6 @@ public class SimulationSetupController : MonoBehaviour
         floorCoveringDropdown.RegisterValueChangedCallback(floorCoveringUpdate);
         batteryLifeSlider.RegisterValueChangedCallback(batteryLifeUpdate);
         robotSpeedSlider.RegisterValueChangedCallback(robotSpeedUpdate);
-        vacuumEfficiencySlider.RegisterValueChangedCallback(vacuumEfficiencyUpdate);
-        whiskersEfficiencySlider.RegisterValueChangedCallback(whiskersEfficiencyUpdate);
         randomBtn.clicked += () => toggleAlg("random");
         spiralBtn.clicked += () => toggleAlg("spiral");
         snakingBtn.clicked += () => toggleAlg("snaking");
@@ -171,26 +150,14 @@ public class SimulationSetupController : MonoBehaviour
         UpdaterobotSpeedLabel(); // Update the label when the slider value changes
     }
 
-    private void vacuumEfficiencyUpdate(ChangeEvent<float> evt)
-    {
-        vacuumEfficiency = vacuumEfficiencySlider.value;
-        vacuumEfficiencyLabel.text = $"Vacuum Efficiency: {(int)vacuumEfficiency}%"; // Display updated vacuum efficiency
-    }
-
-    private void whiskersEfficiencyUpdate(ChangeEvent<float> evt)
-    {
-        whiskersEfficiency = whiskersEfficiencySlider.value;
-        whiskersEfficiencyLabel.text = $"Whiskers Efficiency: {(int)whiskersEfficiency}%"; // Display updated whiskers efficiency
-    }
-
     private void UpdaterobotSpeedLabel()
     {
-        robotSpeedLabel.text = $"Robot Speed: {(int)robotSpeed} inch/sec"; // Display updated Robot Speed
+        robotSpeedLabel.text = $"Robot Speed: {robotSpeed} inch/sec"; // Display updated Robot Speed
     }
 
     private void UpdateBatteryLifeLabel()
     {
-        batteryLifeLabel.text = $"Battery Life: {(int)batteryLife} mins"; // Display updated battery life
+        batteryLifeLabel.text = $"Battery Life: {batteryLife} mins"; // Display updated battery life
     }
 
     private void toggleAlg(string algName)
