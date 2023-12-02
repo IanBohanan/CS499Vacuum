@@ -1,3 +1,5 @@
+// This script, SimulationSetupController, manages the user interface and settings for configuring a simulation in a Unity application. It provides options for adjusting various parameters, such as whiskers, battery life, robot speed, floor covering, and algorithm selection.
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,15 +11,13 @@ using UnityEngine.UIElements;
 
 public class SimulationSetupController : MonoBehaviour
 {
-    //UI Elements
+    // UI Elements:
     Button whiskersButton;
     Slider batteryLifeSlider;
     Button startSimulationBtn;
-    Label batteryLifeLabel; // New field for displaying battery life
-
+    Label batteryLifeLabel; // Display battery life value
     Slider robotSpeedSlider;
-    Label robotSpeedLabel; // New field for displaying Robot Speed
-
+    Label robotSpeedLabel; // Display robot speed value
 
     // Algorithm Buttons:
     Button randomBtn;
@@ -25,7 +25,7 @@ public class SimulationSetupController : MonoBehaviour
     Button snakingBtn;
     Button wallFollowBtn;
 
-    // Dropdown
+    // Dropdown for selecting floor covering:
     DropdownField floorCoveringDropdown;
 
     // Settings Values:
@@ -46,17 +46,19 @@ public class SimulationSetupController : MonoBehaviour
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
         // Parse UI Doc Tree:
-        // Get body element and settings container
         VisualElement body = root.Q<VisualElement>("Body");
         VisualElement settingsContainer = body.Q<VisualElement>("SettingsContainer");
-        // Left Column:
+
+        // Left Column UI:
         VisualElement leftColumn = settingsContainer.Q<VisualElement>("LeftColumn");
         VisualElement whiskers = leftColumn.Q<VisualElement>("Whiskers");
         VisualElement whiskersCheckbox = whiskers.Q<VisualElement>("WhiskersCheckbox");
         whiskersButton = whiskersCheckbox.Q<Button>("WhiskerButton");
+
         VisualElement floorCoveringContainer = leftColumn.Q<VisualElement>("FloorCovering");
         floorCoveringDropdown = floorCoveringContainer.Q<DropdownField>("FloorCoveringDropdown");
-        // Right Column:
+
+        // Right Column UI:
         VisualElement rightcolumn = settingsContainer.Q<VisualElement>("RightColumn");
         VisualElement algorithms = rightcolumn.Q<VisualElement>("Algorithms");
         VisualElement algorithmsCheckboxes = algorithms.Q<VisualElement>("AlgorithmsCheckboxes");
@@ -64,26 +66,32 @@ public class SimulationSetupController : MonoBehaviour
         VisualElement spiralContainer = algorithmsCheckboxes.Q<VisualElement>("Spiral");
         VisualElement snakingContainer = algorithmsCheckboxes.Q<VisualElement>("Snaking");
         VisualElement wallFollowContainer = algorithmsCheckboxes.Q<VisualElement>("WallFollow");
+
+        // Algorithm buttons:
         randomBtn = randomContainer.Q<Button>("RandomCheckbox");
         spiralBtn = spiralContainer.Q<Button>("SpiralCheckbox");
         snakingBtn = snakingContainer.Q<Button>("SnakingCheckbox");
         wallFollowBtn = wallFollowContainer.Q<Button>("WallFollowCheckbox");
-        // Initialize Battery Life slider and label
+
+        // Battery life slider and label:
         batteryLifeSlider = root.Q<Slider>("BatteryLifeSlider");
         batteryLifeLabel = root.Q<Label>("BatteryLifeLabel"); // Initializing the battery life label
         batteryLifeSlider.value = batteryLife; // Setting the initial slider value
         UpdateBatteryLifeLabel(); // Display initial battery life
 
-        // Initialize Robot Speed slider and label
+        // Robot Speed slider and label:
         robotSpeedSlider = root.Q<Slider>("RobotSpeedSlider");
         robotSpeedLabel = root.Q<Label>("RobotSpeedLabel"); // Initializing the Robot Speed label
         robotSpeedSlider.value = robotSpeed; // Setting the initial slider value
         UpdaterobotSpeedLabel(); // Display initial Robot Speed
 
-
+        // Start Simulation button:
         startSimulationBtn = root.Q<Button>("StartButton");
 
-        // Subscribe to callback functions for UI interactions
+        // Set random algorithm as enabled by default:
+        toggleAlg("random");
+
+        // Subscribe to UI element callback functions:
         whiskersButton.clicked += () => { whiskersToggleFunction(); };
         floorCoveringDropdown.RegisterValueChangedCallback(floorCoveringUpdate);
         batteryLifeSlider.RegisterValueChangedCallback(batteryLifeUpdate);
@@ -94,11 +102,13 @@ public class SimulationSetupController : MonoBehaviour
         wallFollowBtn.clicked += () => toggleAlg("wallFollow");
         startSimulationBtn.clicked += () => onStartSimulationPress();
     }
-    // Function to toggle whiskers
+
+    // Toggle whiskers functionality:
     private void whiskersToggleFunction()
     {
         whiskersEnabled = !whiskersEnabled;
-        if (whiskersEnabled) {
+        if (whiskersEnabled)
+        {
             whiskersButton.style.color = Color.black;
         }
         else
@@ -106,34 +116,40 @@ public class SimulationSetupController : MonoBehaviour
             whiskersButton.style.color = new Color(0.7372f, 0.7372f, 0.7372f, 1);
         }
     }
-    // Function to update floor covering setting
+
+    // Update floor covering selection:
     private void floorCoveringUpdate(ChangeEvent<string> evt)
     {
         floorCovering = floorCoveringDropdown.value;
     }
-    // Function to update battery life setting
+
+    // Update battery life value:
     private void batteryLifeUpdate(ChangeEvent<float> evt)
     {
         batteryLife = batteryLifeSlider.value;
         UpdateBatteryLifeLabel(); // Update the label when the slider value changes
     }
-    // Function to update robot speed setting
+
+    // Update Robot Speed value:
     private void robotSpeedUpdate(ChangeEvent<float> evt)
     {
         robotSpeed = robotSpeedSlider.value;
-        UpdaterobotSpeedLabel(); 
+        UpdaterobotSpeedLabel(); // Update the label when the slider value changes
     }
-    // Function to update Robot Speed label
+
+    // Display Robot Speed label:
     private void UpdaterobotSpeedLabel()
     {
-        robotSpeedLabel.text = $"robotSpeed: {robotSpeed} inch/sec"; // Display updated Robot Speed
+        robotSpeedLabel.text = $"Robot Speed: {robotSpeed} inch/sec"; // Display updated Robot Speed
     }
-   // Function to update Battery Life label 
+
+    // Display battery life label:
     private void UpdateBatteryLifeLabel()
     {
         batteryLifeLabel.text = $"Battery Life: {batteryLife} mins"; // Display updated battery life
     }
-    // Function to toggle algorithm settings
+
+    // Toggle algorithm selection:
     private void toggleAlg(string algName)
     {
         switch (algName)
@@ -187,13 +203,17 @@ public class SimulationSetupController : MonoBehaviour
                 break;
         }
     }
-    // Function to handle the "Start Simulation" button press
+
+    // Function to handle the start simulation button click:
     public void onStartSimulationPress()
     {
+        // Set the simulation settings and load the simulation scene:
         InterSceneManager.setSimulationSettings(whiskersEnabled, floorCovering, (int)batteryLife, randomAlg, spiralAlg, snakingAlg, wallFollowAlg);
+        InterSceneManager.vacuumSpeed = (int)robotSpeedSlider.value;
+        Debug.Log(InterSceneManager.vacuumSpeed);
         myData = InterSceneManager.getSimulationSettings();
         //Debug.Log(myData);
-        // We want to load a new scene after setting up:
+        // Load the simulation scene:
         SceneManager.LoadScene(sceneName: "Simulation");
     }
 }
