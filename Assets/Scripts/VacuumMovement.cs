@@ -71,8 +71,6 @@ public class VacuumMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-<<<<<<< HEAD
-=======
         // Set up tilemap data:
         tilemap = GameObject.Find("UIFloor").GetComponent<Tilemap>();
         InterSceneManager.cleanedTiles.Clear();
@@ -86,7 +84,6 @@ public class VacuumMovement : MonoBehaviour
             //Instantiate(hardwoodTile, tilemap.CellToWorld(tile), Quaternion.identity);
         }
 
->>>>>>> parent of 1c93b3f (Merge branch 'main' into BiggestSingleCommitEver)
         // Set Speed
         speed = 0.005f;
 

@@ -15,14 +15,10 @@ using UnityEngine.Tilemaps;
 
 public class RoomManager : MonoBehaviour
 {
-<<<<<<< HEAD
-=======
 
     public static event Action<bool> finishedFlooding; //Sent out at end of room flooding
     public static event Action<bool> unableToFlood; //Sent out at end of room flooding
     public static event Action spawnedTiles; //Sent out at end of room flooding
->>>>>>> parent of 1c93b3f (Merge branch 'main' into BiggestSingleCommitEver)
-
     [SerializeField]
     private Tilemap tilemap;
     [SerializeField]
@@ -122,19 +118,7 @@ public class RoomManager : MonoBehaviour
         //also get all instances 
         GameObject[] flags = GameObject.FindGameObjectsWithTag("RoomFlag");
         foundFlags.Clear(); //Reset the foundFlags dictionary
-<<<<<<< HEAD
 
-=======
-        debugDictList.Clear(); // Reset the touchedTiles list;
-
-        if (flags.Length < 1)
-        {
-            unableToFlood?.Invoke(true);
-        }
-
-        isFlooding = true;
-
->>>>>>> parent of 1c93b3f (Merge branch 'main' into BiggestSingleCommitEver)
         foreach (GameObject flag in flags)
         {
             flag.GetComponent<Flag>().roomName = "Flag " + foundFlags.Count;
