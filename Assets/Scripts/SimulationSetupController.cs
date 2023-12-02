@@ -39,7 +39,7 @@ public class SimulationSetupController : MonoBehaviour
     float batteryLife = 150;
     float robotSpeed = 12;
     float vacuumEfficiency = 90;
-    float whiskersEfficiency = 50;
+    float whiskersEfficiency = 30;
     string floorCovering = "Hardwood";
     bool randomAlg = false;
     bool spiralAlg = false;

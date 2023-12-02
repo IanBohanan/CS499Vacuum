@@ -180,6 +180,7 @@ public class CheckForAlgsController : MonoBehaviour
             Debug.Log("JSON Saving Exception: " + e.Message);
         }
 
+        InterSceneManager.speedMultiplier = 1;
         SceneManager.LoadScene("ShowColorCodedResults");
     }
 }

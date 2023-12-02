@@ -46,6 +46,7 @@
     </ui:VisualElement>
     <ui:VisualElement name="ExportSelectionContainer" class="PopupContainer" style="flex-grow: 1; display: none;">
         <ui:Label tabindex="-1" text="Select a Save Slot:" display-tooltip-when-elided="true" style="font-size: 36px;" />
+        <ui:Label tabindex="-1" text="Warning: This file contains a layout already!" display-tooltip-when-elided="true" name="OverwriteWarning" style="font-size: 16px; color: rgb(255, 30, 30); display: none;" />
         <ui:DropdownField index="-1" choices="Layout1,Layout2,Layout3,Layout4,Layout5,Layout6,Layout7,Layout8,Layout9,Layout10" name="ExportDropdown" />
         <ui:Button text="Select Layout" display-tooltip-when-elided="true" name="ExportSelectionButton" />
     </ui:VisualElement>

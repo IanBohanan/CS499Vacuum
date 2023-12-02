@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 using System;
 using UnityEngine.SceneManagement;
 using UnityEditor.EditorTools;
+using static LayoutManager;
 
 enum CurrentState
 {
@@ -56,6 +57,7 @@ public class HouseBuilderUI : MonoBehaviour
     Button chairBtn;
     Button tableBtn;
     Button chestBtn;
+    Label overwriteWarningLabel;
 
     GameObject roomManager;
     #endregion
@@ -129,6 +131,7 @@ public class HouseBuilderUI : MonoBehaviour
         validityPopup = root.Q<VisualElement>("ValidityCheckPopup");
         validityConfirmBtn = root.Q<Button>("ValidityConfirmButton");
         validityProblemBtn = root.Q<Button>("ValidityProblemButton");
+        overwriteWarningLabel = root.Q<Label>("OverwriteWarning");
     }
     private void assignCallbacks()
     {
@@ -160,6 +163,18 @@ public class HouseBuilderUI : MonoBehaviour
     {
         // Update the file selection variable
         exportFileSelection = exportDropdown.value;
+        try
+        {
+            string unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/" + exportFileSelection + ".json");
+            SerializableList<LayoutManager.Object> parsedJSON = JsonUtility.FromJson<SerializableList<LayoutManager.Object>>(unparsedJSON);
+            // If we didn't break out of the block, then the file exists, so warn the user:
+            overwriteWarningLabel.style.display = DisplayStyle.Flex;
+        }
+        catch (Exception e)
+        {
+            // File doesn't exist, so we're good to write to it:
+            overwriteWarningLabel.style.display = DisplayStyle.None;
+        }
     }
     private void confirmExportSelection()
     {

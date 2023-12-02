@@ -183,7 +183,7 @@ public class VacuumMovement : MonoBehaviour
         {
             Vector3 botBottom = new Vector3(transform.position.x, transform.position.y + 6, transform.position.z);
             RaycastHit2D hitDataLeft = Physics2D.Raycast(transform.position, -transform.right);
-            if ((!justTurned) && hitDataLeft.distance > 15)
+            if ((!justTurned) && hitDataLeft.distance > ((InterSceneManager.speedMultiplier == 50)? 15:10))
             {
                 if (wallFollowing && (consecutiveLeftTurns < 4))
                 {
@@ -305,7 +305,7 @@ public class VacuumMovement : MonoBehaviour
 
         // Move the entire "Vacuum-Robot" prefab.
         // Calculate next Vacuum move
-        Vector3 movePosition = new Vector3(currentDirectionVec.x , currentDirectionVec.y, 0) * speed * InterSceneManager.speedMultiplier * (InterSceneManager.vacuumSpeed);
+        Vector3 movePosition = new Vector3(currentDirectionVec.x , currentDirectionVec.y, 0) * speed * (currentlyOffsettingSnake ? InterSceneManager.speedMultiplier/2:InterSceneManager.speedMultiplier) * (InterSceneManager.vacuumSpeed);
         // Move the child GameObjects along with the parent.
         transform.position += movePosition;
 
@@ -318,7 +318,7 @@ public class VacuumMovement : MonoBehaviour
             if (tileIndex != -1)
             {
                 //Debug.Log(tileIndex + " " + cellPosition.x + " " + cellPosition.y);
-                InterSceneManager.cleanedTiles[tileIndex].hits += InterSceneManager.speedMultiplier;
+                InterSceneManager.cleanedTiles[tileIndex].hits += Mathf.RoundToInt(InterSceneManager.speedMultiplier/2);
             }
         }
         Vector3Int newcellPosition = new Vector3Int(cellPosition.x-1, cellPosition.y, cellPosition.z);
@@ -385,25 +385,25 @@ public class VacuumMovement : MonoBehaviour
                     Debug.Log(currentDirectionVec);
                     if (currentDirectionVec.y > 0)
                     {
-                        if (hitDataUp.distance < 1){
+                        if (hitDataUp.distance < 5){
                             newDir = true;
                         }
                     }
                     if (currentDirectionVec.x > 0)
                     {
-                        if (hitDataRight.distance < 1)
+                        if (hitDataRight.distance < 5)
                         {
                             newDir = true;
                         }
                     }
-                    if (currentDirectionVec.y < 0)
+                    if (currentDirectionVec.y < 5)
                     {
                         if (hitDataDown.distance < 1)
                         {
                             newDir = true;
                         }
                     }
-                    if (currentDirectionVec.x < 0)
+                    if (currentDirectionVec.x < 5)
                     {
                         if (hitDataLeft.distance < 1)
                         {
@@ -451,8 +451,11 @@ public class VacuumMovement : MonoBehaviour
             }
             else if (currentAlg == Algorithm.Spiral)
             {
+                if (isSpiraling)
+                {
+                    currentDirectionVec = -CalculateNormalizedDirection(transform.position, spiralOrigin);
+                }
                 isSpiraling = false; // Stop the spiral updates
-                currentDirectionVec = -CalculateNormalizedDirection(transform.position, spiralOrigin);
                 currentDirectionVec = -currentDirectionVec;
                 float x = currentDirectionVec.x * (0.25f * InterSceneManager.speedMultiplier);
                 float y = currentDirectionVec.y * (0.25f * InterSceneManager.speedMultiplier);
@@ -498,8 +501,10 @@ public class VacuumMovement : MonoBehaviour
                 currentlyOffsettingSnake = true;
 
                 // Back up a bit:
-                float x = -currentDirectionVec.x * (0.25f * InterSceneManager.speedMultiplier);
-                float y = -currentDirectionVec.y * (0.25f * InterSceneManager.speedMultiplier);
+                currentDirectionVec = -currentDirectionVec;
+                float x = currentDirectionVec.x * (0.25f * InterSceneManager.speedMultiplier);
+                float y = currentDirectionVec.y * (0.25f * InterSceneManager.speedMultiplier);
+                currentDirectionVec = -currentDirectionVec;
                 transform.position += new Vector3(x, y, 0);
 
                 float minDistance;

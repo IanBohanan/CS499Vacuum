@@ -19,6 +19,7 @@ public class Settings
 [Serializable]
 public class RandomData
 {
+    public string algVersion = "1.0";
     public string elapsedTime = "00:00:00";
     public string batteryLifeEnd = "00:00:00";
     public float cleaningEfficiency = 0;
@@ -80,30 +81,6 @@ public class DataReviewController : MonoBehaviour
         subscribeToCallbacks();
 
         fillDataPanel();
-
-/*        int tileNum = 0;
-        int tilesCleaned = 0;
-        int totalHits = 0;
-        int tilesNotCleaned = 0;
-
-        foreach (SerializableTile tile in InterSceneManager.cleanedTiles)
-        {
-            tileNum++;
-            if (tile.hits != 0)
-            {
-                tilesCleaned++;
-            }
-            else
-            {
-                tilesNotCleaned++;
-            }
-            totalHits += tile.hits;
-        }
-
-        Debug.Log("Tiles: " + tileNum);
-        Debug.Log("Tiles Cleaned: " + tilesCleaned);
-        Debug.Log("Tiles Not Cleaned: " + tilesNotCleaned);
-        Debug.Log("Total Hits: " + totalHits);*/
     }
 
     // Subscribe to function callbacks:
@@ -158,7 +135,7 @@ public class DataReviewController : MonoBehaviour
         AddLabelToData("Covered Tiles: " + InterSceneManager.coveredTileNum);
         AddLabelToData("Covered Square Feet: " + (InterSceneManager.coveredTileNum/2));
 
-        AddNewSectionHeader("\nRandom:");
+        AddNewSectionHeader("\nRandom (" + parsedJSON.SIMULATION_DATA[currentRun].Random.algVersion+"):");
         AddLabelToData("Elapsed Time: " + parsedJSON.SIMULATION_DATA[currentRun].Random.elapsedTime);
         AddLabelToData("Ending Battery Life: " + parsedJSON.SIMULATION_DATA[currentRun].Random.batteryLifeEnd);
         AddLabelToData("Cleaning Efficiency: " + parsedJSON.SIMULATION_DATA[currentRun].Random.cleaningEfficiency + "%");
@@ -170,7 +147,7 @@ public class DataReviewController : MonoBehaviour
         AddLabelToData("Untouched Sqft: " + (parsedJSON.SIMULATION_DATA[currentRun].Random.untouchedTiles / 2));
 
 
-        AddNewSectionHeader("\nWall Follow:");
+        AddNewSectionHeader("\nWall Follow (" + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.algVersion + "):");
         AddLabelToData("Elapsed Time: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.elapsedTime);
         AddLabelToData("Ending Battery Life: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.batteryLifeEnd);
         AddLabelToData("Cleaning Efficiency: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.cleaningEfficiency + "%");
@@ -181,7 +158,7 @@ public class DataReviewController : MonoBehaviour
         AddLabelToData("Sqft Fully Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].WallFollow.tilesCleaned / 2));
         AddLabelToData("Untouched Sqft: " + (parsedJSON.SIMULATION_DATA[currentRun].WallFollow.untouchedTiles / 2));
 
-        AddNewSectionHeader("\nSpiral:");
+        AddNewSectionHeader("\nSpiral (" + parsedJSON.SIMULATION_DATA[currentRun].Spiral.algVersion + "):");
         AddLabelToData("Elapsed Time: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.elapsedTime);
         AddLabelToData("Ending Battery Life: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.batteryLifeEnd);
         AddLabelToData("Cleaning Efficiency: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.cleaningEfficiency + "%");
@@ -192,7 +169,7 @@ public class DataReviewController : MonoBehaviour
         AddLabelToData("Sqft Fully Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].Spiral.tilesCleaned / 2));
         AddLabelToData("Untouched Sqft: " + (parsedJSON.SIMULATION_DATA[currentRun].Spiral.untouchedTiles / 2));
 
-        AddNewSectionHeader("\nSnaking:");
+        AddNewSectionHeader("\nSnaking (" + parsedJSON.SIMULATION_DATA[currentRun].Snaking.algVersion + "):");
         AddLabelToData("Elapsed Time: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.elapsedTime);
         AddLabelToData("Ending Battery Life: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.batteryLifeEnd);
         AddLabelToData("Cleaning Efficiency: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.cleaningEfficiency + "%");
