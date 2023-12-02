@@ -10,32 +10,29 @@ using static LayoutManager;
 [Serializable]
 public class Settings
 {
-    public string dateTime = "";
-    public bool whiskers = false;
-    public string floorCovering = "Hardwood";
-    public int batteryLifeStart = 0;
+    public bool whiskers;
+    public string floorCovering;
+    public int batteryLifeStart;
 }
 
 [Serializable]
 public class RandomData
 {
-    public string algVersion = "1.0";
-    public string elapsedTime = "00:00:00";
-    public string batteryLifeEnd = "00:00:00";
-    public float cleaningEfficiency = 0;
-    public int tilesPartiallyCleaned = 0;
-    public int tilesCleaned = 0;
-    public int untouchedTiles = 0;
+    public int elapsedTime;
+    public int batteryLifeEnd;
+    public int cleaningEfficiency;
+    public int tilesCleaned;
+    public int untouchedTiles;
 }
 
 [Serializable]
 public class SimulationEntry
 {
-    public Settings Settings = new Settings();
-    public RandomData Random = new RandomData();
-    public RandomData WallFollow = new RandomData();
-    public RandomData Spiral = new RandomData();
-    public RandomData Snaking = new RandomData();
+    public Settings Settings;
+    public RandomData Random;
+    public RandomData WallFollow;
+    public RandomData Spiral;
+    public RandomData Snaking;
 }
 
 [Serializable]
@@ -49,7 +46,7 @@ public class RootObject<T>
 public class DataReviewController : MonoBehaviour
 {
     int currentRun = 0;
-    string jsonFile = InterSceneManager.fileSelection;
+    string jsonFile = "Layout1";
 
     TreeView data;
     Button returnToMainMenu;
@@ -126,59 +123,40 @@ public class DataReviewController : MonoBehaviour
         RootObject<SimulationEntry> parsedJSON = JsonUtility.FromJson<RootObject<SimulationEntry>>(unparsedJSON);
 
         AddRunNumberLabel("Run Number: "+(currentRun+1));
-        AddRunNumberLabel("Date & Time: " + parsedJSON.SIMULATION_DATA[currentRun].Settings.dateTime);
 
         AddNewSectionHeader("\nSettings:");
         AddLabelToData("Whiskers: "+parsedJSON.SIMULATION_DATA[currentRun].Settings.whiskers);
         AddLabelToData("Floor Covering: "+parsedJSON.SIMULATION_DATA[currentRun].Settings.floorCovering);
         AddLabelToData("Starting Battery Life: "+parsedJSON.SIMULATION_DATA[currentRun].Settings.batteryLifeStart);
-        AddLabelToData("Covered Tiles: " + InterSceneManager.coveredTileNum);
-        AddLabelToData("Covered Square Feet: " + (InterSceneManager.coveredTileNum/2));
 
-        AddNewSectionHeader("\nRandom (" + parsedJSON.SIMULATION_DATA[currentRun].Random.algVersion+"):");
+        AddNewSectionHeader("\nRandom:");
         AddLabelToData("Elapsed Time: " + parsedJSON.SIMULATION_DATA[currentRun].Random.elapsedTime);
         AddLabelToData("Ending Battery Life: " + parsedJSON.SIMULATION_DATA[currentRun].Random.batteryLifeEnd);
-        AddLabelToData("Cleaning Efficiency: " + parsedJSON.SIMULATION_DATA[currentRun].Random.cleaningEfficiency + "%");
-        AddLabelToData("Tiles Partially Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Random.tilesPartiallyCleaned);
-        AddLabelToData("Tiles Fully Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Random.tilesCleaned);
+        AddLabelToData("Cleaning Efficiency: " + parsedJSON.SIMULATION_DATA[currentRun].Random.cleaningEfficiency);
+        AddLabelToData("Tiles Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Random.tilesCleaned);
         AddLabelToData("Untouched Tiles: " + parsedJSON.SIMULATION_DATA[currentRun].Random.untouchedTiles);
-        AddLabelToData("Sqft Partially Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].Random.tilesPartiallyCleaned / 2));
-        AddLabelToData("Sqft Fully Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].Random.tilesCleaned / 2));
-        AddLabelToData("Untouched Sqft: " + (parsedJSON.SIMULATION_DATA[currentRun].Random.untouchedTiles / 2));
 
 
-        AddNewSectionHeader("\nWall Follow (" + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.algVersion + "):");
+        AddNewSectionHeader("\nWall Follow:");
         AddLabelToData("Elapsed Time: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.elapsedTime);
         AddLabelToData("Ending Battery Life: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.batteryLifeEnd);
-        AddLabelToData("Cleaning Efficiency: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.cleaningEfficiency + "%");
-        AddLabelToData("Tiles Partially Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.tilesPartiallyCleaned);
-        AddLabelToData("Tiles Fully Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.tilesCleaned);
+        AddLabelToData("Cleaning Efficiency: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.cleaningEfficiency);
+        AddLabelToData("Tiles Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.tilesCleaned);
         AddLabelToData("Untouched Tiles: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.untouchedTiles);
-        AddLabelToData("Sqft Partially Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].WallFollow.tilesPartiallyCleaned / 2));
-        AddLabelToData("Sqft Fully Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].WallFollow.tilesCleaned / 2));
-        AddLabelToData("Untouched Sqft: " + (parsedJSON.SIMULATION_DATA[currentRun].WallFollow.untouchedTiles / 2));
 
-        AddNewSectionHeader("\nSpiral (" + parsedJSON.SIMULATION_DATA[currentRun].Spiral.algVersion + "):");
+        AddNewSectionHeader("\nSpiral:");
         AddLabelToData("Elapsed Time: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.elapsedTime);
         AddLabelToData("Ending Battery Life: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.batteryLifeEnd);
-        AddLabelToData("Cleaning Efficiency: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.cleaningEfficiency + "%");
-        AddLabelToData("Tiles Partially Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.tilesPartiallyCleaned);
-        AddLabelToData("Tiles Fully Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.tilesCleaned);
+        AddLabelToData("Cleaning Efficiency: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.cleaningEfficiency);
+        AddLabelToData("Tiles Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.tilesCleaned);
         AddLabelToData("Untouched Tiles: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.untouchedTiles);
-        AddLabelToData("Sqft Partially Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].Spiral.tilesPartiallyCleaned / 2));
-        AddLabelToData("Sqft Fully Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].Spiral.tilesCleaned / 2));
-        AddLabelToData("Untouched Sqft: " + (parsedJSON.SIMULATION_DATA[currentRun].Spiral.untouchedTiles / 2));
 
-        AddNewSectionHeader("\nSnaking (" + parsedJSON.SIMULATION_DATA[currentRun].Snaking.algVersion + "):");
+        AddNewSectionHeader("\nSnaking:");
         AddLabelToData("Elapsed Time: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.elapsedTime);
         AddLabelToData("Ending Battery Life: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.batteryLifeEnd);
-        AddLabelToData("Cleaning Efficiency: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.cleaningEfficiency + "%");
-        AddLabelToData("Tiles Partially Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.tilesPartiallyCleaned);
-        AddLabelToData("Tiles Fully Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.tilesCleaned);
+        AddLabelToData("Cleaning Efficiency: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.cleaningEfficiency);
+        AddLabelToData("Tiles Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.tilesCleaned);
         AddLabelToData("Untouched Tiles: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.untouchedTiles);
-        AddLabelToData("Sqft Partially Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].Snaking.tilesPartiallyCleaned / 2));
-        AddLabelToData("Sqft Fully Cleaned: " + (parsedJSON.SIMULATION_DATA[currentRun].Snaking.tilesCleaned / 2));
-        AddLabelToData("Untouched Sqft: " + (parsedJSON.SIMULATION_DATA[currentRun].Snaking.untouchedTiles / 2));
     }
     private void AddRunNumberLabel(string text)
     {

@@ -1,6 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI/HouseBuilder.uss?fileID=7433441132597879392&amp;guid=b99cf66585f4984418f27bccecc23c43&amp;type=3#HouseBuilder" />
-    <ui:VisualElement name="Body" style="flex-grow: 1; background-color: rgb(0, 0, 0); justify-content: center; align-items: center;">
-        <ui:Label tabindex="-1" text="Preparing Simulation..." display-tooltip-when-elided="true" name="SpawningTilesLabel" />
-    </ui:VisualElement>
-</ui:UXML>

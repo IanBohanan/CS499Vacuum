@@ -3,7 +3,7 @@
     <ui:VisualElement name="Body" style="height: auto; width: auto; flex-grow: 1;">
         <ui:Label tabindex="-1" text="Simulation Setup" display-tooltip-when-elided="true" name="Header" style="margin-top: 5%; height: 70px; justify-content: flex-start; align-items: center; -unity-text-align: upper-center; font-size: 50px;" />
         <ui:VisualElement name="SettingsContainer" style="width: auto; flex-direction: row; justify-content: space-between;">
-            <ui:ScrollView name="LeftColumn" vertical-scroller-visibility="AlwaysVisible" style="overflow: visible;">
+            <ui:VisualElement name="LeftColumn" class="Column" style="flex-grow: 0; width: 50%;">
                 <ui:VisualElement name="Whiskers" style="flex-grow: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
                     <ui:Label tabindex="-1" text="Whiskers Attachment" display-tooltip-when-elided="true" class="SettingsLabel" style="font-size: 35px; height: 70px;" />
                     <ui:VisualElement name="WhiskersCheckbox" class="CheckboxContainer" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 5px;">
@@ -23,16 +23,7 @@
                     <ui:Label tabindex="-1" text="Robot Speed (Inch/Sec)" display-tooltip-when-elided="true" name="RobotSpeedLabel" class="SettingsLabel" style="font-size: 35px; height: 50px;" />
                     <ui:Slider value="12" high-value="18" low-value="6" show-input-field="true" direction="Horizontal" name="RobotSpeedSlider" style="font-size: 16px; flex-wrap: wrap-reverse; flex-direction: row; justify-content: flex-start; align-items: auto; flex-grow: 0; flex-shrink: 0; overflow: visible;" />
                 </ui:VisualElement>
-                <ui:VisualElement name="VacuumEfficiency" style="flex-grow: 0;">
-                    <ui:Label tabindex="-1" text="Vacuum Efficiency" display-tooltip-when-elided="true" name="VacuumEfficiencyLabel" class="SettingsLabel" style="font-size: 35px; height: 50px;" />
-                    <ui:Slider value="90" high-value="90" low-value="10" show-input-field="true" direction="Horizontal" name="VacuumEfficiencySlider" style="font-size: 16px; flex-wrap: wrap-reverse; flex-direction: row; justify-content: flex-start; align-items: auto; flex-grow: 0; flex-shrink: 0; overflow: visible;" />
-                </ui:VisualElement>
-                <ui:VisualElement name="WhiskersEfficiency" style="flex-grow: 0;">
-                    <ui:Label tabindex="-1" text="Whiskers Efficiency" display-tooltip-when-elided="true" name="WhiskersEfficiencyLabel" class="SettingsLabel" style="font-size: 35px; height: 50px;" />
-                    <ui:Slider value="30" high-value="50" low-value="10" show-input-field="true" direction="Horizontal" name="WhiskersEfficiencySlider" style="font-size: 16px; flex-wrap: wrap-reverse; flex-direction: row; justify-content: flex-start; align-items: auto; flex-grow: 0; flex-shrink: 0; overflow: visible;" />
-                </ui:VisualElement>
-            </ui:ScrollView>
-            <ui:VisualElement name="LeftColumn" class="Column" style="flex-grow: 0; width: 50%; display: none;" />
+            </ui:VisualElement>
             <ui:VisualElement name="RightColumn" class="Column" style="flex-grow: 1;">
                 <ui:VisualElement name="Algorithms" style="flex-grow: 1;">
                     <ui:Label tabindex="-1" text="Pathing Algorithms" display-tooltip-when-elided="true" class="SettingsLabel" style="font-size: 32px; height: 70px;" />

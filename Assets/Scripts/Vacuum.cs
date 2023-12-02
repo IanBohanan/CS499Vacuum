@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Vacuum : MonoBehaviour
 {
@@ -20,8 +18,6 @@ public class Vacuum : MonoBehaviour
     private bool whiskersEnabled;
     private string floorCovering;
     private bool isBatteryDead;
-
-    public static event Action batteryDead; //Sent out if battery dies
 
     // Start is called before the first frame update
     void Start()
@@ -54,7 +50,7 @@ public class Vacuum : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (!isBatteryDead)
         {
@@ -74,7 +70,6 @@ public class Vacuum : MonoBehaviour
                     whiskersRotation.StopRotation();
                 }
                 isBatteryDead = true;
-                batteryDead?.Invoke();
             }
             
         }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Timers;
 using UnityEditor.TerrainTools;
 using UnityEngine;
@@ -29,8 +28,6 @@ public class SimulationController : MonoBehaviour
 
     private void OnEnable()
     {
-        InterSceneManager.coveredTileNum = 0;
-
         vacuumBuddy = GameObject.FindGameObjectWithTag("VacuumBuddy");
         vacuumData = (vacuumBuddy.GetComponent<Vacuum>());
 
@@ -56,8 +53,6 @@ public class SimulationController : MonoBehaviour
         InvokeRepeating("updateLabels", 1, 1); // Start a repeating timer that fires every second
 
         speedLabel.text = "Speed: " + InterSceneManager.speedMultiplier + "x";
-
-        Vacuum.batteryDead += endSimulation;
     }
 
     private void updateLabels()
@@ -145,13 +140,6 @@ public class SimulationController : MonoBehaviour
     
     private void endSimulation()
     {
-        // Store elapsed time and ending battery life in InterSceneManager to then be stored in JSON:
-        int totalSecondsElapsed = elapsedSeconds + (elapsedMinutes*60) + (elapsedHours*60*60);
-
-        InterSceneManager.algorithmName = vacuumBuddy.GetComponent<VacuumMovement>().currentAlg.ToString();
-        InterSceneManager.simulationElapsedSeconds = totalSecondsElapsed;
-        InterSceneManager.endingBatteryLifeSeconds = (int)vacuumData.currBatteryLife;
-
         SceneManager.LoadScene(sceneName: "CheckForAlgs");
     }
 }
