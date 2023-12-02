@@ -118,7 +118,6 @@ public class RoomManager : MonoBehaviour
         //also get all instances 
         GameObject[] flags = GameObject.FindGameObjectsWithTag("RoomFlag");
         foundFlags.Clear(); //Reset the foundFlags dictionary
-
         foreach (GameObject flag in flags)
         {
             flag.GetComponent<Flag>().roomName = "Flag " + foundFlags.Count;
