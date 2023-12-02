@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Simulation.uss?fileID=7433441132597879392&amp;guid=47548277a06c83f4d8c181495e225691&amp;type=3#Simulation" />
+    <ui:VisualElement name="Body">
+        <ui:VisualElement name="BottomPanel" style="justify-content: center; height: 15%;">
+            <ui:VisualElement name="ExitButtonContainer">
+                <ui:Button text="Close Color Review" display-tooltip-when-elided="true" name="ExitButton" style="height: 75px; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

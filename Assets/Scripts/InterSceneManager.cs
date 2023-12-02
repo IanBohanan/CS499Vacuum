@@ -1,11 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+
+[System.Serializable]
+public class SerializableTile
+{
+    public Vector3Int pos = Vector3Int.zero;
+    public int hits = 0;
+    public float cleanliness = 0;
+
+    public SerializableTile(Vector3Int position, int hitNum)
+    {
+        this.pos = position;
+        this.hits = hitNum;
+    }
+}
 
 public static class InterSceneManager
 {
     // Main Menu Import File:
     public static string fileSelection = "";
+
+    public static bool userWantsDefaultHouse = false;
 
     public static List<GameObject> wallList = new List<GameObject>();
 
@@ -18,11 +35,12 @@ public static class InterSceneManager
     //Represents the tiles that were explored by the flood fill algorithm of the house
     //Note: these are TILEMAP positions, not worldspace positions. Use the tilemap!
     public static List<Vector3Int> houseTiles;
+    public static List<SerializableTile> cleanedTiles = new List<SerializableTile>();
 
     // Simulation Setup Settings:
-    private static bool whiskersEnabled;
-    private static string floorCovering;
-    private static int batteryLife;
+    public static bool whiskersEnabled;
+    public static string floorCovering;
+    public static int batteryLife;
     private static bool randomAlgEnabled = false;
     private static bool spiralAlgEnabled = false;
     private static bool snakingAlgEnabled = false;
@@ -34,6 +52,19 @@ public static class InterSceneManager
     // Vacuum movement speed, set in simulation setup
     public static int vacuumSpeed = 12;
         
+
+    // Vacuum and Whiskers attachement efficiency values (percentage):
+    public static int vacuumEfficiency = 50;
+    public static int whiskersEfficiency = 50;
+
+    // Simulation End Data for Use in JSON Storage:
+    public static string startDateTime = "";
+    public static string algorithmName = "";
+    public static int JSONEntryNum = 0;
+    public static int simulationElapsedSeconds = 0;
+    public static int endingBatteryLifeSeconds = 0;
+    public static int coveredTileNum = 0;
+
     public static void setSimulationSettings(bool whiskers, string floorCov, int battery, bool randomAlg, bool spiralAlg, bool snakingAlg, bool wallFollowAlg)
     {
         whiskersEnabled = whiskers;

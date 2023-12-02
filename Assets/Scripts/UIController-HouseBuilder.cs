@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEditor.EditorTools;
+using static LayoutManager;
 
 enum CurrentState
 {
@@ -25,6 +27,7 @@ public class HouseBuilderUI : MonoBehaviour
 
     #region UI Component References
     Label status; // "Invalid" or "Valid" shown in bottom left corner.
+    Label statusLabel;
     VisualElement cancelBar;
     Button cancelBtn;
     Button exportBtn;
@@ -35,6 +38,9 @@ public class HouseBuilderUI : MonoBehaviour
     VisualElement exportPopup;
     Button exportNoBtn;
     Button exportYesBtn;
+    VisualElement validityPopup;
+    Button validityConfirmBtn;
+    Button validityProblemBtn;
     VisualElement clearPopup;
     Button clearNoBtn;
     Button clearYesBtn;
@@ -51,6 +57,9 @@ public class HouseBuilderUI : MonoBehaviour
     Button chairBtn;
     Button tableBtn;
     Button chestBtn;
+    Label overwriteWarningLabel;
+
+    GameObject roomManager;
     #endregion
 
     CurrentState state = CurrentState.Default;
@@ -64,6 +73,8 @@ public class HouseBuilderUI : MonoBehaviour
         exploreUI();
         assignCallbacks();
         UpdateState(CurrentState.Default);
+        RoomManager.finishedFlooding += updateStatus;
+        RoomManager.unableToFlood += unableToFlood;
     }
     #endregion
 
@@ -85,7 +96,8 @@ public class HouseBuilderUI : MonoBehaviour
         cancelBtn = cancelBar.Q<Button>("CancelButton");
         VisualElement bodyContainer = contentContainer.Q<VisualElement>("BodyContainer");
         VisualElement statusPanel = contentContainer.Q<VisualElement>("StatusPanel");
-        status = statusPanel.Q<Label>("StatusText");
+        status = root.Q<Label>("StatusText");
+        statusLabel = root.Q<Label>("StatusLabel");
         VisualElement selectionPanel = contentContainer.Q<VisualElement>("SelectionPanel");
         modeOptionsPanel = selectionPanel.Q<VisualElement>("ModeOptionsPanel");
         deleteButton = modeOptionsPanel.Q<Button>("RemoveFurniture");
@@ -113,6 +125,10 @@ public class HouseBuilderUI : MonoBehaviour
         VisualElement clearPopupButtonContainer = clearPopup.Q<VisualElement>("ClearButtonContainer");
         clearYesBtn = clearPopupButtonContainer.Q<Button>("ClearYesButton");
         clearNoBtn = clearPopupButtonContainer.Q<Button>("ClearNoButton");
+        validityPopup = root.Q<VisualElement>("ValidityCheckPopup");
+        validityConfirmBtn = root.Q<Button>("ValidityConfirmButton");
+        validityProblemBtn = root.Q<Button>("ValidityProblemButton");
+        overwriteWarningLabel = root.Q<Label>("OverwriteWarning");
     }
     private void assignCallbacks()
     {
@@ -127,6 +143,8 @@ public class HouseBuilderUI : MonoBehaviour
         furnitureModeBtn.clicked += () => furnitureModeToggle();
         exportDropdown.RegisterValueChangedCallback(OnDropdownValueChanged);
         exportSelectionButton.clicked += () => confirmExportSelection();
+        validityConfirmBtn.clicked += () => validityConfirmPress();
+        validityProblemBtn.clicked += () => validityProblemPress();
         exportYesBtn.clicked += () => exportConfirm(true);
         exportNoBtn.clicked += () => exportConfirm(false);
         clearYesBtn.clicked += () => clearConfirm(true);
@@ -142,6 +160,18 @@ public class HouseBuilderUI : MonoBehaviour
     {
         // Update the file selection variable
         exportFileSelection = exportDropdown.value;
+        try
+        {
+            string unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/" + exportFileSelection + ".json");
+            SerializableList<LayoutManager.Object> parsedJSON = JsonUtility.FromJson<SerializableList<LayoutManager.Object>>(unparsedJSON);
+            // If we didn't break out of the block, then the file exists, so warn the user:
+            overwriteWarningLabel.style.display = DisplayStyle.Flex;
+        }
+        catch (Exception e)
+        {
+            // File doesn't exist, so we're good to write to it:
+            overwriteWarningLabel.style.display = DisplayStyle.None;
+        }
     }
     private void confirmExportSelection()
     {
@@ -155,9 +185,38 @@ public class HouseBuilderUI : MonoBehaviour
 
     public void exportPress()
     {
+        // Disable Chair/Table colliders:
+        // Disable colliders for chairs/tables:
+        GameObject[] objectsThatShouldntHaveColliders = GameObject.FindGameObjectsWithTag("NoColliderBuddy");
+        foreach (GameObject obj in objectsThatShouldntHaveColliders)
+        {
+            obj.GetComponent<BoxCollider2D>().enabled = false;
+        }
+        // Start flood fill:
+        setStatusWaiting();
+        string result = roomManager.GetComponent<RoomManager>().beginFlood();
         // Show Popup:
-        exportSelectionContainer.style.display = DisplayStyle.Flex;
+        validityPopup.style.display = DisplayStyle.Flex;
         Camera cam = Camera.main;
+        Vector3 newCamPosition = new Vector3(cam.transform.position.x, cam.transform.position.y + 50000, cam.transform.position.z);
+        cam.transform.position = newCamPosition;
+    }
+
+    private void validityConfirmPress()
+    {
+        validityPopup.style.display = DisplayStyle.None;
+        exportSelectionContainer.style.display = DisplayStyle.Flex;
+    }
+
+    private void validityProblemPress()
+    {
+        validityPopup.style.display = DisplayStyle.None;
+        // Re-enable colliders for chairs/tables:
+        GameObject[] objectsThatShouldntHaveColliders = GameObject.FindGameObjectsWithTag("NoColliderBuddy");
+        foreach (GameObject obj in objectsThatShouldntHaveColliders)
+        {
+            obj.GetComponent<BoxCollider2D>().enabled = true;
+        }
     }
 
     private void exportConfirm(bool areYouSure)
@@ -175,6 +234,15 @@ public class HouseBuilderUI : MonoBehaviour
         }
             // Hide Popup:
             exportPopup.style.display = DisplayStyle.None;
+        Camera cam = Camera.main;
+        Vector3 newCamPosition = new Vector3(cam.transform.position.x, cam.transform.position.y - 50000, cam.transform.position.z);
+        cam.transform.position = newCamPosition;
+        // Re-enable colliders for chairs/tables:
+        GameObject[] objectsThatShouldntHaveColliders = GameObject.FindGameObjectsWithTag("NoColliderBuddy");
+        foreach (GameObject obj in objectsThatShouldntHaveColliders)
+        {
+            obj.GetComponent<BoxCollider2D>().enabled = true;
+        }
     }
 
     public void clearConfirm(bool areYouSure)
@@ -243,16 +311,43 @@ public class HouseBuilderUI : MonoBehaviour
     #region UI Management Methods
     public void updateStatus(bool isValid)
     {
-        if (isValid)
+        if (isValid && ((InterSceneManager.houseTiles.Count) > 400) && ((InterSceneManager.houseTiles.Count) < 16000))
         {
+            statusLabel.style.display = DisplayStyle.Flex;
+            statusLabel.text = "If you've set your flags up correctly, then this layout is...";
             status.text = "VALID";
             status.style.color = new StyleColor(Color.green);
+            validityConfirmBtn.style.display = DisplayStyle.Flex;
+            validityProblemBtn.style.display = DisplayStyle.None;
         }
         else
         {
+            statusLabel.style.display = DisplayStyle.Flex;
+            statusLabel.text = "If you've set your flags up correctly, then this layout is...";
             status.text = "INVALID";
             status.style.color = new StyleColor(Color.red);
+            validityConfirmBtn.style.display = DisplayStyle.None;
+            validityProblemBtn.style.display = DisplayStyle.Flex;
         }
+    }
+
+    public void setStatusWaiting()
+    {
+        status.text = "Checking Layout...";
+        statusLabel.style.display = DisplayStyle.None;
+        status.style.color = new StyleColor(Color.white);
+    }
+
+    public void unableToFlood(bool ableToFlood)
+    {
+        statusLabel.style.display = DisplayStyle.Flex;
+        statusLabel.text = "No flags given for layout validation. Proceed at your own risk.";
+        status.text = "Unknown";
+        status.style.color = new StyleColor(Color.yellow);
+        validityConfirmBtn.style.display = DisplayStyle.Flex;
+        validityProblemBtn.style.display = DisplayStyle.Flex;
+        GameObject vacuum = GameObject.Find("Vacuum-Robot");
+        vacuum.GetComponent<BoxCollider2D>().enabled = true;
     }
 
     public void showCancelButton(bool show)

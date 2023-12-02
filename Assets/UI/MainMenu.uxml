@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/MainMenu.uss?fileID=7433441132597879392&amp;guid=df9d89ae7497515be98625d60ad8a852&amp;type=3#MainMenu" />
     <ui:VisualElement name="Container" style="flex-grow: 1; justify-content: center;">
-        <ui:Label tabindex="-1" text="D.I.R.T" display-tooltip-when-elided="true" name="TitleLabel" style="margin-bottom: 0; padding-bottom: 0;" />
+        <ui:Label tabindex="-1" text="D.I.R.T." display-tooltip-when-elided="true" name="TitleLabel" style="margin-bottom: 0; padding-bottom: 0;" />
         <ui:Label tabindex="-1" text="Dynamic Interactive Roomba Toolsuite" display-tooltip-when-elided="true" name="SubtitleLabel" style="margin-top: 0; padding-top: 0;" />
         <ui:Label tabindex="-1" text="Version 1.0" display-tooltip-when-elided="true" name="VersionLabel" />
         <ui:VisualElement name="ButtonContainer" style="flex-grow: 0;">
@@ -19,5 +19,13 @@
         <ui:Label tabindex="-1" text="Choose JSON file to import for data review:" display-tooltip-when-elided="true" style="font-size: 30px;" />
         <ui:DropdownField index="-1" choices="Layout1,Layout2,Layout3,Layout4,Layout5,Layout6,Layout7,Layout8,Layout9,Layout10" name="DataReviewDropdown" />
         <ui:Button text="Import" display-tooltip-when-elided="true" name="DataReviewConfirmButton" style="margin-top: 25px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="CreateNewPopup" style="flex-grow: 1; display: none;">
+        <ui:Label tabindex="-1" text="Use Default Layout?" display-tooltip-when-elided="true" style="font-size: 30px;" />
+        <ui:VisualElement name="CreateNewButtonContainer" style="flex-grow: 0; flex-direction: row; justify-content: center; align-items: center; margin-top: 25px;">
+            <ui:Button text="Yes" display-tooltip-when-elided="true" name="UseDefaultButton" enable-rich-text="true" style="margin-top: 0; width: auto; height: auto; flex-grow: 1; margin-right: 25px; margin-bottom: 0; margin-left: 0; padding-top: 30px; padding-right: 50px; padding-bottom: 30px; padding-left: 50px;" />
+            <ui:Button text="No" display-tooltip-when-elided="true" name="FromScratchButton" style="margin-top: 0; flex-grow: 1; height: auto; width: auto; margin-right: 0; margin-bottom: 0; margin-left: 25px; padding-top: 30px; padding-right: 50px; padding-bottom: 30px; padding-left: 50px;" />
+        </ui:VisualElement>
+        <ui:Button text="Cancel" display-tooltip-when-elided="true" name="CreateNewCancelButton" style="margin-top: 25px; flex-grow: 0; height: auto; width: auto; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 20px; padding-right: 50px; padding-bottom: 20px; padding-left: 50px;" />
     </ui:VisualElement>
 </ui:UXML>
