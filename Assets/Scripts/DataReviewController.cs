@@ -1,51 +1,59 @@
+// This script is a Unity MonoBehaviour that manages a data review interface. 
+// It loads JSON data from a file, parses it into specific data structures, and 
+// displays the information in a Unity UI using the UnityEngine.UIElements library.
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
-using static LayoutManager; // Import a LayoutManager class, possibly from another script or package.
+using static LayoutManager;
 
 #region JSON Serializable Classes
+// Serializable class for storing settings data
 [Serializable]
 public class Settings
 {
-    public bool whiskers; // Boolean flag for whiskers setting.
-    public string floorCovering; // String representing the floor covering type.
-    public int batteryLifeStart; // Starting battery life value.
+    public bool whiskers;
+    public string floorCovering;
+    public int batteryLifeStart;
 }
 
+// Serializable class for storing random data
 [Serializable]
 public class RandomData
 {
-    public int elapsedTime; // Elapsed time data.
-    public int batteryLifeEnd; // Ending battery life data.
-    public int cleaningEfficiency; // Cleaning efficiency data.
-    public int tilesCleaned; // Number of tiles cleaned data.
-    public int untouchedTiles; // Number of untouched tiles data.
+    public int elapsedTime;
+    public int batteryLifeEnd;
+    public int cleaningEfficiency;
+    public int tilesCleaned;
+    public int untouchedTiles;
 }
 
+// Serializable class for a simulation entry that includes settings and various data for different algorithms
 [Serializable]
 public class SimulationEntry
 {
-    public Settings Settings; // Settings for a simulation run.
-    public RandomData Random; // Random data for a simulation run.
-    public RandomData WallFollow; // Wall follow data for a simulation run.
-    public RandomData Spiral; // Spiral data for a simulation run.
-    public RandomData Snaking; // Snaking data for a simulation run.
+    public Settings Settings;
+    public RandomData Random;
+    public RandomData WallFollow;
+    public RandomData Spiral;
+    public RandomData Snaking;
 }
 
+// Serializable class for the root JSON object
 [Serializable]
 public class RootObject<T>
 {
-    public List<T> SIMULATION_DATA; // List of simulation entries.
+    public List<T> SIMULATION_DATA;
 }
 #endregion
 
 public class DataReviewController : MonoBehaviour
 {
-    int currentRun = 0; // The currently viewed run index.
-    string jsonFile = "Layout1"; // The JSON file to load data from.
+    int currentRun = 0;
+    string jsonFile = "Layout1";
 
     TreeView data;
     Button returnToMainMenu;
@@ -53,11 +61,11 @@ public class DataReviewController : MonoBehaviour
     Button nextBtn;
 
     // JSON Data for Currently Viewed Run:
-    int runNumber; // The run number (not used in this script).
-    bool whiskers; // Whiskers setting for the current run (not used in this script).
-    string floorCovering; // Floor covering type for the current run (not used in this script).
-    float batteryLifeStart; // Starting battery life for the current run (not used in this script).
-    // List<RunData> algorithmRuns = new List<RunData>(); // Commented out code, possibly not used.
+    int runNumber;
+    bool whiskers;
+    string floorCovering;
+    float batteryLifeStart;
+    //List<RunData> algorithmRuns = new List<RunData>();
 
     void OnEnable()
     {
@@ -70,9 +78,6 @@ public class DataReviewController : MonoBehaviour
         // Get bottom panel items:
         prevBtn = root.Q<Button>("PrevButton");
         nextBtn = root.Q<Button>("NextButton");
-
-        // Get Data Panel Items:
-        data = root.Q<TreeView>("Data");
 
         subscribeToCallbacks();
 
@@ -99,11 +104,8 @@ public class DataReviewController : MonoBehaviour
 
     private void nextButtonHandler()
     {
-        // Read and parse JSON data from a file.
         string unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/" + jsonFile + ".json");
         RootObject<SimulationEntry> parsedJSON = JsonUtility.FromJson<RootObject<SimulationEntry>>(unparsedJSON);
-
-        // Check if there are more runs to navigate to.
         if (currentRun < parsedJSON.SIMULATION_DATA.Count - 1)
         {
             currentRun++;
@@ -121,20 +123,16 @@ public class DataReviewController : MonoBehaviour
     // Load the data TreeView with a new run's info:
     private void fillDataPanel()
     {
-        // Read and parse JSON data from a file.
         string unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/" + jsonFile + ".json");
         RootObject<SimulationEntry> parsedJSON = JsonUtility.FromJson<RootObject<SimulationEntry>>(unparsedJSON);
 
-        // Add run number label to the data panel.
         AddRunNumberLabel("Run Number: " + (currentRun + 1));
 
-        // Add settings section with relevant data.
         AddNewSectionHeader("\nSettings:");
         AddLabelToData("Whiskers: " + parsedJSON.SIMULATION_DATA[currentRun].Settings.whiskers);
         AddLabelToData("Floor Covering: " + parsedJSON.SIMULATION_DATA[currentRun].Settings.floorCovering);
         AddLabelToData("Starting Battery Life: " + parsedJSON.SIMULATION_DATA[currentRun].Settings.batteryLifeStart);
 
-        // Add random data section with relevant data.
         AddNewSectionHeader("\nRandom:");
         AddLabelToData("Elapsed Time: " + parsedJSON.SIMULATION_DATA[currentRun].Random.elapsedTime);
         AddLabelToData("Ending Battery Life: " + parsedJSON.SIMULATION_DATA[currentRun].Random.batteryLifeEnd);
@@ -142,7 +140,6 @@ public class DataReviewController : MonoBehaviour
         AddLabelToData("Tiles Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Random.tilesCleaned);
         AddLabelToData("Untouched Tiles: " + parsedJSON.SIMULATION_DATA[currentRun].Random.untouchedTiles);
 
-        // Add wall follow data section with relevant data.
         AddNewSectionHeader("\nWall Follow:");
         AddLabelToData("Elapsed Time: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.elapsedTime);
         AddLabelToData("Ending Battery Life: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.batteryLifeEnd);
@@ -150,7 +147,6 @@ public class DataReviewController : MonoBehaviour
         AddLabelToData("Tiles Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.tilesCleaned);
         AddLabelToData("Untouched Tiles: " + parsedJSON.SIMULATION_DATA[currentRun].WallFollow.untouchedTiles);
 
-        // Add spiral data section with relevant data.
         AddNewSectionHeader("\nSpiral:");
         AddLabelToData("Elapsed Time: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.elapsedTime);
         AddLabelToData("Ending Battery Life: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.batteryLifeEnd);
@@ -158,7 +154,6 @@ public class DataReviewController : MonoBehaviour
         AddLabelToData("Tiles Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.tilesCleaned);
         AddLabelToData("Untouched Tiles: " + parsedJSON.SIMULATION_DATA[currentRun].Spiral.untouchedTiles);
 
-        // Add snaking data section with relevant data.
         AddNewSectionHeader("\nSnaking:");
         AddLabelToData("Elapsed Time: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.elapsedTime);
         AddLabelToData("Ending Battery Life: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.batteryLifeEnd);
@@ -166,10 +161,8 @@ public class DataReviewController : MonoBehaviour
         AddLabelToData("Tiles Cleaned: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.tilesCleaned);
         AddLabelToData("Untouched Tiles: " + parsedJSON.SIMULATION_DATA[currentRun].Snaking.untouchedTiles);
     }
-
     private void AddRunNumberLabel(string text)
     {
-        // Add a label for the run number.
         Label newHeader = new Label(text);
         newHeader.style.fontSize = 18;
         newHeader.style.color = Color.white;
@@ -180,7 +173,6 @@ public class DataReviewController : MonoBehaviour
 
     private void AddNewSectionHeader(string text)
     {
-        // Add a header for a new section.
         Label newHeader = new Label(text);
         newHeader.style.fontSize = 16;
         newHeader.style.color = Color.white;
@@ -190,7 +182,6 @@ public class DataReviewController : MonoBehaviour
 
     private void AddLabelToData(string text)
     {
-        // Add a label with data to the data panel.
         Label newLabel = new Label(text);
         newLabel.style.fontSize = 12;
         newLabel.style.color = Color.white;
