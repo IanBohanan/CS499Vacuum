@@ -1,3 +1,5 @@
+// This script, SimulationController, manages the user interface and functionality for controlling a simulation in a Unity application. It includes features such as play/pause, adjusting simulation speed, displaying elapsed time, and managing battery life.
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +11,6 @@ using UnityEngine.UIElements;
 
 public class SimulationController : MonoBehaviour
 {
-    // Define UI elements that will be used in the script
     Button playPauseBtn;
     Button fiveTimesSpeedBtn;
     Button fiftyTimesSpeedBtn;
@@ -17,30 +18,26 @@ public class SimulationController : MonoBehaviour
     Label elapsedTimeLabel;
     Label batteryLifeLabel;
     Label speedLabel;
-    System.Timers.Timer timer; // Timer for tracking elapsed time
-
-    // Variables to keep track of the elapsed time
+    System.Timers.Timer timer;
     int elapsedSeconds = 0;
     int elapsedMinutes = 0;
     int elapsedHours = 0;
 
-    int speed = 1; // Current simulation speed
+    int speed = 1;
 
-    // References to the vacuum cleaner object and its data
     GameObject vacuumBuddy;
     Vacuum vacuumData;
 
-    // This function is called when the script is enabled
     private void OnEnable()
     {
-        // Finding the VacuumBuddy GameObject and its Vacuum component
+        // Get references to the UI elements and vacuum object:
         vacuumBuddy = GameObject.FindGameObjectWithTag("VacuumBuddy");
-        vacuumData = (vacuumBuddy.GetComponent<Vacuum>());
+        vacuumData = vacuumBuddy.GetComponent<Vacuum>();
 
-        // Accessing the UI elements from the UIDocument
+        // Get UIDocument Root
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
-        // Extracting and setting up various UI elements from the UI hierarchy
+        // Retrieve UI elements:
         VisualElement body = root.Q<VisualElement>("Body");
         VisualElement bottomPanel = body.Q<VisualElement>("BottomPanel");
         VisualElement statusContainer = bottomPanel.Q<VisualElement>("StatusContainer");
@@ -55,20 +52,19 @@ public class SimulationController : MonoBehaviour
         VisualElement exitButtonContainer = bottomPanel.Q<VisualElement>("ExitButtonContainer");
         stopSimBtn = exitButtonContainer.Q<Button>("ExitButton");
 
-        // Subscribing UI buttons to their respective callback methods
+        // Subscribe to button click callbacks:
         subscribeToCallbacks();
 
-        // Setting up a repeating timer to update labels every second
+        // Start a repeating timer that updates labels every second:
         InvokeRepeating("updateLabels", 1, 1);
 
-        // Initializing the speed label with the current speed
+        // Set the initial speed label:
         speedLabel.text = "Speed: " + InterSceneManager.speedMultiplier + "x";
     }
 
-    // Updates labels for elapsed time and battery life every second
     private void updateLabels()
     {
-        // Update elapsed time and format it for display
+        // Update elapsed time label:
         elapsedSeconds += (speed);
         while (elapsedSeconds > 59)
         {
@@ -80,12 +76,15 @@ public class SimulationController : MonoBehaviour
             elapsedMinutes -= 60;
             elapsedHours++;
         }
-        string SecondsString = elapsedSeconds.ToString("D2");
-        string MinutesString = elapsedMinutes.ToString("D2");
-        string HoursString = elapsedHours.ToString("D2");
+        string SecondsString = elapsedSeconds.ToString();
+        string MinutesString = elapsedMinutes.ToString();
+        string HoursString = elapsedHours.ToString();
+        if (SecondsString.Length == 1) { SecondsString = "0" + SecondsString; }
+        if (MinutesString.Length == 1) { MinutesString = "0" + MinutesString; }
+        if (HoursString.Length == 1) { HoursString = "0" + HoursString; }
         elapsedTimeLabel.text = "Elapsed Time: " + HoursString + ":" + MinutesString + ":" + SecondsString;
 
-        // Update and format battery life for display
+        // Update battery life label:
         int batteryLifeSeconds = (int)vacuumData.currBatteryLife;
         int batteryLifeMinutes = 0;
         int batteryLifeHours = 0;
@@ -99,13 +98,16 @@ public class SimulationController : MonoBehaviour
             batteryLifeMinutes -= 60;
             batteryLifeHours++;
         }
-        SecondsString = batteryLifeSeconds.ToString("D2");
-        MinutesString = batteryLifeMinutes.ToString("D2");
-        HoursString = batteryLifeHours.ToString("D2");
+        SecondsString = batteryLifeSeconds.ToString();
+        MinutesString = batteryLifeMinutes.ToString();
+        HoursString = batteryLifeHours.ToString();
+        if (SecondsString.Length == 1) { SecondsString = "0" + SecondsString; }
+        if (MinutesString.Length == 1) { MinutesString = "0" + MinutesString; }
+        HoursString = "0" + HoursString;
+
         batteryLifeLabel.text = "Battery Life Remaining: " + HoursString + ":" + MinutesString + ":" + SecondsString;
     }
 
-    // Subscribes UI elements to their respective event handlers
     private void subscribeToCallbacks()
     {
         playPauseBtn.clicked += () => { updateSpeed(0); playPausePressed(); };
@@ -114,16 +116,16 @@ public class SimulationController : MonoBehaviour
         stopSimBtn.clicked += () => endSimulation();
     }
 
-    // Handles the Play/Pause button press
     private void playPausePressed()
     {
         Debug.Log("Play/Pause Pressed");
     }
 
-    // Updates the simulation speed based on user input
     private void updateSpeed(int newSpeed)
     {
-        if (newSpeed == 0) { // Toggling between play and pause
+        if (newSpeed == 0)
+        {
+            // Code 0 given, check if play or pause is active
             if (speed == 0)
             {
                 speed = 1;
@@ -146,10 +148,10 @@ public class SimulationController : MonoBehaviour
         Debug.Log("Speed set to " + InterSceneManager.speedMultiplier);
         return;
     }
-    
-    // Ends the simulation and loads a new scene
+
     private void endSimulation()
     {
+        // Load the "CheckForAlgs" scene when exiting the simulation.
         SceneManager.LoadScene(sceneName: "CheckForAlgs");
     }
 }
