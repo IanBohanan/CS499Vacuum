@@ -263,6 +263,11 @@ public class LayoutManager : MonoBehaviour
                 obj.GetComponent<BoxCollider2D>().enabled = false;
             }
         }
+
+        foreach (GameObject door in RoomDoors)
+        {
+            door.transform.position = new Vector3(door.transform.position.x, door.transform.position.y, -0.7f);
+        }
     }
     public void saveToJSON(string JSONFilePath)
     {
