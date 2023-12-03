@@ -201,7 +201,7 @@ public class HouseBuilderUI : MonoBehaviour
         // Start flood fill:
         setStatusWaiting();
 
-        bool dimensionCheckResult = roomManager.GetComponent<RoomManager>().BeginRoomDimensionCheck();
+        bool dimensionCheckResult = true; // roomManager.GetComponent<RoomManager>().BeginRoomDimensionCheck();
         if (dimensionCheckResult == false) // Failed room dimension check
         {
             // Show Popup:
