@@ -207,7 +207,7 @@ public class HouseBuilderUI : MonoBehaviour
         // Start flood fill:
         setStatusWaiting();
 
-        bool dimensionCheckResult = true; // roomManager.GetComponent<RoomManager>().BeginRoomDimensionCheck();
+        bool dimensionCheckResult = roomManager.GetComponent<RoomManager>().BeginRoomDimensionCheck();
         if (dimensionCheckResult == false) // Failed room dimension check
         {
             // Show Popup:
@@ -297,8 +297,6 @@ public class HouseBuilderUI : MonoBehaviour
         // Hide Popup:
         clearPopup.style.display = DisplayStyle.None;
     }
-
-    //Connect me to wall placement: IAN
 
     private void deleteModeToggle()
     {
