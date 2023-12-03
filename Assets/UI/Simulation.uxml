@@ -10,7 +10,8 @@
                 <ui:VisualElement name="ButtonContainer">
                     <ui:Button text="II" display-tooltip-when-elided="true" name="PlayPause" />
                     <ui:Button text="&gt;&gt;" display-tooltip-when-elided="true" name="FiveSpeed" />
-                    <ui:Button text="&gt;&gt;&gt;" display-tooltip-when-elided="true" name="FiftySpeed" />
+                    <ui:Button text="&gt;&gt;&gt;" display-tooltip-when-elided="true" name="TwentyFiveSpeed" />
+                    <ui:Button text="&gt;&gt;&gt;+" display-tooltip-when-elided="true" name="FiftySpeed" style="font-size: 20px;" />
                 </ui:VisualElement>
                 <ui:Label tabindex="-1" text="Speed: 1x" display-tooltip-when-elided="true" name="SpeedLabel" />
             </ui:VisualElement>

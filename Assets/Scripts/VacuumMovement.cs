@@ -657,7 +657,6 @@ public class VacuumMovement : MonoBehaviour
     private Algorithm getNextAlg()
     {
         // Get the next algorithm from the dictionary
-        Debug.Log(pathingDict);
         Algorithm nextAlgorithm; // The algorithm we will return
         foreach (var alg in pathingDict)
         {

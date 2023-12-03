@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using JetBrains.Annotations;
+using UnityEngine.SceneManagement;
 
 public class ClickDrop : MonoBehaviour
 {
@@ -75,10 +76,17 @@ public class ClickDrop : MonoBehaviour
                     offsetX = 3;
                     break;
                 }
-            case "Door(Clone)":
+            case "FrontDoor Variant":
                 {
                     offsetY = 3;
                     offsetX = 3;
+                    isDoor = true;
+                    break;
+                }
+            case "Door(Clone)":
+                {
+                    offsetY = 3;
+                    offsetX = 0.5f;
 		    isDoor = true;
                     break;
                 }
@@ -125,7 +133,22 @@ public class ClickDrop : MonoBehaviour
             {
                 mousePosition = new Vector3(mousePosition.x + offsetX, mousePosition.y + offsetY, mousePosition.z);
             }
+            // Offset rotated chests by half a tile to the right:
+            if ((!isLongObject) && transform.name == "Chest Variant(Clone)")
+            {
+                mousePosition = new Vector3(mousePosition.x + 3, mousePosition.y, mousePosition.z);
+            }
             transform.position = mousePosition;
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        var currentScene = SceneManager.GetActiveScene();
+        var currentSceneName = currentScene.name;
+
+        if (this.gameObject.name == "Door(Clone)" && currentSceneName == "Simulation") // Spawn walls and delete any under the doors
+        {
+            Debug.Log(collision.gameObject.name);
         }
     }
     void OnMouseDown()
@@ -195,7 +218,7 @@ public class ClickDrop : MonoBehaviour
     //Checks if there are four overlapping wall instances.
     //If so, true. Otherwise return false
     //This is used for Door Objects.
-    bool IsDoorCompatible()
+    public bool IsDoorCompatible()
     {
         //Get the collider of the door
         BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
@@ -224,6 +247,14 @@ public class ClickDrop : MonoBehaviour
                     return true;
                 }
             }
+            /*var currentScene = SceneManager.GetActiveScene();
+            var currentSceneName = currentScene.name;
+            if (currentSceneName == "Simulation" && ( collider.gameObject.name != this.gameObject.name))
+            {
+                Debug.Log("here");
+                DestroyImmediate(collider.gameObject);
+            }*/
+            
         }
         return false;
     }

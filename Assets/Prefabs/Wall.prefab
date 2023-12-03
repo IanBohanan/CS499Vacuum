@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3524195798170731907}
   - component: {fileID: 4941539157822936106}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WallEndpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 341861673404099283}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WallUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,13 +125,13 @@ GameObject:
   - component: {fileID: 7670441253156099705}
   - component: {fileID: 5038858779239987513}
   - component: {fileID: 1239709455236185339}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LowerExtend
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4567527924140996579
 Transform:
   m_ObjectHideFlags: 0
@@ -141,9 +141,9 @@ Transform:
   m_GameObject: {fileID: 2254556393469075124}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.13, z: 0}
-  m_LocalScale: {x: 1.66, y: 1.66, z: 1.66}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0, y: 0.4812, z: 0}
+  m_LocalScale: {x: 1.316, y: 1.9, z: 1.316}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 341861673404099283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 5322174859671512549}
   - component: {fileID: 8046872224700944876}
   - component: {fileID: 3765513094957211590}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Wall
   m_TagString: WallBuddy
   m_Icon: {fileID: 0}
@@ -394,7 +394,7 @@ GameObject:
   - component: {fileID: 1445419310226903684}
   - component: {fileID: 6805880449608597316}
   - component: {fileID: 2320014899995295841}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: DeleteBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -537,7 +537,7 @@ GameObject:
   m_Component:
   - component: {fileID: 464770942034415183}
   - component: {fileID: 4982128327089651703}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WallEndpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -618,7 +618,7 @@ GameObject:
   - component: {fileID: 4772259404742999490}
   - component: {fileID: 645807117269457513}
   - component: {fileID: 5170138711205901077}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: UpperExtend
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -781,7 +781,7 @@ GameObject:
   - component: {fileID: 2133784823812577720}
   - component: {fileID: 219791106835878696}
   - component: {fileID: 558666354055068020}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -222,6 +222,7 @@ public class WallPlacer : MonoBehaviour
         //Get the tilemap of the housebuilder scene. We can't reference it since it is a prefab.
         try
         {
+            //Fix these wall prefabs to be in the center of the grid
             grid = GameObject.FindWithTag("GridBuddy").GetComponent<Tilemap>();
         }
         catch(Exception e)
