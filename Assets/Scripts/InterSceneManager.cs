@@ -1,3 +1,5 @@
+// This script defines a static class called InterSceneManager, which serves as a data storage and management system
+// for various settings and data used across different scenes in a Unity application.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +8,7 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class SerializableTile
 {
+    // Main Menu Import File:
     public Vector3Int pos = Vector3Int.zero;
     public int hits = 0;
     public float cleanliness = 0;
