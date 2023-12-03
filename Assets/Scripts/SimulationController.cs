@@ -12,6 +12,7 @@ public class SimulationController : MonoBehaviour
 {
     Button playPauseBtn;
     Button fiveTimesSpeedBtn;
+    Button twentyFiveTimesSpeedBtn;
     Button fiftyTimesSpeedBtn;
     Button stopSimBtn;
     Label elapsedTimeLabel;
@@ -47,6 +48,7 @@ public class SimulationController : MonoBehaviour
         VisualElement buttonContainer = speedAdjustmentContainer.Q<VisualElement>("ButtonContainer");
         playPauseBtn = buttonContainer.Q<Button>("PlayPause");
         fiveTimesSpeedBtn = buttonContainer.Q<Button>("FiveSpeed");
+        twentyFiveTimesSpeedBtn = buttonContainer.Q<Button>("TwentyFiveSpeed");
         fiftyTimesSpeedBtn = buttonContainer.Q<Button>("FiftySpeed");
         VisualElement exitButtonContainer = bottomPanel.Q<VisualElement>("ExitButtonContainer");
         stopSimBtn = exitButtonContainer.Q<Button>("ExitButton");
@@ -108,6 +110,7 @@ public class SimulationController : MonoBehaviour
     {
         playPauseBtn.clicked += () => { updateSpeed(0); playPausePressed(); };
         fiveTimesSpeedBtn.clicked += () => updateSpeed(5);
+        twentyFiveTimesSpeedBtn.clicked += () => updateSpeed(25);
         fiftyTimesSpeedBtn.clicked += () => updateSpeed(50);
         stopSimBtn.clicked += () => endSimulation();
     }

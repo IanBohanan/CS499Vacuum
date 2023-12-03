@@ -114,15 +114,15 @@ public class RoomManager : MonoBehaviour
     //Changes the color of each tile to represent it has been explored
     private void colorTile(Vector3Int position)
     {
-            //Change the color of the tile between white(ie. the base image) and tint
+        //Change the color of the tile between white(ie. the base image) and tint
 
-            //Okay Unity has some weird debug thing where it has a "lock color" flag for each tile.
-            //Whenever setColor is called, ALL unlocked tiles get updated. So we have to unlock then lock each tile individually
-            //Sooo just gonna have to unlock that flag for the tile, change the color, then lock the flag AGAIN.
-            //Otherwise the entire tilemap gets updated and not just the one tile.
-            tilemap.SetTileFlags(position, TileFlags.None);
-            tilemap.SetColor(position, floodedColor);
-            tilemap.SetTileFlags(position, TileFlags.LockColor);
+        //Okay Unity has some weird debug thing where it has a "lock color" flag for each tile.
+        //Whenever setColor is called, ALL unlocked tiles get updated. So we have to unlock then lock each tile individually
+        //Sooo just gonna have to unlock that flag for the tile, change the color, then lock the flag AGAIN.
+        //Otherwise the entire tilemap gets updated and not just the one tile.
+        tilemap.SetTileFlags(position, TileFlags.None);
+        tilemap.SetColor(position, floodedColor);
+        tilemap.SetTileFlags(position, TileFlags.LockColor);
     }
 
     //Changes the color of each tile to represent it has NOT been explored
@@ -191,12 +191,12 @@ public class RoomManager : MonoBehaviour
 
     private void Update()
     {
-/*        if (Input.GetKeyDown(KeyCode.E))
-        { 
-        
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+
             Vector3Int startPosition = new Vector3Int(0, 0, 0);
-            BeginRoomDimensionCheck();
-        }*/
+            CheckFrontDoor();
+        }
 
 
         if (isFlooding)
@@ -331,47 +331,54 @@ public class RoomManager : MonoBehaviour
 
             // Check if there's a game object at this position in the actual coordinates
             Vector3 worldPosition = tilemap.GetCellCenterWorld(position);
-
-            Collider2D[] colliders = Physics2D.OverlapPointAll(worldPosition);
-
-            if (colliders.Length > 0)
+            try
             {
-                foreach (Collider2D collider in colliders)
-                {
-                    if (collider != null)
-                    {
-                        //Something is on this tile. Could be a flag, wall, object, etc.
+                Collider2D[] colliders = Physics2D.OverlapPointAll(worldPosition);
 
-                        //Make sure it is not the room flag we're looking for
-                        if (collider.tag != "RoomFlag")
+
+                if (colliders.Length > 0)
+                {
+                    foreach (Collider2D collider in colliders)
+                    {
+                        if (collider != null)
                         {
-                            // Now it may be a furniture or wall object.
-                            //Check to see if there is a door we can go through
-                            if (collider.tag != "DoorBuddy")
+                            //Something is on this tile. Could be a flag, wall, object, etc.
+
+                            //Make sure it is not the room flag we're looking for
+                            if (collider.tag != "RoomFlag")
                             {
-                                //It's not a door! So leave the tile alone
-                                activeTiles--;
-                                return;
+                                // Now it may be a furniture or wall object.
+                                //Check to see if there is a door we can go through
+                                if (collider.tag != "DoorBuddy")
+                                {
+                                    //It's not a door! So leave the tile alone
+                                    activeTiles--;
+                                    return;
+                                }
+                                else
+                                {
+                                    print("RoomManager: Encountered a door skipping through!");
+                                    break;
+                                }
                             }
-                            else
+                            else //otherwise it is a room flag! So mark flag as found then continue flooding.
                             {
-                                print("RoomManager: Encountered a door skipping through!");
+                                foundFlags[collider.gameObject] = true; //Mark the specific flag as found.
+                                print("Found " + collider.gameObject.GetComponent<Flag>().roomName);
                                 break;
                             }
-                        }
-                        else //otherwise it is a room flag! So mark flag as found then continue flooding.
-                        {
-                            foundFlags[collider.gameObject] = true; //Mark the specific flag as found.
-                            print("Found " + collider.gameObject.GetComponent<Flag>().roomName);
-                            break;
                         }
                     }
                 }
             }
+            catch (Exception e)
+            {
+                return;
+            }
 
             //Add the tile to the dictionary to mark it as explored.
             exploredTiles.Add(position, true);
-            colorTile(position);
+            //colorTile(position);
             //Mark the tile with a tint to show it has been explored
 
             //Reminder, the position is per TILE. So go by ones, not by world coordinates.
@@ -387,5 +394,69 @@ public class RoomManager : MonoBehaviour
         }
         activeTiles--;
     }
+
+    public bool CheckFrontDoor()
+    {
+        //GameObject frontDoorChecker = GameObject.Find("FrontDoorChecker Variant");
+        bool foundFrontDoor = true;
+
+        // Clear explored tiles before starting, just in case
+        exploredTiles.Clear();
+
+       // Vector3Int cellPosition = tilemap.WorldToCell(frontDoorChecker.transform.position);
+        //foundFrontDoor = FrontDoorFlood(cellPosition);
+
+        Debug.Log("We found it? " + foundFrontDoor+".");
+
+        // Clear explored tiles for subsequent room flood iteration
+        exploredTiles.Clear();
+
+        return foundFrontDoor;
+    }
+
+    // Finds whether or not the front door was found
+    public bool FrontDoorFlood(Vector3Int position)
+    {
+        activeTiles++;
+
+        if (!tilemap.HasTile(position))
+        {
+            activeTiles--;
+            return false;
+        }
+
+        if (exploredTiles.ContainsKey(position))
+        {
+            activeTiles--;
+            return false;
+        }
+
+        Vector3 worldPosition = tilemap.GetCellCenterWorld(position);
+        Collider2D[] colliders = Physics2D.OverlapPointAll(worldPosition);
+
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider != null && collider.CompareTag("FrontDoorBuddy"))
+            {
+                activeTiles--;
+                return true;
+            }
+        }
+
+        exploredTiles.Add(position, true);
+        colorTile(position);
+
+        bool upResult = FrontDoorFlood(position + Vector3Int.up);
+        bool downResult = FrontDoorFlood(position + Vector3Int.down);
+        bool leftResult = FrontDoorFlood(position + Vector3Int.left);
+        bool rightResult = FrontDoorFlood(position + Vector3Int.right);
+
+        bool result = upResult || downResult || leftResult || rightResult;
+
+        activeTiles--;
+
+        return result;
+    }
+
 
 }

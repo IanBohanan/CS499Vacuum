@@ -190,7 +190,7 @@ public class LayoutManager : MonoBehaviour
         var currentScene = SceneManager.GetActiveScene();
         var currentSceneName = currentScene.name;
 
-        if (currentSceneName == "Simulation") // Spawn walls and delete any under the doors
+        if (currentSceneName == "Simulation" || currentSceneName == "SpawnTiles") // Spawn walls and delete any under the doors
         {
             List<GameObject> wallsToDelete = new List<GameObject>();
             for (int i = 0; i < parsedJSON.Walls.Count; i++)
@@ -204,22 +204,25 @@ public class LayoutManager : MonoBehaviour
                 {
                     BoxCollider2D doorCollider = door.GetComponent<BoxCollider2D>();
 
-                    // Debug information
-/*                    Debug.Log($"Door Position: {door.transform.position}, Collider Size: {doorCollider.size}");
-                    Debug.Log($"Wall Position: {newWall.transform.position}, Collider Size: {wallCollider.size}");*/
-
-                    if (wallCollider.IsTouching(doorCollider))
+                    Collider2D[] colliders = Physics2D.OverlapPointAll(newWall.GetComponentInChildren<SpriteRenderer>().bounds.center);
+                    foreach (Collider2D collider in colliders)
                     {
-                        wallsToDelete.Add(newWall);
+                        if (collider.gameObject.name == "Door(Clone)")
+                        {
+                            wallsToDelete.Add(newWall);
+                        }
                     }
-
-                    // Disable door collider for debugging (enable it back if needed)
-                    doorCollider.enabled = false;
                 }
             }
             foreach (GameObject wall in wallsToDelete)
             {
                 DestroyImmediate(wall);
+            }
+            foreach (GameObject door in RoomDoors)
+            {
+
+                // Disable door collider for debugging (enable it back if needed)
+                door.GetComponent<BoxCollider2D>().enabled = false;
             }
         }
         else // Spawn walls and don't check for door overlap

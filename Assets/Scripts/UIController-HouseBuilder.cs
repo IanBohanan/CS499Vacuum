@@ -60,6 +60,8 @@ public class HouseBuilderUI : MonoBehaviour
     Label overwriteWarningLabel;
 
     GameObject roomManager;
+
+    int timeout = 0;
     #endregion
 
     CurrentState state = CurrentState.Default;
@@ -186,6 +188,7 @@ public class HouseBuilderUI : MonoBehaviour
         clearPopup.style.display = DisplayStyle.Flex;
     }
 
+
     public void exportPress()
     {
         // Disable Chair/Table colliders:
@@ -197,6 +200,7 @@ public class HouseBuilderUI : MonoBehaviour
         }
         // Start flood fill:
         setStatusWaiting();
+
         bool dimensionCheckResult = roomManager.GetComponent<RoomManager>().BeginRoomDimensionCheck();
         if (dimensionCheckResult == false) // Failed room dimension check
         {
@@ -211,12 +215,27 @@ public class HouseBuilderUI : MonoBehaviour
         }
         else
         {
-            string result = roomManager.GetComponent<RoomManager>().beginFlood();
-            // Show Popup:
-            validityPopup.style.display = DisplayStyle.Flex;
-            Camera cam = Camera.main;
-            Vector3 newCamPosition = new Vector3(cam.transform.position.x, cam.transform.position.y + 50000, cam.transform.position.z);
-            cam.transform.position = newCamPosition;
+            bool foundFrontDoor = roomManager.GetComponent<RoomManager>().CheckFrontDoor();
+            if (foundFrontDoor == false)
+            {
+                // Show Popup:
+                validityPopup.style.display = DisplayStyle.Flex;
+                statusLabel.style.display = DisplayStyle.Flex;
+                statusLabel.text = "Front Door Could Not Be Found Along House Edge.";
+                status.text = "INVALID";
+                status.style.color = new StyleColor(Color.red);
+                validityConfirmBtn.style.display = DisplayStyle.None;
+                validityProblemBtn.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                string result = roomManager.GetComponent<RoomManager>().beginFlood();
+                // Show Popup:
+                validityPopup.style.display = DisplayStyle.Flex;
+                Camera cam = Camera.main;
+                Vector3 newCamPosition = new Vector3(cam.transform.position.x, cam.transform.position.y + 50000, cam.transform.position.z);
+                cam.transform.position = newCamPosition;
+            }
         }
     }
 

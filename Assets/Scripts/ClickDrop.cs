@@ -73,10 +73,17 @@ public class ClickDrop : MonoBehaviour
                     offsetX = 3;
                     break;
                 }
+            case "FrontDoor Variant":
+                {
+                    offsetY = 3;
+                    offsetX = 3;
+                    isDoor = true;
+                    break;
+                }
             case "Door(Clone)":
                 {
                     offsetY = 3;
-                    offsetX = 0.3f;
+                    offsetX = 0.5f;
 		    isDoor = true;
                     break;
                 }
@@ -121,6 +128,11 @@ public class ClickDrop : MonoBehaviour
             if (isLongObject)
             {
                 mousePosition = new Vector3(mousePosition.x + offsetX, mousePosition.y + offsetY, mousePosition.z);
+            }
+            // Offset rotated chests by half a tile to the right:
+            if ((!isLongObject) && transform.name == "Chest Variant(Clone)")
+            {
+                mousePosition = new Vector3(mousePosition.x + 3, mousePosition.y, mousePosition.z);
             }
             transform.position = mousePosition;
         }

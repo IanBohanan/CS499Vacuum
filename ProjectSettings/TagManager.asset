@@ -10,6 +10,7 @@ TagManager:
   - DoorBuddy
   - GridBuddy
   - NoColliderBuddy
+  - FrontDoorBuddy
   layers:
   - Default
   - TransparentFX
