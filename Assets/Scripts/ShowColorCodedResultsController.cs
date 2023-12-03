@@ -1,3 +1,4 @@
+// This script, ShowColorCodedResultsController, is responsible for managing the color-coding of tiles on a Tilemap in a Unity application. It also provides a button to close the scene and determine whether to return to the simulation scene or move to the data review scene.
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -13,13 +14,16 @@ public class ShowColorCodedResultsController : MonoBehaviour
     Button closeButton;
     #region OnEnable Class Setup
     private void OnEnable()
-    {
+    {   
+        // Get the root VisualElement from the UIDocument
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+        // Find and set up the close button
         closeButton = root.Q<Button>("ExitButton");
         closeButton.clicked += closeScene;
     }
     private void Start()
     {
+        // Color the tiles based on data from InterSceneManager
         foreach (SerializableTile tile in InterSceneManager.cleanedTiles)
         {
             colorTile(tile);
@@ -48,12 +52,7 @@ public class ShowColorCodedResultsController : MonoBehaviour
 
     private void closeScene()
     {
-        //------------------------------------------------------
-        //------------------------------------------------------
-        //------------------------------------------------------
-        // Check if there are any more algorithms to run.
-        // If so, go back to the simulation scene,
-        // otherwise, go to the data review scene
+        // Close the current scene and determine the next scene to load based on available algorithms
         (bool rand, bool spiral, bool snaking, bool wall) = InterSceneManager.getPathAlgs();
 
         if (rand || spiral || snaking || wall)
