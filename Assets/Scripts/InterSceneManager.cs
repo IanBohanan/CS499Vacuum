@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [System.Serializable]
+// This class is used to store the data of a tile in a Unity application.
 public class SerializableTile
 {
     // Main Menu Import File:
@@ -66,9 +67,10 @@ public static class InterSceneManager
     public static int simulationElapsedSeconds = 0;
     public static int endingBatteryLifeSeconds = 0;
     public static int coveredTileNum = 0;
-
+    //public static int tilesPartiallyCleaned = 0;
     public static void setSimulationSettings(bool whiskers, string floorCov, int battery, bool randomAlg, bool spiralAlg, bool snakingAlg, bool wallFollowAlg)
     {
+        // Simulation Setup Settings:
         whiskersEnabled = whiskers;
         floorCovering = floorCov;
         batteryLife = battery; 
@@ -83,7 +85,6 @@ public static class InterSceneManager
     {
         return (randomAlgEnabled, spiralAlgEnabled, snakingAlgEnabled, wallFollowAlgEnabled);
     }
-
     public static (bool, string, int) getSimulationSettings()
     {
         return (whiskersEnabled, floorCovering, batteryLife);
