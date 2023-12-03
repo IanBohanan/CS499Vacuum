@@ -153,6 +153,9 @@ public class ClickDrop : MonoBehaviour
     }
     void OnMouseDown()
     {
+        var currentScene = SceneManager.GetActiveScene();
+        var currentSceneName = currentScene.name;
+        if(currentSceneName == "Simulation") { return; }
         if (InterSceneManager.deleteMode)
         {
             isDeleteClicked = true;
