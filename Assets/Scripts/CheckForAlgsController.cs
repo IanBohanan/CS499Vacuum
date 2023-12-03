@@ -73,6 +73,7 @@ public class CheckForAlgsController : MonoBehaviour
         SimulationEntry newEntry = new SimulationEntry();
         newEntry.Settings.dateTime = InterSceneManager.startDateTime;
         newEntry.Settings.whiskers = InterSceneManager.whiskersEnabled;
+        newEntry.Settings.floorCovering = InterSceneManager.floorCovering;
         newEntry.Settings.batteryLifeStart = InterSceneManager.batteryLife;
 
         // Search through tile data:

@@ -264,6 +264,8 @@ public class SimulationSetupController : MonoBehaviour
     {
         // Set the simulation settings:
         InterSceneManager.setSimulationSettings(whiskersEnabled, floorCovering, (int)batteryLife, randomAlg, spiralAlg, snakingAlg, wallFollowAlg);
+        InterSceneManager.whiskersEnabled = whiskersEnabled;
+        InterSceneManager.floorCovering = floorCovering;
         InterSceneManager.vacuumSpeed = (int)robotSpeedSlider.value;
         InterSceneManager.vacuumEfficiency = (int)vacuumEfficiencySlider.value;
         InterSceneManager.whiskersEfficiency = (int)whiskersEfficiencySlider.value;
