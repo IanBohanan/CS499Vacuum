@@ -1,3 +1,6 @@
+// The "Snaking" class is responsible for calculating a new direction vector for an entity's movement,
+// particularly in a snaking or zigzag pattern. It takes into account the entity's current direction,
+// as well as distances to obstacles or boundaries in different directions.
 using System;
 using System.Collections;
 using System.Collections.Generic;
