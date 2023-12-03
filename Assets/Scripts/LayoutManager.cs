@@ -1,3 +1,4 @@
+// This script, LayoutManager, is responsible for managing various functionalities related to layout editing and JSON data import/export in a Unity application.
 using UnityEngine;
 using System.Collections.Generic;
 using System;
@@ -35,15 +36,15 @@ public class LayoutManager : MonoBehaviour
     #region List Add Functions
     public void addWall()
     {
-        //Walls.Add();
+        // TODO: Add a wall to the Walls list.
     }
     public void addRoomDoor()
     {
-        //RoomDoors.Add();
+        // TODO: Add a room door to the RoomDoors list.
     }
     public void addExitDoor()
     {
-        //ExitDoors.Add();
+        // TODO: Add an exit door to the ExitDoors list.
     }
     public void addFurniture(string type, Quaternion rotation, float xPos = 0, float yPos = 0, bool imported = false)
     {
@@ -62,6 +63,7 @@ public class LayoutManager : MonoBehaviour
     #region List Delete/Clear Functions
     public void clearAll()
     {
+        // TODO: Clear all objects in the lists and destroy them.
         foreach(GameObject obj in Furniture) DestroyImmediate(obj, true);
         foreach(GameObject obj in Walls) DestroyImmediate(obj, true);
         foreach(GameObject obj in RoomDoors) DestroyImmediate(obj, true);
@@ -162,6 +164,7 @@ public class LayoutManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.Log("JSON Import Exception: " + e.Message);
+            // TODO: Process and instantiate objects based on parsedJSON data.
         }
         for (int i = 0; i < parsedJSON.Furniture.Count; i++)
         {
@@ -208,6 +211,7 @@ public class LayoutManager : MonoBehaviour
     }
     public void saveToJSON(string JSONFilePath)
     {
+        // TODO: Save the layout data to a JSON file.
         GameObject[] walls = GameObject.FindGameObjectsWithTag("WallBuddy");
         SerializableList<Object> FullList = new SerializableList<Object>();
         FullList.vacuumPosition = GameObject.Find("Vacuum-Robot").transform.position;
