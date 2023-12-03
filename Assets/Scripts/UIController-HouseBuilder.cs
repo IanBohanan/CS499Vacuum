@@ -134,6 +134,8 @@ public class HouseBuilderUI : MonoBehaviour
         validityConfirmBtn = root.Q<Button>("ValidityConfirmButton");
         validityProblemBtn = root.Q<Button>("ValidityProblemButton");
         overwriteWarningLabel = root.Q<Label>("OverwriteWarning");
+
+        exportSelectionButton.style.display = DisplayStyle.None;
     }
     private void assignCallbacks()
     {
@@ -178,6 +180,7 @@ public class HouseBuilderUI : MonoBehaviour
             // File doesn't exist, so we're good to write to it:
             overwriteWarningLabel.style.display = DisplayStyle.None;
         }
+        exportSelectionButton.style.display = DisplayStyle.Flex; // Now that we've chosen a file, show the confirm button
     }
     private void confirmExportSelection()
     {

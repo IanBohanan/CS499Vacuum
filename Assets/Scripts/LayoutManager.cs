@@ -165,11 +165,16 @@ public class LayoutManager : MonoBehaviour
             {
                 unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/Default_Layout.json");
             }
-            else
+            else if (InterSceneManager.fileSelection != "")
             {
                 unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/" + InterSceneManager.fileSelection + ".json");
             }
+            else
+            {
+                return;
+            }
             parsedJSON = JsonUtility.FromJson<SerializableList<Object>>(unparsedJSON);
+            
         }
         catch (Exception e)
         {
