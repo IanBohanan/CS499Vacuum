@@ -1,3 +1,6 @@
+// This script is a Unity MonoBehaviour that manages a data review interface. 
+// It loads JSON data from a file, parses it into specific data structures, and 
+// displays the information in a Unity UI using the UnityEngine.UIElements library.
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +10,7 @@ using UnityEngine.UIElements;
 using static LayoutManager;
 
 #region JSON Serializable Classes
+// Serializable class for storing settings data
 [Serializable]
 public class Settings
 {
@@ -15,6 +19,8 @@ public class Settings
     public string floorCovering = "Hardwood";
     public int batteryLifeStart = 0;
 }
+
+// Serializable class for storing random data   
 
 [Serializable]
 public class RandomData
@@ -27,7 +33,7 @@ public class RandomData
     public int tilesCleaned = 0;
     public int untouchedTiles = 0;
 }
-
+// Serializable class for a simulation entry that includes settings and various data for different algorithms
 [Serializable]
 public class SimulationEntry
 {
@@ -37,7 +43,7 @@ public class SimulationEntry
     public RandomData Spiral = new RandomData();
     public RandomData Snaking = new RandomData();
 }
-
+// Serializable class for the root JSON object
 [Serializable]
 public class RootObject<T>
 {

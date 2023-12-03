@@ -1,3 +1,4 @@
+// This script checks for the presence of certain algorithms to run and loads the appropriate scene accordingly.
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,9 +12,9 @@ public class CheckForAlgsController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // First, save this run's data to JSON:
-
-        // Elapsed Seconds:
+        // Check if there are any more algorithms to run.
+        // If there are, go back to the simulation scene.
+        // Otherwise, go to the data review scene.
         int elapsedSeconds = InterSceneManager.simulationElapsedSeconds;
         int elapsedMinutes = 0;
         int elapsedHours = 0;
@@ -61,12 +62,13 @@ public class CheckForAlgsController : MonoBehaviour
         SerializableList<LayoutManager.Object> parsedJSON = new SerializableList<LayoutManager.Object>();
         try
         {
-            string unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/" + InterSceneManager.fileSelection + ".json");
-            parsedJSON = JsonUtility.FromJson<SerializableList<LayoutManager.Object>>(unparsedJSON);
+            string unparsedJSON = System.IO.File.ReadAllText(Application.dataPath + "/StreamingAssets/" + InterSceneManager.fileSelection + ".json"); // TODO: Change this to a relative path.
+            parsedJSON = JsonUtility.FromJson<SerializableList<LayoutManager.Object>>(unparsedJSON); // TODO: Change this to a relative path.
         }
         catch (Exception e)
         {
             Debug.Log("JSON Import Exception: " + e.Message);
+            // TODO: Handle this exception.
         }
         SimulationEntry newEntry = new SimulationEntry();
         newEntry.Settings.dateTime = InterSceneManager.startDateTime;
@@ -79,7 +81,7 @@ public class CheckForAlgsController : MonoBehaviour
         int untouchedTileCount = 0;
         int totalHits = 0;
         float totalEfficiency = 0;
-        foreach (SerializableTile tile in InterSceneManager.cleanedTiles)
+        foreach (SerializableTile tile in InterSceneManager.cleanedTiles) // Iterate through all tiles
         {
             if (tile.hits == 0)
             {
@@ -99,12 +101,12 @@ public class CheckForAlgsController : MonoBehaviour
                 {
                     touchedTileCount++;
                 }
-                totalEfficiency += tile.cleanliness;
-                totalHits += tile.hits;
+                totalEfficiency += tile.cleanliness; // Add up all cleanliness percentages
+                totalHits += tile.hits; // Add up all hits
             }
         }
-        totalEfficiency = (totalEfficiency/InterSceneManager.cleanedTiles.Count);
-        totalEfficiency = (float)Math.Truncate(totalEfficiency * 100) / 100;
+        totalEfficiency = (totalEfficiency/InterSceneManager.cleanedTiles.Count); // Calculate average efficiency   
+        totalEfficiency = (float)Math.Truncate(totalEfficiency * 100) / 100; // Round to 2 decimal places
 
         if (InterSceneManager.algorithmName == "Random")
         {
@@ -178,9 +180,10 @@ public class CheckForAlgsController : MonoBehaviour
         catch (Exception e)
         {
             Debug.Log("JSON Saving Exception: " + e.Message);
+            //Debug.Log("JSON Saving Exception: " + e.StackTrace);
         }
-
+        //Debug.Log("JSON Saving Complete.");
         InterSceneManager.speedMultiplier = 1;
-        SceneManager.LoadScene("ShowColorCodedResults");
+        SceneManager.LoadScene("ShowColorCodedResults"); // Load the ShowColorCodedResults scene
     }
 }

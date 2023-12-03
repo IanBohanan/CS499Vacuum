@@ -1,3 +1,4 @@
+// This class, Vacuum, represents the behavior of a robotic vacuum cleaner in a simulation.
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,19 +8,19 @@ using UnityEngine.SceneManagement;
 public class Vacuum : MonoBehaviour
 {
     // Keep track of all objects in robot vacuum prefab (Consider Serialized Fields?)
-    private Transform robotTransform;
-    private Transform vacuumTransform;
-    private Transform whiskersTransform;
+    private Transform robotTransform; // The robot's transform
+    private Transform vacuumTransform; // The vacuum's transform
+    private Transform whiskersTransform; // The whiskers' transform
 
     // Vacuum Attributes
-    private int efficiency;
+    private int efficiency;             // Percentage of time the vacuum spends cleaning
     private float speed;              // Inches per Second
 
     public float batteryLifeMinutes;  // In Minutes
     public float currBatteryLife;    // In Seconds (for decrementing with timeDelta)
-    private bool whiskersEnabled;
-    private string floorCovering;
-    private bool isBatteryDead;
+    private bool whiskersEnabled;   // Whether or not the whiskers are enabled
+    private string floorCovering;   // Type of floor covering
+    private bool isBatteryDead;     // Whether or not the battery is dead
 
     public static event Action batteryDead; //Sent out if battery dies
 

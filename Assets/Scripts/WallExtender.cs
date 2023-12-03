@@ -1,3 +1,4 @@
+// This script, WallExtender, manages the behavior of wall extenders in a Unity application. Wall extenders are used to extend walls by connecting to other wall endpoints when they collide.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,12 +20,14 @@ public class WallExtender : MonoBehaviour
         connectedToWall = false;
     }
 
+    //This function is called when the delete button is clicked. It triggers the deletion of the associated wall object.
     void OnMouseDown()
     {
 
         wall.extendWall(this.transform.position);
     }
 
+    //This function is called when the wall extender is touching another wall endpoint. It extends the wall.
     void OnTriggerEnter2D(Collider2D collision)
     {
         try
@@ -36,7 +39,7 @@ public class WallExtender : MonoBehaviour
         {
         }
     }
-
+    //This function is called when the wall extender is no longer touching another wall endpoint. It extends the wall.
     void OnTriggerExit2D(Collider2D other)
     {
         connectedToWall = false;

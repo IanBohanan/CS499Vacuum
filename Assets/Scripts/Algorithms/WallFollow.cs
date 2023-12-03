@@ -1,3 +1,5 @@
+// The "WallFollow" class manages the movement of an entity, especially in scenarios where the entity follows walls or obstacles in its path.
+// It provides methods for generating movement directions, handling collisions, and managing turns.
 using System;
 using System.Collections;
 using System.Collections.Generic;

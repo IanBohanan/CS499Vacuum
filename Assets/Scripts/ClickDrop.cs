@@ -1,3 +1,5 @@
+// This script handles the behavior of draggable and rotatable objects in a scene.
+// It also checks for overlaps with other objects and provides functionality for deletion.
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -46,6 +48,7 @@ public class ClickDrop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Determine the object type and set offset values accordingly for grid snapping.
         string objectType = (gameObject.name); // Chair, Table, or Chest
         switch (objectType)
         {
@@ -100,6 +103,7 @@ public class ClickDrop : MonoBehaviour
                     break;
                 }
         }
+        // Determine if the object is long (rotated 90 degrees).
         float width = GetComponent<SpriteRenderer>().bounds.size.x;
         float height = GetComponent<SpriteRenderer>().bounds.size.y;
         isLongObject = (width >= height);

@@ -1,7 +1,5 @@
 //This script keeps track of which tile is clean and which is dirty.
 //It change change the cleanliness and also the color of the tile.
-
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
