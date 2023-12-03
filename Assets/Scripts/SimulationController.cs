@@ -1,3 +1,4 @@
+// This script, SimulationController, manages the user interface and functionality for controlling a simulation in a Unity application. It includes features such as play/pause, adjusting simulation speed, displaying elapsed time, and managing battery life.
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,12 +31,13 @@ public class SimulationController : MonoBehaviour
     private void OnEnable()
     {
         InterSceneManager.coveredTileNum = 0;
-
+        // Get references to the UI elements and vacuum object:
         vacuumBuddy = GameObject.FindGameObjectWithTag("VacuumBuddy");
         vacuumData = (vacuumBuddy.GetComponent<Vacuum>());
 
         // Get UIDocument Root
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+        // Retrieve UI elements:
 
         VisualElement body = root.Q<VisualElement>("Body");
         VisualElement bottomPanel = body.Q<VisualElement>("BottomPanel");
@@ -50,18 +52,20 @@ public class SimulationController : MonoBehaviour
         fiftyTimesSpeedBtn = buttonContainer.Q<Button>("FiftySpeed");
         VisualElement exitButtonContainer = bottomPanel.Q<VisualElement>("ExitButtonContainer");
         stopSimBtn = exitButtonContainer.Q<Button>("ExitButton");
-
+        // Subscribe to button click callbacks:
         subscribeToCallbacks();
+        // Start a repeating timer that updates labels every second:
 
         InvokeRepeating("updateLabels", 1, 1); // Start a repeating timer that fires every second
 
-        speedLabel.text = "Speed: " + InterSceneManager.speedMultiplier + "x";
+        speedLabel.text = "Speed: " + InterSceneManager.speedMultiplier + "x"; // Set the initial speed label:
 
         Vacuum.batteryDead += endSimulation;
     }
 
     private void updateLabels()
     {
+        // Update elapsed time label:
         elapsedSeconds += (speed);
         while (elapsedSeconds > 59)
         {
@@ -80,7 +84,7 @@ public class SimulationController : MonoBehaviour
         if (MinutesString.Length == 1) { MinutesString = "0"+ MinutesString; }
         if (HoursString.Length == 1) { HoursString = "0"+ HoursString; }
         elapsedTimeLabel.text = "Elapsed Time: " + HoursString + ":" + MinutesString + ":" + SecondsString;
-
+        // Update battery life label:
         int batteryLifeSeconds = (int)vacuumData.currBatteryLife;
         int batteryLifeMinutes = 0;
         int batteryLifeHours = 0;
@@ -106,6 +110,7 @@ public class SimulationController : MonoBehaviour
 
     private void subscribeToCallbacks()
     {
+        // Subscribe to button click callbacks:
         playPauseBtn.clicked += () => { updateSpeed(0); playPausePressed(); };
         fiveTimesSpeedBtn.clicked += () => updateSpeed(5);
         fiftyTimesSpeedBtn.clicked += () => updateSpeed(50);
@@ -114,6 +119,7 @@ public class SimulationController : MonoBehaviour
 
     private void playPausePressed()
     {
+        // Code 0 given, check if play or pause is active
         Debug.Log("Play/Pause Pressed");
     }
 
@@ -151,7 +157,8 @@ public class SimulationController : MonoBehaviour
         InterSceneManager.algorithmName = vacuumBuddy.GetComponent<VacuumMovement>().currentAlg.ToString();
         InterSceneManager.simulationElapsedSeconds = totalSecondsElapsed;
         InterSceneManager.endingBatteryLifeSeconds = (int)vacuumData.currBatteryLife;
-
+        // Load the "CheckForAlgs" scene when exiting the simulation.
         SceneManager.LoadScene(sceneName: "CheckForAlgs");
+        
     }
 }
