@@ -13,6 +13,16 @@ public class WallExtender : MonoBehaviour
     private void Start()
     {
         connectedToWall = false;
+        Collider2D[] objects = Physics2D.OverlapPointAll(this.transform.position);
+
+        foreach(Collider2D collider in objects)
+        {
+            if(collider.gameObject.name.Equals("WallEndpoint"))
+            {
+                connectedToWall = true;
+            }
+        }
+
     }
 
     private void OnEnable()
@@ -23,7 +33,6 @@ public class WallExtender : MonoBehaviour
     //This function is called when the delete button is clicked. It triggers the deletion of the associated wall object.
     void OnMouseDown()
     {
-
         wall.extendWall(this.transform.position);
     }
 
