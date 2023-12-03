@@ -1,3 +1,4 @@
+// This script, VacuumMovement, is responsible for controlling the movement algorithms and behavior of a robotic vacuum cleaner in a simulation. It manages various movement algorithms such as Random, WallFollow, Spiral, and Snaking, and keeps track of the vacuum's position and state.
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -8,18 +9,20 @@ using UnityEngine.Tilemaps;
 
 public class VacuumMovement : MonoBehaviour
 {
-    Tilemap tilemap;
+    // The vacuum prefab
+    Tilemap tilemap; // The tilemap of the vacuum prefab
 
-    [SerializeField] GameObject hardwoodTile;
+    [SerializeField] GameObject hardwoodTile; // The hardwood tile prefab
     public enum Algorithm
     {
-        Random = 0,
-        WallFollow = 1,
-        Spiral = 2,
-        Snaking = 3,
-        BadAlg = -1
+        // Algorithms for the vacuum to follow
+        Random = 0, // Randomly move around the room
+        WallFollow = 1, // Follow the walls
+        Spiral = 2, // Spiral around the room
+        Snaking = 3, // Snake around the room
+        BadAlg = -1 // Invalid algorithm
     }
-    public Algorithm currentAlg;
+    public Algorithm currentAlg; // The current algorithm the vacuum is following
 
     enum Direction
     {
@@ -30,32 +33,32 @@ public class VacuumMovement : MonoBehaviour
     }
 
     // Keep track of all objects in robot vacuum prefab (Consider Serialized Fields?)
-    private Transform robotTransform;
-    private Transform vacuumTransform;
-    private Transform whiskersTransform;
+    private Transform robotTransform; //    The robot transform of the vacuum prefab
+    private Transform vacuumTransform;  // The vacuum transform of the vacuum prefab
+    private Transform whiskersTransform; // The whiskers transform of the vacuum prefab
 
-    RandomWalk randomAlg = new RandomWalk();
-    WallFollow wallFollow = new WallFollow();
-    bool wallFollowing = false;
-    bool justTurned = false;
-    bool currentlyTurningLeft = false;
-    Vector3 targetPositionA;
-    bool passedA = false;
-    Vector3 targetPositionB;
-    bool passedB = false;
+    RandomWalk randomAlg = new RandomWalk(); // The random algorithm for the vacuum
+    WallFollow wallFollow = new WallFollow();  // The wall follow algorithm for the vacuum
+    bool wallFollowing = false; // Whether the vacuum is currently following walls
+    bool justTurned = false; // Whether the vacuum just turned
+    bool currentlyTurningLeft = false; // Whether the vacuum is currently turning left
+    Vector3 targetPositionA; // The target position for the vacuum to move to
+    bool passedA = false; // Whether the vacuum has passed the target position
+    Vector3 targetPositionB; // The target position for the vacuum to move to
+    bool passedB = false; // Whether the vacuum has passed the target position
 
-    int consecutiveLeftTurns = 0;
+    int consecutiveLeftTurns = 0; // The number of consecutive left turns the vacuum has made
 
-    Spiral spiral = new Spiral();
-    Vector3 spiralOrigin = Vector3.zero;
-    bool isSpiraling = false;
-    float spiralStartTime = 0f;
+    Spiral spiral = new Spiral(); // The spiral algorithm for the vacuum
+    Vector3 spiralOrigin = Vector3.zero; // The origin of the spiral algorithm
+    bool isSpiraling = false; // Whether the vacuum is currently spiraling
+    float spiralStartTime = 0f; // The time the spiral algorithm started
 
-    bool collidedBefore = false;
-    bool snakingHorizontalWalls = false;
-    string snakingOffsetDirection = "up";
-    bool currentlyOffsettingSnake = false;
-    Vector3 postOffsetSnakeDirection = Vector3.zero;
+    bool collidedBefore = false; // Whether the vacuum has collided with an object before
+    bool snakingHorizontalWalls = false;  // Whether the vacuum is currently snaking horizontally
+    string snakingOffsetDirection = "up"; // The direction the vacuum is currently snaking horizontally
+    bool currentlyOffsettingSnake = false; // Whether the vacuum is currently offsetting the snake
+    Vector3 postOffsetSnakeDirection = Vector3.zero; // The direction the vacuum is currently offsetting the snake
 
     public Vector2 currentDirectionVec; // The normalized direction vector to tell the vacuum where to go
 
@@ -357,7 +360,7 @@ public class VacuumMovement : MonoBehaviour
                 InterSceneManager.cleanedTiles[tileIndex].hits += Mathf.RoundToInt(InterSceneManager.speedMultiplier / 2);
             }
         }
-        //---------------------------------
+        //Debug.Log(cellPosition);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -653,8 +656,9 @@ public class VacuumMovement : MonoBehaviour
 
     private Algorithm getNextAlg()
     {
+        // Get the next algorithm from the dictionary
         Debug.Log(pathingDict);
-        Algorithm nextAlgorithm;
+        Algorithm nextAlgorithm; // The algorithm we will return
         foreach (var alg in pathingDict)
         {
             if (alg.Value == true)
@@ -729,6 +733,7 @@ public class VacuumMovement : MonoBehaviour
     // Method to rotate a Vector3 by 45 degrees counterclockwise
     Vector3 RotateVector45Degrees(Vector3 direction)
     {
+        // Convert degrees to radians
         float angleInRadians = Mathf.Deg2Rad * 45f;
         float cosTheta = Mathf.Cos(angleInRadians);
         float sinTheta = Mathf.Sin(angleInRadians);
