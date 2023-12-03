@@ -9,6 +9,7 @@ using UnityEngine.Tilemaps;
 
 public class ShowColorCodedResultsController : MonoBehaviour
 {
+    // The Tilemap to color
     [SerializeField]
     private Tilemap tilemap;
     Button closeButton;
