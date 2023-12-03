@@ -2,9 +2,6 @@
 // following a spiral pattern. It provides methods for calculating new direction vectors, both
 // when initially starting and when encountering a collision, as well as for rotating the entity as it spirals.
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Spiral

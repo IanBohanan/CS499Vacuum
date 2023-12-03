@@ -1,10 +1,7 @@
 // This script, ShowColorCodedResultsController, is responsible for managing the color-coding of tiles on a Tilemap in a Unity application. It also provides a button to close the scene and determine whether to return to the simulation scene or move to the data review scene.
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
-using System;
 using UnityEngine.SceneManagement;
-using UnityEditor.EditorTools;
 using UnityEngine.Tilemaps;
 
 public class ShowColorCodedResultsController : MonoBehaviour

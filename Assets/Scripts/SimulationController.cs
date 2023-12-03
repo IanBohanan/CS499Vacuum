@@ -1,10 +1,4 @@
 // This script, SimulationController, manages the user interface and functionality for controlling a simulation in a Unity application. It includes features such as play/pause, adjusting simulation speed, displaying elapsed time, and managing battery life.
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Timers;
-using UnityEditor.TerrainTools;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;

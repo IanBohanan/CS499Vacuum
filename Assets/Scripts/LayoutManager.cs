@@ -3,8 +3,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
-using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
 // This script, LayoutManager, is responsible for managing various functionalities related to layout editing and JSON data import/export in a Unity application.

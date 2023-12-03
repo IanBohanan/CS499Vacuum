@@ -1,8 +1,6 @@
 // This script, VacuumMovement, is responsible for controlling the movement algorithms and behavior of a robotic vacuum cleaner in a simulation. It manages various movement algorithms such as Random, WallFollow, Spiral, and Snaking, and keeps track of the vacuum's position and state.
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;

@@ -1,10 +1,8 @@
 // This script, HouseBuilderUI, manages the user interface (UI) and interactions for a house-building application in Unity. It handles UI elements, state management, and user interactions for placing walls, doors, furniture, and flags in a virtual house.
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 using UnityEngine.SceneManagement;
-using UnityEditor.EditorTools;
 using static LayoutManager;
 
 // Enum to define different states of the UI. Used to determine which buttons should be available at any given time.

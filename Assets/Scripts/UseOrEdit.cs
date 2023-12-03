@@ -1,11 +1,8 @@
 // This script, UseOrEdit, is responsible for handling UI buttons that allow the player
 // to choose between using a feature or entering an editing mode in a Unity game.
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
-using System;
 using UnityEngine.SceneManagement;
-using UnityEditor.EditorTools;
 
 public class UseOrEdit : MonoBehaviour
 {

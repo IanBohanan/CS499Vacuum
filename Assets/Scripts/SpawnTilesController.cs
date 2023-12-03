@@ -1,12 +1,8 @@
 // This script, SpawnTilesController, manages the spawning of tiles in a Unity application, particularly for a simulation setup.
 // It subscribes to events triggered by the "RoomManager" to coordinate tile spawning and handles the transition to a new scene
 // once the tiles have finished spawning.
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
-using System;
 using UnityEngine.SceneManagement;
-using UnityEditor.EditorTools;
 
 public class SpawnTilesController : MonoBehaviour
 {
