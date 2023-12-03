@@ -30,6 +30,7 @@ As robot vacuums gain popularity and become more affordable, there is an increas
 4. Once the editor is open, add in all of the scenes to the build settings.
     - You can do this by opening each scene (double click on the scene files in the directory), then opening File->Build Settings and pressing the "Add Open Scenes" button.
     - You will see a list of all the scenes that have been added to the build in the Build Settings popup window. Make sure that there are nine of them (0-8) and that they are all enabled.
+    - Make sure the mainMenu scene is at the top (set to scene 0).
 5. Finally, press either the "Build" or "Build and Run" buttons in File->Build Settings to start building the application. 
     - By default, the Unity Editor should default to appropriate Windows build settings. If there are issues building or running the produced executable, look through the build settings and ensure that the Target Platform is set to Windows and that the Architecture is set to Intel-64.
 6. If you pressed "Build and Run", then the application should run automatically once the build has finished. If you pressed "Build" then the executable for the application can be found at the root level of the application's folder.
