@@ -191,12 +191,12 @@ public class RoomManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+/*        if (Input.GetKeyDown(KeyCode.E))
         { 
         
             Vector3Int startPosition = new Vector3Int(0, 0, 0);
             BeginRoomDimensionCheck();
-        }
+        }*/
 
 
         if (isFlooding)
@@ -250,7 +250,7 @@ public class RoomManager : MonoBehaviour
 
     // Checks the dimensions of every room in a house scheme based on user-placed flags
     // that denote the location of each unique room.
-    private bool BeginRoomDimensionCheck()
+    public bool BeginRoomDimensionCheck()
     {
         bool roomsValid = true;
         // The following vars keep track of how many rooms are too small and too large

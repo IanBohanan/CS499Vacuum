@@ -197,12 +197,27 @@ public class HouseBuilderUI : MonoBehaviour
         }
         // Start flood fill:
         setStatusWaiting();
-        string result = roomManager.GetComponent<RoomManager>().beginFlood();
-        // Show Popup:
-        validityPopup.style.display = DisplayStyle.Flex;
-        Camera cam = Camera.main;
-        Vector3 newCamPosition = new Vector3(cam.transform.position.x, cam.transform.position.y + 50000, cam.transform.position.z);
-        cam.transform.position = newCamPosition;
+        bool dimensionCheckResult = roomManager.GetComponent<RoomManager>().BeginRoomDimensionCheck();
+        if (dimensionCheckResult == false) // Failed room dimension check
+        {
+            // Show Popup:
+            validityPopup.style.display = DisplayStyle.Flex;
+            statusLabel.style.display = DisplayStyle.Flex;
+            statusLabel.text = "You have at least one room that is too small.";
+            status.text = "INVALID";
+            status.style.color = new StyleColor(Color.red);
+            validityConfirmBtn.style.display = DisplayStyle.None;
+            validityProblemBtn.style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            string result = roomManager.GetComponent<RoomManager>().beginFlood();
+            // Show Popup:
+            validityPopup.style.display = DisplayStyle.Flex;
+            Camera cam = Camera.main;
+            Vector3 newCamPosition = new Vector3(cam.transform.position.x, cam.transform.position.y + 50000, cam.transform.position.z);
+            cam.transform.position = newCamPosition;
+        }
     }
 
     private void validityConfirmPress()
@@ -231,7 +246,7 @@ public class HouseBuilderUI : MonoBehaviour
             InterSceneManager.fileSelection = exportDropdown.value;
             InterSceneManager.wallList.Clear(); // Clear the list of walls in case user returns to house builder
             InterSceneManager.flagList.Clear();
-            SceneManager.LoadScene(sceneName: "SimulationSetup"); 
+            SceneManager.LoadScene(sceneName: "SpawnTiles"); 
         }
             // Hide Popup:
             exportPopup.style.display = DisplayStyle.None;
