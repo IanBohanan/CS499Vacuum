@@ -191,13 +191,6 @@ public class RoomManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-
-            Vector3Int startPosition = new Vector3Int(0, 0, 0);
-            BeginRoomDimensionCheck();
-        }
-
 
         if (isFlooding)
         {
@@ -322,6 +315,7 @@ public class RoomManager : MonoBehaviour
         return roomsValid;
     }
 
+    // Uses a stack to make the house flood coroutine non-recursive
     public Stack<Vector3Int> RoomFlood(Stack<Vector3Int> posStack)
     {
 
