@@ -195,7 +195,7 @@ public class RoomManager : MonoBehaviour
         {
 
             Vector3Int startPosition = new Vector3Int(0, 0, 0);
-            CheckFrontDoor();
+            BeginRoomDimensionCheck();
         }
 
 
@@ -276,7 +276,18 @@ public class RoomManager : MonoBehaviour
             Vector3 flagPos = flag.transform.position;
             // Convert flag position to tile position
             Vector3Int cellPosition = tilemap.WorldToCell(flagPos);
-            RoomFlood(cellPosition);
+            Stack<Vector3Int> stack = new Stack<Vector3Int>();
+            stack.Push(cellPosition);
+
+            stack = RoomFlood(stack);
+            while (stack.Count > 0)
+            {
+                RoomFlood(stack);
+            }
+            foreach (var item in stack)
+            {
+                Debug.Log(item);
+            }
 
             if (exploredTiles.Count < 8)
             {
@@ -315,6 +326,90 @@ public class RoomManager : MonoBehaviour
         return roomsValid;
     }
 
+    public Stack<Vector3Int> RoomFlood(Stack<Vector3Int> posStack)
+    {
+
+        while (posStack.Count > 0)
+        {
+            Vector3Int position = posStack.Pop();
+
+            activeTiles++;
+
+            if (tilemap.HasTile(position))
+            {
+                //Check if tile is already in dictionary. If yes, it has already been explored and should not be recounted.
+                if (exploredTiles.ContainsKey(position))
+                {
+                    activeTiles--;
+                    return posStack;
+                }
+
+                Vector3 worldPosition = tilemap.GetCellCenterWorld(position);
+
+                try
+                {
+                    Collider2D[] colliders = Physics2D.OverlapPointAll(worldPosition);
+
+
+                    if (colliders.Length > 0)
+                    {
+                        foreach (Collider2D collider in colliders)
+                        {
+                            if (collider != null)
+                            {
+                                //Something is on this tile. Could be a flag, wall, object, etc.
+
+                                //Make sure it is not the room flag we're looking for
+                                if (collider.tag != "RoomFlag")
+                                {
+                                    // Now it may be a furniture or wall object.
+                                    //Check to see if there is a door we can go through
+                                    if (collider.tag != "DoorBuddy")
+                                    {
+                                        //It's not a door! So leave the tile alone
+                                        activeTiles--;
+                                        return posStack;
+                                    }
+                                    else
+                                    {
+                                        print("RoomManager: Encountered a door skipping through!");
+                                        break;
+                                    }
+                                }
+                                else //otherwise it is a room flag! So mark flag as found then continue flooding.
+                                {
+                                    foundFlags[collider.gameObject] = true; //Mark the specific flag as found.
+                                    print("Found " + collider.gameObject.GetComponent<Flag>().roomName);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    return posStack;
+                }
+
+                exploredTiles.Add(position, true);
+                colorTile(position);
+
+                posStack.Push(position + (1 * Vector3Int.up));
+                posStack.Push(position + (1 * Vector3Int.down));
+                posStack.Push(position + (1 * Vector3Int.left));
+                posStack.Push(position + (1 * Vector3Int.right));
+            }
+            else
+            {
+                //print(position + " is outside tilemap.");
+            }
+
+            activeTiles--;
+        }
+        return posStack;
+    }
+
+    /*
     // Returns the number of tiles found in a room
     public void RoomFlood(Vector3Int position)
     {
@@ -378,7 +473,7 @@ public class RoomManager : MonoBehaviour
 
             //Add the tile to the dictionary to mark it as explored.
             exploredTiles.Add(position, true);
-            //colorTile(position);
+            colorTile(position);
             //Mark the tile with a tint to show it has been explored
 
             //Reminder, the position is per TILE. So go by ones, not by world coordinates.
@@ -394,6 +489,7 @@ public class RoomManager : MonoBehaviour
         }
         activeTiles--;
     }
+    */
 
     public bool CheckFrontDoor()
     {
