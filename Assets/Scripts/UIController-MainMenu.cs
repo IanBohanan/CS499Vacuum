@@ -1,3 +1,4 @@
+// This script, MainMenuController, manages the main menu of a Unity application. It handles UI interactions and navigation between different scenes, including importing house layouts and reviewing past simulations.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,23 +7,24 @@ using UnityEngine.UIElements;
 
 public class MainMenuController : MonoBehaviour
 {
-    Button importBtn;
-    Button createNewBtn;
-    Button reviewPastSimulationsBtn;
+    // References to UI elements:
+    Button importBtn; // Import button
+    Button createNewBtn; // Create new button
+    Button reviewPastSimulationsBtn; // Review past simulations button
 
-    VisualElement importPopup;
-    Button importJSONButton;
+    VisualElement importPopup; // Import popup
+    Button importJSONButton; // Import JSON button
 
-    VisualElement dataReviewPopup;
-    Button dataReviewConfirmButton;
+    VisualElement dataReviewPopup; // Data review popup
+    Button dataReviewConfirmButton; // Data review confirm button
 
-    DropdownField selectionDropdown;
-    DropdownField dataReviewDropdown;
+    DropdownField selectionDropdown; // Dropdown for selecting a simulation to review
+    DropdownField dataReviewDropdown; // Dropdown for selecting a simulation to review
 
-    VisualElement createNewPopup;
-    Button useDefaultBtn;
-    Button fromScratchBtn;
-    Button cancelCreateNewBtn;
+    VisualElement createNewPopup; // Create new popup
+    Button useDefaultBtn; // Use default button
+    Button fromScratchBtn; // From scratch button
+    Button cancelCreateNewBtn; // Cancel button
 
     void OnEnable()
     {
@@ -89,6 +91,7 @@ public class MainMenuController : MonoBehaviour
 
     private void onDataReviewConfirmPress()
     {
+        // TODO: Load in the data review scene.
         dataReviewPopup.style.display = DisplayStyle.None;
         SceneManager.LoadScene(sceneName: "DataReview");
     }
@@ -107,6 +110,7 @@ public class MainMenuController : MonoBehaviour
 
     private void useDefaultPress()
     {
+        // TODO: Load in the default house creation scene.
         InterSceneManager.userWantsDefaultHouse = true;
         SceneManager.LoadScene(sceneName: "HouseBuilder");
     }
@@ -119,6 +123,7 @@ public class MainMenuController : MonoBehaviour
 
     public void cancelCreateNewPress()
     {
+        // TODO: Close the Create New Popup.
         createNewPopup.style.display = DisplayStyle.None;
     }
 }

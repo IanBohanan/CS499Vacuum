@@ -1,3 +1,6 @@
+// The "RandomWalk" class is responsible for generating new movement directions for an entity
+// following a random walking pattern. It provides methods for calculating new direction vectors,
+// both when initially starting and when encountering a collision.
 using System;
 using System.Collections;
 using System.Collections.Generic;

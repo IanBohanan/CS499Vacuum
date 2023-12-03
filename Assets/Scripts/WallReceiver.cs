@@ -1,3 +1,6 @@
+// This script, WallReceiver, subscribes to the stateUpdate event from the HouseBuilderUI. 
+// If the user is trying to place a wall, it updates the currently placed walls to allow the user to click on the endpoints
+// and attach another wall to the end.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

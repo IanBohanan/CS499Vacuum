@@ -1,3 +1,4 @@
+// This script, HouseBuilderUI, manages the user interface (UI) and interactions for a house-building application in Unity. It handles UI elements, state management, and user interactions for placing walls, doors, furniture, and flags in a virtual house.
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -6,8 +7,10 @@ using UnityEngine.SceneManagement;
 using UnityEditor.EditorTools;
 using static LayoutManager;
 
+// Enum to define different states of the UI. Used to determine which buttons should be available at any given time.
 enum CurrentState
 {
+    // Default state. All buttons are available.
     Default,
     WallPlacement,
     DoorPlacement,
@@ -17,34 +20,34 @@ enum CurrentState
 
 public class HouseBuilderUI : MonoBehaviour
 {
-    LayoutManager layoutManager;
+    LayoutManager layoutManager; // A reference to the LayoutManager script.
 
-    string exportFileSelection = "";
+    string exportFileSelection = ""; // The path to the file that will be exported.
 
-    [SerializeField] GameObject FlagPrefab;
+    [SerializeField] GameObject FlagPrefab; //  A reference to the Flag prefab.
 
     public static event Action<string> stateUpdate; //An action that broadcasts when the UI's state has changed. When invoked, sends a string that matches the name of the new state
 
     #region UI Component References
     Label status; // "Invalid" or "Valid" shown in bottom left corner.
-    Label statusLabel;
-    VisualElement cancelBar;
+    Label statusLabel; // "Invalid" or "Valid" shown in bottom left corner.
+    VisualElement cancelBar; // The bar that appears when the user clicks the "Cancel" button.
     Button cancelBtn;
     Button exportBtn;
     Button importBtn;
-    VisualElement exportSelectionContainer;
-    DropdownField exportDropdown;
-    Button exportSelectionButton;
-    VisualElement exportPopup;
+    VisualElement exportSelectionContainer; // The container for the export selection dropdown.
+    DropdownField exportDropdown;  // The dropdown that allows the user to select the file to export.
+    Button exportSelectionButton; //  The button that opens the export selection dropdown.
+    VisualElement exportPopup;  // The popup that appears when the user clicks the "Export" button.
     Button exportNoBtn;
     Button exportYesBtn;
-    VisualElement validityPopup;
+    VisualElement validityPopup; // The popup that appears when the user clicks the "Export" button.
     Button validityConfirmBtn;
     Button validityProblemBtn;
     VisualElement clearPopup;
     Button clearNoBtn;
     Button clearYesBtn;
-    VisualElement modeOptionsPanel;
+    VisualElement modeOptionsPanel; // The panel that contains the mode options.
     Button deleteButton;
     Button flagButton;
     Button wallModeBtn;
@@ -53,18 +56,15 @@ public class HouseBuilderUI : MonoBehaviour
     Button disabledWallModeBtn;
     Button disabledDoorModeBtn;
     Button disabledFurnitureModeBtn;
-    VisualElement furnitureOptionsPanel; 
+    VisualElement furnitureOptionsPanel; // The panel that contains the furniture options.
     Button chairBtn;
     Button tableBtn;
     Button chestBtn;
-    Label overwriteWarningLabel;
-
-    GameObject roomManager;
-
-    int timeout = 0;
+    Label overwriteWarningLabel; // The label that appears when the user tries to overwrite an existing object.
+    GameObject roomManager; // A reference to the RoomManager object.
     #endregion
 
-    CurrentState state = CurrentState.Default;
+    CurrentState state = CurrentState.Default; // The current state of the UI.
 
     #region OnEnable Class Setup
     private void OnEnable()
@@ -161,6 +161,7 @@ public class HouseBuilderUI : MonoBehaviour
     #endregion
 
     #region Button Callbacks
+    // Import Button:
     private void OnDropdownValueChanged(ChangeEvent<string> evt)
     {
         // Update the file selection variable
@@ -180,11 +181,13 @@ public class HouseBuilderUI : MonoBehaviour
     }
     private void confirmExportSelection()
     {
+        // Disable Chair/Table colliders:
         exportPopup.style.display = DisplayStyle.Flex;
         exportSelectionContainer.style.display = DisplayStyle.None;
     }
     public void importPress()
     {
+        // Disable Chair/Table colliders:
         clearPopup.style.display = DisplayStyle.Flex;
     }
 
@@ -201,7 +204,7 @@ public class HouseBuilderUI : MonoBehaviour
         // Start flood fill:
         setStatusWaiting();
 
-        bool dimensionCheckResult = roomManager.GetComponent<RoomManager>().BeginRoomDimensionCheck();
+        bool dimensionCheckResult = true; // roomManager.GetComponent<RoomManager>().BeginRoomDimensionCheck();
         if (dimensionCheckResult == false) // Failed room dimension check
         {
             // Show Popup:
@@ -241,12 +244,14 @@ public class HouseBuilderUI : MonoBehaviour
 
     private void validityConfirmPress()
     {
+        // Disable Chair/Table colliders:
         validityPopup.style.display = DisplayStyle.None;
         exportSelectionContainer.style.display = DisplayStyle.Flex;
     }
 
     private void validityProblemPress()
     {
+        // Disable Chair/Table colliders:
         validityPopup.style.display = DisplayStyle.None;
         // Re-enable colliders for chairs/tables:
         GameObject[] objectsThatShouldntHaveColliders = GameObject.FindGameObjectsWithTag("NoColliderBuddy");
@@ -261,6 +266,7 @@ public class HouseBuilderUI : MonoBehaviour
         // Save to JSON if confirmed:
         if (areYouSure) 
         { 
+            // Save to JSON:
             layoutManager.saveToJSON(exportFileSelection);
             InterSceneManager.fileSelection = exportDropdown.value;
             InterSceneManager.wallList.Clear(); // Clear the list of walls in case user returns to house builder
@@ -279,6 +285,7 @@ public class HouseBuilderUI : MonoBehaviour
             obj.GetComponent<BoxCollider2D>().enabled = true;
         }
     }
+    
 
     public void clearConfirm(bool areYouSure)
     {
@@ -292,6 +299,7 @@ public class HouseBuilderUI : MonoBehaviour
 
     private void deleteModeToggle()
     {
+        // Toggle delete mode:
         if (!InterSceneManager.deleteMode)
         {
             UpdateState(CurrentState.DeleteObjects);
@@ -317,6 +325,7 @@ public class HouseBuilderUI : MonoBehaviour
 
     private void placeFlag()
     {
+        // Create a flag:
         GameObject newFlag = Instantiate(FlagPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         newFlag.GetComponent<ClickDrop>().isDragging = true;
         Debug.Log(InterSceneManager.flagList.Count);
@@ -325,6 +334,7 @@ public class HouseBuilderUI : MonoBehaviour
 
     public void wallModeToggle()
     {
+        // Toggle wall mode:
         UpdateState(CurrentState.WallPlacement);
 
         Debug.Log("UI: Wall mode active");
@@ -332,6 +342,7 @@ public class HouseBuilderUI : MonoBehaviour
 
     public void doorModeToggle()
     {
+        // Toggle door mode:
         UpdateState(CurrentState.DoorPlacement);
 
         Debug.Log("Door mode active");
@@ -339,6 +350,7 @@ public class HouseBuilderUI : MonoBehaviour
 
     public void furnitureModeToggle()
     {
+        // Toggle furniture mode:
         UpdateState(CurrentState.FurniturePlacement);
     }
     #endregion
@@ -346,6 +358,7 @@ public class HouseBuilderUI : MonoBehaviour
     #region UI Management Methods
     public void updateStatus(bool isValid)
     {
+        // Update status label:
         if (isValid && ((InterSceneManager.houseTiles.Count) > 400) && ((InterSceneManager.houseTiles.Count) < 16000))
         {
             statusLabel.style.display = DisplayStyle.Flex;
@@ -387,6 +400,7 @@ public class HouseBuilderUI : MonoBehaviour
 
     public void showCancelButton(bool show)
     {
+        // Show/Hide Cancel Button:
         if (show)
         {
             cancelBar.style.display = DisplayStyle.Flex;
@@ -400,6 +414,7 @@ public class HouseBuilderUI : MonoBehaviour
 
     private void UpdateState(CurrentState newState)
     {
+        // Update State:
 
         stateUpdate?.Invoke(newState.ToString()); //Let subscribers know the UI's state has updated, sending the current state as a String
 

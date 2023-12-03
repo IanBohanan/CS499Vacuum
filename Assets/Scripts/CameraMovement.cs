@@ -1,3 +1,4 @@
+// This script controls the movement and zooming of a 2D camera in a Unity game.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,8 +6,9 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
 
-    private Vector3 CameraPostion;
-    private Camera cam;
+// Variables to store camera position and camera component
+    private Vector3 CameraPostion; // Stores the current camera position
+    private Camera cam; // Reference to the camera component
 
     [Header("Camera Settings")]
     public float cameraSpeed; //How fast the default camera speed is. Determined in the Unity editor
@@ -22,6 +24,7 @@ public class CameraMovement : MonoBehaviour
 
     private void Start()
     {
+         // Adjust the camera's orthographic size (zoom) based on mouse scroll input
         CameraPostion = transform.position;
         cam = GetComponent<Camera>();
         zoom = cam.orthographicSize;
@@ -29,6 +32,7 @@ public class CameraMovement : MonoBehaviour
 
     private void getZoom()
     {
+        // Adjust the camera's orthographic size (zoom) based on mouse scroll input
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         zoom -= scroll * zoomMultiplier;
         zoom = Mathf.Clamp(zoom, minZoom, maxZoom);

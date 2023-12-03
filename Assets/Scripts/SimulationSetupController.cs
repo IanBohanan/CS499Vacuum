@@ -1,3 +1,4 @@
+// This script, SimulationSetupController, manages the user interface and settings for configuring a simulation in a Unity application. It provides options for adjusting various parameters, such as whiskers, battery life, robot speed, floor covering, and algorithm selection.
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,18 +11,19 @@ using static LayoutManager;
 
 public class SimulationSetupController : MonoBehaviour
 {
-    Button whiskersButton;
-    Slider batteryLifeSlider;
+    // UI Elements:
+    Button whiskersButton; // New field for displaying battery life
+    Slider batteryLifeSlider; // New field for displaying battery life
     Button startSimulationBtn;
     Label batteryLifeLabel; // New field for displaying battery life
 
-    Slider robotSpeedSlider;
+    Slider robotSpeedSlider; // New field for displaying Robot Speed
     Label robotSpeedLabel; // New field for displaying Robot Speed
 
-    Slider vacuumEfficiencySlider;
+    Slider vacuumEfficiencySlider; // New field for displaying Robot Speed
     Label vacuumEfficiencyLabel; // New field for displaying Robot Speed
 
-    Slider whiskersEfficiencySlider;
+    Slider whiskersEfficiencySlider; // New field for displaying Robot Speed
     Label whiskersEfficiencyLabel; // New field for displaying Robot Speed
 
 
@@ -126,6 +128,7 @@ public class SimulationSetupController : MonoBehaviour
 
     private void whiskersToggleFunction()
     {
+        // Toggle whiskers:
         whiskersEnabled = !whiskersEnabled;
         if (whiskersEnabled) {
             whiskersButton.style.color = Color.black;
@@ -135,7 +138,7 @@ public class SimulationSetupController : MonoBehaviour
             whiskersButton.style.color = new Color(0.7372f, 0.7372f, 0.7372f, 1);
         }
     }
-
+    
     private void floorCoveringUpdate(ChangeEvent<string> evt)
     {
         floorCovering = floorCoveringDropdown.value;
@@ -195,6 +198,7 @@ public class SimulationSetupController : MonoBehaviour
 
     private void toggleAlg(string algName)
     {
+        // Toggle algorithms:   
         switch (algName)
         {
             case ("random"):
@@ -245,7 +249,7 @@ public class SimulationSetupController : MonoBehaviour
                 Debug.Log("Invalid algorithm name string given!");
                 break;
         }
-
+        //if (randomAlg == false)
         if ((randomAlg == false) && (spiralAlg == false) && (snakingAlg == false) && (wallFollowAlg == false))
         {
             startSimulationBtn.style.display = DisplayStyle.None;
@@ -258,6 +262,7 @@ public class SimulationSetupController : MonoBehaviour
 
     public void onStartSimulationPress()
     {
+        // Set the simulation settings:
         InterSceneManager.setSimulationSettings(whiskersEnabled, floorCovering, (int)batteryLife, randomAlg, spiralAlg, snakingAlg, wallFollowAlg);
         InterSceneManager.vacuumSpeed = (int)robotSpeedSlider.value;
         InterSceneManager.vacuumEfficiency = (int)vacuumEfficiencySlider.value;
@@ -276,6 +281,7 @@ public class SimulationSetupController : MonoBehaviour
         {
             Debug.Log("JSON Import Exception: " + e.Message);
         }
+        // Update the JSON file entry number:
         InterSceneManager.JSONEntryNum = parsedJSON.SIMULATION_DATA.Count;
         InterSceneManager.startDateTime = (DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString());
 

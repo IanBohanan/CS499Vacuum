@@ -1,3 +1,4 @@
+// This script, WallPlacer, manages the behavior of wall placement in a Unity application. It handles the placement of wall objects, their rotation, deletion, and connection to other walls.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
