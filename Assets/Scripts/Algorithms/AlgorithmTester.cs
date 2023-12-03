@@ -1,3 +1,7 @@
+// The "AlgorithmTester" script is used to test and visualize pathfinding algorithms within a Unity scene.
+// It simulates the movement and collision detection of an object (likely representing a robotic vacuum
+// or similar entity) within the scene using various pathfinding algorithms. The script contains logic
+// to display debug information, such as rays and collision detection results, to help visualize the algorithms' behavior.
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
