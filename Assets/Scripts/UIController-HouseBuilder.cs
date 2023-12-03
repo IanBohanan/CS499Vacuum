@@ -270,6 +270,7 @@ public class HouseBuilderUI : MonoBehaviour
             // Save to JSON:
             layoutManager.saveToJSON(exportFileSelection);
             InterSceneManager.fileSelection = exportDropdown.value;
+            InterSceneManager.userWantsDefaultHouse = false;
             InterSceneManager.wallList.Clear(); // Clear the list of walls in case user returns to house builder
             InterSceneManager.flagList.Clear();
             SceneManager.LoadScene(sceneName: "SpawnTiles"); 
