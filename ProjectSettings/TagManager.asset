@@ -10,11 +10,12 @@ TagManager:
   - DoorBuddy
   - GridBuddy
   - NoColliderBuddy
+  - FrontDoorBuddy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - WallsAndDoors
   - Water
   - UI
   - 

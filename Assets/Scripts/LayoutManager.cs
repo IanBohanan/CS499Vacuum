@@ -24,7 +24,7 @@ public class LayoutManager : MonoBehaviour
     List<GameObject> Furniture = new List<GameObject>();
     #endregion
 
-    private void OnEnable()
+    private void Start()
     {
         // Import given file if there is one:
         importJSON();
@@ -51,7 +51,11 @@ public class LayoutManager : MonoBehaviour
         if (type == "chair") newFurniture = Instantiate(Chair, new Vector3(xPos, yPos, 0), rotation);
         else if (type == "table") newFurniture = Instantiate(Table, new Vector3(xPos, yPos, 0), rotation);
         else if (type == "chest") newFurniture = Instantiate(Chest, new Vector3(xPos, yPos, 0), rotation);
-        else if (type == "door") newFurniture = Instantiate(Door, new Vector3(xPos, yPos, 0), rotation);
+        else if (type == "door")
+        {
+            newFurniture = Instantiate(Door, new Vector3(xPos, yPos, 0), rotation);
+            RoomDoors.Add(newFurniture);
+        }
         else return; // Invalid input
         newFurniture.GetComponent<ClickDrop>().onDeleteClicked += deleteFurniture;
         if (!imported) newFurniture.GetComponent<ClickDrop>().isDragging = true;
@@ -182,14 +186,54 @@ public class LayoutManager : MonoBehaviour
                 addFurniture("door", parsedJSON.Furniture[i].rotation, parsedJSON.Furniture[i].posX, parsedJSON.Furniture[i].posY, true);
             }
         }
-        for (int i =0; i < parsedJSON.Walls.Count; i++)
-        {
-            GameObject newWall = Instantiate(Wall, new Vector3(parsedJSON.Walls[i].posX, parsedJSON.Walls[i].posY, 0), parsedJSON.Walls[i].rotation);
-            newWall.GetComponent<WallPlacer>().disableSpawners(); // Disable wall extending endpoints
-        }
 
         var currentScene = SceneManager.GetActiveScene();
         var currentSceneName = currentScene.name;
+
+        if (currentSceneName == "Simulation" || currentSceneName == "SpawnTiles") // Spawn walls and delete any under the doors
+        {
+            List<GameObject> wallsToDelete = new List<GameObject>();
+            for (int i = 0; i < parsedJSON.Walls.Count; i++)
+            {
+                GameObject newWall = Instantiate(Wall, new Vector3(parsedJSON.Walls[i].posX, parsedJSON.Walls[i].posY, 0), parsedJSON.Walls[i].rotation);
+                newWall.GetComponent<WallPlacer>().disableSpawners(); // Disable wall extending endpoints
+                Walls.Add(newWall);
+                BoxCollider2D wallCollider = newWall.GetComponent<BoxCollider2D>();
+                // Destroy any walls that are overlapping with doors:
+                foreach (GameObject door in RoomDoors)
+                {
+                    BoxCollider2D doorCollider = door.GetComponent<BoxCollider2D>();
+
+                    Collider2D[] colliders = Physics2D.OverlapPointAll(newWall.GetComponentInChildren<SpriteRenderer>().bounds.center);
+                    foreach (Collider2D collider in colliders)
+                    {
+                        if (collider.gameObject.name == "Door(Clone)")
+                        {
+                            wallsToDelete.Add(newWall);
+                        }
+                    }
+                }
+            }
+            foreach (GameObject wall in wallsToDelete)
+            {
+                DestroyImmediate(wall);
+            }
+            foreach (GameObject door in RoomDoors)
+            {
+
+                // Disable door collider for debugging (enable it back if needed)
+                door.GetComponent<BoxCollider2D>().enabled = false;
+            }
+        }
+        else // Spawn walls and don't check for door overlap
+        {
+            for (int i = 0; i < parsedJSON.Walls.Count; i++)
+            {
+                GameObject newWall = Instantiate(Wall, new Vector3(parsedJSON.Walls[i].posX, parsedJSON.Walls[i].posY, 0), parsedJSON.Walls[i].rotation);
+                newWall.GetComponent<WallPlacer>().disableSpawners(); // Disable wall extending endpoints
+                Walls.Add(newWall);
+            }
+        }
 
         if (currentSceneName != "ShowColorCodedResults")
         {
@@ -213,7 +257,9 @@ public class LayoutManager : MonoBehaviour
         FullList.vacuumPosition = GameObject.Find("Vacuum-Robot").transform.position;
         foreach (GameObject f in Furniture) FullList.Furniture.Add(new Object(f.name, f.transform.position.x, f.transform.position.y, f.transform.rotation));
         foreach (GameObject w in walls) FullList.Walls.Add(new Object(w.name, w.transform.position.x, w.transform.position.y, w.transform.rotation));
-        foreach (GameObject rd in RoomDoors) FullList.RoomDoors.Add(new Object(rd.name, rd.transform.position.x, rd.transform.position.y, rd.transform.rotation));
+        GameObject[] roomDoors = GameObject.FindGameObjectsWithTag("DoorBuddy");
+        foreach (GameObject roomDoor in roomDoors) FullList.RoomDoors.Add(new Object(roomDoor.name, roomDoor.transform.position.x, roomDoor.transform.position.y, roomDoor.transform.rotation));
+        //foreach (GameObject rd in RoomDoors) FullList.RoomDoors.Add(new Object(rd.name, rd.transform.position.x, rd.transform.position.y, rd.transform.rotation));
         foreach (GameObject ed in ExitDoors) FullList.ExitDoors.Add(new Object(ed.name, ed.transform.position.x, ed.transform.position.y, ed.transform.rotation));
         try
         {

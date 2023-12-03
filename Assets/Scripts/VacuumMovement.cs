@@ -653,7 +653,6 @@ public class VacuumMovement : MonoBehaviour
 
     private Algorithm getNextAlg()
     {
-        Debug.Log(pathingDict);
         Algorithm nextAlgorithm;
         foreach (var alg in pathingDict)
         {
