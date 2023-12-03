@@ -7,6 +7,7 @@ using UnityEditor.UIElements;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
+// This script, LayoutManager, is responsible for managing various functionalities related to layout editing and JSON data import/export in a Unity application.
 public class LayoutManager : MonoBehaviour
 {
     #region Prefabs and Prefab Lists:
@@ -48,6 +49,7 @@ public class LayoutManager : MonoBehaviour
     }
     public void addFurniture(string type, Quaternion rotation, float xPos = 0, float yPos = 0, bool imported = false)
     {
+        // TODO: Add a furniture to the Furniture list.
         GameObject newFurniture;
         if (type == "chair") newFurniture = Instantiate(Chair, new Vector3(xPos, yPos, 0), rotation);
         else if (type == "table") newFurniture = Instantiate(Table, new Vector3(xPos, yPos, 0), rotation);
@@ -76,6 +78,7 @@ public class LayoutManager : MonoBehaviour
     // Subscribe these functions to the GameObjects delete event:
     private void deleteFurniture(GameObject obj)
     {
+        // TODO: Remove the object from the Furniture list and destroy it.
         Furniture.Remove(obj);
         DestroyImmediate(obj);
     }
@@ -120,6 +123,7 @@ public class LayoutManager : MonoBehaviour
     #region Serializable Classes
     [System.Serializable] public class SerializableList<T>
     {
+        // TODO: Create a class for each list type and add the necessary variables.
         public Vector3 vacuumPosition = Vector3.zero;
         public List<T> Furniture = new List<T>();
         public List<T> Walls = new List<T>();
@@ -130,6 +134,7 @@ public class LayoutManager : MonoBehaviour
 
     [System.Serializable] public class Object
     {
+        // TODO: Create a class for each object type and add the necessary variables.
         public string type = "";
         public float posX = 0;
         public float posY = 0;
@@ -147,6 +152,7 @@ public class LayoutManager : MonoBehaviour
 
     private void importJSON()
     {
+        // TODO: Import JSON data and instantiate objects based on the data.
         SerializableList<Object> parsedJSON = new SerializableList<Object>();
         try
         {
