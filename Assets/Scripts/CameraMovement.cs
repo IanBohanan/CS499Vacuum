@@ -11,13 +11,16 @@ public class CameraMovement : MonoBehaviour
     private Camera cam; // Reference to the camera component
 
     [Header("Camera Settings")]
-    public float cameraSpeed; // Speed of camera movement
-    private float zoom; // Current camera zoom level
-    private float zoomMultiplier = 4f;   // Multiplier for zoom sensitivity
-    private float minZoom = 20f; // Minimum allowed zoom level
-    private float maxZoom = 150f; // Maximum allowed zoom level
-    private float velocity = 0f; 
-    private float smoothTime = 0.25f;// Smoothness factor for zooming
+    public float cameraSpeed; //How fast the default camera speed is. Determined in the Unity editor
+    public float scaledCameraSpeed; //The actual used camera speed determined by the zoom level
+    public float zoom;
+    private float zoomMultiplier = 12f; //How fast the camera should move in and out
+    public float zoomSpeedMultiplier = 10f; //How much the zoom should affect the camera's movement speed
+    public float maxMoveSpeed = 2f;
+    private float minZoom = 20f;
+    private float maxZoom = 150f;
+    private float velocity = 0f;
+    private float smoothTime = 0.25f;
 
     private void Start()
     {
@@ -25,7 +28,6 @@ public class CameraMovement : MonoBehaviour
         CameraPostion = transform.position;
         cam = GetComponent<Camera>();
         zoom = cam.orthographicSize;
-
     }
 
     private void getZoom()
@@ -35,20 +37,27 @@ public class CameraMovement : MonoBehaviour
         zoom -= scroll * zoomMultiplier;
         zoom = Mathf.Clamp(zoom, minZoom, maxZoom);
         cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, zoom, ref velocity, smoothTime);
+
+        //Then make the camera faster/slower depending on how zoomed in it is
+        // Use Mathf.InverseLerp to get a t value between 0 and 1 based on the zoom level
+        float t = Mathf.InverseLerp(minZoom, maxZoom, zoom);
+
+        // Use Mathf.Lerp to interpolate between baseMoveSpeed and maxMoveSpeed based on t
+        scaledCameraSpeed = Mathf.Lerp(cameraSpeed, maxMoveSpeed, t);
     }
 
     private void Update()
     {
-        // Capture user input for camera movement
+        getZoom();
         Vector3 movement;
-        movement.x = Input.GetAxisRaw("Horizontal") * (cameraSpeed*0.5f);
-        movement.y = Input.GetAxisRaw("Vertical") * (cameraSpeed*0.5f);
+        movement.x = Input.GetAxisRaw("Horizontal") * (scaledCameraSpeed * 0.5f);
+        movement.y = Input.GetAxisRaw("Vertical") * (scaledCameraSpeed * 0.5f);
         movement.z = 0;
         //movement = movement.normalized; //normalize the movement vector so diagonal movement isn't faster
         CameraPostion += movement;
         transform.position = CameraPostion;
 
-        getZoom();
+        
     }
 
 }

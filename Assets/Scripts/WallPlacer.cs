@@ -75,7 +75,15 @@ public class WallPlacer : MonoBehaviour
     //Extends the current wall by placing a wall object on the spawner.
     public void extendWall(Vector3 spawnPoint)
     {
+        //Check if the next spawn Point is outside of the grid. If so, then just ignore any input
+        Vector3Int tilePosition = grid.WorldToCell(upperExtender.transform.position); //Convert the position of the next wall's spawn into tilemap coordinates
+        if(tilePosition.x <= -67 || tilePosition.x >= 63 || tilePosition.y >= 87 || tilePosition.y <= -39)
+        {
+            print("WallPlacer: Next wall attempted to spawn at " + tilePosition);
+            return;
+        }
 
+        //Else, the next wall is within the grid and we are good to continue!
         if (upperExtender.gameObject.GetComponent<WallExtender>().connectedToWall && isBeingPlaced)
         {
             //If both upper and lower extender are touching a wall, then declare room closed.
@@ -86,7 +94,7 @@ public class WallPlacer : MonoBehaviour
         {
             //This wall is not the final one for the room.
             isBeingPlaced = false;
-            Vector3Int tilePosition = grid.WorldToCell(upperExtender.transform.position); //Convert the position of the next qall's spawn into tilemap coordinates
+            
             Vector3 cellCenter = grid.GetCellCenterWorld(tilePosition); //Get the center of the tile of the extenderPoint. That way the next wall snaps to the center of the tile.
             cellCenter.z = 0;
             GameObject nextWall = Instantiate(wallPrefab, cellCenter, Quaternion.identity); //Create the new wall object in the middle of the next tile (based on the upperExtender's position)
